@@ -1,7 +1,6 @@
-
 const Register = () => {
   return (
-    <div>Register</div>
+     <div>Register</div>
   )
 }
 

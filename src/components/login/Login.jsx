@@ -1,7 +1,81 @@
-
+import { useForm } from 'react-hook-form'
+import LOGO from '../../assets/logo.png'
+import Background from '../../assets/background-image.jpg'
+import { Input, Button } from '../index'
+// import { Link } from 'react-router-dom'
 const Login = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm()
+
+  const login = () => {
+    console.log(handleSubmit)
+  }
+
   return (
-    <div>Login</div>
+    <div className="">
+      <div className="w-screen grid md:grid-cols-2 grid-cols-1 z-50 fixed">
+        <div
+          className={`md:flex md:my-0 mt-10 md:h-screen justify-center items-center`}
+        >
+          <div className="fixed  bg-white md:w-auto bg-opacity-70 border-4 rounded-2xl md:py-14 md:px-20 px-2 mx-20 flex justify-center items-center z-50">
+            <img src={LOGO} alt="Logo" />
+          </div>
+        </div>
+        <div className="md:bg-green-400 h-screen flex justify-center items-center">
+          <div className="bg-white md:bg-opacity-100 bg-opacity-60 h-fit w-[80%] md:w-2/3 rounded-2xl shadow-2xl shadow-black border-4 border-white md:border-green-500 p-5">
+            <h1 className="text-4xl font-bold text-center text-gray-600 mb-10">
+              Login
+            </h1>
+            <form
+              onSubmit={handleSubmit(login)}
+              className="flex w-full flex-col gap-5"
+            >
+              <div>
+                <Input
+                  label="Username:"
+                  placeholder="USERNAME"
+                  type="text"
+                  {...register('username', {
+                    required: 'Username is required',
+                  })}
+                />
+                {errors.username && (
+                  <p className="text-red-500">{errors.username.message}</p>
+                )}
+              </div>
+              <div>
+                <Input
+                  label="Password:"
+                  placeholder="PASSWORD"
+                  type="password"
+                  {...register('password', {
+                    required: 'Password is required',
+                  })}
+                />
+                {errors.password && (
+                  <p className="text-red-500">{errors.password.message}</p>
+                )}
+              </div>
+              <div className="w-full flex my-5 justify-center">
+                <Button type="submit" className="w-[80%]">
+                  Sign IN
+                </Button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div>
+        <img
+          src={Background}
+          alt="logo"
+          className="h-screen w-screen object-cover blur-[8px]"
+        />
+      </div>
+    </div>
   )
 }
 

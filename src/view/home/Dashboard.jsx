@@ -1,7 +1,9 @@
+
 import { MainContent } from "../../components/index"
 
 
 const Dashboard = () => {
+
   return (
     <div>
         <MainContent/>

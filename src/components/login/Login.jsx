@@ -1,18 +1,32 @@
+/* eslint-disable no-unused-vars */
 import { useForm } from 'react-hook-form'
 import LOGO from '../../assets/logo.png'
 import Background from '../../assets/background-image.jpg'
 import { Input, Button } from '../index'
-// import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { MdLockReset } from 'react-icons/md'
+import { useDispatch, useSelector } from 'react-redux'
+import { login as authLogin } from '../../store/userSlice'
 const Login = () => {
+
+  const Navigate=useNavigate()
+  const userData= useSelector(state=>state.userData)
+  const dispatch=useDispatch()
+
+  console.log(userData)
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm()
-
-  const login = () => {
-    console.log(handleSubmit)
+  
+  const login = (data) => {
+    dispatch(authLogin(data))
+    console.log(authLogin(data))
+    Navigate('/dashboard')
   }
+
+  
 
   return (
     <div className="">
@@ -25,7 +39,7 @@ const Login = () => {
           </div>
         </div>
         <div className="md:bg-green-400 h-screen flex justify-center items-center">
-          <div className="bg-white md:bg-opacity-100 bg-opacity-60 h-fit w-[80%] md:w-2/3 rounded-2xl shadow-2xl shadow-black border-4 border-white md:border-green-500 p-5">
+          <div className="bg-white md:bg-opacity-100 bg-opacity-60 h-fit w-[80%] md:w-2/3 rounded-2xl shadow-lg shadow-gray-600 border-4 border-white md:border-green-500 p-5">
             <h1 className="text-4xl font-bold text-center text-gray-600 mb-10">
               Login
             </h1>
@@ -65,6 +79,17 @@ const Login = () => {
                 </Button>
               </div>
             </form>
+            <div>
+              <div className='flex justify-center items-center'>
+                <Link
+                  to="/forget-password"
+                  className="bg-white text-blue-500 flex justify-center items-center gap-2"
+                >
+                  <MdLockReset />
+                  Forgot Password ?
+                </Link>
+              </div>
+            </div>
           </div>
         </div>
       </div>

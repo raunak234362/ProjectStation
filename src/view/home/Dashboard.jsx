@@ -1,12 +1,10 @@
-
-import { MainContent } from "../../components/index"
-
+import { MainContent, Sidebar } from '../../components/index'
 
 const Dashboard = () => {
-
   return (
-    <div>
-        <MainContent/>
+    <div className="flex">
+      <Sidebar />
+      <MainContent />
     </div>
   )
 }

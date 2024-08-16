@@ -8,7 +8,7 @@ function Input(
 ) {
   const id = useId()
   return (
-    <div className="w-full grid md:grid-cols-[20%,80%] items-center">
+    <div className="w-full grid lg:grid-cols-[25%,75%] items-center">
       {label && (
         <label className="mb-1 font-bold text-lg text-black" htmlFor={id}>
           {label}

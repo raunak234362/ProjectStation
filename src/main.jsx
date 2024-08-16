@@ -12,13 +12,15 @@ import LoginContent from './view/login/LoginContent.jsx'
 import Dashboard from './view/home/Dashboard.jsx'
 import { Provider } from 'react-redux'
 import store from './store/store.js'
+import { ErrorBoundary } from './components/index.js'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />}>
       <Route path="" element={<LoginContent />} />
       <Route path="dashboard" element={<Dashboard />}></Route>
-    </Route>,
+      <Route path='*' element={<ErrorBoundary/>}/>
+    </Route>
   ),
 )
 

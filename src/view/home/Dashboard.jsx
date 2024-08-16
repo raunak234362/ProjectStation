@@ -11,7 +11,7 @@ const Dashboard = () => {
   }
 
   return (
-    <div className="flex flex-col md:flex-row flex-grow gap-5">
+    <div className="flex flex-col md:flex-row flex-grow">
       <div
         className={`fixed md:static flex flex-col h-screen md:h-auto bg-slate-800 text-white w-64 z-20 transition-transform duration-300 ${
           sidebarOpen ? 'translate-x-0' : '-translate-x-full'
@@ -35,7 +35,7 @@ const Dashboard = () => {
         }`}
         onClick={toggleSidebar}
       ></div>
-      <div className="flex-grow md:w-3/4">
+      <div className="flex-grow w-full">
         <MainContent />
       </div>
     </div>

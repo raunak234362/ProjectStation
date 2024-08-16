@@ -3,7 +3,7 @@ import LOGO from '../../../assets/logo.png'
 
 const Sidebar = () => {
   return (
-    <div className="fixed flex flex-col h-screen bg-slate-800 text-white">
+    <div className=" flex flex-col h-screen bg-slate-800 text-white">
       <div className="flex p-5">
         <div className="">
           <img src={LOGO} alt="logo" className="w-60 bg-white rounded-lg" />

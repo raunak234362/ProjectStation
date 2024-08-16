@@ -1,12 +1,15 @@
-import { useSelector } from "react-redux"
+import { useSelector } from "react-redux";
 
 const MainContent = () => {
-const data = useSelector((state)=>state.userData)
-console.log(data)
-  
+  const data = useSelector((state) => state.userData.userData);
+
+  console.log(data);
+
   return (
-    <div>MainContent {data?.username} </div>
-  )
+    <div className="text-xl md:text-6xl text-green-500 p-5 md:p-10">
+      MainContent {data?.username}
+    </div>
+  );
 }
 
-export default MainContent
+export default MainContent;

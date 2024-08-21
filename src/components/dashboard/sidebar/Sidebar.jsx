@@ -8,9 +8,9 @@ const Sidebar = () => {
 
   return (
     <div className="flex flex-col h-screen w-64 bg-slate-800 text-white">
-      <div className="flex p-5">
-        <img src={LOGO} alt="logo" className="w-60 bg-white rounded-lg" />
-      </div>
+      {/* <div className="flex mx-auto p-5 justify-between">
+        <img src={LOGO} alt="logo" className="w-40 bg-white rounded-lg" />
+      </div> */}
       <nav className="p-5">
         <ul className="flex flex-col gap-5">
           <li>

@@ -9,15 +9,14 @@ const AddProject = () => {
     handleSubmit,
     formState: { errors },
   } = useForm()
-  const dispatch= useDispatch();
-
+  const dispatch = useDispatch()
 
   console.log(userdata)
 
   return (
-    <div className="text-xl md:text-6xl text-green-500 p-5 md:p-10">
-      project
-    </div>
+      <div className="flex justify-center items-center text-white">
+        <div className='text-xl md:text-3xl px-5 py-1 m-5 md:m-5 bg-gray-800 rounded-xl'>Add project</div>
+      </div>
   )
 }
 

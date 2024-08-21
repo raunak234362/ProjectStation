@@ -10,6 +10,7 @@ import Header from "./dashboard/header/Header";
 //Project
 import Projects from "./dashboard/staff/admin/Project/Projects";
 import AddProject from "./dashboard/staff/admin/Project/AddProject";
+import EditProject from "./dashboard/staff/admin/Project/EditProject";
 
 //Error Handling
 import ErrorBoundary from "./error/ErrorBoundary";
@@ -31,5 +32,6 @@ export {
     Header,
     AddProject,
     Projects,
+    EditProject,
     ErrorBoundary,
 }

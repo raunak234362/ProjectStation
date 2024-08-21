@@ -8,26 +8,25 @@ import { MdLockReset } from 'react-icons/md'
 import { useDispatch, useSelector } from 'react-redux'
 import { login as authLogin } from '../../store/userSlice'
 const Login = () => {
-
-  const Navigate=useNavigate()
-  const userData= useSelector(state=>state.userData)
-  const dispatch=useDispatch()
-
-  console.log(userData)
+  const Navigate = useNavigate()
+  const userData = useSelector((state) => state.userData)
+  const dispatch = useDispatch()
+  const token='jkjkjkjk'
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm()
-  
+
   const login = (data) => {
+    // localStorage.setItem('token',token)
     dispatch(authLogin(data))
     console.log(authLogin(data))
-    Navigate('/dashboard')
+    {
+      userData.status === true && Navigate('/dashboard')
+    }
   }
-
   
-
   return (
     <div className="">
       <div className="w-screen grid md:grid-cols-2 grid-cols-1 z-50 fixed">
@@ -80,7 +79,7 @@ const Login = () => {
               </div>
             </form>
             <div>
-              <div className='flex justify-center items-center'>
+              <div className="flex justify-center items-center">
                 <Link
                   to="/forget-password"
                   className="bg-white text-blue-500 flex justify-center items-center gap-2"

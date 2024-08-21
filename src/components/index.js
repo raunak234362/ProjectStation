@@ -1,9 +1,16 @@
 //Authentication
 import Login from "./login/Login";
+import LoginAuthentication from "./login/LoginAuthentication"; 
 
 //Dashboard
 import MainContent from "./dashboard/main/MainContent";
 import Sidebar from "./dashboard/sidebar/Sidebar";
+import Header from "./dashboard/header/Header";
+
+//Project
+import Projects from "./dashboard/staff/admin/Project/Projects";
+import AddProject from "./dashboard/staff/admin/Project/AddProject";
+
 //Error Handling
 import ErrorBoundary from "./error/ErrorBoundary";
 
@@ -18,7 +25,11 @@ export {
     Input,
     Select,
     Login,
+    LoginAuthentication,
     MainContent,
     Sidebar,
+    Header,
+    AddProject,
+    Projects,
     ErrorBoundary,
 }

@@ -9,16 +9,10 @@ const Header = ({ sidebarOpen, toggleSidebar }) => {
   return (
     <div className="flex px-2 flex-row justify-between items-center w-full bg-gray-800 text-white ">
       <div
-        className={`flex items-center p-4 transition-all duration-300 ${
-          sidebarOpen ? 'ml-4' : ''
-        }`}
+        className={`flex items-center p-4 transition-all duration-300 `}
       >
         <div
-          className={`fixed inset-0 z-10 transition-opacity duration-300 ${
-            sidebarOpen
-              ? 'md:opacity-0 opacity-55 md:bg-none bg-black'
-              : ' opacity-0 pointer-events-none'
-          }`}
+          className={`fixed inset-0 z-10 transition-opacity duration-300 `}
           onClick={toggleSidebar}
         ></div>
         <img
@@ -29,18 +23,14 @@ const Header = ({ sidebarOpen, toggleSidebar }) => {
       </div>
 
       <div></div>
-      {sidebarOpen ? (
-        <button
-          className="p-2 m-2 md:hidden bg-blue-500 text-white rounded"
-          onClick={toggleSidebar}
-        >
-          {sidebarOpen ? <FaCaretLeft /> : <GiHamburgerMenu />}
-        </button>
-      ) : (
-        <div className={` ${!sidebarOpen ? '' : 'hidden'}`}>
-          username {data?.username}
-        </div>
-      )}
+
+      <button
+        className="p-2 m-2 md:hidden bg-blue-500 text-white rounded"
+        onClick={toggleSidebar}
+      >
+        {sidebarOpen ? <FaCaretLeft /> : <GiHamburgerMenu />}
+      </button>
+      <div className="max-md:hidden">username {data?.username}</div>
     </div>
   )
 }

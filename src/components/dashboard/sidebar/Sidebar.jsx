@@ -5,12 +5,10 @@ import { useSelector } from 'react-redux'
 
 const Sidebar = () => {
   const data = useSelector((state) => state.userData.userData)
-
+  console.log(data)
   return (
     <div className="flex flex-col h-screen w-64 bg-slate-800 text-white">
-      {/* <div className="flex mx-auto p-5 justify-between">
-        <img src={LOGO} alt="logo" className="w-40 bg-white rounded-lg" />
-      </div> */}
+      
       <nav className="p-5">
         <ul className="flex flex-col gap-5">
           <li>
@@ -95,6 +93,9 @@ const Sidebar = () => {
           </li>
         </ul>
       </nav>
+       <div className='text-xl text-white max-md:hidden'>
+         username {data?.username}
+       </div>
     </div>
   )
 }

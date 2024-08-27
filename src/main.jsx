@@ -5,7 +5,6 @@ import './index.css'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import LoginContent from './view/login/LoginContent.jsx'
 import Dashboard from './view/home/Dashboard.jsx'
-import Project from './view/projects/Project.jsx'
 import { Provider } from 'react-redux'
 import store from './store/store.js'
 import { AddProject, EditProject, ErrorBoundary, MainContent, Projects } from './components/index.js'
@@ -26,9 +25,8 @@ const router = createBrowserRouter([
           },
           {
             path: 'project',
-            element: <Project />,
             children: [
-              { path: '/dashboard/project', element: <Projects /> },
+              { path: '/dashboard/project/', element: <Projects /> },
               { path: 'add-project', element: <AddProject /> },
               { path: 'edit-project', element: <EditProject /> },
             ],

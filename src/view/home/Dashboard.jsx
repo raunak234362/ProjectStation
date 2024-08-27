@@ -7,7 +7,7 @@ const Dashboard = () => {
 
   const toggleSidebar = useCallback(() => {
     setSidebarOpen((prev) => !prev)
-  }, [setSidebarOpen]);
+  }, [setSidebarOpen])
 
   return (
     <div className="flex flex-col md:flex-row h-screen overflow-hidden">
@@ -28,7 +28,7 @@ const Dashboard = () => {
           </div>
           {/* Main Content */}
           <div
-            className={`flex flex-grow transition-all duration-300 ${
+            className={`flex w-full flex-grow transition-all duration-300 ${
               sidebarOpen ? 'md:ml-64 ml-0 bg-black/50' : 'md:ml-4 ml-0'
             }`}
           >

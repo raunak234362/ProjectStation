@@ -1,13 +1,13 @@
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import { Header, Sidebar } from '../../components/index'
 import { Outlet } from 'react-router-dom'
 
 const Dashboard = () => {
-  const [sidebarOpen, setSidebarOpen] = useState(false) // Start collapsed on mobile view
+  const [sidebarOpen, setSidebarOpen] = useState(false)
 
-  const toggleSidebar = () => {
-    setSidebarOpen(!sidebarOpen)
-  }
+  const toggleSidebar = useCallback(() => {
+    setSidebarOpen((prev) => !prev)
+  }, [setSidebarOpen]);
 
   return (
     <div className="flex flex-col md:flex-row h-screen overflow-hidden">

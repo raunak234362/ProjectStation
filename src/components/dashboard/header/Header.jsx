@@ -11,14 +11,14 @@ const Header = ({ sidebarOpen, toggleSidebar }) => {
       <div
         className={`flex items-center p-4 transition-all duration-300 `}
       >
-        <div
+        {/* <div
           className={`fixed inset-0 z-10 transition-opacity duration-300 `}
           onClick={toggleSidebar}
-        ></div>
+        ></div> */}
         <img
           src={LOGO}
           alt=""
-          className="md:w-32 w-20 bg-white/50 rounded-xl"
+          className="md:w-32 w-20"
         />
       </div>
 

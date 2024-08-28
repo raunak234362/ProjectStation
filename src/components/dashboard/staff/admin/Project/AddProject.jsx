@@ -31,10 +31,10 @@ const AddProject = () => {
               // {...register('projectName', { required: true })}
             />
           </div>
-          <div className='w-full'>
+          <div className='w-full mt-3'>
             <Input
-              label='Project Name:'
-              placeholder='Project Name'
+              label='Fabricator Name:'
+              placeholder='Fabricator Name'
               size='lg'
               color='blue'
               // {...register('projectName', { required: true })}

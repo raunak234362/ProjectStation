@@ -1,23 +1,48 @@
-import { Link } from 'react-router-dom'
+/* eslint-disable no-unused-vars */
+import { NavLink, Route, Routes, Outlet } from "react-router-dom";
+import AddProject from "./AddProject";
 
 const Projects = () => {
   return (
-    <div className='w-full'>
-      <div className='flex  w-full justify-between items-center'>
-        <div className=" text-3xl font-bold text-white bg-gray-800 px-5 py-1 mt-2 rounded-full">Projects</div>
-        <div>
-          <Link to="add-project" className='bg-gray-500 text-white px-5 py-1 rounded-full mt-2'>Add Project</Link>
+    <div className="w-full mx-5">
+      <div className="flex w-full justify-center items-center">
+        <div className="text-3xl font-bold text-white bg-green-500/70 shadow-xl px-5 py-1 mt-2 rounded-lg">
+          Projects
         </div>
       </div>
-      <div>
-        {/* boxes for numerical data */}
+      <div className="my-5 grid md:grid-cols-3 grid-cols-2 gap-5 ">
+        <div className="flex flex-col justify-center items-center bg-white/50 rounded-lg p-3 shadow-lg">
+          <div className="font-bold text-xl text-gray-800">Total Projects</div>
+          <div className="text-3xl font-bold">50</div>
+        </div>
+        <div className="flex flex-col justify-center items-center bg-white/50 rounded-lg p-3 shadow-lg">
+          <div className="font-bold text-xl text-gray-800">No. of Active Projects</div>
+          <div className="text-3xl font-bold">30</div>
+        </div>
+        <div className="flex flex-col justify-center items-center bg-white/50 rounded-lg p-3 shadow-lg">
+          <div className="font-bold text-xl text-gray-800">No. of Completed Projects</div>
+          <div className="text-3xl font-bold">20</div>
+        </div>
       </div>
-
-      <div>
-        
+      <div className="w-full rounded-lg bg-white/50">
+        <nav className="bg-white rounded-lg drop-shadow-md">
+          <ul className="flex flex-row gap-2 py-3">
+            <li className="px-2">
+              <NavLink to="add-project" className={({ isActive }) => (isActive ? 'bg-green-300 drop-shadow-lg px-3 py-1 rounded-xl font-semibold' : '')}>
+                Add Project
+              </NavLink>
+            </li>
+            <li className="px-2">
+              <NavLink to="all-projects" className={({ isActive }) => (isActive ? 'bg-green-300 drop-shadow-lg px-3 py-1 rounded-xl font-semibold' : '')}>
+                All Projects
+              </NavLink>
+            </li>
+          </ul>
+        </nav>
+        <Outlet />
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Projects
+export default Projects;

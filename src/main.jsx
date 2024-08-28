@@ -9,34 +9,37 @@ import { Provider } from 'react-redux'
 import store from './store/store.js'
 import { AddProject, EditProject, ErrorBoundary, MainContent, Projects } from './components/index.js'
 
+// Define the router configuration
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <App />,
+    element: <App />, // The main App component
     children: [
-      { index: true, element: <LoginContent /> },
+      { index: true, element: <LoginContent /> }, 
       {
         path: 'dashboard',
         element: <Dashboard />,
         children: [
           {
-            path: '/dashboard/',
+            index: true, 
             element: <MainContent />,
           },
           {
             path: 'project',
+            element: <Projects />,
             children: [
-              { path: '/dashboard/project/', element: <Projects /> },
+              // { index: true, element: <Projects /> }, 
               { path: 'add-project', element: <AddProject /> },
-              { path: 'edit-project', element: <EditProject /> },
+              { path: 'edit-project', element: <EditProject /> }, 
             ],
           },
         ],
       },
-      { path: '*', element: <ErrorBoundary /> },
+      { path: '*', element: <ErrorBoundary /> }, 
     ],
   },
 ])
+
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>

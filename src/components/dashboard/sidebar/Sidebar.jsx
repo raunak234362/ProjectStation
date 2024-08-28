@@ -7,7 +7,7 @@ const Sidebar = () => {
   const data = useSelector((state) => state.userData.userData)
   console.log(data)
   return (
-    <div className="flex flex-col h-screen w-64 bg-slate-800 text-white">
+    <div className="flex flex-col h-screen w-64 bg-white/70 md:border-4 text-black rounded-xl">
       
       <nav className="p-5">
         <ul className="flex flex-col gap-5">
@@ -15,7 +15,7 @@ const Sidebar = () => {
             <NavLink
               to="/dashboard"
               className={({ isActive }) =>
-                isActive ? 'text-blue-500' : 'text-white'
+                isActive ? 'text-blue-500' : 'text-black'
               }
             >
               Home
@@ -25,7 +25,7 @@ const Sidebar = () => {
             <NavLink
               to="client"
               className={({ isActive }) =>
-                isActive ? 'text-blue-500' : 'text-white'
+                isActive ? 'text-blue-500' : 'text-black'
               }
             >
               Client
@@ -35,7 +35,7 @@ const Sidebar = () => {
             <NavLink
               to="project"
               className={({ isActive }) =>
-                isActive ? 'text-blue-500' : 'text-white'
+                isActive ? 'text-blue-500' : 'text-black'
               }
             >
               Project
@@ -45,7 +45,7 @@ const Sidebar = () => {
             <NavLink
               to="rfi"
               className={({ isActive }) =>
-                isActive ? 'text-blue-500' : 'text-white'
+                isActive ? 'text-blue-500' : 'text-black'
               }
             >
               RFI
@@ -55,7 +55,7 @@ const Sidebar = () => {
             <NavLink
               to="submittals"
               className={({ isActive }) =>
-                isActive ? 'text-blue-500' : 'text-white'
+                isActive ? 'text-blue-500' : 'text-black'
               }
             >
               Submittals
@@ -65,7 +65,7 @@ const Sidebar = () => {
             <NavLink
               to="change-order"
               className={({ isActive }) =>
-                isActive ? 'text-blue-500' : 'text-white'
+                isActive ? 'text-blue-500' : 'text-black'
               }
             >
               Change Order
@@ -75,7 +75,7 @@ const Sidebar = () => {
             <NavLink
               to="update-program"
               className={({ isActive }) =>
-                isActive ? 'text-blue-500' : 'text-white'
+                isActive ? 'text-blue-500' : 'text-black'
               }
             >
               Update Program
@@ -85,7 +85,7 @@ const Sidebar = () => {
             <NavLink
               to="manage-team"
               className={({ isActive }) =>
-                isActive ? 'text-blue-500' : 'text-white'
+                isActive ? 'text-blue-500' : 'text-black'
               }
             >
               Manage Team
@@ -93,7 +93,7 @@ const Sidebar = () => {
           </li>
         </ul>
       </nav>
-       <div className='text-xl text-white max-md:hidden'>
+       <div className='text-xl text-black max-md:hidden'>
          username {data?.username}
        </div>
     </div>

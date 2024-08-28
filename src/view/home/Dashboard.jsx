@@ -10,15 +10,17 @@ const Dashboard = () => {
   }, [setSidebarOpen])
 
   return (
-    <div className="flex flex-col md:flex-row h-screen overflow-hidden">
+    <div className="flex flex-col md:flex-row h-screen w-screen overflow-y-hidden bg-gradient-to-r from-green-300/50 to-teal-300">
       {/* Sidebar */}
 
-      <div className="flex flex-col flex-grow">
+      <div className="flex flex-col w-full">
+        <div className="mx-5 my-2 shadow-2xl drop-shadow-lg">
+          <Header sidebarOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
+        </div>
         {/* Header */}
-        <Header sidebarOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
         <div className="flex flex-row">
           <div
-            className={`fixed md:static flex flex-col h-screen bg-slate-800 text-white w-64 z-20 transition-transform duration-300 ${
+            className={`fixed md:static flex flex-col h-screen  md:bg-opacity-0 bg-white w-64 z-20 transition-transform duration-300 ${
               sidebarOpen ? 'translate-x-0' : '-translate-x-full'
             } md:translate-x-0 md:w-64`}
           >
@@ -29,7 +31,7 @@ const Dashboard = () => {
           {/* Main Content */}
           <div
             className={`flex w-full flex-grow transition-all duration-300 ${
-              sidebarOpen ? 'md:ml-64 ml-0 bg-black/50' : 'md:ml-4 ml-0'
+              sidebarOpen ? 'md:ml-64 ml-0 bg-black/50' : 'md:ml-0 ml-0'
             }`}
           >
             <Outlet />

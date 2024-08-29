@@ -10,7 +10,7 @@ const Dashboard = () => {
   }, [setSidebarOpen])
 
   return (
-    <div className="flex flex-col md:flex-row w-screen h-screen overflow-y-hidden bg-gradient-to-r from-green-300/50 to-teal-300">
+    <div className="flex flex-col md:flex-row w-screen h-screen overflow-hidden bg-gradient-to-r from-green-300/50 to-teal-300">
       {/* Sidebar */}
 
       <div className="flex flex-col w-full">
@@ -30,7 +30,7 @@ const Dashboard = () => {
           </div>
           {/* Main Content */}
           <div
-            className={`flex w-full h-[89vh] overflow-y-auto flex-grow transition-all duration-300 ${
+            className={`flex h-[89vh] overflow-y-auto flex-grow transition-all duration-300 ${
               sidebarOpen ? 'md:ml-64 ml-0 bg-black/50' : 'md:ml-0 ml-0'
             }`}
           >

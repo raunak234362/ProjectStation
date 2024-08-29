@@ -19,12 +19,13 @@ import ErrorBoundary from "./error/ErrorBoundary";
 import Button from "./fields/Button";
 import Input from "./fields/Input";
 import Select from "./fields/Select";
-
+import Toggle from "./fields/Toggle";
 
 export {
     Button,
     Input,
     Select,
+    Toggle,
     Login,
     LoginAuthentication,
     MainContent,

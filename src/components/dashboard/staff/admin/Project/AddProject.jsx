@@ -1,13 +1,12 @@
 /* eslint-disable no-unused-vars */
 import { useForm } from 'react-hook-form'
 import { useDispatch, useSelector } from 'react-redux'
-import { Input, Select, Button } from '../../../../index'
+import { Input, Select, Button, Toggle } from '../../../../index'
 import { addProject } from '../../../../../store/projectSlice'
-import { textarea } from '@material-tailwind/react'
 const AddProject = () => {
   const projectData = useSelector((state) => state.projectData)
   const dispatch = useDispatch()
-  console.log(projectData)
+  // console.log(projectData)
   const {
     register,
     handleSubmit,
@@ -32,6 +31,7 @@ const AddProject = () => {
               color="blue"
               {...register('name', { required: true })}
             />
+            {errors.name && <div>This field is required</div>}
           </div>
           <div className="w-full my-3">
             <Input
@@ -41,16 +41,18 @@ const AddProject = () => {
               color="blue"
               {...register('fabricator', { required: true })}
             />
+            {errors.fabricator && <div>This field is required</div>}
           </div>
           <div className="w-full my-3">
             <Input
-            type='textarea'
+              type="textarea"
               label="Description:"
               placeholder="Description"
               size="lg"
               color="blue"
               {...register('description', { required: true })}
             />
+            {errors.description && <div>This field is required</div>}
           </div>
           <div className="w-full my-3">
             <Input
@@ -60,6 +62,7 @@ const AddProject = () => {
               color="blue"
               {...register('department', { required: true })}
             />
+            {errors.department && <div>This field is required</div>}
           </div>
           <div className="w-full my-3">
             <Input
@@ -69,6 +72,7 @@ const AddProject = () => {
               color="blue"
               {...register('team', { required: true })}
             />
+            {errors.team && <div>This field is required</div>}
           </div>
           <div className="w-full my-3">
             <Input
@@ -78,6 +82,7 @@ const AddProject = () => {
               color="blue"
               {...register('manager', { required: true })}
             />
+            {errors.manager && <div>This field is required</div>}
           </div>
           <div className="w-full my-3">
             <Select
@@ -97,6 +102,7 @@ const AddProject = () => {
               ]}
               {...register('status')}
             />
+            {errors.status && <div>This field is required</div>}
           </div>
           <div className="w-full my-3">
             <Select
@@ -108,26 +114,27 @@ const AddProject = () => {
                   label: 'Select Stage',
                   value: '',
                 },
-                { label: 'Request for Information', value: 'RFI' },
-                { label: 'Issue for Approval', value: 'IFA' },
-                { label: 'Back from Approval', value: 'BFA' },
-                { label: 'Back from Approval - Markup', value: 'BFA-M' },
-                { label: 'Re-issue for Approval', value: 'RIFA' },
-                { label: 'Return Back from Approval', value: 'RBFA' },
-                { label: 'Issue for Construction', value: 'IFC' },
-                { label: 'Back from Construction', value: 'BFC' },
-                { label: 'Re-issue for Construction', value: 'RIFC' },
-                { label: 'Revision', value: 'REV' },
-                { label: 'Change Order', value: 'CO#' },
+                { label: '(RFI)Request for Information', value: 'RFI' },
+                { label: '(IFA)Issue for Approval', value: 'IFA' },
+                { label: '(BFA)Back from Approval', value: 'BFA' },
+                { label: '(BFA-M)Back from Approval - Markup', value: 'BFA-M' },
+                { label: '(RIFA)Re-issue for Approval', value: 'RIFA' },
+                { label: '(RBFA)Return Back from Approval', value: 'RBFA' },
+                { label: '(IFC)Issue for Construction', value: 'IFC' },
+                { label: '(BFC)Back from Construction', value: 'BFC' },
+                { label: '(RIFC)Re-issue for Construction', value: 'RIFC' },
+                { label: '(REV)Revision', value: 'REV' },
+                { label: '(CO#)Change Order', value: 'CO#' },
               ]}
+              {...register('stage')}
             />
+            {errors.stage && <div>This field is required</div>}
           </div>
           <div className="w-full my-3">
             <Select
               label="Tools:"
               size="md"
               color="blue"
-              name="tool"
               options={[
                 {
                   label: 'Select Tools',
@@ -137,12 +144,66 @@ const AddProject = () => {
                 { label: 'SDS-2', value: 'SDS-2' },
               ]}
               className="w-full"
-              {...register('tool', {
-                required: 'Tools is required',
-              })}
+              {...register('tools')}
             />
+            {errors.tools && <div>This field is required</div>}
           </div>
-          <Button type="submit">Add Project</Button>
+          <div>
+            <div className="text-sm w-full font-bold mt-2 text-gray-800">
+              Connection Design:
+            </div>
+            <div className="grid md:grid-cols-3 bg-white px-5 md:w-1/2 md:justify-center rounded-xl">
+              <div className="">
+                <Toggle
+                  label="Main"
+                  name="connectionDesign"
+                  {...register('connectionDesign')}
+                />
+              </div>
+              <div className="">
+                <Toggle
+                  label="Misc"
+                  name="miscDesign"
+                  {...register('miscDesign')}
+                />
+              </div>
+              <div className="">
+                <Toggle
+                  label="Customer"
+                  name="customer"
+                  {...register('customer')}
+                />
+              </div>
+            </div>
+          </div>
+          <div className='mt-5 w-1/2 grid md:grid-cols-2 gap-5'>
+            <div className='w-full'>
+              <Input
+              type="date"
+              label="Start Date:"
+              placeholder="Start Date"
+              size="lg"
+              color="blue"
+              {...register('start_date', { required: true })}
+              />
+              {errors.start_date && <div>This field is required</div>}
+            </div>
+            <div className='w-full'>
+              <Input
+              type="date"
+              label="End Date:"
+              placeholder="End Date"
+              size="lg"
+              color="blue"
+              {...register('approval_date', { required: true })}
+              />
+              {errors.approval_date && <div>This field is required</div>}
+            </div>
+          </div>
+            <Button type="submit" >
+              Add Project
+            </Button>
+          
         </form>
       </div>
     </div>

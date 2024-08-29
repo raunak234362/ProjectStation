@@ -11,11 +11,11 @@ const Sidebar = () => {
       
       <nav className="p-5">
         <ul className="flex flex-col gap-5">
-          <li>
+          <li className='w-full'>
             <NavLink
               to="/dashboard"
               className={({ isActive }) =>
-                isActive ? 'text-blue-500' : 'text-black'
+                isActive ? 'text-white bg-teal-400 rounded-md w-full px-10' : 'text-black'
               }
             >
               Home
@@ -35,7 +35,7 @@ const Sidebar = () => {
             <NavLink
               to="project"
               className={({ isActive }) =>
-                isActive ? 'text-blue-500' : 'text-black'
+                isActive ? 'text-white bg-teal-400 rounded-md w-full px-10' : 'text-black'
               }
             >
               Project

@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux'
 
 const Sidebar = () => {
   const data = useSelector((state) => state.userData.userData)
-  console.log(data)
+  
   return (
     <div className="flex flex-col h-screen w-64 bg-white/70 md:border-4 text-black rounded-xl">
       

@@ -7,7 +7,7 @@ const Sidebar = () => {
   const data = useSelector((state) => state.userData.userData)
   
   return (
-    <div className="flex flex-col h-screen w-64 bg-white/70 md:border-4 text-black rounded-xl">
+    <div className="flex flex-col md:h-[88vh] h-screen w-64 bg-white/70 md:border-4 text-black rounded-xl">
       
       <nav className="p-5">
         <ul className="flex flex-col gap-5">

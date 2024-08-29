@@ -24,7 +24,7 @@ const Projects = () => {
           <div className="text-3xl font-bold">20</div>
         </div>
       </div>
-      <div className="w-full rounded-lg bg-white/50">
+      <div className="w-full rounded-lg bg-white/70">
         <nav className="bg-white rounded-lg drop-shadow-md">
           <ul className="flex flex-row gap-2 py-3">
             <li className="px-2">

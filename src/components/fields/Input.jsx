@@ -1,7 +1,7 @@
 /* eslint-disable react-refresh/only-export-components */
 /* eslint-disable react/prop-types */
 import React, { useId } from 'react'
-import { Input as InputField } from '@material-tailwind/react'
+import { Input as InputField, Textarea } from '@material-tailwind/react'
 
 function Input(
   { label, type = 'text', className, placeholder, variant, ...props },
@@ -17,20 +17,21 @@ function Input(
       )} */}
       {type === 'textarea' ? (
         <>
-          <textarea
+          <Textarea
+            label={label}
             className={` px-3 py-1 w-full rounded-lg bg-white text-gray-700 border-2 border-gray-300 focus:border-gray-600 focus:bg-slate-300 focus:bg-opacity-60 duration-200 ${className}`}
             ref={ref}
             placeholder={placeholder}
             {...props}
             id={id}
-          ></textarea>
+          ></Textarea>
         </>
       ) : (
         <InputField
           variant={variant}
           label={label}
           type={type}
-          // className={` px-3 py-1 w-full rounded-lg bg-white text-gray-700 border-2 border-gray-300 focus:border-gray-600 focus:bg-slate-300 focus:bg-opacity-60 duration-200 ${className}`}
+          className={` px-3 py-1 w-full rounded-lg bg-white text-gray-700 focus:bg-slate-300 focus:bg-opacity-60 duration-200 ${className}`}
           ref={ref}
           placeholder={label}
           {...props}

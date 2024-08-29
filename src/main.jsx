@@ -24,15 +24,15 @@ const router = createBrowserRouter([
             index: true, 
             element: <MainContent />,
           },
-          {
-            path: 'project',
-            element: <Projects />,
-            children: [
-              // { index: true, element: <Projects /> }, 
-              { path: 'add-project', element: <AddProject /> },
-              { path: 'edit-project', element: <EditProject /> }, 
-            ],
-          },
+        ],
+      },
+      {
+        path: 'project',
+        element: <Projects />,
+        children: [
+          // { index: true, element: <Projects /> }, 
+          { path: 'add-project', element: <AddProject /> },
+          { path: 'edit-project', element: <EditProject /> }, 
         ],
       },
       { path: '*', element: <ErrorBoundary /> }, 

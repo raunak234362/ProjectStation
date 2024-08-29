@@ -152,7 +152,7 @@ const AddProject = () => {
             <div className="text-sm w-full font-bold mt-2 text-gray-800">
               Connection Design:
             </div>
-            <div className="grid md:grid-cols-3 bg-white px-5 md:w-1/2 md:justify-center rounded-xl">
+            <div className="grid md:grid-cols-3 bg-white px-5 md:w-full md:justify-center rounded-xl">
               <div className="">
                 <Toggle
                   label="Main"

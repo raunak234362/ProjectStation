@@ -16,9 +16,9 @@ function Toggle({
   const [checked, setChecked] = useState(false);
 
   return (
-    <div className="w-full flex flex-row gap-10 items-center">
+    <div className="w-full flex flex-row items-center">
       {label && (
-        <label className="block mb-1 font-normal text-sm text-gray-700" htmlFor={id}>
+        <label className={`block mb-1 w-fit min-w-28 font-normal text-sm text-gray-700 ${checked? "font-semibold":""}`} htmlFor={id}>
           {label}
         </label>
       )}
@@ -40,7 +40,7 @@ function Toggle({
       />
       {
         checked && (
-          <span className="text-green-500 font-bold">S</span>
+          <span className="text-green-500 font-bold">Selected</span>
         )
       }
     </div>

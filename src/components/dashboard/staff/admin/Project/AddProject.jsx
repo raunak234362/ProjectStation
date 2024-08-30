@@ -16,7 +16,7 @@ const AddProject = () => {
   } = useForm()
 
   const AddProject = (data) => {
-    console.log(data)
+    // console.log(data)
     dispatch(addProject(data))
     console.log(addProject(data))
   }
@@ -154,28 +154,28 @@ const AddProject = () => {
             <div className="grid md:grid-cols-3 bg-white px-5 md:w-full md:justify-center rounded-xl">
               <div className="">
                 <Toggle
-                  label="Main"
+                  label="Main Design"
                   name="connectionDesign"
                   {...register('connectionDesign')}
                 />
               </div>
               <div className="">
                 <Toggle
-                  label="Misc"
+                  label="Misc Design"
                   name="miscDesign"
                   {...register('miscDesign')}
                 />
               </div>
               <div className="">
                 <Toggle
-                  label="Customer"
+                  label="Customer Design"
                   name="customer"
                   {...register('customer')}
                 />
               </div>
             </div>
           </div>
-          <div className="mt-5 w-1/2 grid md:grid-cols-2 gap-5">
+          <div className="mt-5 md:w-1/2 flex md:flex-row flex-col gap-5">
             <div className="w-full">
               <Input
                 type="date"
@@ -194,9 +194,9 @@ const AddProject = () => {
                 placeholder="End Date"
                 size="lg"
                 color="blue"
-                {...register('approval_date', { required: true })}
+                {...register('end_date', { required: true })}
               />
-              {errors.approval_date && <div>This field is required</div>}
+              {errors.end_date && <div>This field is required</div>}
             </div>
           </div>
           <div className='my-5 w-full'>

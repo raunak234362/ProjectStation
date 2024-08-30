@@ -7,6 +7,8 @@ import { Link, useNavigate } from 'react-router-dom'
 import { MdLockReset } from 'react-icons/md'
 import { useDispatch, useSelector } from 'react-redux'
 import { login as authLogin } from '../../store/userSlice'
+import AuthService from '../../config/AuthService'
+import Service from '../../config/Service'
 const Login = () => {
   const Navigate = useNavigate()
   const userData = useSelector((state) => state.userData)
@@ -18,12 +20,24 @@ const Login = () => {
     formState: { errors },
   } = useForm()
 
-  const login = (data) => {
-    // localStorage.setItem('token',token)
+  const login = async (data) => {
+
+    try {
+      const session = await AuthService.login(data);
+        sessionStorage.setItem("username", userData?.username);
+        sessionStorage.setItem("token", token); 
+        dispatch(authLogin({ token, data })); 
+        console.log(session)
+        return session()
+      
+    } catch (error) {
+      console.log(error)
+    }
+
     dispatch(authLogin(data))
     console.log(authLogin(data))
     {
-      userData.status === true && Navigate('/dashboard')
+      userData.status === true && Navigate('/dashboard/home')
     }
   }
   

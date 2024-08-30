@@ -8,6 +8,7 @@ import { Provider } from 'react-redux'
 import store from './store/store.js'
 import {
   AddProject,
+  AllProject,
   EditProject,
   ErrorBoundary,
   MainContent,
@@ -22,11 +23,11 @@ const router = createBrowserRouter([
     // children: [{ index: true, element: <LoginContent /> }],
   },
   {
-    path: 'dashboard',
+    path: '/dashboard',
     element: <App />,
     children: [
       {
-        index: true,
+        path: 'home',
         element: <MainContent />,
       },
       {
@@ -34,6 +35,7 @@ const router = createBrowserRouter([
         element: <Projects />,
         children: [
           { path: 'add-project', element: <AddProject /> },
+          { path: 'all-projects', element: <AllProject /> },
           { path: 'edit-project', element: <EditProject /> },
         ],
       }, 

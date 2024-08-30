@@ -1,19 +1,26 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    projectData:null
+    projectData: []
 }
 
 const projectSlice = createSlice({
-    name:'projectData',
+    name: 'projectData',
     initialState,
-    reducers:{
-        addProject:(state,action)=>{
-            state.projectData = action.payload;
-            localStorage.setItem('projectData', JSON.stringify(action.payload));
-        }
+    reducers: {
+        addProject: (state, action) => {
+            state.projectData.push(action.payload);
+            localStorage.setItem('projectData', JSON.stringify(state.projectData)); 
+        },
+        showProjects: (state, action) => {
+            state.projectData = action.payload; 
+        },
+        deleteProject: (state, action) => {
+            state.projectData = state.projectData.filter(project => project.id !== action.payload); 
+        },
     }
-})
-export const {addProject}=projectSlice.actions
+});
 
-export default projectSlice.reducer
+export const { addProject, showProjects, deleteProject } = projectSlice.actions;
+
+export default projectSlice.reducer;

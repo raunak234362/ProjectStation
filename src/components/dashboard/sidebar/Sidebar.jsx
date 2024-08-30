@@ -13,7 +13,7 @@ const Sidebar = () => {
         <ul className="flex flex-col gap-5">
           <li className='w-full'>
             <NavLink
-              to="/dashboard"
+              to="/dashboard/home"
               className={({ isActive }) =>
                 isActive ? 'text-white bg-teal-400 rounded-md w-full px-10' : 'text-black'
               }
@@ -33,7 +33,7 @@ const Sidebar = () => {
           </li>
           <li>
             <NavLink
-              to="project"
+              to="/dashboard/project"
               className={({ isActive }) =>
                 isActive ? 'text-white bg-teal-400 rounded-md w-full px-10' : 'text-black'
               }

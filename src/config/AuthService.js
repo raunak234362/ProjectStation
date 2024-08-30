@@ -18,6 +18,7 @@ class AuthService {
           });
           sessionStorage.setItem("token",token)
         //   localStorage.setItem("userType",userType)
+        console.log(token)
           const data = await response.json();
           console.log(data)
           return data;

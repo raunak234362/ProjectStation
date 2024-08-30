@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux'
 import LOGO from '../../../assets/logo.png'
 
 const Header = ({ sidebarOpen, toggleSidebar }) => {
-  const data = useSelector((state) => state.userData)
+  const data = useSelector((state) => state.userData.userData)
   return (
     <div className="flex md:px-5 rounded-xl justify-between items-center w-full bg-white bg-opacity-50 text-slate-800  border-4">
 

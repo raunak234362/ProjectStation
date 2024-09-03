@@ -12,12 +12,13 @@ const AddFabricator = () => {
   const {
     register,
     setValue,
+    watch,
     handleSubmit,
     formState: { errors },
   } = useForm()
 
-  const [country, setCountry] = useState('')
-  const [state, setState] = useState('')
+  const country = watch('country')
+  const state = watch('state')
   const [stateList, setStateList] = useState([
     {
       label: 'Select State',
@@ -34,28 +35,23 @@ const AddFabricator = () => {
 
   const countryList = {
     'United States': 'US',
-    Canada: 'CA',
-    India: 'IN',
+    'Canada': 'CA',
+    'India': 'IN',
   }
-
   useEffect(() => {
-    const stateListObject = {}
+    const stateListObject = {};
     State.getStatesOfCountry(countryList[country])?.forEach((state1) => {
-      stateListObject[state1.name] = state1.isoCode
-    })
-    setStateList(stateListObject)
-  }, [country])
+      stateListObject[state1.name] = state1.isoCode;
+    });
+    setStateList(stateListObject);
+  }, [country]);
 
-  useEffect(() => {
-    setCityList(
-      City.getCitiesOfState(countryList[country], stateList[state])?.map(
-        (city) => ({
-          label: city?.name,
-          value: city?.name,
-        }),
-      ),
-    )
-  }, [state])
+useEffect(() => {
+  setCityList(City.getCitiesOfState(countryList[country], stateList[state])?.map((city) => ({
+    label: city?.name,
+    value: city?.name,
+  })))
+}, [state])
 
   const AddFabricator = (data) => {
     dispatch((addFabricator(data)))
@@ -99,7 +95,6 @@ const AddFabricator = () => {
                 })),
               ]}
               {...register('country', { required: 'Country is required' })}
-              // onChange={(e) => setCountry(e.target.value)}
               onChange={setValue}
             />
             {errors.country && (
@@ -118,8 +113,7 @@ const AddFabricator = () => {
                   value: state1,
                 })),
               ]}
-              {...register('state')}
-              // onChange={(e) => setState(e.target.value)}
+              {...register('state', {required:true})}
               onChange={setValue}
             />
             {/* {errors.state && (
@@ -132,23 +126,23 @@ const AddFabricator = () => {
               placeholder="City"
               className="w-full"
               options={[{ label: 'Select City', value: '' }, ...cityList]}
-              {...register('city')}
+              {...register('city', {required:true})}
               onChange={setValue}
             />
-            {/* {errors.city && (
+            {errors.city && (
               <p className="text-red-600">{errors.city.message}</p>
-            )} */}
+            )}
           </div>
           <div className="my-2">
             <Input
               label="Zipcode: "
               placeholder="Zipcode"
               className="w-full"
-              {...register('zipCode')}
+              {...register('zip_code', {required:true})}
             />
-            {/* {errors.zipCode && (
+            {errors.zip_code && (
               <p className="text-red-600">{errors.zipCode.message}</p>
-            )} */}
+            )}
           </div>
 
           <div className="w-full my-3">

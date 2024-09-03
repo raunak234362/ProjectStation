@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { State, City } from 'country-state-city'
 import { Input, Select, Button, Toggle } from '../../../../index'
 import { useEffect, useState } from 'react'
+import { addFabricator } from '../../../../../store/fabricatorSlice'
 const AddFabricator = () => {
   const dispatch = useDispatch()
   // console.log(projectData)
@@ -57,8 +58,8 @@ const AddFabricator = () => {
   }, [state])
 
   const AddFabricator = (data) => {
-    // dispatch()
-    console.log(data)
+    dispatch((addFabricator(data)))
+    console.log((addFabricator(data)))
   }
 
 

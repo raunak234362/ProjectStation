@@ -29,7 +29,7 @@ function Select({ options = [], label, name, className, onChange, ...props }, re
       >
         {options.map((option) => (
           option && (
-            <Option key={option.value} value={option.value}>
+            <Option key={option.value} value={option.value} className="text-black">
               {option.label}
             </Option>
           )

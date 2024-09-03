@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux'
 const MainContent = () => {
   const data = useSelector((state) => state.userData.userData)
 
-  console.log(data)
+  // console.log(data)
 
   return (
     <div className=" md:m-4 m-2 w-full">

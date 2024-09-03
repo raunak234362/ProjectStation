@@ -7,10 +7,13 @@ import LoginContent from './view/login/LoginContent.jsx'
 import { Provider } from 'react-redux'
 import store from './store/store.js'
 import {
+  AddFabricator,
   AddProject,
+  AllFabricator,
   AllProject,
   EditProject,
   ErrorBoundary,
+  Fabricators,
   MainContent,
   Projects,
 } from './components/index.js'
@@ -39,6 +42,14 @@ const router = createBrowserRouter([
           { path: 'edit-project', element: <EditProject /> },
         ],
       }, 
+      {
+        path:'fabricator',
+        element: <Fabricators />,
+        children: [
+          { path: 'add-fabricator', element: <AddFabricator /> },
+          { path: 'all-fabricator', element: <AllFabricator /> },
+        ]
+      }
     ],
   },
  

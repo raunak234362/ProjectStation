@@ -6,41 +6,35 @@ import { Input, Button } from '../index'
 import { Link, useNavigate } from 'react-router-dom'
 import { MdLockReset } from 'react-icons/md'
 import { useDispatch, useSelector } from 'react-redux'
-import { login as authLogin } from '../../store/userSlice'
+import { updatetoken as authLogin, setUserData } from '../../store/userSlice'
 import AuthService from '../../config/AuthService'
-import Service from '../../config/Service'
+// import Service from '../../config/Service'
+// import { data } from 'autoprefixer'
 const Login = () => {
   const Navigate = useNavigate()
   const userData = useSelector((state) => state.userData)
   const dispatch = useDispatch()
-  const token='jkjkjkjk'
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm()
-
+  
   const login = async (data) => {
-
     try {
-      const session = await AuthService.login(data);
-        sessionStorage.setItem("username", userData?.username);
-        sessionStorage.setItem("token", token); 
-        dispatch(authLogin({ token, data })); 
-        console.log(session)
-        return session()
-      
+      const user = await AuthService.login(data)
+      if ('token' in user) {
+        dispatch(authLogin(user))
+        Navigate('/dashboard/home')
+      }else{
+        alert("Invalid Credentials")
+        Navigate('/')
+      }
     } catch (error) {
       console.log(error)
     }
-
-    dispatch(authLogin(data))
-    console.log(authLogin(data))
-    {
-      userData.status === true && Navigate('/dashboard/home')
-    }
   }
-  
+
   return (
     <div className="">
       <div className="w-screen grid md:grid-cols-2 grid-cols-1 z-50 fixed">

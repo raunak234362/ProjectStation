@@ -1,40 +1,48 @@
 //Authentication
-import Login from "./login/Login";
-import LoginAuthentication from "./login/LoginAuthentication"; 
+import Login from './login/Login'
+import LoginAuthentication from './login/LoginAuthentication'
 
 //Dashboard
-import MainContent from "./dashboard/main/MainContent";
-import Sidebar from "./dashboard/sidebar/Sidebar";
-import Header from "./dashboard/header/Header";
+import MainContent from './dashboard/main/MainContent'
+import Sidebar from './dashboard/sidebar/Sidebar'
+import Header from './dashboard/header/Header'
 
 //Project
-import Projects from "./dashboard/staff/admin/Project/Projects";
-import AllProject from "./dashboard/staff/admin/Project/AllProject";
-import AddProject from "./dashboard/staff/admin/Project/AddProject";
-import EditProject from "./dashboard/staff/admin/Project/EditProject";
+import Projects from './dashboard/staff/admin/Project/Projects'
+import AllProject from './dashboard/staff/admin/Project/AllProject'
+import AddProject from './dashboard/staff/admin/Project/AddProject'
+import EditProject from './dashboard/staff/admin/Project/EditProject'
+
+//Fabricator
+import Fabricators from './dashboard/staff/admin/fabricator/Fabricators'
+import AddFabricator from './dashboard/staff/admin/fabricator/AddFabricator'
+import AllFabricator from './dashboard/staff/admin/fabricator/AllFabricator'
 
 //Error Handling
-import ErrorBoundary from "./error/ErrorBoundary";
+import ErrorBoundary from './error/ErrorBoundary'
 
 // fields
-import Button from "./fields/Button";
-import Input from "./fields/Input";
-import Select from "./fields/Select";
-import Toggle from "./fields/Toggle";
+import Button from './fields/Button'
+import Input from './fields/Input'
+import Select from './fields/Select'
+import Toggle from './fields/Toggle'
 
 export {
-    Button,
-    Input,
-    Select,
-    Toggle,
-    Login,
-    LoginAuthentication,
-    MainContent,
-    Sidebar,
-    Header,
-    AddProject,
-    Projects,
-    AllProject,
-    EditProject,
-    ErrorBoundary,
+  Button,
+  Input,
+  Select,
+  Toggle,
+  Login,
+  LoginAuthentication,
+  MainContent,
+  Sidebar,
+  Header,
+  AddProject,
+  Projects,
+  AllProject,
+  EditProject,
+  Fabricators,
+  AddFabricator,
+  AllFabricator,
+  ErrorBoundary,
 }

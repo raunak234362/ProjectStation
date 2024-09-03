@@ -23,12 +23,12 @@ const Sidebar = () => {
           </li>
           <li>
             <NavLink
-              to="client"
+              to="/dashboard/fabricator"
               className={({ isActive }) =>
                 isActive ? 'text-blue-500' : 'text-black'
               }
             >
-              Client
+              Fabricator
             </NavLink>
           </li>
           <li>

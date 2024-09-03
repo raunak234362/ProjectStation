@@ -17,6 +17,8 @@ import EditProject from './dashboard/staff/admin/Project/EditProject'
 import Fabricators from './dashboard/staff/admin/fabricator/Fabricators'
 import AddFabricator from './dashboard/staff/admin/fabricator/AddFabricator'
 import AllFabricator from './dashboard/staff/admin/fabricator/AllFabricator'
+import AddFabricatorUser from './dashboard/staff/admin/fabricator/AddFabricatorUser'
+import AllClients from './dashboard/staff/admin/fabricator/AllClients'
 
 //Error Handling
 import ErrorBoundary from './error/ErrorBoundary'
@@ -43,6 +45,8 @@ export {
   EditProject,
   Fabricators,
   AddFabricator,
+  AddFabricatorUser,
+  AllClients,
   AllFabricator,
   ErrorBoundary,
 }

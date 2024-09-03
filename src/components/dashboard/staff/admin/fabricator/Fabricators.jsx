@@ -29,10 +29,20 @@ const Fabricators = () => {
               </NavLink>
             </li>
             <li className="px-2">
+              <NavLink to="add-client" className={({ isActive }) => (isActive ? 'bg-green-300 drop-shadow-lg px-5 py-2 rounded-lg font-semibold' : 'hover:bg-teal-300 rounded-lg px-5 py-2 hover:text-white')}>
+                Add Client
+              </NavLink>
+            </li>
+            <li className="px-2">
               <NavLink to="all-fabricator" className={({ isActive }) => (isActive ? 'bg-green-300 drop-shadow-lg px-5 py-2 rounded-lg font-semibold' : 'hover:bg-teal-300 rounded-lg px-5 py-2 hover:text-white')}>
                 All Fabricator
               </NavLink>
             </li>
+            <li className="px-2">
+              <NavLink to="all-clients" className={({ isActive }) => (isActive ? 'bg-green-300 drop-shadow-lg px-5 py-2 rounded-lg font-semibold' : 'hover:bg-teal-300 rounded-lg px-5 py-2 hover:text-white')}>
+                All Clients
+              </NavLink>
+              </li>
           </ul>
         </nav>
         <Outlet />

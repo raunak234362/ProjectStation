@@ -8,7 +8,9 @@ import { Provider } from 'react-redux'
 import store from './store/store.js'
 import {
   AddFabricator,
+  AddFabricatorUser,
   AddProject,
+  AllClients,
   AllFabricator,
   AllProject,
   EditProject,
@@ -48,6 +50,8 @@ const router = createBrowserRouter([
         children: [
           { path: 'add-fabricator', element: <AddFabricator /> },
           { path: 'all-fabricator', element: <AllFabricator /> },
+          { path: 'all-clients', element: <AllClients /> },
+          { path: 'add-client', element: <AddFabricatorUser /> },
         ]
       }
     ],

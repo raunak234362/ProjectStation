@@ -19,5 +19,21 @@ class Service {
             console.log('Error finding Current user:',error)
         }
     }
+
+    static async ping() {
+        try {
+            const response = await fetch(`${BASE_URL}/ping`,{
+                method:'GET',
+                headers:{
+                    'Content-Type':'application/json',
+                }
+            })
+            const data = await response.json()
+            return data.connection;
+        } catch (error) {
+            console.log('Error finding Current user:',error);
+            return false;
+        }
+    }
 }
 export default Service;

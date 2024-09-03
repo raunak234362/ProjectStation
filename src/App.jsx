@@ -1,21 +1,50 @@
 import { Provider } from 'react-redux'
 import store from './store/store'
 
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { Header, Sidebar } from './components/index'
 import { Outlet } from 'react-router-dom'
+import Service from './config/Service'
 
 const App = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false)
 
   const toggleSidebar = useCallback(() => {
     setSidebarOpen((prev) => !prev)
-  }, [setSidebarOpen])
+  }, [setSidebarOpen]);
+
+  const [isConnected, setIsConnected] = useState(false)
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      Service.ping().then((result) => {
+        setIsConnected(result)
+        if (result) {
+          clearInterval(interval)
+        }
+      })
+    }, 2000)
+    return () => {
+      clearInterval(interval)
+    }
+  }, []);
 
   return (
     <Provider store={store}>
     <div className="flex flex-col md:flex-row w-screen h-screen overflow-hidden bg-gradient-to-r from-green-300/50 to-teal-300">
       {/* Sidebar */}
+
+      {
+        !isConnected && (
+          <>
+            <div className='absolute z-50 top-0 left-0 bg-black bg-opacity-50 w-screen h-screen'>
+              <div className='flex w-full h-full items-center justify-center px-20 py-10'>
+                  <div className='bg-white text-red-700 px-32 py-20 rounded-3xl border-2 border-red-700'>Connecting to Server, Please Wait...</div>
+              </div>
+            </div>
+          </>
+        )
+      }
 
       <div className="flex flex-col w-full">
         <div className="mx-5 my-2 shadow-2xl drop-shadow-lg">

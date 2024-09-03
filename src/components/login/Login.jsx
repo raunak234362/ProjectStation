@@ -31,17 +31,18 @@ const Login = () => {
         Navigate('/')
       }
     } catch (error) {
+      alert('Could not able to connect to server')
       console.log(error)
     }
   }
 
   return (
     <div className="">
-      <div className="w-screen grid md:grid-cols-2 grid-cols-1 z-50 fixed">
+      <div className="w-screen grid md:grid-cols-2 grid-cols-1 z-10 fixed">
         <div
           className={`md:flex md:my-0 mt-10 md:h-screen justify-center items-center`}
         >
-          <div className="fixed  bg-white md:w-auto bg-opacity-70 border-4 rounded-2xl md:py-14 md:px-20 px-2 mx-20 flex justify-center items-center z-50">
+          <div className="fixed  bg-white md:w-auto bg-opacity-70 border-4 rounded-2xl md:py-14 md:px-20 px-2 mx-20 flex justify-center items-center z-10">
             <img src={LOGO} alt="Logo" />
           </div>
         </div>

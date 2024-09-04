@@ -5,97 +5,112 @@ import { useSelector } from 'react-redux'
 
 const Sidebar = () => {
   const data = useSelector((state) => state.userData.userData)
-  
+
   return (
     <div className="flex flex-col md:h-[88vh] h-screen w-64 bg-white/70 md:border-4 text-black rounded-xl">
-      
       <nav className="p-5">
         <ul className="flex flex-col gap-5">
-          <li className='w-full'>
+          <li className="w-full">
             <NavLink
               to="/dashboard/home"
               className={({ isActive }) =>
-                isActive ? 'text-white bg-teal-400 rounded-md w-full px-10' : 'text-black'
+                isActive
+                  ? 'flex justify-center items-center text-white bg-teal-400 rounded-md w-full px-10 delay-150 transition-all ease-in-out'
+                  : 'text-black hover:text-white hover:flex hover:justify-center hover:items-center hover:bg-teal-200  rounded-md'
               }
             >
-              Home
+              <div>Home</div>
             </NavLink>
           </li>
           <li>
             <NavLink
               to="/dashboard/fabricator"
               className={({ isActive }) =>
-                isActive ? 'text-blue-500' : 'text-black'
+                isActive
+                  ? 'flex justify-center items-center text-white bg-teal-400 rounded-md w-full px-10 delay-150'
+                  : 'text-black hover:text-white hover:flex hover:justify-center hover:items-center hover:bg-teal-200  rounded-md'
               }
             >
-              Fabricator
+              <div>Fabricator</div>
             </NavLink>
           </li>
           <li>
             <NavLink
               to="/dashboard/project"
               className={({ isActive }) =>
-                isActive ? 'text-white bg-teal-400 rounded-md w-full px-10' : 'text-black'
+                isActive
+                  ? 'flex justify-center items-center text-white bg-teal-400 rounded-md w-full px-10 delay-150'
+                  : 'text-black hover:text-white hover:flex hover:justify-center hover:items-center hover:bg-teal-200  rounded-md'
               }
             >
-              Project
+              <div>Project</div>
             </NavLink>
           </li>
           <li>
             <NavLink
               to="rfi"
               className={({ isActive }) =>
-                isActive ? 'text-blue-500' : 'text-black'
+                isActive
+                  ? 'flex justify-center items-center text-white bg-teal-400 rounded-md w-full px-10 delay-150'
+                  : 'text-black hover:text-white hover:flex hover:justify-center hover:items-center hover:bg-teal-200  rounded-md'
               }
             >
-              RFI
+              <div>Project</div>
             </NavLink>
           </li>
           <li>
             <NavLink
               to="submittals"
               className={({ isActive }) =>
-                isActive ? 'text-blue-500' : 'text-black'
+                isActive
+                  ? 'flex justify-center items-center text-white bg-teal-400 rounded-md w-full px-10 delay-150'
+                  : 'text-black hover:text-white hover:flex hover:justify-center hover:items-center hover:bg-teal-200  rounded-md'
               }
             >
-              Submittals
+              <div>Submittals</div>
             </NavLink>
           </li>
           <li>
             <NavLink
               to="change-order"
               className={({ isActive }) =>
-                isActive ? 'text-blue-500' : 'text-black'
+                isActive
+                  ? 'flex justify-center items-center text-white bg-teal-400 rounded-md w-full px-10 delay-150'
+                  : 'text-black hover:text-white hover:flex hover:justify-center hover:items-center hover:bg-teal-200  rounded-md'
               }
             >
-              Change Order
+              <div>Change Order</div>
             </NavLink>
           </li>
           <li>
             <NavLink
               to="update-program"
               className={({ isActive }) =>
-                isActive ? 'text-blue-500' : 'text-black'
+                isActive
+                  ? 'flex justify-center items-center text-white bg-teal-400 rounded-md w-full px-10 delay-150'
+                  : 'text-black hover:text-white hover:flex hover:justify-center hover:items-center hover:bg-teal-200  rounded-md'
               }
             >
-              Update Program
+              <div>Update Program</div>
             </NavLink>
           </li>
           <li>
             <NavLink
               to="manage-team"
               className={({ isActive }) =>
-                isActive ? 'text-blue-500' : 'text-black'
+                isActive
+                  ? 'flex justify-center items-center text-white bg-teal-400 rounded-md w-full px-10 delay-150'
+                  : 'text-black hover:text-white hover:flex hover:justify-center hover:items-center hover:bg-teal-200  rounded-md'
               }
             >
-              Manage Team
+              <div>Manage Team</div>
             </NavLink>
           </li>
         </ul>
       </nav>
-       <div className='text-xl text-black max-md:hidden'>
-         username {data?.username}
-       </div>
+      <div className="text-xl text-black md:hidden block">
+        username {data?.username}
+      </div>
     </div>
   )
 }

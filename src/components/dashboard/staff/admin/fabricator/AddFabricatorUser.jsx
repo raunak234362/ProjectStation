@@ -78,6 +78,15 @@ const AddFabricatorUser = () => {
           </div>
           <div className="w-full my-2">
             <Input
+              label="Password:"
+              placeholder="Password"
+              size="lg"
+              color="blue"
+              {...register('password')}
+            />
+          </div>
+          <div className="w-full my-2">
+            <Input
               label="Contact Number:"
               placeholder="Contact Number"
               size="lg"

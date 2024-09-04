@@ -1,10 +1,8 @@
-/* eslint-disable no-unused-vars */
+
 /* eslint-disable react-refresh/only-export-components */
 /* eslint-disable react/prop-types */
 import React, { useId } from "react";
 import { Select as SelectOpt, Option } from "@material-tailwind/react";
-
-// eslint-disable-next-line no-unused-vars
 function Select({ options = [], label, name, className, onChange, ...props }, ref) {
   const id = useId();
 

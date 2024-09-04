@@ -1,3 +1,4 @@
+import axios from 'axios'
 import { BASE_URL } from './constant'
 
 class AuthService {
@@ -9,16 +10,14 @@ class AuthService {
       formData.append('username', username)
       formData.append('password', password)
        
-      const response = await fetch(`${AuthService.BASE_URL}/user/login/`, {
-        method: 'POST',
+      const response = await axios.post(`${BASE_URL}/user/login/`, formData, {
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
         },
-        body: formData,
       })
-      const data = await response.json()
-      console.log(data)
-      return data
+      
+     
+      return response.data;
     } catch (error) {
       console.error('Error in login:', error)
       throw error

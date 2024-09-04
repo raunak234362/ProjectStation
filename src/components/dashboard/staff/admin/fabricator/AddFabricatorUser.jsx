@@ -1,8 +1,11 @@
 /* eslint-disable no-unused-vars */
 import { useForm } from 'react-hook-form'
 import { Input, Select, Button } from '../../../../index'
+import { useDispatch } from 'react-redux'
+import { addClient } from '../../../../../store/fabricatorSlice'
 
 const AddFabricatorUser = () => {
+  const dispatch = useDispatch()
   const {
     register,
     handleSubmit,
@@ -12,7 +15,8 @@ const AddFabricatorUser = () => {
   } = useForm()
 
   const AddFabricatorUser = (data) => {
-    console.log(data)
+    dispatch(addClient(data))
+    console.log(addClient(data))
   }
 
   return (
@@ -148,6 +152,7 @@ const AddFabricatorUser = () => {
               <Input
                 label="Password:"
                 placeholder="Password"
+                type='password'
                 size="lg"
                 color="blue"
                 {...register('password')}
@@ -156,6 +161,7 @@ const AddFabricatorUser = () => {
             <div className="w-full my-2">
               <Input
                 label="Confirm Password:"
+                type='password'
                 placeholder="Confirm Password"
                 size="lg"
                 color="blue"

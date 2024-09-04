@@ -1,7 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    fabricatorData: []
+    fabricatorData: [],
+    clientData: [],
 }
 
 const fabricatorSlice = createSlice({
@@ -12,6 +13,10 @@ const fabricatorSlice = createSlice({
             state.fabricatorData.push(action.payload);
             localStorage.setItem('fabricatorData', JSON.stringify(state.fabricatorData));
         },
+        addClient:(state,action)=>{
+            state.clientData.push(action.payload);
+            localStorage.setItem('clientData', JSON.stringify(state.clientData));
+        },
         showFabricator: (state, action) => {
             state.fabricatorData = action.payload;
         },
@@ -21,5 +26,5 @@ const fabricatorSlice = createSlice({
     }
 });
 
-export const { addFabricator, showFabricator, deleteFabricator } = fabricatorSlice.actions;
+export const { addFabricator, showFabricator, deleteFabricator,addClient } = fabricatorSlice.actions;
 export default fabricatorSlice.reducer;

@@ -15,7 +15,7 @@ const Sidebar = () => {
               to="/dashboard/home"
               className={({ isActive }) =>
                 isActive
-                  ? 'flex justify-center items-center text-white bg-teal-400 rounded-md w-full px-10 delay-150 transition-all ease-in-out'
+                  ? 'flex justify-center items-center text-white bg-teal-400 rounded-md w-full  delay-150 transition-all ease-in-out'
                   : 'text-black hover:text-white hover:flex hover:justify-center hover:items-center hover:bg-teal-200  rounded-md'
               }
             >
@@ -27,7 +27,7 @@ const Sidebar = () => {
               to="/dashboard/fabricator"
               className={({ isActive }) =>
                 isActive
-                  ? 'flex justify-center items-center text-white bg-teal-400 rounded-md w-full px-10 delay-150'
+                  ? 'flex justify-center items-center text-white bg-teal-400 rounded-md w-full  delay-150'
                   : 'text-black hover:text-white hover:flex hover:justify-center hover:items-center hover:bg-teal-200  rounded-md'
               }
             >
@@ -39,7 +39,7 @@ const Sidebar = () => {
               to="/dashboard/project"
               className={({ isActive }) =>
                 isActive
-                  ? 'flex justify-center items-center text-white bg-teal-400 rounded-md w-full px-10 delay-150'
+                  ? 'flex justify-center items-center text-white bg-teal-400 rounded-md w-full  delay-150'
                   : 'text-black hover:text-white hover:flex hover:justify-center hover:items-center hover:bg-teal-200  rounded-md'
               }
             >
@@ -51,7 +51,7 @@ const Sidebar = () => {
               to="rfi"
               className={({ isActive }) =>
                 isActive
-                  ? 'flex justify-center items-center text-white bg-teal-400 rounded-md w-full px-10 delay-150'
+                  ? 'flex justify-center items-center text-white bg-teal-400 rounded-md w-full  delay-150'
                   : 'text-black hover:text-white hover:flex hover:justify-center hover:items-center hover:bg-teal-200  rounded-md'
               }
             >
@@ -63,7 +63,7 @@ const Sidebar = () => {
               to="submittals"
               className={({ isActive }) =>
                 isActive
-                  ? 'flex justify-center items-center text-white bg-teal-400 rounded-md w-full px-10 delay-150'
+                  ? 'flex justify-center items-center text-white bg-teal-400 rounded-md w-full  delay-150'
                   : 'text-black hover:text-white hover:flex hover:justify-center hover:items-center hover:bg-teal-200  rounded-md'
               }
             >
@@ -75,7 +75,7 @@ const Sidebar = () => {
               to="change-order"
               className={({ isActive }) =>
                 isActive
-                  ? 'flex justify-center items-center text-white bg-teal-400 rounded-md w-full px-10 delay-150'
+                  ? 'flex justify-center items-center text-white bg-teal-400 rounded-md w-full  delay-150'
                   : 'text-black hover:text-white hover:flex hover:justify-center hover:items-center hover:bg-teal-200  rounded-md'
               }
             >
@@ -87,7 +87,7 @@ const Sidebar = () => {
               to="update-program"
               className={({ isActive }) =>
                 isActive
-                  ? 'flex justify-center items-center text-white bg-teal-400 rounded-md w-full px-10 delay-150'
+                  ? 'flex justify-center items-center text-white bg-teal-400 rounded-md w-full  delay-150'
                   : 'text-black hover:text-white hover:flex hover:justify-center hover:items-center hover:bg-teal-200  rounded-md'
               }
             >
@@ -96,10 +96,10 @@ const Sidebar = () => {
           </li>
           <li>
             <NavLink
-              to="manage-team"
+              to="team"
               className={({ isActive }) =>
                 isActive
-                  ? 'flex justify-center items-center text-white bg-teal-400 rounded-md w-full px-10 delay-150'
+                  ? 'flex justify-center items-center text-white bg-teal-400 rounded-md w-full delay-150'
                   : 'text-black hover:text-white hover:flex hover:justify-center hover:items-center hover:bg-teal-200  rounded-md'
               }
             >

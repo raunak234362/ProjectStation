@@ -1,6 +1,5 @@
 /* eslint-disable no-unused-vars */
 import { NavLink, Route, Routes, Outlet } from "react-router-dom";
-import AddProject from "./AddProject";
 
 const Projects = () => {
   return (

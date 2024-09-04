@@ -17,6 +17,7 @@ import {
   ErrorBoundary,
   Fabricators,
   MainContent,
+  ManageTeam,
   Projects,
 } from './components/index.js'
 
@@ -53,6 +54,10 @@ const router = createBrowserRouter([
           { path: 'all-clients', element: <AllClients /> },
           { path: 'add-client', element: <AddFabricatorUser /> },
         ]
+      },
+      {
+        path:'team',
+        element: <ManageTeam />
       }
     ],
   },

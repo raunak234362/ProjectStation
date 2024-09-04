@@ -28,7 +28,6 @@ console.log(fabricators)
              </tr>
           ):( fabricators?.map((fabricator) => (
                 <tr key={fabricator.id} className='hover:bg-blue-gray-100 border'>
-                  
                   <td className='border px-2 py-1 text-left'>{fabricator.name}</td>
                   <td className='border px-2 py-1'>{fabricator.city}</td>
                   <td className='border px-2 py-1'>{fabricator.state}</td>

@@ -1,18 +1,27 @@
 /* eslint-disable no-unused-vars */
 import { useForm } from 'react-hook-form'
-import { Input, Select, Button } from '../../../../index'
+import { Input, Select, Button, Toggle } from '../../../../index'
+import { useDispatch } from 'react-redux'
+import { setUserData } from '../../../../../store/userSlice'
 
 const AddEmployee = () => {
+  const dispatch = useDispatch()
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm()
 
+  const AddEmployee = (data) => {
+    console.log(data)
+    dispatch(setUserData(data))
+    console.log(setUserData(data))
+  }
+
   return (
     <div className="flex w-full justify-center text-black my-5">
       <div className="h-full w-full overflow-y-auto md:px-10 px-2 py-3">
-        <form onSubmit={handleSubmit()}>
+        <form onSubmit={handleSubmit(AddEmployee)}>
           <div className="bg-teal-500/50 rounded-lg px-2 py-2 font-bold text-white">
             User Information:
           </div>
@@ -72,6 +81,15 @@ const AddEmployee = () => {
             </div>
             <div className="w-full my-2">
               <Input
+                label="Department:"
+                placeholder="Department"
+                size="lg"
+                color="blue"
+                {...register('department')}
+              />
+            </div>
+            <div className="w-full my-2">
+              <Input
                 label="Designation:"
                 placeholder="Designation"
                 size="lg"
@@ -80,25 +98,21 @@ const AddEmployee = () => {
               />
               {errors.designation && <div>This field is required</div>}
             </div>
-            <div className="w-full my-2">
-              <Input
-                label="User Address:"
-                placeholder="User Address"
-                size="lg"
-                color="blue"
-                {...register('address', { required: true })}
-              />
-              {errors.address && <div>This field is required</div>}
-            </div>
-            <div className="w-full my-2">
-              <Input
-                label="City:"
-                placeholder="City"
-                size="lg"
-                color="blue"
-                {...register('city', { required: true })}
-              />
-              {errors.city && <div>This field is required</div>}
+            <div className="grid md:grid-cols-2 bg-white border border-gray-400 px-5 md:w-full md:justify-center md:items-center rounded-lg">
+              <div className="">
+                <Toggle
+                  label="Project Manager"
+                  name="manager"
+                  {...register('manager')}
+                />
+              </div>
+              <div className="">
+                <Toggle
+                  label="Sales Employee"
+                  name="sales"
+                  {...register('sales')}
+                />
+              </div>
             </div>
           </div>
           <div className="bg-teal-500/50 rounded-lg px-2 py-2 font-bold text-white">
@@ -123,15 +137,6 @@ const AddEmployee = () => {
                 {...register('phone', { required: true })}
               />
               {errors.phone && <div>This field is required</div>}
-            </div>
-            <div className="w-full my-2">
-              <Input
-                label="Alternate Number:"
-                placeholder="Alternate Number"
-                size="lg"
-                color="blue"
-                {...register('alt_phone')}
-              />
             </div>
           </div>
           <div className="bg-teal-500/50 rounded-lg px-2 py-2 font-bold text-white">

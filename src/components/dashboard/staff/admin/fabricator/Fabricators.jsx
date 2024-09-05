@@ -22,24 +22,24 @@ const Fabricators = () => {
       </div>
       <div className="w-full rounded-lg bg-white/70">
         <nav className="bg-white rounded-lg drop-shadow-md">
-          <ul className="flex flex-row gap-2 py-3">
-            <li className="px-2">
-              <NavLink to="add-fabricator" className={({ isActive }) => (isActive ? 'bg-teal-500/50 drop-shadow-lg px-5 py-2 rounded-lg font-semibold' : 'hover:bg-teal-300 rounded-lg px-5 py-2 hover:text-white')}>
+          <ul className="md:flex flex-row w-full items-center overflow-x-hidden md:gap-2 py-3 md:text-base text-xs">
+            <li className="md:px-2 flex flex-grow justify-center">
+              <NavLink to="add-fabricator" className={({ isActive }) => (isActive ? 'bg-teal-500/50 drop-shadow-lg px-5 py-2 rounded-lg font-semibold' : 'hover:bg-teal-200 rounded-lg px-5 py-2 hover:text-white')}>
                 Add Fabricator
               </NavLink>
             </li>
-            <li className="px-2">
-              <NavLink to="add-client" className={({ isActive }) => (isActive ? 'bg-teal-500/50 drop-shadow-lg px-5 py-2 rounded-lg font-semibold' : 'hover:bg-teal-300 rounded-lg px-5 py-2 hover:text-white')}>
+            <li className="md:px-2 flex flex-grow justify-center">
+              <NavLink to="add-client" className={({ isActive }) => (isActive ? 'bg-teal-500/50 drop-shadow-lg px-5 py-2 rounded-lg font-semibold' : 'hover:bg-teal-200 rounded-lg px-5 py-2 hover:text-white')}>
                 Add Client
               </NavLink>
             </li>
-            <li className="px-2">
-              <NavLink to="all-fabricator" className={({ isActive }) => (isActive ? 'bg-teal-500/50 drop-shadow-lg px-5 py-2 rounded-lg font-semibold' : 'hover:bg-teal-300 rounded-lg px-5 py-2 hover:text-white')}>
+            <li className="md:px-2 flex flex-grow justify-center">
+              <NavLink to="all-fabricator" className={({ isActive }) => (isActive ? 'bg-teal-500/50 drop-shadow-lg px-5 py-2 rounded-lg font-semibold' : 'hover:bg-teal-200 rounded-lg px-5 py-2 hover:text-white')}>
                 All Fabricator
               </NavLink>
             </li>
-            <li className="px-2">
-              <NavLink to="all-clients" className={({ isActive }) => (isActive ? 'bg-teal-500/50 drop-shadow-lg px-5 py-2 rounded-lg font-semibold' : 'hover:bg-teal-300 rounded-lg px-5 py-2 hover:text-white')}>
+            <li className="md:px-2  flex flex-grow justify-center">
+              <NavLink to="all-clients" className={({ isActive }) => (isActive ? 'bg-teal-500/50 drop-shadow-lg px-5 py-2 rounded-lg font-semibold' : 'hover:bg-teal-200 rounded-lg px-5 py-2 hover:text-white')}>
                 All Clients
               </NavLink>
               </li>

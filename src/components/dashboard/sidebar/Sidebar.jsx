@@ -36,6 +36,18 @@ const Sidebar = () => {
           </li>
           <li>
             <NavLink
+              to="/dashboard/vendor"
+              className={({ isActive }) =>
+                isActive
+                  ? 'flex justify-center items-center text-white bg-teal-400 rounded-md w-full  delay-150'
+                  : 'text-black hover:text-white hover:flex hover:justify-center hover:items-center hover:bg-teal-200  rounded-md'
+              }
+            >
+              <div>Vendor</div>
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
               to="/dashboard/project"
               className={({ isActive }) =>
                 isActive

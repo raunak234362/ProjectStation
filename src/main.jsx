@@ -12,6 +12,7 @@ import {
   AddFabricatorUser,
   AddProject,
   AllClients,
+  AllEmployees,
   AllFabricator,
   AllProject,
   EditProject,
@@ -20,6 +21,7 @@ import {
   MainContent,
   ManageTeam,
   Projects,
+  Vendor,
 } from './components/index.js'
 
 // Define the router configuration
@@ -57,11 +59,15 @@ const router = createBrowserRouter([
         ]
       },
       {
+        path:'vendor',
+        element:<Vendor/>
+      },
+      {
         path:'team',
         element: <ManageTeam />,
         children: [
           { path: 'add-employee', element: <AddEmployee /> },
-          // { path: 'all-employees', element: <AllEmployees /> },
+          { path: 'all-employees', element: <AllEmployees /> },
         ]
       },
     ],

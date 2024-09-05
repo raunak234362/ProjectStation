@@ -27,12 +27,12 @@ const Projects = () => {
         <nav className="bg-white rounded-lg drop-shadow-md">
           <ul className="flex flex-row gap-2 py-3">
             <li className="px-2">
-              <NavLink to="add-project" className={({ isActive }) => (isActive ? 'bg-green-300 drop-shadow-lg px-5 py-2 rounded-lg font-semibold' : 'hover:bg-teal-300 rounded-lg px-5 py-2 hover:text-white')}>
+              <NavLink to="add-project" className={({ isActive }) => (isActive ? 'bg-teal-300 drop-shadow-lg px-5 py-2 rounded-lg font-semibold' : 'hover:bg-teal-200 rounded-lg px-5 py-2 hover:text-white')}>
                 Add Project
               </NavLink>
             </li>
             <li className="px-2">
-              <NavLink to="all-projects" className={({ isActive }) => (isActive ? 'bg-green-300 drop-shadow-lg px-5 py-2 rounded-lg font-semibold' : 'hover:bg-teal-300 rounded-lg px-5 py-2 hover:text-white')}>
+              <NavLink to="all-projects" className={({ isActive }) => (isActive ? 'bg-teal-300 drop-shadow-lg px-5 py-2 rounded-lg font-semibold' : 'hover:bg-teal-200 rounded-lg px-5 py-2 hover:text-white')}>
                 All Projects
               </NavLink>
             </li>

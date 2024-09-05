@@ -7,6 +7,7 @@ import LoginContent from './view/login/LoginContent.jsx'
 import { Provider } from 'react-redux'
 import store from './store/store.js'
 import {
+  AddEmployee,
   AddFabricator,
   AddFabricatorUser,
   AddProject,
@@ -57,8 +58,12 @@ const router = createBrowserRouter([
       },
       {
         path:'team',
-        element: <ManageTeam />
-      }
+        element: <ManageTeam />,
+        children: [
+          { path: 'add-employee', element: <AddEmployee /> },
+          // { path: 'all-employees', element: <AllEmployees /> },
+        ]
+      },
     ],
   },
  

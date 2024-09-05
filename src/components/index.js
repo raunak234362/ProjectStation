@@ -22,7 +22,7 @@ import AllClients from './dashboard/staff/admin/fabricator/AllClients'
 
 //Team
 import ManageTeam from './dashboard/staff/admin/Team/ManageTeam'
-
+import AddEmployee from './dashboard/staff/admin/Team/AddEmployee'
 
 //Error Handling
 import ErrorBoundary from './error/ErrorBoundary'
@@ -53,5 +53,6 @@ export {
   AllClients,
   AllFabricator,
   ManageTeam,
+  AddEmployee,
   ErrorBoundary,
 }

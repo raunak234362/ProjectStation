@@ -20,14 +20,19 @@ class Service {
 
     static async ping() {
         try {
-            const response = await axios.get(`${BASE_URL}/ping`, { 
-                headers: {
-                    'Content-Type': 'application/json',
-                }
-            });
+            const response = await Promise.race([
+                axios.get(`${BASE_URL}/ping`, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                }),
+                new Promise((resolve, reject) => {
+                    setTimeout(() => reject(new Error('Timeout')), 10000);
+                }),
+            ]);
             return response.data.connection;
         } catch (error) {
-            console.log('Error pinging server:', error); 
+            console.log('Error pinging server:', error);
             return false;
         }
     }

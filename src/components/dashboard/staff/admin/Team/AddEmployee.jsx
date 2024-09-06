@@ -3,6 +3,8 @@ import { useForm } from 'react-hook-form'
 import { Input, Select, Button, Toggle } from '../../../../index'
 import { useDispatch } from 'react-redux'
 import { setUserData } from '../../../../../store/userSlice'
+import { countries, getCountryFlagEmojiFromCountryCode } from "country-codes-flags-phone-codes"
+import { useState } from 'react'
 
 const AddEmployee = () => {
   const dispatch = useDispatch()
@@ -10,12 +12,28 @@ const AddEmployee = () => {
     register,
     handleSubmit,
     formState: { errors },
+    setValue,
+    watch,
   } = useForm()
 
+  const countryOptions = [
+    ...countries.map((country) => ({
+      label: `${getCountryFlagEmojiFromCountryCode(country.code)} ${country.name} (${country.dialCode})`,
+      value: country.dialCode,
+    })),
+  ]
+
   const AddEmployee = (data) => {
-    console.log(data)
-    dispatch(setUserData(data))
-    console.log(setUserData(data))
+    const phoneNumber = `${data?.country_code}${data?.phone}`
+    console.log(phoneNumber)
+
+    const updatedData = {
+      ...data,
+      phone: phoneNumber,
+    }
+
+    console.log(updatedData)
+    dispatch(setUserData(updatedData))
   }
 
   return (
@@ -77,7 +95,7 @@ const AddEmployee = () => {
                 color="blue"
                 {...register('emp_code', { required: true })}
               />
-              {errors.fabricator && <div>This field is required</div>}
+              {errors.emp_code && <div>This field is required</div>}
             </div>
             <div className="w-full my-2">
               <Input
@@ -128,15 +146,27 @@ const AddEmployee = () => {
                 {...register('email')}
               />
             </div>
-            <div className="w-full my-2">
-              <Input
-                label="Contact Number:"
-                placeholder="Contact Number"
-                size="lg"
-                color="blue"
-                {...register('phone', { required: true })}
-              />
-              {errors.phone && <div>This field is required</div>}
+            <div className="w-full gap-2 my-2 flex md:flex-row flex-col items-center">
+              <div className="md:w-[10%] w-full">
+                <Select
+                  label="Country Code:"
+                  color="blue"
+                  name="country_code"
+                  options={countryOptions}
+                  onChange={setValue} // Update country_code field
+                  // {...register('country_code', { required: true })}
+                />
+              </div>
+              <div className="w-full">
+                <Input
+                  label="Contact Number:"
+                  placeholder="Contact Number"
+                  size="lg"
+                  color="blue"
+                  {...register('phone', { required: true })}
+                />
+                {errors.phone && <div>This field is required</div>}
+              </div>
             </div>
           </div>
           <div className="bg-teal-500/50 rounded-lg px-2 py-2 font-bold text-white">

@@ -3,7 +3,10 @@ import { useForm } from 'react-hook-form'
 import { Input, Select, Button, Toggle } from '../../../../index'
 import { useDispatch } from 'react-redux'
 import { setUserData } from '../../../../../store/userSlice'
-import { countries, getCountryFlagEmojiFromCountryCode } from "country-codes-flags-phone-codes"
+import {
+  countries,
+  getCountryFlagEmojiFromCountryCode,
+} from 'country-codes-flags-phone-codes'
 import { useState } from 'react'
 
 const AddEmployee = () => {
@@ -13,17 +16,29 @@ const AddEmployee = () => {
     handleSubmit,
     formState: { errors },
     setValue,
+    setError,
+    clearErrors,
     watch,
   } = useForm()
+  const [showAlert, setShowalert] =useState(false)
 
   const countryOptions = [
     ...countries.map((country) => ({
-      label: `${getCountryFlagEmojiFromCountryCode(country.code)} ${country.name} (${country.dialCode})`,
+      label: `${getCountryFlagEmojiFromCountryCode(country.code)} ${
+        country.name
+      } (${country.dialCode})`,
       value: country.dialCode,
     })),
   ]
 
   const AddEmployee = (data) => {
+    if (data.password !== data.cnf_password) {
+      setShowalert(true)
+
+      return
+    }
+    clearErrors('cnf_password')
+
     const phoneNumber = `${data?.country_code}${data?.phone}`
     console.log(phoneNumber)
 
@@ -194,6 +209,11 @@ const AddEmployee = () => {
               />
             </div>
           </div>
+          {showAlert && (
+            <div className="bg-red-500/50 rounded-lg px-2 py-2 font-bold text-white">
+              Passwords do not match
+            </div>
+          )}
 
           <div className="my-5 w-full">
             <Button type="submit" className="w-full">

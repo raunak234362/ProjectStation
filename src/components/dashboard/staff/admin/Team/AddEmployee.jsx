@@ -8,8 +8,10 @@ import {
   getCountryFlagEmojiFromCountryCode,
 } from 'country-codes-flags-phone-codes'
 import { useState } from 'react'
+import Service from '../../../../../config/Service'
 
 const AddEmployee = () => {
+  const token = sessionStorage.getItem("token"); 
   const dispatch = useDispatch()
   const {
     register,
@@ -31,23 +33,20 @@ const AddEmployee = () => {
     })),
   ]
 
-  const AddEmployee = (data) => {
+  const AddEmployee = async (data) => {
     if (data.password !== data.cnf_password) {
       setShowalert(true)
-
       return
     }
     clearErrors('cnf_password')
-
     const phoneNumber = `${data?.country_code}${data?.phone}`
-    console.log(phoneNumber)
-
     const updatedData = {
       ...data,
       phone: phoneNumber,
     }
 
-    console.log(updatedData)
+    const response =await Service.addEmployee(updatedData(token))
+    console.log(response)
     dispatch(setUserData(updatedData))
   }
 

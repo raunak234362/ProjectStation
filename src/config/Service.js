@@ -21,17 +21,19 @@ class Service {
   }
 
   //Add New Staff(Employee)
-  static async addEmployee(token) {
+  static async addEmployee(updatedData, token) {
     try {
-      const response = await axios.post(`${BASE_URL}/user/staff`, {
+        console.log(updatedData);
+      const response = await axios.post(`${BASE_URL}/user/staff/`, updatedData, {
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Token ${token}`,
         },
-      })
-      return response.data
+      });
+      console.log(response.data);
+      return response.data;
     } catch (error) {
-      console.log('Error Adding Staff', error)
+      console.log('Error Adding Staff', error);
     }
   }
   //Show All Staff(Employee)

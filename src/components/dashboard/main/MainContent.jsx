@@ -1,8 +1,31 @@
-import { useSelector } from 'react-redux'
+/* eslint-disable no-unused-vars */
+import { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import Service from '../../../config/Service'
+import { setUserData } from '../../../store/userSlice'
 
 const MainContent = () => {
   const data = useSelector((state) => state.userData.userData)
+  const token = sessionStorage.getItem("token");
+  const [user, setUser] = useState()
+  const dispatch = useDispatch()
 
+  
+
+  const fetchUser = async () =>{
+    try {
+      const User = await Service.getCurrentUser(token)
+      setUser(User)
+      dispatch(setUserData(User))
+      console.log(setUserData(User))
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  useEffect(() => {
+    fetchUser()
+  }, [])
   // console.log(data)
 
   return (

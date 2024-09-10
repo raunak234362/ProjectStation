@@ -14,13 +14,18 @@ class AuthService {
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
         },
-      })
-      
-     
+      }) 
+      if (response.status === 400) {
+        throw new Error('Invalid Credentials')
+      }
       return response.data;
     } catch (error) {
-      console.error('Error in login:', error)
-      throw error
+      if (error.response && error.response.status === 400) {
+        throw new Error('Invalid Credentials')
+      } else {
+        console.error('Error in login:', error)
+        throw new Error('Could not connect to server')
+      }
     }
   }
 }

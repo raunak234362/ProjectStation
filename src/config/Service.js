@@ -5,13 +5,15 @@ class Service {
     static BASE_URL = BASE_URL;
 
     static async getCurrentUser(token) {
+        console.log('Fetching current user...', token);
         try {
-            const response = await axios.get(`${BASE_URL}/user`, {
+            const response = await axios.get(`${BASE_URL}/user/`, {
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
+                    'Authorization': `Token ${token}`
                 }
             });
+            console.log('Current user:', response.data);
             return response.data; 
         } catch (error) {
             console.log('Error finding Current user:', error);

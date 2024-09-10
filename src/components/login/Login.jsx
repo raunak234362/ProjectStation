@@ -6,43 +6,42 @@ import { Input, Button } from '../index'
 import { Link, useNavigate } from 'react-router-dom'
 import { MdLockReset } from 'react-icons/md'
 import { useDispatch, useSelector } from 'react-redux'
-import { updatetoken as authLogin, setUserData } from '../../store/userSlice'
+import { updatetoken as authLogin } from '../../store/userSlice'
 import AuthService from '../../config/AuthService'
-// import Service from '../../config/Service'
-// import { data } from 'autoprefixer'
+
 const Login = () => {
-  const Navigate = useNavigate()
-  const userData = useSelector((state) => state.userData)
+  const navigate = useNavigate()
   const dispatch = useDispatch()
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm()
-  
+
   const login = async (data) => {
     try {
       const user = await AuthService.login(data)
       if ('token' in user) {
         dispatch(authLogin(user))
-        Navigate('/dashboard/home')
-      }else{
+        navigate('/dashboard/home')
+      } else {
         alert("Invalid Credentials")
-        Navigate('/')
+        navigate('/')
       }
     } catch (error) {
-      alert('Could not able to connect to server')
-      console.log(error)
+      if (error.message === 'Invalid Credentials') {
+        alert('Invalid Credentials')
+      } else {
+        alert('Could not connect to server')
+      }
     }
   }
 
   return (
     <div className="">
       <div className="w-screen grid md:grid-cols-2 grid-cols-1 z-10 fixed">
-        <div
-          className={`md:flex md:my-0 mt-10 md:h-screen justify-center items-center`}
-        >
-          <div className="fixed  bg-white md:w-auto bg-opacity-70 border-4 rounded-2xl md:py-14 md:px-20 px-2 mx-20 flex justify-center items-center z-10">
+        <div className={`md:flex md:my-0 mt-10 md:h-screen justify-center items-center`}>
+          <div className="fixed bg-white md:w-auto bg-opacity-70 border-4 rounded-2xl md:py-14 md:px-20 px-2 mx-20 flex justify-center items-center z-10">
             <img src={LOGO} alt="Logo" />
           </div>
         </div>
@@ -104,7 +103,7 @@ const Login = () => {
       <div>
         <img
           src={Background}
-          alt="logo"
+          alt="background"
           className="h-screen w-screen object-cover blur-[8px]"
         />
       </div>

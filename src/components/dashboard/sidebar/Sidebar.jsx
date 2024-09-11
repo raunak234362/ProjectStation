@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux'
 
 const Sidebar = () => {
   const data = useSelector((state) => state.userData.userData)
-
+  const userType = sessionStorage.getItem('userType')
   return (
     <div className="flex flex-col md:h-[88vh] h-screen w-64 bg-white/70 md:border-4 text-black rounded-xl">
       <nav className="p-5">

@@ -23,8 +23,11 @@ class Service {
   //Add New Staff(Employee)
   static async addEmployee(updatedData, token) {
     try {
-        console.log(updatedData);
-      const response = await axios.post(`${BASE_URL}/user/staff/`, updatedData, {
+      const data = new FormData();
+      for (const key in updatedData) {
+        data.append(key, updatedData[key]);
+      }
+      const response = await axios.post(`${BASE_URL}/user/staff/`, data, {
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Token ${token}`,
@@ -51,6 +54,53 @@ class Service {
     }
   }
 
+  //Show All Fabricator
+  static async allFabricator(token){
+    try {
+      const response = await axios.get(`${BASE_URL}/fabricator`,{
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Token ${token}`,
+        },
+      })
+      return response.data
+    } catch (error) {
+      console.log('Error finding Fabricator', error)
+    }
+  }
+
+
+  //Show All Clients
+  static async allClient(token){
+    try {
+      const response = await axios.get(`${BASE_URL}/user/client`,{
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Token ${token}`,
+        },
+      })
+      return response.data
+    } catch (error) {
+      console.log('Error finding Client', error)
+    }
+  }
+
+  //Show All Vendors
+  static async allVendor(token){
+    try {
+      const response = await axios.get(`${BASE_URL}/user/vendor`,{
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Token ${token}`,
+        },
+      })
+      return response.data
+    } catch (error) {
+      console.log('Error finding Vendor', error)
+    }
+  }
+
+  //Ping
   static async ping() {
     try {
       const response = await Promise.race([

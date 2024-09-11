@@ -8,10 +8,12 @@ import { MdLockReset } from 'react-icons/md'
 import { useDispatch, useSelector } from 'react-redux'
 import { updatetoken as authLogin } from '../../store/userSlice'
 import AuthService from '../../config/AuthService'
+import Service from '../../config/Service'
 
 const Login = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
+  const token = sessionStorage.getItem('token')
   const {
     register,
     handleSubmit,
@@ -22,6 +24,25 @@ const Login = () => {
     try {
       const user = await AuthService.login(data)
       if ('token' in user) {
+
+        const userData = await Service.getCurrentUser(token)
+        console.log(userData)
+        let userType = ''
+        if(userData[0].role === 'STAFF'){
+          if(userData[0].is_superuser){
+            userType = 'admin'
+          }if(userData[0].is_staff){
+            userType = 'wbt-emp'
+          }
+          else{
+            userType = 'user'
+          }
+        }else if(userData[0].role === 'CLIENT'){
+          userType = 'client'
+        }else{
+          userType = 'vendor'
+        }
+        sessionStorage.setItem("userType", userType);
         dispatch(authLogin(user))
         navigate('/dashboard/home')
       } else {

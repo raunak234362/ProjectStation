@@ -30,6 +30,7 @@ const AddEmployee = () => {
   }))
 
   const addStaff = async (data) => {
+    console.log(data)
     if (data.password !== data.cnf_password) {
       setShowalert(true)
       return
@@ -129,7 +130,7 @@ const AddEmployee = () => {
                 onChange={setValue}
               />
             </div>
-            <div>
+            {/* <div>
               <Select
                 label="Role:"
                 color="blue"
@@ -145,7 +146,7 @@ const AddEmployee = () => {
                 onChange={setValue}
               />
               {errors.role && <div>This field is required</div>}
-            </div>
+            </div> */}
             <div className="w-full my-2">
               <Input
                 label="Designation:"
@@ -195,7 +196,7 @@ const AddEmployee = () => {
                   color="blue"
                   name="country_code"
                   options={countryOptions}
-                  onChange={(value) => setValue('country_code', value)}
+                  onChange={setValue}
                 />
               </div>
               <div className="w-full">

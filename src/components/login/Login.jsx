@@ -24,7 +24,8 @@ const Login = () => {
     try {
       const user = await AuthService.login(data)
       if ('token' in user) {
-
+        const token = user.token
+        console.log(token)
         const userData = await Service.getCurrentUser(token)
         console.log(userData)
         let userType = ''

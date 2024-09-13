@@ -88,7 +88,7 @@ const AllFabricator = () => {
         />
 
         {/* Filter Section */}
-        <div className="mb-4 grid grid-cols-3 gap-4">
+        <div className="mb-4 grid grid-cols-1 md:grid-cols-3 gap-4">
           <select
             name="country"
             value={filters.country}
@@ -132,44 +132,63 @@ const AllFabricator = () => {
           </select>
         </div>
 
-        <table className="h-fit md:w-full w-[90vw] border-collapse text-center md:text-lg text-xs rounded-xl">
-          <thead>
-            <tr className="bg-teal-200/70">
-              <th className="px-2 py-1 text-left cursor-pointer" onClick={() => handleSort('name')}>
-                Fabricator Name {sortOrder.key === 'name' ? (sortOrder.order === 'asc' ? '' : '') : ''}
-              </th>
-              <th className="px-2 py-1 cursor-pointer" onClick={() => handleSort('city')}>
-                City {sortOrder.key === 'city' ? (sortOrder.order === 'asc' ? '' : '') : ''}
-              </th>
-              <th className="px-2 py-1 cursor-pointer" onClick={() => handleSort('state')}>
-                State {sortOrder.key === 'state' ? (sortOrder.order === 'asc' ? '' : '') : ''}
-              </th>
-              <th className="px-2 py-1 cursor-pointer" onClick={() => handleSort('country')}>
-                Country {sortOrder.key === 'country' ? (sortOrder.order === 'asc' ? '' : '') : ''}
-              </th>
-              <th className="px-2 py-1">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filteredFabricators.length === 0 ? (
-              <tr className="bg-white">
-                <td colSpan="5" className="text-center">
-                  No Fabricator Found
-                </td>
+        {/* Responsive Table */}
+        <div className="overflow-x-auto">
+          <table className="min-w-full border-collapse text-center text-sm md:text-lg rounded-xl">
+            <thead>
+              <tr className="bg-teal-200/70">
+                <th
+                  className="px-2 py-1 text-left cursor-pointer"
+                  onClick={() => handleSort('name')}
+                >
+                  Fabricator Name
+                  {sortOrder.key === 'name' && (sortOrder.order === 'asc' ? ' ↑' : ' ↓')}
+                </th>
+                <th
+                  className="px-2 py-1 cursor-pointer"
+                  onClick={() => handleSort('city')}
+                >
+                  City
+                  {sortOrder.key === 'city' && (sortOrder.order === 'asc' ? ' ↑' : ' ↓')}
+                </th>
+                <th
+                  className="px-2 py-1 cursor-pointer"
+                  onClick={() => handleSort('state')}
+                >
+                  State
+                  {sortOrder.key === 'state' && (sortOrder.order === 'asc' ? ' ↑' : ' ↓')}
+                </th>
+                <th
+                  className="px-2 py-1 cursor-pointer"
+                  onClick={() => handleSort('country')}
+                >
+                  Country
+                  {sortOrder.key === 'country' && (sortOrder.order === 'asc' ? ' ↑' : ' ↓')}
+                </th>
+                <th className="px-2 py-1">Actions</th>
               </tr>
-            ) : (
-              filteredFabricators?.map((fabricator) => (
-                <tr key={fabricator.id} className="hover:bg-blue-gray-100 border">
-                  <td className="border px-2 py-1 text-left">{fabricator.name}</td>
-                  <td className="border px-2 py-1">{fabricator.city}</td>
-                  <td className="border px-2 py-1">{fabricator.state}</td>
-                  <td className="border px-2 py-1">{fabricator.country}</td>
-                  <td className="border px-2 py-1">Button</td>
+            </thead>
+            <tbody>
+              {filteredFabricators.length === 0 ? (
+                <tr className="bg-white">
+                  <td colSpan="5" className="text-center">
+                    No Fabricator Found
+                  </td>
                 </tr>
-              ))
-            )}
-          </tbody>
-        </table>
+              ) : (
+                filteredFabricators?.map((fabricator) => (
+                  <tr key={fabricator.id} className="hover:bg-blue-gray-100 border">
+                    <td className="border px-2 py-1 text-left">{fabricator.name}</td>
+                    <td className="border px-2 py-1">{fabricator.city}</td>
+                    <td className="border px-2 py-1">{fabricator.state}</td>
+                    <td className="border px-2 py-1">{fabricator.country}</td>
+                    <td className="border px-2 py-1">Button</td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   )

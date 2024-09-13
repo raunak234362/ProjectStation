@@ -24,6 +24,7 @@ import {
   Projects,
   Vendor,
   AllVendors,
+  AllDepartment,
 } from './components/index.js'
 
 
@@ -75,6 +76,7 @@ const router = createBrowserRouter([
         children: [
           { path: 'add-employee', element: <AddEmployee /> },
           { path: 'all-employees', element: <AllEmployees /> },
+          { path: 'all-department', element: <AllDepartment /> },
         ]
       },
     ],

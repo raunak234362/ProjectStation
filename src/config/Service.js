@@ -54,6 +54,21 @@ class Service {
     }
   }
 
+  //Show All Department
+  static async allDepartment(token){
+    try {
+      const response = await axios.get(`${BASE_URL}/department`,{
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Token ${token}`,
+        },
+      })
+      return response.data
+    } catch (error) {
+      console.log('Error finding Department', error)
+    }
+  }
+
   //Show All Fabricator
   static async allFabricator(token){
     try {

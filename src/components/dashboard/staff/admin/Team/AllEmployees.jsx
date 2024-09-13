@@ -50,7 +50,7 @@ const AllEmployees = () => {
   };
 
   return (
-    <div className='bg-white/70 rounded-lg md:w-full w-[90vw]'>
+    <div className="bg-white/70 rounded-lg md:w-full w-[90vw]">
       <div className="mt-5 p-4">
         {/* Search Bar */}
         <input
@@ -61,27 +61,28 @@ const AllEmployees = () => {
           className="border px-2 py-2 rounded mb-4 w-full md:w-1/3"
         />
       </div>
-      
-      <div className='mt-2 mx-3 bg-white h-[50vh]'>
-        <table className='h-fit md:w-full w-[90vw] border-collapse text-center md:text-xl text-xs rounded-xl top-0'>
+
+      <div className="mt-2 mx-3 bg-white overflow-x-auto">
+        {/* Making the table scrollable horizontally on small screens */}
+        <table className="h-fit w-full border-collapse text-center md:text-xl text-xs rounded-xl">
           <thead>
-            <tr className='bg-teal-200/70'>
-              <th className='px-5 py-2 cursor-pointer text-left' onClick={() => handleSort("username")}>
+            <tr className="bg-teal-200/70">
+              <th className="px-5 py-2 cursor-pointer text-left" onClick={() => handleSort("username")}>
                 Username
               </th>
-              <th className='px-5 py-2 text-left cursor-pointer' onClick={() => handleSort("f_name")}>
+              <th className="px-5 py-2 text-left cursor-pointer" onClick={() => handleSort("f_name")}>
                 Employee Name
               </th>
-              <th className='px-5 py-2 cursor-pointer text-left' onClick={() => handleSort("designation")}>
+              <th className="px-5 py-2 cursor-pointer text-left" onClick={() => handleSort("designation")}>
                 Designation
               </th>
-              <th className='px-5 py-2 cursor-pointer text-left' onClick={() => handleSort("email")}>
+              <th className="px-5 py-2 cursor-pointer text-left" onClick={() => handleSort("email")}>
                 Email
               </th>
-              <th className='px-5 py-2 cursor-pointer text-left' onClick={() => handleSort("phone")}>
+              <th className="px-5 py-2 cursor-pointer text-left" onClick={() => handleSort("phone")}>
                 Phone
               </th>
-              <th className='px-2 py-1'>Actions</th>
+              <th className="px-2 py-1">Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -92,14 +93,16 @@ const AllEmployees = () => {
                 </td>
               </tr>
             ) : (
-              filteredStaff?.map((staff, index) => (
-                <tr key={staff.id} className='hover:bg-blue-gray-100 border'>
-                  <td className='border px-5 py-2 text-left'>{staff.username}</td>
-                  <td className='border px-5 py-2 text-left'>{staff.f_name} {staff.m_name} {staff.l_name}</td>
-                  <td className='border px-5 py-2 text-left'>{staff.designation}</td>
-                  <td className='border px-5 py-2 text-left'>{staff.email}</td>
-                  <td className='border px-5 py-2 text-left'>{staff.phone}</td>
-                  <td className='border px-2 py-1'>
+              filteredStaff?.map((staff) => (
+                <tr key={staff.id} className="hover:bg-blue-gray-100 border">
+                  <td className="border px-5 py-2 text-left">{staff.username}</td>
+                  <td className="border px-5 py-2 text-left">
+                    {staff.f_name} {staff.m_name} {staff.l_name}
+                  </td>
+                  <td className="border px-5 py-2 text-left">{staff.designation}</td>
+                  <td className="border px-5 py-2 text-left">{staff.email}</td>
+                  <td className="border px-5 py-2 text-left">{staff.phone}</td>
+                  <td className="border px-2 py-1">
                     <button className="text-blue-500 hover:text-blue-700">Action</button>
                   </td>
                 </tr>

@@ -142,28 +142,28 @@ const AllFabricator = () => {
                   onClick={() => handleSort('name')}
                 >
                   Fabricator Name
-                  {sortOrder.key === 'name' && (sortOrder.order === 'asc' ? ' ↑' : ' ↓')}
+                  {sortOrder.key === 'name' && (sortOrder.order === 'asc' ? ' ' : ' ')}
                 </th>
                 <th
                   className="px-2 py-1 cursor-pointer"
                   onClick={() => handleSort('city')}
                 >
                   City
-                  {sortOrder.key === 'city' && (sortOrder.order === 'asc' ? ' ↑' : ' ↓')}
+                  {sortOrder.key === 'city' && (sortOrder.order === 'asc' ? ' ' : ' ')}
                 </th>
                 <th
                   className="px-2 py-1 cursor-pointer"
                   onClick={() => handleSort('state')}
                 >
                   State
-                  {sortOrder.key === 'state' && (sortOrder.order === 'asc' ? ' ↑' : ' ↓')}
+                  {sortOrder.key === 'state' && (sortOrder.order === 'asc' ? ' ' : ' ')}
                 </th>
                 <th
                   className="px-2 py-1 cursor-pointer"
                   onClick={() => handleSort('country')}
                 >
                   Country
-                  {sortOrder.key === 'country' && (sortOrder.order === 'asc' ? ' ↑' : ' ↓')}
+                  {sortOrder.key === 'country' && (sortOrder.order === 'asc' ? ' ' : ' ')}
                 </th>
                 <th className="px-2 py-1">Actions</th>
               </tr>

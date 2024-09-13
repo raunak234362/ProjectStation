@@ -1,6 +1,14 @@
+import { useState } from "react"
+import { GiHamburgerMenu } from "react-icons/gi"
+import { IoIosCloseCircle } from "react-icons/io"
 import { NavLink, Outlet } from "react-router-dom"
 
 const Vendor = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen)
+  }
+
   return (
     <div className="w-full mx-5">
       <div className="flex w-full justify-center items-center">
@@ -18,7 +26,19 @@ const Vendor = () => {
           <div className="text-3xl font-bold">20</div>
         </div>
       </div>
-      <div className="w-full rounded-lg bg-white/70">
+
+      <div className="md:hidden flex justify-end mb-3">
+        <button
+          className="bg-teal-500 text-white px-4 py-2 rounded-lg shadow-lg"
+          onClick={toggleMenu}
+        >
+          {isMenuOpen ? <IoIosCloseCircle /> : <GiHamburgerMenu />}
+        </button>
+      </div>
+
+      <div
+        className={`w-full rounded-lg bg-white/70 ${isMenuOpen ? 'block' : 'hidden'} md:block`}
+      >
         <nav className="bg-white rounded-lg drop-shadow-md">
           <ul className="flex flex-row gap-2 py-3">
             <li className="px-2">

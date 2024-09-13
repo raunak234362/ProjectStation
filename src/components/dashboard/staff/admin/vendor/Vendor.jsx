@@ -40,7 +40,7 @@ const Vendor = () => {
         className={`w-full rounded-lg bg-white/70 ${isMenuOpen ? 'block' : 'hidden'} md:block`}
       >
         <nav className="bg-white rounded-lg drop-shadow-md">
-          <ul className="flex flex-row gap-2 py-3">
+        <ul className="flex flex-wrap sm:flex-row flex-col gap-2 py-3 justify-center sm:justify-start">
             <li className="px-2">
               <NavLink to="add-vendor" className={({ isActive }) => (isActive ? 'bg-teal-300 drop-shadow-lg px-5 py-2 rounded-lg font-semibold' : 'hover:bg-teal-200 rounded-lg px-5 py-2 hover:text-white')}>
                 Add Vendor

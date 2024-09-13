@@ -18,7 +18,7 @@ const Fabricators = () => {
           Fabricators
         </div>
       </div>
-      <div className="my-5 grid grid-cols-1 gap-5 md:grid-cols-2">
+      <div className="my-5 grid grid-cols-2 gap-5 md:grid-cols-3">
         <div className="flex flex-col justify-center items-center bg-white/50 rounded-lg p-3 shadow-lg">
           <div className="font-bold text-xl text-gray-800">Total Fabricators</div>
           <div className="text-3xl font-bold">50</div>

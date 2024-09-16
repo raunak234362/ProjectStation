@@ -23,24 +23,24 @@ class Service {
   //Add New Staff(Employee)
   static async addEmployee(updatedData, token) {
     try {
-      const data = new FormData();
+      const data = new FormData()
       for (const key in updatedData) {
-        data.append(key, updatedData[key]);
+        data.append(key, updatedData[key])
       }
       const response = await axios.post(`${BASE_URL}/user/staff/`, data, {
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Token ${token}`,
         },
-      });
-      console.log(response.data);
-      return response.data;
+      })
+      console.log(response.data)
+      return response.data
     } catch (error) {
-      console.log('Error Adding Staff', error);
+      console.log('Error Adding Staff', error)
     }
   }
   //Show All Staff(Employee)
-  static async allEmployee(token){
+  static async allEmployee(token) {
     try {
       const response = await axios.get(`${BASE_URL}/user/staff`, {
         headers: {
@@ -55,9 +55,9 @@ class Service {
   }
 
   //Show All Department
-  static async allDepartment(token){
+  static async allDepartment(token) {
     try {
-      const response = await axios.get(`${BASE_URL}/department`,{
+      const response = await axios.get(`${BASE_URL}/department`, {
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Token ${token}`,
@@ -69,10 +69,55 @@ class Service {
     }
   }
 
-  //Show All Fabricator
-  static async allFabricator(token){
+  // Add New Department
+  static async addDepartment(token, data) {
+    const departmentData = new FormData()
+    for (const key in data) {
+      departmentData.append(key, data[key])
+    }
+
     try {
-      const response = await axios.get(`${BASE_URL}/fabricator`,{
+      const response = await axios.post(
+        `${BASE_URL}/department/`,
+        departmentData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            Authorization: `Token ${token}`, 
+          },
+        },
+      )
+      return response.data
+    } catch (error) {
+      console.log('Error adding Department', error)
+      throw error
+    }
+  }
+
+  //Add Fabricator
+  static async addFabricator(token, data) {
+    const fabData = new FormData();
+    for (const key in data) {
+      fabData.append(key, data[key]);
+    }
+    try {
+      const response = await axios.post(`${BASE_URL}/fabricator/`, fabData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          Authorization: `Token ${token}`,
+        },
+      });
+      return response.data;
+    } catch (error) {
+      console.log('Error Adding Fabricator', error.response?.data || error);
+    }
+  }
+  
+
+  //Show All Fabricator
+  static async allFabricator(token) {
+    try {
+      const response = await axios.get(`${BASE_URL}/fabricator`, {
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Token ${token}`,
@@ -84,11 +129,10 @@ class Service {
     }
   }
 
-
   //Show All Clients
-  static async allClient(token){
+  static async allClient(token) {
     try {
-      const response = await axios.get(`${BASE_URL}/user/client`,{
+      const response = await axios.get(`${BASE_URL}/user/client`, {
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Token ${token}`,
@@ -101,9 +145,9 @@ class Service {
   }
 
   //Show All Vendors
-  static async allVendor(token){
+  static async allVendor(token) {
     try {
-      const response = await axios.get(`${BASE_URL}/user/vendor`,{
+      const response = await axios.get(`${BASE_URL}/user/vendor`, {
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Token ${token}`,

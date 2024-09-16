@@ -25,7 +25,7 @@ import ManageTeam from './dashboard/staff/admin/Team/ManageTeam'
 import AddEmployee from './dashboard/staff/admin/Team/AddEmployee'
 import AllEmployees from './dashboard/staff/admin/Team/AllEmployees'
 import AllDepartment from './dashboard/staff/admin/Team/AllDepartment'
-
+import AddDepartment from './dashboard/staff/admin/Team/AddDepartment'
 //Vendor 
 import Vendor from './dashboard/staff/admin/vendor/Vendor'
 import AddVendor from './dashboard/staff/admin/vendor/AddVendor'
@@ -62,6 +62,7 @@ export {
   AddEmployee,
   AllEmployees,
   AllDepartment,
+  AddDepartment,
   Vendor,
   AddVendor,
   AllVendors,

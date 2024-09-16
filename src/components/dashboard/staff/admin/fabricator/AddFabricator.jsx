@@ -6,9 +6,10 @@ import { State, City } from 'country-state-city'
 import { Input, Select, Button, Toggle } from '../../../../index'
 import { useEffect, useState } from 'react'
 import { addFabricator } from '../../../../../store/fabricatorSlice'
+import Service from '../../../../../config/Service'
 const AddFabricator = () => {
+  const token = sessionStorage.getItem('token')
   const dispatch = useDispatch()
-  // console.log(projectData)
   const {
     register,
     setValue,
@@ -57,15 +58,21 @@ const AddFabricator = () => {
     )
   }, [state])
 
-  const AddFabricator = (data) => {
-    dispatch(addFabricator(data))
-    console.log(addFabricator(data))
+  const handleaddFabricator = async (data) => {
+    console.log(data)
+    try {
+      const fabData = await Service.addFabricator(token, data)
+      // dispatch(addFabricator(data))
+      // console.log(addFabricator(data))
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   return (
     <div className="flex w-full justify-center text-black my-5">
       <div className="h-full w-full overflow-y-auto md:px-10 px-2 py-3">
-        <form onSubmit={handleSubmit(AddFabricator)}>
+        <form onSubmit={handleSubmit(handleaddFabricator)}>
           <div className="bg-teal-500/50 rounded-lg px-2 py-2 font-bold text-white">
             Fabricator:
           </div>
@@ -160,8 +167,8 @@ const AddFabricator = () => {
           <div className="bg-teal-500/50 rounded-lg px-2 py-2 font-bold text-white">
             Website:
           </div>
-          <div className='my-2 md:px-2 px-1'>
-          <div className="my-2">
+          <div className="my-2 md:px-2 px-1">
+            <div className="my-2">
               <Input
                 label="Website: "
                 type="url"
@@ -170,7 +177,7 @@ const AddFabricator = () => {
                 {...register('website')}
               />
             </div>
-          <div className="my-2">
+            <div className="my-2">
               <Input
                 label="Drive: "
                 type="url"
@@ -180,7 +187,6 @@ const AddFabricator = () => {
               />
             </div>
           </div>
-          
 
           <div className="my-5 w-full">
             <Button type="submit" className="w-full">

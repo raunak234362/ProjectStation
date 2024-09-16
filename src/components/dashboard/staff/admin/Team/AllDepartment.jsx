@@ -9,7 +9,6 @@ const AllDepartment = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const token = sessionStorage.getItem("token");
 
-  // Fetch department data from the service
   const fetchDepartments = async () => {
     const departmentData = await Service.allDepartment(token);
     setDepartments(departmentData);
@@ -37,7 +36,6 @@ const AllDepartment = () => {
     setFilteredDepartments(sortedData);
   };
 
-  // Filter/Search function
   const handleSearch = (event) => {
     const value = event.target.value.toLowerCase();
     setSearchQuery(value);

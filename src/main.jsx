@@ -25,7 +25,9 @@ import {
   Vendor,
   AllVendors,
   AllDepartment,
+  AddDepartment,
 } from './components/index.js'
+
 
 
 // Define the router configuration
@@ -77,6 +79,7 @@ const router = createBrowserRouter([
           { path: 'add-employee', element: <AddEmployee /> },
           { path: 'all-employees', element: <AllEmployees /> },
           { path: 'all-department', element: <AllDepartment /> },
+          { path: 'add-department', element: <AddDepartment /> },
         ]
       },
     ],

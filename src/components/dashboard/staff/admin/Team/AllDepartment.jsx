@@ -89,8 +89,8 @@ const AllDepartment = () => {
               filteredDepartments?.map((department, index) => (
                 <tr key={department.id} className="hover:bg-blue-gray-100 border">
                   <td className="border px-5 py-2 text-left">{index+1}</td>
-                  <td className="border px-5 py-2 text-left">{department.name}</td>
-                  <td className="border px-5 py-2 text-left">{department.manager}</td>
+                  <td className="border px-5 py-2 text-left">{department?.name}</td>
+                  <td className="border px-5 py-2 text-left">{department?.manager?.username}</td>
                   <td className="border px-2 py-1">
                     <button className="text-blue-500 hover:text-blue-700">Action</button>
                   </td>

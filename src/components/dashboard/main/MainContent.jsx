@@ -3,16 +3,17 @@ import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import Service from '../../../config/Service'
 import { setUserData } from '../../../store/userSlice'
+import { Link } from 'react-router-dom'
+import ChangePassword from './ChangePassword' // Import ChangePassword component
 
 const MainContent = () => {
   const data = useSelector((state) => state?.userData?.userData[0])
   const token = sessionStorage.getItem("token");
   const [user, setUser] = useState()
+  const [showChangePassword, setShowChangePassword] = useState(false) // State to manage modal visibility
   const dispatch = useDispatch()
 
-
-
-  const fetchUser = async () =>{
+  const fetchUser = async () => {
     try {
       const User = await Service.getCurrentUser(token)
       setUser(User)
@@ -25,6 +26,10 @@ const MainContent = () => {
   useEffect(() => {
     fetchUser()
   }, [])
+
+  const toggleChangePasswordModal = () => {
+    setShowChangePassword(!showChangePassword)
+  }
 
   return (
     <div className=" md:m-4 m-2 w-full">
@@ -50,7 +55,19 @@ const MainContent = () => {
           <div className='block mb-1 w-fit min-w-32 font-semibold'>Contact No.:</div>
           <div>{data?.phone}</div>
         </div>
+        {/* <div>
+          <button 
+            onClick={toggleChangePasswordModal} // Handle modal toggle on click
+            className="text-blue-500 hover:underline">
+            Change Password
+          </button>
+        </div> */}
       </div>
+
+   {/* Conditionally render the ChangePassword modal
+      {showChangePassword && (
+        <ChangePassword onClose={toggleChangePasswordModal} />
+      )}  */}
     </div>
   )
 }

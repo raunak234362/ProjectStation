@@ -39,6 +39,22 @@ class Service {
       console.log('Error Adding Staff', error)
     }
   }
+
+  //Change Password
+  static async changePassword(token, data) {
+    try {
+      const response = await axios.post(`${BASE_URL}/user/change-password`, data, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Token ${token}`,
+        },
+      });
+      return response.data;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   //Show All Staff(Employee)
   static async allEmployee(token) {
     try {
@@ -127,8 +143,8 @@ class Service {
     } catch (error) {
       console.log('Error finding Fabricator', error)
     }
-  }
 
+  }
   //Show All Clients
   static async allClient(token) {
     try {

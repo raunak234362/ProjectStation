@@ -4,6 +4,7 @@ import LoginAuthentication from './login/LoginAuthentication'
 
 //Dashboard
 import MainContent from './dashboard/main/MainContent'
+import ChangePassword from './dashboard/main/ChangePassword'
 import Sidebar from './dashboard/sidebar/Sidebar'
 import Header from './dashboard/header/Header'
 
@@ -47,6 +48,7 @@ export {
   Login,
   LoginAuthentication,
   MainContent,
+  ChangePassword,
   Sidebar,
   Header,
   AddProject,

@@ -25,7 +25,7 @@ const Login = () => {
       const user = await AuthService.login(data)
       if ('token' in user) {
         const token = user.token
-        console.log(token)
+        // sessionStorage.setItem('token', )
         const userData = await Service.getCurrentUser(token)
         console.log(userData)
         let userType = ''
@@ -43,14 +43,19 @@ const Login = () => {
         }else{
           userType = 'vendor'
         }
+        
         sessionStorage.setItem("userType", userType);
         dispatch(authLogin(user))
-        navigate('/dashboard/home')
+        if (userData[0]?.last_login)
+          navigate('/dashboard')
+        else
+          navigate('/change-password/')
       } else {
         alert("Invalid Credentials")
         navigate('/')
       }
     } catch (error) {
+      console.log(error)
       if (error.message === 'Invalid Credentials') {
         alert('Invalid Credentials')
       } else {

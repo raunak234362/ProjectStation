@@ -1,11 +1,26 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import { GiHamburgerMenu } from 'react-icons/gi'
 import { FaCaretLeft } from 'react-icons/fa'
 import { useSelector } from 'react-redux'
 import LOGO from '../../../assets/logo.png'
+import { useEffect, useState } from 'react'
+import Service from '../../../config/Service'
 
 const Header = ({ sidebarOpen, toggleSidebar }) => {
   const data = useSelector((state) => state.userData.userData)
+  const token = sessionStorage.getItem('token')
+  const [currentUser, setCurrentUser] = useState()
+
+  const fetchUserData = async () => {
+    const userData = await Service.getCurrentUser(token)
+    setCurrentUser(userData[0])
+    console.log('Sidebar:::::', userData)
+  }
+
+  useEffect(() => {
+    fetchUserData()
+  }, [])
   return (
     <div className="flex md:px-5 rounded-xl justify-between items-center w-full bg-white bg-opacity-50 text-slate-800  border-4">
 
@@ -23,7 +38,7 @@ const Header = ({ sidebarOpen, toggleSidebar }) => {
         >
           {sidebarOpen ? <FaCaretLeft /> : <GiHamburgerMenu />}
         </button>
-        <div className="hidden md:block text-2xl font-semibold">username {data?.username}</div>
+        <div className="hidden md:block text-2xl font-semibold">{currentUser?.username}</div>
       </div>
   )
 }

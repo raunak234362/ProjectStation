@@ -2,9 +2,24 @@
 import { NavLink } from 'react-router-dom'
 import LOGO from '../../../assets/logo.png'
 import { useSelector } from 'react-redux'
+import Service from '../../../config/Service'
+import { useEffect, useState } from 'react'
 
 const Sidebar = () => {
-  const data = useSelector((state) => state.userData.userData)
+  const data = useSelector((state) => state?.userData?.userData)
+  const token = sessionStorage.getItem('token')
+  const [currentUser, setCurrentUser] = useState()
+
+  const fetchUserData = async () => {
+    const userData = await Service.getCurrentUser(token)
+    setCurrentUser(userData[0])
+    console.log('Sidebar:::::', userData)
+  }
+
+  useEffect(() => {
+    fetchUserData()
+  }, [])
+
   const userType = sessionStorage.getItem('userType')
   return (
     <div className="flex flex-col md:h-[88vh] h-screen w-64 bg-white/70 md:border-4 text-black rounded-xl">
@@ -120,8 +135,10 @@ const Sidebar = () => {
           </li>
         </ul>
       </nav>
-      <div className="text-xl text-black md:hidden block">
-        username {data?.username}
+      <div className='md:flex md:justify-right'>
+        <div className="text-lg text-black md:hidden block">
+          {currentUser?.username}
+        </div>
       </div>
     </div>
   )

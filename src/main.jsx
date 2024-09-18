@@ -26,6 +26,7 @@ import {
   AllVendors,
   AllDepartment,
   AddDepartment,
+  ChangePassword,
 } from './components/index.js'
 
 
@@ -36,6 +37,10 @@ const router = createBrowserRouter([
     path: '/',
     element: <LoginContent />,
     // children: [{ index: true, element: <LoginContent /> }],
+  },
+  {
+    path: '/change-password/',
+    element: <ChangePassword />,
   },
   {
     path: '/dashboard',

@@ -1,10 +1,11 @@
 /* eslint-disable no-unused-vars */
 import { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux';
 import Service from '../../../../../config/Service'
-
+import {showFabricator} from '../../../../../store/fabricatorSlice.js'
 const AllFabricator = () => {
-  const fabricators = useSelector((state) => state?.fabricatorData.fabricatorData)
+  const fabricators = useSelector((state) => state?.fabricatorData?.fabricatorData)
+  const dispatch = useDispatch()
   const [fabricator, setFabricator] = useState([])
   const [filteredFabricators, setFilteredFabricators] = useState([])
   const [searchQuery, setSearchQuery] = useState('')
@@ -15,10 +16,13 @@ const AllFabricator = () => {
     city: '',
   })
 
+  console.log(fabricators)
+
   const token = sessionStorage.getItem('token')
 
   const fetchAllFabricator = async () => {
     const fabricatorData = await Service.allFabricator(token)
+    dispatch(showFabricator(fabricatorData))
     setFabricator(fabricatorData)
     setFilteredFabricators(fabricatorData) // Set filteredFabricators to fetched data initially
   }

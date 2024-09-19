@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
 import { useForm } from 'react-hook-form'
 import LOGO from '../../assets/logo.png'
@@ -6,9 +7,10 @@ import { Input, Button } from '../index'
 import { Link, useNavigate } from 'react-router-dom'
 import { MdLockReset } from 'react-icons/md'
 import { useDispatch, useSelector } from 'react-redux'
-import { updatetoken as authLogin } from '../../store/userSlice'
+import { updatetoken as authLogin, setUserData } from '../../store/userSlice'
 import AuthService from '../../config/AuthService'
 import Service from '../../config/Service'
+import { useEffect } from 'react'
 
 const Login = () => {
   const navigate = useNavigate()
@@ -29,29 +31,28 @@ const Login = () => {
         const userData = await Service.getCurrentUser(token)
         console.log(userData)
         let userType = ''
-        if(userData[0].role === 'STAFF'){
-          if(userData[0].is_superuser){
+        if (userData[0].role === 'STAFF') {
+          if (userData[0].is_superuser) {
             userType = 'admin'
-          }if(userData[0].is_staff){
-            userType = 'wbt-emp'
           }
-          else{
+          if (userData[0].is_staff) {
+            userType = 'wbt-emp'
+          } else {
             userType = 'user'
           }
-        }else if(userData[0].role === 'CLIENT'){
+        } else if (userData[0].role === 'CLIENT') {
           userType = 'client'
-        }else{
+        } else {
           userType = 'vendor'
         }
-        
-        sessionStorage.setItem("userType", userType);
+
+        sessionStorage.setItem('userType', userType)
         dispatch(authLogin(user))
-        if (userData[0]?.last_login)
-          navigate('/dashboard')
-        else
-          navigate('/change-password/')
+        dispatch(setUserData(userData))
+        if (userData[0]?.last_login) navigate('/dashboard')
+        else navigate('/change-password/')
       } else {
-        alert("Invalid Credentials")
+        alert('Invalid Credentials')
         navigate('/')
       }
     } catch (error) {
@@ -63,11 +64,24 @@ const Login = () => {
       }
     }
   }
+  const fetchUser = async () => {
+    try {
+      const User = await Service.getCurrentUser(token)
+      dispatch(setUserData(User))
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  useEffect(() => {
+      fetchUser()
+  }, [])
 
   return (
     <div className="">
       <div className="w-screen grid md:grid-cols-2 grid-cols-1 z-10 fixed">
-        <div className={`md:flex md:my-0 mt-10 md:h-screen justify-center items-center`}>
+        <div
+          className={`md:flex md:my-0 mt-10 md:h-screen justify-center items-center`}
+        >
           <div className="fixed bg-white md:w-auto bg-opacity-70 border-4 rounded-2xl md:py-14 md:px-20 px-2 mx-20 flex justify-center items-center z-10">
             <img src={LOGO} alt="Logo" />
           </div>

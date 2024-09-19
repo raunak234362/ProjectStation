@@ -1,11 +1,11 @@
-import axios from 'axios'
-import { BASE_URL } from './constant'
+import axios from 'axios';
+import { BASE_URL } from './constant';
 
 class Service {
-  //constant BASE_URL
-  static BASE_URL = BASE_URL
+  // BASE_URL is stored as a constant
+  static BASE_URL = BASE_URL;
 
-  //Fetch Loginned User
+  // Fetch the logged-in user
   static async getCurrentUser(token) {
     try {
       const response = await axios.get(`${BASE_URL}/user/`, {
@@ -13,34 +13,33 @@ class Service {
           'Content-Type': 'application/json',
           Authorization: `Token ${token}`,
         },
-      })
-      return response.data
+      });
+      return response.data;
     } catch (error) {
-      console.log('Error finding Current user:', error)
+      console.log('Error finding Current user:', error);
+      throw error;
     }
   }
 
-  //Add New Staff(Employee)
+  // Add a new employee (staff)
   static async addEmployee(updatedData, token) {
     try {
-      const data = new FormData()
-      for (const key in updatedData) {
-        data.append(key, updatedData[key])
-      }
+      const data = new FormData();
+      Object.keys(updatedData).forEach(key => data.append(key, updatedData[key]));
       const response = await axios.post(`${BASE_URL}/user/staff/`, data, {
         headers: {
-          'Content-Type': 'application/json',
+          'Content-Type': 'multipart/form-data',
           Authorization: `Token ${token}`,
         },
-      })
-      console.log(response.data)
-      return response.data
+      });
+      return response.data;
     } catch (error) {
-      console.log('Error Adding Staff', error)
+      console.log('Error adding staff:', error.response?.data || error);
+      throw error;
     }
   }
 
-  //Change Password
+  // Change password
   static async changePassword(token, data) {
     try {
       const response = await axios.post(`${BASE_URL}/user/change-password`, data, {
@@ -51,11 +50,12 @@ class Service {
       });
       return response.data;
     } catch (error) {
-      console.log(error);
+      console.log('Error changing password:', error);
+      throw error;
     }
   }
 
-  //Show All Staff(Employee)
+  // Fetch all employees (staff)
   static async allEmployee(token) {
     try {
       const response = await axios.get(`${BASE_URL}/user/staff`, {
@@ -63,14 +63,15 @@ class Service {
           'Content-Type': 'application/json',
           Authorization: `Token ${token}`,
         },
-      })
-      return response.data
+      });
+      return response.data;
     } catch (error) {
-      console.log('Error finding Staff', error)
+      console.log('Error fetching employees:', error);
+      throw error;
     }
   }
 
-  //Show All Department
+  // Fetch all departments
   static async allDepartment(token) {
     try {
       const response = await axios.get(`${BASE_URL}/department`, {
@@ -78,45 +79,37 @@ class Service {
           'Content-Type': 'application/json',
           Authorization: `Token ${token}`,
         },
-      })
-      return response.data
+      });
+      return response.data;
     } catch (error) {
-      console.log('Error finding Department', error)
+      console.log('Error fetching departments:', error);
+      throw error;
     }
   }
 
-  // Add New Department
+  // Add new department
   static async addDepartment(token, data) {
-    const departmentData = new FormData()
-    for (const key in data) {
-      departmentData.append(key, data[key])
-    }
-
     try {
-      const response = await axios.post(
-        `${BASE_URL}/department/`,
-        departmentData,
-        {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-            Authorization: `Token ${token}`, 
-          },
+      const departmentData = new FormData();
+      Object.keys(data).forEach(key => departmentData.append(key, data[key]));
+      const response = await axios.post(`${BASE_URL}/department/`, departmentData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          Authorization: `Token ${token}`,
         },
-      )
-      return response.data
+      });
+      return response.data;
     } catch (error) {
-      console.log('Error adding Department', error)
-      throw error
+      console.log('Error adding department:', error);
+      throw error;
     }
   }
 
-  //Add Fabricator
+  // Add new fabricator
   static async addFabricator(token, data) {
-    const fabData = new FormData();
-    for (const key in data) {
-      fabData.append(key, data[key]);
-    }
     try {
+      const fabData = new FormData();
+      Object.keys(data).forEach(key => fabData.append(key, data[key]));
       const response = await axios.post(`${BASE_URL}/fabricator/`, fabData, {
         headers: {
           'Content-Type': 'multipart/form-data',
@@ -125,12 +118,12 @@ class Service {
       });
       return response.data;
     } catch (error) {
-      console.log('Error Adding Fabricator', error.response?.data || error);
+      console.log('Error adding fabricator:', error.response?.data || error);
+      throw error;
     }
   }
-  
 
-  //Show All Fabricator
+  // Fetch all fabricators
   static async allFabricator(token) {
     try {
       const response = await axios.get(`${BASE_URL}/fabricator`, {
@@ -138,14 +131,17 @@ class Service {
           'Content-Type': 'application/json',
           Authorization: `Token ${token}`,
         },
-      })
-      return response.data
+      });
+      return response.data;
     } catch (error) {
-      console.log('Error finding Fabricator', error)
+      console.log('Error fetching fabricators:', error);
+      throw error;
     }
-
   }
-  //Show All Clients
+
+  //
+
+  // Fetch all clients
   static async allClient(token) {
     try {
       const response = await axios.get(`${BASE_URL}/user/client`, {
@@ -153,14 +149,15 @@ class Service {
           'Content-Type': 'application/json',
           Authorization: `Token ${token}`,
         },
-      })
-      return response.data
+      });
+      return response.data;
     } catch (error) {
-      console.log('Error finding Client', error)
+      console.log('Error fetching clients:', error);
+      throw error;
     }
   }
 
-  //Show All Vendors
+  // Fetch all vendors
   static async allVendor(token) {
     try {
       const response = await axios.get(`${BASE_URL}/user/vendor`, {
@@ -168,32 +165,32 @@ class Service {
           'Content-Type': 'application/json',
           Authorization: `Token ${token}`,
         },
-      })
-      return response.data
+      });
+      return response.data;
     } catch (error) {
-      console.log('Error finding Vendor', error)
+      console.log('Error fetching vendors:', error);
+      throw error;
     }
   }
 
-  //Ping
+  // Ping server
   static async ping() {
     try {
       const response = await Promise.race([
         axios.get(`${BASE_URL}/ping`, {
           headers: {
             'Content-Type': 'application/json',
-          },
-        }),
+          }}),
         new Promise((resolve, reject) => {
-          setTimeout(() => reject(new Error('Timeout')), 10000)
+          setTimeout(() => reject(new Error('Timeout')), 10000);
         }),
-      ])
-      return response.data.connection
+      ]);
+      return response.data.connection;
     } catch (error) {
-      console.log('Error pinging server:', error)
-      return false
+      console.log('Error pinging server:', error);
+      return false;
     }
   }
 }
 
-export default Service
+export default Service;

@@ -31,6 +31,8 @@ import AddDepartment from './dashboard/staff/admin/Team/AddDepartment'
 import Vendor from './dashboard/staff/admin/vendor/Vendor'
 import AddVendor from './dashboard/staff/admin/vendor/AddVendor'
 import AllVendors from './dashboard/staff/admin/vendor/AllVendors'
+import AllVendorUser from './dashboard/staff/admin/vendor/AllVendorUser'
+
 //Error Handling
 import ErrorBoundary from './error/ErrorBoundary'
 
@@ -68,5 +70,6 @@ export {
   Vendor,
   AddVendor,
   AllVendors,
+  AllVendorUser,
   ErrorBoundary,
 }

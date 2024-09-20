@@ -1,9 +1,36 @@
-import { useState } from "react"
+/* eslint-disable no-unused-vars */
+import { useEffect, useState } from "react"
 import { GiHamburgerMenu } from "react-icons/gi"
 import { IoIosCloseCircle } from "react-icons/io"
 import { NavLink, Outlet } from "react-router-dom"
+import Service from "../../../../../config/Service"
+import { useDispatch, useSelector } from "react-redux"
+import { addVendor } from "../../../../../store/vendorSlice"
 
 const Vendor = () => {
+  const token = sessionStorage.getItem("token");
+  const dispatch = useDispatch()
+  const vendors = useSelector((state) => state.vendorData.vendorData)
+
+  const fetchAllVendors = async () =>{
+    const vendorsData = await Service.allVendor(token)
+    dispatch(addVendor(vendorsData))
+  }
+
+
+  const fetchVendorUsers = async() =>{
+    const vendorUserData = await Service.allVendorUser(token)
+    console.log(vendorUserData)
+  }
+
+  useEffect(()=>{
+    fetchVendorUsers()
+    fetchAllVendors()
+  },[])
+
+
+  console.log(vendors)
+
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen)
@@ -52,12 +79,12 @@ const Vendor = () => {
               </NavLink>
             </li>
             <li className="px-2">
-              <NavLink to="all-projects" className={({ isActive }) => (isActive ? 'bg-teal-300 drop-shadow-lg px-5 py-2 rounded-lg font-semibold' : 'hover:bg-teal-200 rounded-lg px-5 py-2 hover:text-white')}>
+              <NavLink to="add-vendor" className={({ isActive }) => (isActive ? 'bg-teal-300 drop-shadow-lg px-5 py-2 rounded-lg font-semibold' : 'hover:bg-teal-200 rounded-lg px-5 py-2 hover:text-white')}>
                 Add Vendor User
               </NavLink>
             </li>
             <li className="px-2">
-              <NavLink to="all-projects" className={({ isActive }) => (isActive ? 'bg-teal-300 drop-shadow-lg px-5 py-2 rounded-lg font-semibold' : 'hover:bg-teal-200 rounded-lg px-5 py-2 hover:text-white')}>
+              <NavLink to="all-vendor-user" className={({ isActive }) => (isActive ? 'bg-teal-300 drop-shadow-lg px-5 py-2 rounded-lg font-semibold' : 'hover:bg-teal-200 rounded-lg px-5 py-2 hover:text-white')}>
                 All Vendor Users
               </NavLink>
             </li>

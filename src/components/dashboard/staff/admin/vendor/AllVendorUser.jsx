@@ -1,11 +1,7 @@
 import { useSelector } from "react-redux"
 
-
-
-const AllVendors = () => {
-  const vendors = useSelector((state)=>state.vendorData?.vendorData)
-
-  
+const AllVendorUser = () => {
+    const vendors = useSelector((state)=>state.vendorData?.vendorData)
   return (
     <div className="bg-white/70 rounded-lg md:w-full w-[90vw]">
     <div className="mt-5 bg-white h-[50vh]">
@@ -49,4 +45,4 @@ const AllVendors = () => {
   )
 }
 
-export default AllVendors
+export default AllVendorUser

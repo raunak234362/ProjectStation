@@ -182,9 +182,24 @@ class Service {
   }
 
   // Fetch all vendors
-  static async allVendor(token) {
+  static async allVendorUser(token) {
     try {
       const response = await axios.get(`${BASE_URL}/user/vendor`, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Token ${token}`,
+        },
+      });
+      return response.data;
+    } catch (error) {
+      console.log('Error fetching vendors:', error);
+      throw error;
+    }
+  }
+
+  static async allVendor(token) {
+    try {
+      const response = await axios.get(`${BASE_URL}/vendor`, {
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Token ${token}`,

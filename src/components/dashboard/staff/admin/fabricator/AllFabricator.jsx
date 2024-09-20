@@ -2,9 +2,9 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import Service from '../../../../../config/Service'
-import {showFabricator} from '../../../../../store/fabricatorSlice.js'
+// import {showFabricator} from '../../../../../store/fabricatorSlice.js'
 const AllFabricator = () => {
-  const fabricators = useSelector((state) => state?.fabricatorData?.fabricatorData)
+  const fabricators = useSelector((state) => state?.fabricatorData.fabricatorData)
   const dispatch = useDispatch()
   const [fabricator, setFabricator] = useState([])
   const [filteredFabricators, setFilteredFabricators] = useState([])
@@ -16,20 +16,9 @@ const AllFabricator = () => {
     city: '',
   })
 
-  console.log(fabricators)
-
-  const token = sessionStorage.getItem('token')
-
-  const fetchAllFabricator = async () => {
-    const fabricatorData = await Service.allFabricator(token)
-    dispatch(showFabricator(fabricatorData))
-    setFabricator(fabricatorData)
-    setFilteredFabricators(fabricatorData) // Set filteredFabricators to fetched data initially
-  }
-
-  useEffect(() => {
-    fetchAllFabricator()
-  }, [])
+  useEffect(()=> {
+    setFabricator(fabricators)
+  }, [fabricators])
 
   // Handle search filtering
   const handleSearch = (e) => {
@@ -53,7 +42,7 @@ const AllFabricator = () => {
 
   // Function to handle filtering and sorting
   const filterAndSortData = (searchQuery, filters, sortOrder) => {
-    let filtered = fabricator.filter((fab) => {
+    let filtered = fabricators.filter((fab) => {
       const searchMatch =
         fab.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
         fab.city.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -76,7 +65,7 @@ const AllFabricator = () => {
       return aKey < bKey ? 1 : -1
     })
 
-    setFilteredFabricators(filtered)
+    setFabricator(filtered)
   }
 
   return (
@@ -100,7 +89,7 @@ const AllFabricator = () => {
             className="border p-2 rounded"
           >
             <option value="">Filter by Country</option>
-            {Array.from(new Set(fabricator.map((fab) => fab.country))).map((country) => (
+            {Array.from(new Set(fabricators.map((fab) => fab.country))).map((country) => (
               <option key={country} value={country}>
                 {country}
               </option>
@@ -114,7 +103,7 @@ const AllFabricator = () => {
             className="border p-2 rounded"
           >
             <option value="">Filter by State</option>
-            {Array.from(new Set(fabricator.map((fab) => fab.state))).map((state) => (
+            {Array.from(new Set(fabricators.map((fab) => fab.state))).map((state) => (
               <option key={state} value={state}>
                 {state}
               </option>
@@ -128,7 +117,7 @@ const AllFabricator = () => {
             className="border p-2 rounded"
           >
             <option value="">Filter by City</option>
-            {Array.from(new Set(fabricator.map((fab) => fab.city))).map((city) => (
+            {Array.from(new Set(fabricators.map((fab) => fab.city))).map((city) => (
               <option key={city} value={city}>
                 {city}
               </option>
@@ -173,14 +162,14 @@ const AllFabricator = () => {
               </tr>
             </thead>
             <tbody>
-              {filteredFabricators.length === 0 ? (
+              {fabricator.length === 0 ? (
                 <tr className="bg-white">
                   <td colSpan="5" className="text-center">
                     No Fabricator Found
                   </td>
                 </tr>
               ) : (
-                filteredFabricators?.map((fabricator) => (
+                fabricator?.map((fabricator) => (
                   <tr key={fabricator.id} className="hover:bg-blue-gray-100 border">
                     <td className="border px-2 py-1 text-left">{fabricator.name}</td>
                     <td className="border px-2 py-1">{fabricator.city}</td>

@@ -30,27 +30,30 @@ const Login = () => {
         // sessionStorage.setItem('token', )
         const userData = await Service.getCurrentUser(token)
         console.log(userData)
-        let userType = ''
+        let userType = 'user'
         if (userData[0].role === 'STAFF') {
           if (userData[0].is_superuser) {
-            userType = 'admin'
-          }
-          if (userData[0].is_staff) {
-            userType = 'wbt-emp'
-          } else {
-            userType = 'user'
+            userType = 'admin';
+          } else if (userData[0].is_sales) {
+            userType = 'sales';
+          } else if (userData[0].is_staff && userData[0].is_manager) {
+            userType = 'department-manager';
+          } else if (userData[0].is_manager) {
+            userType = 'project-manager';
           }
         } else if (userData[0].role === 'CLIENT') {
-          userType = 'client'
-        } else {
-          userType = 'vendor'
+          userType = 'client';
+        } else if (userData[0].role === 'VENDOR') {
+          userType = 'vendor';
         }
+        
 
         sessionStorage.setItem('userType', userType)
         dispatch(authLogin(user))
-        dispatch(setUserData(userData))
-        if (userData[0]?.last_login) navigate('/dashboard')
-        else navigate('/change-password/')
+        dispatch(setUserData(userData[0]))
+        console.log(userData[0].is_firstLogin)
+        if (userData[0]?.is_firstLogin) navigate('/change-password/')
+        else navigate('/dashboard')
       } else {
         alert('Invalid Credentials')
         navigate('/')
@@ -73,8 +76,9 @@ const Login = () => {
     }
   }
   useEffect(() => {
-      fetchUser()
+    fetchUser()
   }, [])
+
 
   return (
     <div className="">

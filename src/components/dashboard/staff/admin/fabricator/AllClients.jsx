@@ -1,19 +1,20 @@
-import { useEffect, useState } from "react";
-import Service from "../../../../../config/Service";
+// import { useEffect, useState } from "react";
+// import Service from "../../../../../config/Service";
+import { useSelector } from "react-redux";
 
 const AllClients = () => {
-  const token = sessionStorage.getItem("token");
-  const [clients, setClients] = useState();
+  // const token = sessionStorage.getItem("token");
+  // const [clients, setClients] = useState();
+  const clientData = useSelector((state)=>state?.fabricatorData?.clientData)
+  // const fetchAllClients = async () =>{
+  //   const clientsData = await Service.allClient(token)
+  //   setClients(clientsData)
+  // }
+  // console.log(clients)
 
-  const fetchAllClients = async () =>{
-    const clientsData = await Service.allClient(token)
-    setClients(clientsData)
-  }
-  console.log(clients)
-
-  useEffect(() => {
-    fetchAllClients()
-  }, [])
+  // useEffect(() => {
+  //   fetchAllClients()
+  // }, [])
 
   return (
     <div className="bg-white/70 rounded-lg md:w-full w-[90vw]">
@@ -29,14 +30,14 @@ const AllClients = () => {
             </tr>
           </thead>
           <tbody>
-            {clients?.length === 0 ? (
+            {clientData?.length === 0 ? (
               <tr className="bg-white">
                 <td colSpan="6" className="text-center">
                   No Client Found
                 </td>
               </tr>
             ) : (
-              clients?.map((client) => (
+              clientData?.map((client) => (
                 <tr
                   key={client.id}
                   className="hover:bg-blue-gray-100 border"

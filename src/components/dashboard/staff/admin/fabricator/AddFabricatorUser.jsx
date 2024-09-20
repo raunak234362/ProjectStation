@@ -1,9 +1,15 @@
 /* eslint-disable no-unused-vars */
 import { useForm } from 'react-hook-form'
 import { Input, Select, Button } from '../../../../index'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { addClient } from '../../../../../store/fabricatorSlice'
-import { countries, getCountryFlagEmojiFromCountryCode } from "country-codes-flags-phone-codes"
+import {
+  countries,
+  getCountryFlagEmojiFromCountryCode,
+} from 'country-codes-flags-phone-codes'
+import Service from '../../../../../config/Service'
+import { useEffect, useState } from 'react'
+import { City, State } from 'country-state-city'
 
 const AddFabricatorUser = () => {
   const dispatch = useDispatch()
@@ -12,31 +18,163 @@ const AddFabricatorUser = () => {
     handleSubmit,
     setValue,
     watch,
+    reset,
     formState: { errors },
   } = useForm()
 
+  const fabricators = useSelector(
+    (state) => state?.fabricatorData?.fabricatorData,
+  )
 
-  const countryOptions = [
-    ...countries.map((country) => ({
-      label: `${getCountryFlagEmojiFromCountryCode(country.code)} ${country.name} (${country.dialCode})`,
-      value: country.dialCode,
-    })),
-  ]
+  const countryOptions = countries.map((country) => ({
+    label: `${getCountryFlagEmojiFromCountryCode(country.code)} ${
+      country.name
+    } (${country.dialCode})`,
+    value: country.dialCode,
+  }))
 
-  const AddFabricatorUser = (data) => {
-    const phoneNumber = `${data?.country_code}${data?.phone}`
-    const updatedData ={
-      ...data,
-      phone: phoneNumber,
+  const country = watch('country')
+  const state = watch('state')
+  const [stateList, setStateList] = useState([
+    { label: 'Select State', value: '' },
+  ])
+  const [cityList, setCityList] = useState([
+    { label: 'Select City', value: '' },
+  ])
+
+  const countryList = {
+    'United States': 'US',
+    Canada: 'CA',
+    India: 'IN',
+  }
+
+  useEffect(() => {
+    const stateListObject = {}
+    State.getStatesOfCountry(countryList[country])?.forEach((state1) => {
+      stateListObject[state1.name] = state1.isoCode
+    })
+    setStateList(stateListObject)
+  }, [country])
+
+  useEffect(() => {
+    setCityList(
+      City.getCitiesOfState(countryList[country], stateList[state])?.map(
+        (city) => ({
+          label: city?.name,
+          value: city?.name,
+        }),
+      ) || [],
+    )
+  }, [state])
+
+
+
+  const AddFabricatorUser = async (data) => {
+    try {
+      const phoneNumber = `${data?.country_code}${data?.phone}`
+      const updatedData = {
+        ...data,
+        phone: phoneNumber,
+      }
+      console.log(updatedData)
+      const clientUser = await Service.addClient(updatedData)
+      if (clientUser.status === 201){
+        dispatch(addClient(clientUser.data))
+        reset()
+      } else {
+        alert('Error in adding Client')
+      }
+    } catch (error) {
+      console.log(error)
     }
-    dispatch(addClient(updatedData))
-    console.log(addClient(updatedData))
   }
 
   return (
     <div className="flex w-full justify-center text-black my-5">
       <div className="h-full w-full overflow-y-auto md:px-10 px-2 py-3">
         <form onSubmit={handleSubmit(AddFabricatorUser)}>
+          <div className="bg-teal-500/50 rounded-lg px-2 py-2 font-bold text-white">
+            User Fabricator Details:
+          </div>
+          <div className="my-2 px-1 md:px-2">
+            <div className="w-full my-2">
+              <Select
+                label="Fabricator:"
+                placeholder="Fabricator"
+                size="lg"
+                color="blue"
+                options={fabricators.map((fabricator) => ({
+                  label: fabricator.name,
+                  value: fabricator.id,
+                }))}
+                {...register('fabricator', { required: true })}
+                onChange={setValue}
+              />
+              {errors.fabricator && <div>This field is required</div>}
+            </div>
+            <div className="w-full my-2">
+              <Input
+                label="User Designation:"
+                placeholder="User Designation"
+                size="lg"
+                color="blue"
+                {...register('designation', {
+                  required: 'User designation is required',
+                })}
+              />
+              {errors.designation && <div>This field is required</div>}
+            </div>
+            <div className="my-2">
+              <Select
+                label="Country: "
+                placeholder="Country"
+                className="w-full"
+                options={[
+                  { label: 'Select Country', value: '' },
+                  ...Object.keys(countryList).map((country) => ({
+                    label: country,
+                    value: country,
+                  })),
+                ]}
+                {...register('country')}
+                onChange={setValue}
+              />
+            </div>
+            <div className="my-2">
+              <Select
+                label="State: "
+                placeholder="State"
+                className="w-full"
+                options={[
+                  { label: 'Select State', value: '' },
+                  ...Object.keys(stateList).map((state1) => ({
+                    label: state1,
+                    value: state1,
+                  })),
+                ]}
+                {...register('state')}
+                onChange={setValue}
+              />
+            </div>
+            <div className="my-2">
+              <Select
+                label="City: "
+                placeholder="City"
+                className="w-full"
+                options={[{ label: 'Select City', value: '' }, ...cityList]}
+                {...register('city')}
+                onChange={setValue}
+              />
+            </div>
+            <div className="my-2">
+              <Input
+                label="Zipcode: "
+                placeholder="Zipcode"
+                className="w-full"
+                {...register('zip_code')}
+              />
+            </div>
+          </div>
           <div className="bg-teal-500/50 rounded-lg px-2 py-2 font-bold text-white">
             User Information:
           </div>
@@ -80,53 +218,9 @@ const AddFabricatorUser = () => {
               />
             </div>
           </div>
+
           <div className="bg-teal-500/50 rounded-lg px-2 py-2 font-bold text-white">
-            User Fabricator Details:
-          </div>
-          <div className="my-2 px-1 md:px-2">
-            <div className="w-full my-2">
-              <Input
-                label="Fabricator:"
-                placeholder="Fabricator"
-                size="lg"
-                color="blue"
-                {...register('fabricator', { required: true })}
-              />
-              {errors.fabricator && <div>This field is required</div>}
-            </div>
-            <div className="w-full my-2">
-              <Input
-                label="Designation:"
-                placeholder="Designation"
-                size="lg"
-                color="blue"
-                {...register('designation', { required: true })}
-              />
-              {errors.designation && <div>This field is required</div>}
-            </div>
-            <div className="w-full my-2">
-              <Input
-                label="User Address:"
-                placeholder="User Address"
-                size="lg"
-                color="blue"
-                {...register('address', { required: true })}
-              />
-              {errors.address && <div>This field is required</div>}
-            </div>
-            <div className="w-full my-2">
-              <Input
-                label="City:"
-                placeholder="City"
-                size="lg"
-                color="blue"
-                {...register('city', { required: true })}
-              />
-              {errors.city && <div>This field is required</div>}
-            </div>
-          </div>
-          <div className="bg-teal-500/50 rounded-lg px-2 py-2 font-bold text-white">
-          Contact Information:
+            Contact Information:
           </div>
           <div className="my-2 px-1 md:px-2">
             <div className="w-full my-2">
@@ -178,7 +272,7 @@ const AddFabricatorUser = () => {
               <Input
                 label="Password:"
                 placeholder="Password"
-                type='password'
+                type="password"
                 size="lg"
                 color="blue"
                 {...register('password')}
@@ -187,7 +281,7 @@ const AddFabricatorUser = () => {
             <div className="w-full my-2">
               <Input
                 label="Confirm Password:"
-                type='password'
+                type="password"
                 placeholder="Confirm Password"
                 size="lg"
                 color="blue"

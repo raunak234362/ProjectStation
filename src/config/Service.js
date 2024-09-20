@@ -21,6 +21,8 @@ class Service {
     }
   }
 
+
+
   // Add a new employee (staff)
   static async addEmployee(updatedData, token) {
     try {
@@ -42,16 +44,16 @@ class Service {
   // Change password
   static async changePassword(token, data) {
     try {
-      const response = await axios.post(`${BASE_URL}/user/change-password`, data, {
+      const response = await axios.put(`${BASE_URL}/change-password/`, data, {
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Token ${token}`,
         },
       });
-      return response.data;
+      return response;
     } catch (error) {
       console.log('Error changing password:', error);
-      throw error;
+      return error
     }
   }
 
@@ -116,10 +118,10 @@ class Service {
           Authorization: `Token ${token}`,
         },
       });
-      return response.data;
+      return response;
     } catch (error) {
-      console.log('Error adding fabricator:', error.response?.data || error);
-      throw error;
+      console.log('Error adding fabricator:', error);
+      return error;
     }
   }
 
@@ -139,7 +141,28 @@ class Service {
     }
   }
 
-  //
+  // Add Client user
+  static async addClient(data) {
+    try {
+      const clientData = new FormData();
+      
+      Object.keys(data).forEach(key => {
+        if (data[key])
+          clientData.append(key, data[key]);
+      });
+      clientData.append('role', 'CLIENT');
+      const response = await axios.post(`${BASE_URL}/fabricator/${data['fabricator']}/clients/`, clientData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          Authorization: `Token ${sessionStorage.getItem('token')}`,
+        },
+      });
+      return response;
+    } catch (error) {
+      console.log('Error adding client:', error);
+      throw error;
+    }
+  }
 
   // Fetch all clients
   static async allClient(token) {

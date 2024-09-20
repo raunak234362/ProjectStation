@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   token: false,
-  userData: [],
+  userData: {},
 };
 
 const userSlice = createSlice({
@@ -21,7 +21,7 @@ const userSlice = createSlice({
     logout: (state) => {
       state.token = false;
       state.userData = null;
-      sessionStorage.removeItem('token'); // Remove token from session storage
+      sessionStorage.removeItem('token'); 
     },
     updatetoken: (state, action) => {
       state.token = action.payload.token;

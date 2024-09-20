@@ -1,13 +1,16 @@
-import { Provider } from 'react-redux'
+import { Provider, useDispatch } from 'react-redux'
 import store from './store/store'
 
 import { useCallback, useEffect, useState } from 'react'
 import { Header, Sidebar } from './components/index'
-import { Outlet } from 'react-router-dom'
+import { Outlet, useNavigate } from 'react-router-dom'
 import Service from './config/Service'
+import { setUserData } from './store/userSlice'
 
 const App = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false)
+  const dispatch = useDispatch();
+  const navigate = useNavigate()
 
   const toggleSidebar = useCallback(() => {
     setSidebarOpen((prev) => !prev)
@@ -24,6 +27,20 @@ const App = () => {
     }
     fetchData()
   }, [])
+
+    useEffect(() => {
+      const fetchUser = async () => {
+        try {
+          const user = await Service.getCurrentUser(sessionStorage.getItem('token'));
+          dispatch(setUserData(user[0]));
+        } catch (error) {
+          console.log(error);
+          navigate('/');
+        }
+      };
+
+      fetchUser();
+    }, [dispatch]);
 
   return (
     <Provider store={store}>

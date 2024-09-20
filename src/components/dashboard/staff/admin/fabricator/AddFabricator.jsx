@@ -15,6 +15,7 @@ const AddFabricator = () => {
     setValue,
     watch,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm()
 
@@ -59,11 +60,14 @@ const AddFabricator = () => {
   }, [state])
 
   const handleaddFabricator = async (data) => {
-    console.log(data)
     try {
       const fabData = await Service.addFabricator(token, data)
-      // dispatch(addFabricator(data))
-      // console.log(addFabricator(data))
+      if (fabData.status === 201){ 
+        dispatch(addFabricator(fabData.data))
+        reset();
+      }
+      else
+        alert('Error in adding Fabricator')
     } catch (error) {
       console.log(error)
     }
@@ -160,7 +164,7 @@ const AddFabricator = () => {
                 {...register('zip_code', { required: true })}
               />
               {errors.zip_code && (
-                <p className="text-red-600">{errors.zipCode.message}</p>
+                <p className="text-red-600">{errors?.zipCode?.message}</p>
               )}
             </div>
           </div>

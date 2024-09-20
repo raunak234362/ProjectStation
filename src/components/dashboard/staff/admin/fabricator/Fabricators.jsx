@@ -1,12 +1,31 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { GiHamburgerMenu } from 'react-icons/gi';
 import { IoIosCloseCircle } from 'react-icons/io';
+import { useDispatch } from 'react-redux';
 import { NavLink, Outlet } from 'react-router-dom';
+import { loadFabricator, showClient} from '../../../../../store/fabricatorSlice.js'
+import Service from '../../../../../config/Service.js';
 
 const Fabricators = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-
+  const dispatch = useDispatch()
   // Function to toggle menu visibility
+
+
+  
+  const token = sessionStorage.getItem('token')
+
+  const fetchAll = async () => {
+    const fabricatorData = await Service.allFabricator(token)
+    const clientData = await Service.allClient(token)
+    dispatch(loadFabricator(fabricatorData))
+    dispatch(showClient(clientData))
+  }
+
+  useEffect(() => {
+    fetchAll()
+  }, [])
+
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };

@@ -11,23 +11,23 @@ const MainContent = () => {
   const dispatch = useDispatch();
 
   // Select the userData from the Redux store
-  const userInfo = useSelector((state) => state?.userData?.userData[0]);
+  const userInfo = useSelector((state) => state?.userData?.userData);
   const [showChangePassword, setShowChangePassword] = useState(false);
   console.log(userInfo)
-  const fetchUser = async () => {
-    try {
-      const user = await Service.getCurrentUser(token);
-      dispatch(setUserData(user));
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  // const fetchUser = async () => {
+  //   try {
+  //     const user = await Service.getCurrentUser(token);
+  //     dispatch(setUserData(user));
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
-  useEffect(() => {
-    if (token) {
-      fetchUser();
-    }
-  }, [token]);
+  // useEffect(() => {
+  //   if (token) {
+  //     fetchUser();
+  //   }
+  // }, [token]);
 
   const toggleChangePasswordModal = () => {
     setShowChangePassword(!showChangePassword);

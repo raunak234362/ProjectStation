@@ -15,7 +15,6 @@ const Header = ({ sidebarOpen, toggleSidebar }) => {
   const fetchUserData = async () => {
     const userData = await Service.getCurrentUser(token)
     setCurrentUser(userData[0])
-    console.log('Sidebar:::::', userData)
   }
 
   useEffect(() => {

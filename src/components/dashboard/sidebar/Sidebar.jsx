@@ -1,24 +1,38 @@
 /* eslint-disable no-unused-vars */
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 import LOGO from '../../../assets/logo.png'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import Service from '../../../config/Service'
 import { useEffect, useState } from 'react'
-
+import { Button } from '../../index'
+import { logout as logoutAction } from '../../../store/userSlice'; 
 const Sidebar = () => {
-  const data = useSelector((state) => state?.userData?.userData)
-  const token = sessionStorage.getItem('token')
-  const [currentUser, setCurrentUser] = useState()
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  
+  const token = sessionStorage.getItem('token');
+  const [currentUser, setCurrentUser] = useState();
 
   const fetchUserData = async () => {
-    const userData = await Service.getCurrentUser(token)
-    setCurrentUser(userData[0])
-    console.log('Sidebar:::::', userData)
-  }
+    const userData = await Service.getCurrentUser(token);
+    setCurrentUser(userData[0]);
+  };
+
+  const fetchLogout = async () => {
+    try {
+      await Service.logout(token);
+      dispatch(logoutAction());
+      sessionStorage.removeItem('userType');
+      
+      navigate('/login');
+    } catch (error) {
+      console.error('Logout failed:', error);
+    }
+  };
 
   useEffect(() => {
-    fetchUserData()
-  }, [])
+    fetchUserData();
+  }, []);
 
   const userType = sessionStorage.getItem('userType')
   return (
@@ -132,6 +146,11 @@ const Sidebar = () => {
             >
               <div>Manage Team</div>
             </NavLink>
+          </li>
+          <li>
+            <Button onClick={fetchLogout}>
+              Logout
+            </Button>
           </li>
         </ul>
       </nav>

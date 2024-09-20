@@ -124,6 +124,15 @@ const AddFabricatorUser = () => {
               />
               {errors.designation && <div>This field is required</div>}
             </div>
+            <div className="w-full my-2">
+              <Input
+                label="Address:"
+                placeholder="Address"
+                size="lg"
+                color="blue"
+                {...register('address')}
+              />
+            </div>
             <div className="my-2">
               <Select
                 label="Country: "

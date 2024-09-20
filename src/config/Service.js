@@ -151,6 +151,7 @@ class Service {
           clientData.append(key, data[key]);
       });
       clientData.append('role', 'CLIENT');
+      console.log(data)
       const response = await axios.post(`${BASE_URL}/fabricator/${data['fabricator']}/clients/`, clientData, {
         headers: {
           'Content-Type': 'multipart/form-data',

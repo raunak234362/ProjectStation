@@ -20,11 +20,10 @@ const Sidebar = () => {
 
   const fetchLogout = async () => {
     try {
-      await Service.logout(token);
-      dispatch(logoutAction());
       sessionStorage.removeItem('userType');
-      
-      navigate('/login');
+      sessionStorage.removeItem('token');
+      dispatch(logoutAction());
+      navigate('/');
     } catch (error) {
       console.error('Logout failed:', error);
     }

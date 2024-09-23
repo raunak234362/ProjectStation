@@ -101,7 +101,7 @@ const AddVendorUser = () => {
                   label: vendor?.name,
                   value: vendor?.id,
                 }))}
-                {...register('fabricator', { required: true })}
+                {...register('vendor', { required: true })}
                 onChange={setValue}
               />
               {errors.username && <div>This field is required</div>}

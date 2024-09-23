@@ -213,9 +213,9 @@ class Service {
         if (data[key])
           vendorUserData.append(key, data[key]);
       });
-      vendorUserData.append('role', 'STAFF');
+      vendorUserData.append('role', 'VENDOR');
       console.log(data)
-      const response = await axios.post(`${BASE_URL}/user/vendor/`, vendorUserData, {
+      const response = await axios.post(`${BASE_URL}/vendor/${data['vendor']}/users/`, vendorUserData, {
         headers: {
           'Content-Type': 'multipart/form-data',
           Authorization: `Token ${sessionStorage.getItem('token')}`,

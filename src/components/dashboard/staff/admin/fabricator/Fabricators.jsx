@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { GiHamburgerMenu } from 'react-icons/gi';
 import { IoIosCloseCircle } from 'react-icons/io';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { NavLink, Outlet } from 'react-router-dom';
 import { loadFabricator, showClient} from '../../../../../store/fabricatorSlice.js'
 import Service from '../../../../../config/Service.js';
@@ -11,7 +11,8 @@ const Fabricators = () => {
   const dispatch = useDispatch()
   // Function to toggle menu visibility
 
-
+  const fabricators = useSelector((state)=>state?.fabricatorData?.fabricatorData)
+  const clients = useSelector((state)=>state?.fabricatorData?.clientData)
   
   const token = sessionStorage.getItem('token')
 
@@ -40,11 +41,11 @@ const Fabricators = () => {
       <div className="my-5 grid grid-cols-2 gap-5 md:grid-cols-3">
         <div className="flex flex-col justify-center items-center bg-white/50 rounded-lg p-3 shadow-lg">
           <div className="font-bold text-xl text-gray-800">Total Fabricators</div>
-          <div className="text-3xl font-bold">50</div>
+          <div className="text-3xl font-bold">{fabricators.length}</div>
         </div>
         <div className="flex flex-col justify-center items-center bg-white/50 rounded-lg p-3 shadow-lg">
-          <div className="font-bold text-xl text-gray-800">No. of Active Fabricators</div>
-          <div className="text-3xl font-bold">30</div>
+          <div className="font-bold text-xl text-gray-800">Total Client</div>
+          <div className="text-3xl font-bold">{clients.length}</div>
         </div>
       </div>
 

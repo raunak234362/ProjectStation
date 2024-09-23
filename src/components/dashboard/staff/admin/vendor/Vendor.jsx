@@ -10,7 +10,8 @@ import { loadVendor, loadVendorUser } from "../../../../../store/vendorSlice"
 const Vendor = () => {
   const token = sessionStorage.getItem("token");
   const dispatch = useDispatch()
-  const vendors = useSelector((state) => state.vendorData.vendorData)
+  const vendors = useSelector((state) => state?.vendorData?.vendorData)
+  const vendorUsers = useSelector((state) => state?.vendorData?.vendorUserData)
 
   const fetchAllVendors = async () =>{
     const vendorsData = await Service.allVendor(token)
@@ -45,11 +46,11 @@ const Vendor = () => {
       <div className="my-5 grid md:grid-cols-3 grid-cols-2 gap-5 ">
         <div className="flex flex-col justify-center items-center bg-white/50 rounded-lg p-3 shadow-lg">
           <div className="font-bold text-xl text-gray-800">Total Vendors</div>
-          <div className="text-3xl font-bold">10</div>
+          <div className="text-3xl font-bold">{vendors.length}</div>
         </div>
         <div className="flex flex-col justify-center items-center bg-white/50 rounded-lg p-3 shadow-lg">
           <div className="font-bold text-xl text-gray-800">No. of Vendors users</div>
-          <div className="text-3xl font-bold">20</div>
+          <div className="text-3xl font-bold">{vendorUsers.length}</div>
         </div>
       </div>
 

@@ -3,7 +3,7 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 
 const AllProjects = () => {
-  const projects = useSelector((state) => state?.projectData.projectData) // Access the projects array
+  const projects = useSelector((state) => state?.projectData.projectData)
   
   return (
     <div className='bg-white/70 rounded-lg md:w-full w-[90vw]'>

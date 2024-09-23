@@ -228,7 +228,7 @@ class Service {
     }
   }
 
-  // Fetch all vendors
+  // Fetch all vendor users
   static async allVendorUser(token) {
     try {
       const response = await axios.get(`${BASE_URL}/user/vendor/`, {
@@ -243,7 +243,7 @@ class Service {
       throw error;
     }
   }
-
+  // Fetch all Vendors
   static async allVendor(token) {
     try {
       const response = await axios.get(`${BASE_URL}/vendor/`, {
@@ -258,6 +258,9 @@ class Service {
       throw error;
     }
   }
+
+  // Fetch all projects
+  static async 
 
   // Ping server
   static async ping() {

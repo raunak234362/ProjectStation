@@ -147,7 +147,9 @@ const Sidebar = () => {
             </NavLink>
           </li>
           <li>
-            <Button onClick={fetchLogout}>
+            <Button
+            className='bg-teal-400 w-full' 
+             onClick={fetchLogout}>
               Logout
             </Button>
           </li>

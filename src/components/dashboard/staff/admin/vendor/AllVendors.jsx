@@ -33,7 +33,7 @@ const AllVendors = () => {
                 className="hover:bg-blue-gray-100 border"
               >
                 <td className="border px-2 py-1 text-left">
-                  {vendor.f_name} {vendor.m_name} {vendor.l_name} 
+                  {vendor.name} 
                 </td>
                 <td className="border px-2 py-1">{vendor.city}</td>
                 <td className="border px-2 py-1">{vendor.state}</td>

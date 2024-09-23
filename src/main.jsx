@@ -28,6 +28,7 @@ import {
   AddDepartment,
   ChangePassword,
   AllVendorUser,
+  AddVendorUser,
 } from './components/index.js'
 
 
@@ -77,6 +78,7 @@ const router = createBrowserRouter([
           { path: 'add-vendor', element:<AddVendor/> },
           { path: 'all-vendors', element:<AllVendors/> },
           { path: 'all-vendor-user', element:<AllVendorUser/> },
+          { path: 'add-vendor-user', element:<AddVendorUser/> },
         ]
       },
       {

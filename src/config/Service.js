@@ -181,10 +181,57 @@ class Service {
     }
   }
 
+  // Add new vendor
+  static async addVendor(data) {
+    try {
+      const vendorData = new FormData();
+      
+      Object.keys(data).forEach(key => {
+        if (data[key])
+          vendorData.append(key, data[key]);
+      });
+      vendorData.append('role', 'VENDOR');
+      console.log(data)
+      const response = await axios.post(`${BASE_URL}/vendor/`, vendorData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          Authorization: `Token ${sessionStorage.getItem('token')}`,
+        },
+      });
+      return response;
+    } catch (error) {
+      console.log('Error adding vendor:', error);
+      throw error;
+    }
+  }
+  // Add new vendor user
+  static async addVendorUser(data) {
+    try {
+      const vendorUserData = new FormData();
+      
+      Object.keys(data).forEach(key => {
+        if (data[key])
+          vendorUserData.append(key, data[key]);
+      });
+      vendorUserData.append('role', 'STAFF');
+      console.log(data)
+      const response = await axios.post(`${BASE_URL}/user/vendor/`, vendorUserData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          Authorization: `Token ${sessionStorage.getItem('token')}`,
+        },
+      });
+      return response;
+    } catch (error) {
+      console.log('Error adding vendor:', error);
+      throw error;
+    }
+  }
+
   // Fetch all vendors
   static async allVendorUser(token) {
     try {
-      const response = await axios.get(`${BASE_URL}/user/vendor`, {
+      const response = await axios.get(`${BASE_URL}/user/vendor/`, {
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Token ${token}`,
@@ -199,7 +246,7 @@ class Service {
 
   static async allVendor(token) {
     try {
-      const response = await axios.get(`${BASE_URL}/vendor`, {
+      const response = await axios.get(`${BASE_URL}/vendor/`, {
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Token ${token}`,

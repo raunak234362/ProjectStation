@@ -5,7 +5,7 @@ import { IoIosCloseCircle } from "react-icons/io"
 import { NavLink, Outlet } from "react-router-dom"
 import Service from "../../../../../config/Service"
 import { useDispatch, useSelector } from "react-redux"
-import { addVendor } from "../../../../../store/vendorSlice"
+import { loadVendor, loadVendorUser } from "../../../../../store/vendorSlice"
 
 const Vendor = () => {
   const token = sessionStorage.getItem("token");
@@ -14,12 +14,13 @@ const Vendor = () => {
 
   const fetchAllVendors = async () =>{
     const vendorsData = await Service.allVendor(token)
-    dispatch(addVendor(vendorsData))
+    dispatch(loadVendor(vendorsData))
   }
 
 
   const fetchVendorUsers = async() =>{
     const vendorUserData = await Service.allVendorUser(token)
+    dispatch(loadVendorUser(vendorUserData))
     console.log(vendorUserData)
   }
 
@@ -28,8 +29,6 @@ const Vendor = () => {
     fetchAllVendors()
   },[])
 
-
-  console.log(vendors)
 
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const toggleMenu = () => {
@@ -79,7 +78,7 @@ const Vendor = () => {
               </NavLink>
             </li>
             <li className="px-2">
-              <NavLink to="add-vendor" className={({ isActive }) => (isActive ? 'bg-teal-300 drop-shadow-lg px-5 py-2 rounded-lg font-semibold' : 'hover:bg-teal-200 rounded-lg px-5 py-2 hover:text-white')}>
+              <NavLink to="add-vendor-user" className={({ isActive }) => (isActive ? 'bg-teal-300 drop-shadow-lg px-5 py-2 rounded-lg font-semibold' : 'hover:bg-teal-200 rounded-lg px-5 py-2 hover:text-white')}>
                 Add Vendor User
               </NavLink>
             </li>

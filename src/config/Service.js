@@ -260,7 +260,20 @@ class Service {
   }
 
   // Fetch all projects
-  static async 
+  static async allprojects(token){
+    try {
+      const response = await axios.get(`${BASE_URL}/project/`, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Token ${token}`,
+        },
+      });
+      return response.data;
+    } catch (error) {
+      console.log('Error fetching projects:', error);
+      throw error;
+    }
+  }
 
   // Ping server
   static async ping() {

@@ -8,7 +8,7 @@ class AuthService {
   static async login({ username, password }) {
     try {
       const formData = new URLSearchParams()
-      formData.append('username', username.toUpperCase())
+      formData.append('username', username)
       formData.append('password', password)
        
       const response = await axios.post(`${BASE_URL}/user/login/`, formData, {

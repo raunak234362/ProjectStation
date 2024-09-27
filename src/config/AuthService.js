@@ -17,7 +17,7 @@ class AuthService {
         },
       }) 
       if (response.status === 400) {
-        throw new Error('Invalid Credentials')
+        throw new Error('Invalid Credentials')  
       }
       return response.data;
     } catch (error) {

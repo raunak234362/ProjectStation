@@ -29,6 +29,9 @@ import {
   ChangePassword,
   AllVendorUser,
   AddVendorUser,
+  RFI,
+  CreateRFI,
+  AllSentRFI,
 } from './components/index.js'
 
 
@@ -89,6 +92,14 @@ const router = createBrowserRouter([
           { path: 'all-employees', element: <AllEmployees /> },
           { path: 'all-department', element: <AllDepartment /> },
           { path: 'add-department', element: <AddDepartment /> },
+        ]
+      },
+      {
+        path:'rfi',
+        element:<RFI/>,
+        children: [
+          { path: 'create-rfi', element:<CreateRFI/> },
+          { path: 'all-sent-rfi', element:<AllSentRFI/> },
         ]
       },
     ],

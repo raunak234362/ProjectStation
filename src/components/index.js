@@ -35,6 +35,12 @@ import AllVendors from './dashboard/staff/admin/vendor/AllVendors'
 import AllVendorUser from './dashboard/staff/admin/vendor/AllVendorUser'
 import AddVendorUser from './dashboard/staff/admin/vendor/AddVendorUser'
 
+
+//RFI
+import RFI from './dashboard/staff/admin/rfi/RFI'
+import CreateRFI from './dashboard/staff/admin/rfi/CreateRFI'
+import AllSentRFI from './dashboard/staff/admin/rfi/AllSentRFI'
+
 //Error Handling
 import ErrorBoundary from './error/ErrorBoundary'
 
@@ -43,12 +49,14 @@ import Button from './fields/Button'
 import Input from './fields/Input'
 import Select from './fields/Select'
 import Toggle from './fields/Toggle'
+import MultipleFileUpload from './fields/MultipleFileUpload'
 
 export {
   Button,
   Input,
   Select,
   Toggle,
+  MultipleFileUpload,
   Login,
   LoginAuthentication,
   MainContent,
@@ -74,5 +82,8 @@ export {
   AllVendors,
   AllVendorUser,
   AddVendorUser,
+  RFI,
+  CreateRFI,
+  AllSentRFI,
   ErrorBoundary,
 }

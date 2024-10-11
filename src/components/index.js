@@ -40,6 +40,7 @@ import AddVendorUser from './dashboard/staff/admin/vendor/AddVendorUser'
 import RFI from './dashboard/staff/admin/rfi/RFI'
 import CreateRFI from './dashboard/staff/admin/rfi/CreateRFI'
 import AllSentRFI from './dashboard/staff/admin/rfi/AllSentRFI'
+import AllReceivedRFI from './dashboard/staff/admin/rfi/AllReceivedRFI'
 
 //Error Handling
 import ErrorBoundary from './error/ErrorBoundary'
@@ -85,5 +86,6 @@ export {
   RFI,
   CreateRFI,
   AllSentRFI,
+  AllReceivedRFI,
   ErrorBoundary,
 }

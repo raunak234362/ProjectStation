@@ -8,8 +8,9 @@ const AllSentRFI = () => {
   
     return (
       <div className='bg-white/70 rounded-lg md:w-full w-[90vw]'>
-        <div className='mt-5 bg-white h-[50vh]'>
-          <table className=' h-fit md:w-full w-[90vw] border-collapse text-center md:text-lg text-xs rounded-xl top-0'>
+        <div className="mt-5 h-auto p-4">
+        <div className="overflow-x-auto">
+          <table className="min-w-full border-collapse text-center text-sm md:text-lg rounded-xl">
             <thead>
               <tr className='bg-teal-200/70'>
                 
@@ -26,7 +27,7 @@ const AllSentRFI = () => {
               {RFI.length === 0 ? (
                    <tr className="bg-white">
                    <td colSpan="6" className="text-center">
-                     No Projects Found
+                   No sent RFI Found
                    </td>
                  </tr>
               ):( RFI?.map((project,index) => (
@@ -44,6 +45,7 @@ const AllSentRFI = () => {
               )}
             </tbody>
           </table>
+        </div>
         </div>
       </div>
     )

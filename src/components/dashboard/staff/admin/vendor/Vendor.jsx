@@ -62,12 +62,11 @@ const Vendor = () => {
           {isMenuOpen ? <IoIosCloseCircle /> : <GiHamburgerMenu />}
         </button>
       </div>
-
-      <div
-        className={`w-full rounded-lg bg-white/70 ${isMenuOpen ? 'block' : 'hidden'} md:block`}
-      >
-        <nav className="bg-white rounded-lg drop-shadow-md">
-        <ul className="flex flex-wrap sm:flex-row flex-col gap-2 py-3 justify-center sm:justify-start">
+{/* Conditional rendering of menu */}
+<div className={` rounded-lg bg-white md:text-lg text-sm`}>
+        <div className="overflow-auto md:w-full w-[90vw]">
+          <nav className="px-5 rounded-lg drop-shadow-md text-center">
+            <ul className=" flex justify-evenly gap-10 py-3 text-center">
             <li className="px-2">
               <NavLink to="add-vendor" className={({ isActive }) => (isActive ? 'bg-teal-300 drop-shadow-lg px-5 py-2 rounded-lg font-semibold' : 'hover:bg-teal-200 rounded-lg px-5 py-2 hover:text-white')}>
                 Add Vendor
@@ -90,6 +89,7 @@ const Vendor = () => {
             </li>
           </ul>
         </nav>
+        </div>
         <Outlet />
       </div>
     </div>

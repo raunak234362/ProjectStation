@@ -46,7 +46,7 @@ const AddVendorUser = () => {
             Vendor User:
           </div>
           <div className="my-2 md:px-2 px-1">
-            <div className="w-full">
+            <div className="w-full py-1">
               <Input
                 label="Username:"
                 placeholder="Username"
@@ -56,7 +56,7 @@ const AddVendorUser = () => {
               />
               {errors.username && <div>This field is required</div>}
             </div>
-            <div className="w-full">
+            <div className="w-full py-1">
               <Input
                 label="First Name:"
                 placeholder="First Name"
@@ -66,7 +66,7 @@ const AddVendorUser = () => {
               />
               {errors.f_name && <div>This field is required</div>}
             </div>
-            <div className="w-full">
+            <div className="w-full py-1">
               <Input
                 label="Middle Name:"
                 placeholder="Middle Name"
@@ -76,7 +76,7 @@ const AddVendorUser = () => {
               />
               {errors.m_name && <div>This field is required</div>}
             </div>
-            <div className="w-full">
+            <div className="w-full py-1">
               <Input
                 label="Last Name:"
                 placeholder="Last Name"
@@ -91,7 +91,7 @@ const AddVendorUser = () => {
             Vendor Information:
           </div>
           <div className="my-2 md:px-2 px-1">
-            <div className="w-full">
+            <div className="w-full py-1">
               <Select
                 label="Select Vendor:"
                 placeholder="Select Vendor"
@@ -106,7 +106,7 @@ const AddVendorUser = () => {
               />
               {errors.username && <div>This field is required</div>}
             </div>
-            <div className="w-full">
+            <div className="w-full py-1">
               <Input
                 label="Designation:"
                 placeholder="Designation"
@@ -121,8 +121,8 @@ const AddVendorUser = () => {
             Contact Information:
           </div>
           <div className="my-2 md:px-2 px-1">
-          <div className="w-full gap-2 my-2 flex md:flex-row flex-col items-center">
-              <div className="md:w-[10%] w-full">
+          <div className="w-full grid md:grid-cols-[15%,80%] grid-flow-row items-center">
+              <div className="w-full py-1">
                 <Select
                   label="Country Code:"
                   color="blue"
@@ -131,7 +131,7 @@ const AddVendorUser = () => {
                   onChange={setValue}
                 />
               </div>
-              <div className="w-full">
+              <div className="w-full py-1">
                 <Input
                   label="Contact Number:"
                   placeholder="Contact Number"
@@ -142,7 +142,7 @@ const AddVendorUser = () => {
                 {errors.phone && <div>This field is required</div>}
               </div>
             </div>
-            <div className="w-full">
+            <div className="w-full py-1">
               <Input
                 label="Email:"
                 placeholder="Email"

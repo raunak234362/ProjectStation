@@ -1,10 +1,34 @@
 /* eslint-disable no-unused-vars */
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { IoIosCloseCircle } from "react-icons/io";
+import { useDispatch, useSelector } from "react-redux";
 import { NavLink, Route, Routes, Outlet } from "react-router-dom";
+import Service from "../../../../../config/Service";
+import { showDepartment, showStaff } from "../../../../../store/userSlice";
+import { DiPerl } from "react-icons/di";
 const ManageTeam = () => {
-  
+const token = sessionStorage.getItem("token")
+const dispatch =useDispatch();
+
+const staffs = useSelector((state)=>state?.userData?.staffData)
+const departments = useSelector((state)=>state?.userData?.departmentData)
+// console.log(departments) 
+
+  const fetchAllStaff = async()=>{
+    const staffData = await Service.allEmployee(token)
+    const departmentData = await Service.allDepartment(token)
+
+    dispatch(showDepartment(departmentData))
+    dispatch(showStaff(staffData))
+  } 
+
+  useEffect(()=>{
+    fetchAllStaff()
+  },[])
+
+  const departmentData = useSelector((state)=>state?.userData?.departmentData)
+  const employeeData = useSelector((state)=>state?.userData)
 
   return (
     <div className="w-full mx-5">
@@ -35,16 +59,16 @@ const ManageTeam = () => {
 
        {/* Conditional rendering of menu */}
        <div className={` rounded-lg bg-white md:text-lg text-sm`}>
-        <div className="overflow-auto md:w-full w-[90vw]">
-          <nav className="px-5 rounded-lg drop-shadow-md text-center">
-            <ul className=" flex justify-evenly gap-10 py-3 text-center">
+        <div className="overflow-auto bg-teal-100 rounded-lg md:w-full w-[90vw]">
+          <nav className="px-5 drop-shadow-md text-center">
+            <ul className=" flex justify-evenly gap-10 py-1 text-center">
             <li className="px-2">
               <NavLink
                 to="add-employee"
                 className={({ isActive }) =>
                   isActive
-                    ? "bg-teal-300 drop-shadow-lg px-3 md:px-5 py-2 rounded-lg font-semibold"
-                    : "hover:bg-teal-200 rounded-lg px-3 md:px-5 py-2 hover:text-white"
+                    ? "bg-teal-300 drop-shadow-lg flex px-5 py-2 rounded-lg font-semibold"
+                    : "hover:bg-teal-200 rounded-lg flex px-5 py-2 hover:text-white"
                 }
               >
                 Add Employee
@@ -55,8 +79,8 @@ const ManageTeam = () => {
                 to="all-employees"
                 className={({ isActive }) =>
                   isActive
-                    ? "bg-teal-300 drop-shadow-lg px-3 md:px-5 py-2 rounded-lg font-semibold"
-                    : "hover:bg-teal-200 rounded-lg px-3 md:px-5 py-2 hover:text-white"
+                    ? "bg-teal-300 drop-shadow-lg flex px-5 py-2 rounded-lg font-semibold"
+                    : "hover:bg-teal-200 rounded-lg flex px-5 py-2 hover:text-white"
                 }
               >
                 All Employee
@@ -67,8 +91,8 @@ const ManageTeam = () => {
                 to="add-department"
                 className={({ isActive }) =>
                   isActive
-                    ? "bg-teal-300 drop-shadow-lg px-3 md:px-5 py-2 rounded-lg font-semibold"
-                    : "hover:bg-teal-200 rounded-lg px-3 md:px-5 py-2 hover:text-white"
+                    ? "bg-teal-300 drop-shadow-lg flex px-5 py-2 rounded-lg font-semibold"
+                    : "hover:bg-teal-200 rounded-lg flex px-5 py-2 hover:text-white"
                 }
               >
                 Add Department
@@ -79,8 +103,8 @@ const ManageTeam = () => {
                 to="all-department"
                 className={({ isActive }) =>
                   isActive
-                    ? "bg-teal-300 drop-shadow-lg px-3 md:px-5 py-2 rounded-lg font-semibold"
-                    : "hover:bg-teal-200 rounded-lg px-3 md:px-5 py-2 hover:text-white"
+                    ? "bg-teal-300 drop-shadow-lg flex px-5 py-2 rounded-lg font-semibold"
+                    : "hover:bg-teal-200 rounded-lg flex px-5 py-2 hover:text-white"
                 }
               >
                 All Department

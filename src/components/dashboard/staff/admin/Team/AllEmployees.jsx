@@ -1,24 +1,23 @@
 /* eslint-disable no-unused-vars */
 import { useEffect, useState } from "react";
 import Service from "../../../../../config/Service";
+import { useDispatch, useSelector } from "react-redux";
 
 const AllEmployees = () => {
   const token = sessionStorage.getItem("token");
-  const [staff, setStaff] = useState([]);
   const [filteredStaff, setFilteredStaff] = useState([]);
   const [sortConfig, setSortConfig] = useState({ key: null, direction: "asc" });
   const [searchQuery, setSearchQuery] = useState("");
 
-  const fetchStaffData = async () => {
-    const response = await Service.allEmployee(token);
-    setStaff(response);
-    setFilteredStaff(response); // Initialize with all employees
-    console.log(response);
-  };
+  const dispatch = useDispatch();
+  const staffs = useSelector((state) => state?.userData?.staffData);
 
+  // Initialize the filtered staff list when 'staffs' changes
   useEffect(() => {
-    fetchStaffData();
-  }, []);
+    if (staffs) {
+      setFilteredStaff(staffs);
+    }
+  }, [staffs]);
 
   // Sorting function
   const handleSort = (key) => {
@@ -41,7 +40,7 @@ const AllEmployees = () => {
   const handleSearch = (event) => {
     const value = event.target.value.toLowerCase();
     setSearchQuery(value);
-    const filtered = staff.filter((employee) =>
+    const filtered = staffs?.filter((employee) =>
       `${employee.f_name} ${employee.l_name}`.toLowerCase().includes(value) ||
       employee.email.toLowerCase().includes(value) ||
       employee.designation.toLowerCase().includes(value)
@@ -93,7 +92,7 @@ const AllEmployees = () => {
                 </td>
               </tr>
             ) : (
-              filteredStaff?.map((staff) => (
+              filteredStaff.map((staff) => (
                 <tr key={staff.id} className="hover:bg-blue-gray-100 border">
                   <td className="border px-5 py-2 text-left">{staff.username}</td>
                   <td className="border px-5 py-2 text-left">
@@ -116,3 +115,4 @@ const AllEmployees = () => {
 };
 
 export default AllEmployees;
+ 

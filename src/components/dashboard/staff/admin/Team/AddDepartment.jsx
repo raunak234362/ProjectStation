@@ -1,8 +1,10 @@
 /* eslint-disable no-unused-vars */
-import { useForm } from 'react-hook-form'
-import { Input, Select, Button } from '../../../../index'
-import { useEffect, useState } from 'react'
-import Service from '../../../../../config/Service'
+import { useForm } from "react-hook-form";
+import { Input, Select, Button } from "../../../../index";
+import { useEffect, useState } from "react";
+import Service from "../../../../../config/Service";
+import { useDispatch } from "react-redux";
+import { addDepartment } from "../../../../../store/userSlice";
 
 const AddDepartment = () => {
   const {
@@ -11,46 +13,53 @@ const AddDepartment = () => {
     watch,
     handleSubmit,
     formState: { errors },
-  } = useForm()
-  const token = sessionStorage.getItem('token')
-  const [managerOptions, setManagerOptions] = useState([])
+  } = useForm();
+  const token = sessionStorage.getItem("token");
+  const dispatch = useDispatch();
+  const [managerOptions, setManagerOptions] = useState([]);
 
   // Fetch managers when the component mounts
   useEffect(() => {
     const fetchManagers = async () => {
       try {
-        const userData = await Service.allEmployee(token)
+        const userData = await Service.allEmployee(token);
+        console.log(userData)
         const managers = userData.filter(
-          (employee) => employee.manager === true,
-        )
-        console.log(managers)
+          (employee) => employee.manager === true
+        );
+        console.log(managers);
         const options = managers.map((mng) => ({
           label: mng.username,
           value: mng.id,
-        }))
-        setManagerOptions(options)
+        }));
+        setManagerOptions(options);
       } catch (error) {
-        console.error('Failed to fetch employee data', error)
+        console.error("Failed to fetch employee data", error);
       }
-    }
-    fetchManagers()
-  }, [token])
+    };
+    fetchManagers();
+  }, [token]);
 
   // Add department function
-  const addDepartment = async (data) => {
-    console.log(data)
+  const onSubmit = async (data) => {
+    console.log(data);
     try {
-      const departmentData = await Service.addDepartment(token, data) 
-      console.log('Department added successfully', departmentData)
+      const departmentData = await Service.addDepartment(token, data);
+      if (departmentData.status === 201) {
+        dispatch(addDepartment(departmentData.data));
+        console.log("Department added successfully:", departmentData);
+      } else {
+        alert("Error in adding Department");
+      }
     } catch (error) {
-      console.log('Failed to add department', error)
+      console.log("Failed to add department", error);
     }
-  }
+  };
 
   return (
     <div className="flex w-full justify-center text-black my-5">
       <div className="h-full w-full overflow-y-auto md:px-10 px-2 py-3">
-        <form onSubmit={handleSubmit(addDepartment)}>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <div className="bg-teal-500/50 rounded-lg px-2 py-2 font-bold text-white">
             Department:
           </div>
@@ -62,7 +71,7 @@ const AddDepartment = () => {
                 placeholder="Enter Department Name"
                 size="lg"
                 color="blue"
-                {...register('name', { required: true })} // Registering department name
+                {...register("name", { required: true })} // Registering department name
               />
               {errors.name && (
                 <div className="text-red-500">This field is required</div>
@@ -74,11 +83,11 @@ const AddDepartment = () => {
                 label="Manager:"
                 color="blue"
                 options={[
-                  { label: 'Select Manager', value: '' },  // Default option
-                  ...managerOptions, // Loaded manager options
+                  { label: "Select Manager", value: "" }, 
+                  ...managerOptions, 
                 ]}
-                {...register('manager', { required: true })} // Registering manager selection
-                onChange={(e) => setValue('manager', e.target.value)}  // Set value on change
+                {...register("manager")} 
+                onChange={(e) => setValue("manager", e.target.value)} 
               />
               {errors.manager && (
                 <div className="text-red-500">This field is required</div>
@@ -94,7 +103,7 @@ const AddDepartment = () => {
         </form>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default AddDepartment
+export default AddDepartment;

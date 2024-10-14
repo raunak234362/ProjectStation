@@ -30,16 +30,16 @@ const RFI = () => {
       </div>
         {/* Conditional rendering of menu */}
         <div className={` rounded-lg bg-white md:text-lg text-sm`}>
-          <div className="overflow-auto md:w-full w-[90vw]">
-            <nav className="px-5 rounded-lg drop-shadow-md text-center">
-              <ul className=" flex justify-evenly gap-10 py-3 text-center">
+          <div className="overflow-auto bg-teal-100 rounded-lg md:w-full w-[90vw]">
+            <nav className="px-5 drop-shadow-md text-center">
+              <ul className=" flex items-center justify-evenly gap-10 py-1 text-center">
                 <li className="px-2">
                   <NavLink
                     to="create-rfi"
                     className={({ isActive }) =>
                       isActive
-                        ? "bg-teal-500/50 drop-shadow-lg py-2 rounded-lg font-semibold"
-                        : "hover:bg-teal-200 rounded-lg py-2 hover:text-white"
+                        ? "bg-teal-500/50 drop-shadow-lg flex px-5 py-2 rounded-lg font-semibold"
+                        : "hover:bg-teal-200 rounded-lg flex px-5 py-2 hover:text-white"
                     }
                   >
                     Create RFI
@@ -50,8 +50,8 @@ const RFI = () => {
                     to="all-sent-rfi"
                     className={({ isActive }) =>
                       isActive
-                        ? "bg-teal-500/50 drop-shadow-lg py-2 rounded-lg font-semibold"
-                        : "hover:bg-teal-200 rounded-lg py-2 hover:text-white"
+                        ? "bg-teal-500/50 drop-shadow-lg flex px-5 py-2 rounded-lg font-semibold"
+                        : "hover:bg-teal-200 rounded-lg flex px-5 py-2 hover:text-white"
                     }
                   >
                     All Sent RFI
@@ -62,8 +62,8 @@ const RFI = () => {
                     to="all-received-rfi"
                     className={({ isActive }) =>
                       isActive
-                        ? "bg-teal-500/50 drop-shadow-lg py-2 rounded-lg font-semibold"
-                        : "hover:bg-teal-200 rounded-lg py-2 hover:text-white"
+                        ? "bg-teal-500/50 drop-shadow-lg flex px-5 py-2 rounded-lg font-semibold"
+                        : "hover:bg-teal-200 rounded-lg flex px-5 py-2 hover:text-white"
                     }
                   >
                     All Received RFI

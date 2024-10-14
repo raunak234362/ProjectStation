@@ -3,12 +3,13 @@
 import { useForm } from 'react-hook-form'
 import { useDispatch, useSelector } from 'react-redux'
 import { State, City } from 'country-state-city'
-import { Input, Select, Button, Toggle } from '../../../../index'
+import { Input, Select, Button, Toggle, MultipleFileUpload } from '../../../../index'
 import { useEffect, useState } from 'react'
 import { addFabricator } from '../../../../../store/fabricatorSlice'
 import Service from '../../../../../config/Service'
 const AddFabricator = () => {
   const token = sessionStorage.getItem('token')
+  const [files, setFiles] = useState([]);
   const dispatch = useDispatch()
   const {
     register,
@@ -58,6 +59,10 @@ const AddFabricator = () => {
       ),
     )
   }, [state])
+
+  const onFilesChange = (updatedFiles) => {
+    setFiles(updatedFiles);
+  };
 
   const handleaddFabricator = async (data) => {
     try {
@@ -190,6 +195,13 @@ const AddFabricator = () => {
                 {...register('drive')}
               />
             </div>
+          </div>
+
+          <div className="bg-teal-500/50 rounded-lg px-2 py-2 font-bold text-white">
+            Attach Files:
+          </div>
+          <div className="my-2 md:px-2 px-1">
+            <MultipleFileUpload {...register("file")} onFilesChange={onFilesChange} />
           </div>
 
           <div className="my-5 w-full">

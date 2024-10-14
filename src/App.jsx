@@ -1,46 +1,54 @@
-import { Provider, useDispatch } from 'react-redux'
-import store from './store/store'
+import { Provider, useDispatch } from "react-redux";
+import store from "./store/store";
 
-import { useCallback, useEffect, useState } from 'react'
-import { Header, Sidebar } from './components/index'
-import { Outlet, useNavigate } from 'react-router-dom'
-import Service from './config/Service'
-import { setUserData } from './store/userSlice'
+import { useCallback, useEffect, useState } from "react";
+import { Header, Sidebar } from "./components/index";
+import { Outlet, useNavigate } from "react-router-dom";
+import Service from "./config/Service";
+import { setUserData } from "./store/userSlice";
+import { loadFabricator, showClient } from "./store/fabricatorSlice";
 
 const App = () => {
-  const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const dispatch = useDispatch();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const token = sessionStorage.getItem("token");
 
   const toggleSidebar = useCallback(() => {
-    setSidebarOpen((prev) => !prev)
-  }, [setSidebarOpen])
+    setSidebarOpen((prev) => !prev);
+  }, [setSidebarOpen]);
 
-  const [isConnected, setIsConnected] = useState(false)
-  const [result, setResult] = useState(true)
+  const [isConnected, setIsConnected] = useState(false);
+  const [result, setResult] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
-      const result = await Service.ping()
-      if (result) setIsConnected(result)
-      else setResult(result)
-    }
-    fetchData()
-  }, [])
+      const result = await Service.ping();
+      if (result) setIsConnected(result);
+      else setResult(result);
+    };
+    fetchData();
+  }, []);
 
-    useEffect(() => {
-      const fetchUser = async () => {
-        try {
-          const user = await Service.getCurrentUser(sessionStorage.getItem('token'));
-          dispatch(setUserData(user[0]));
-        } catch (error) {
-          console.log(error);
-          navigate('/');
-        }
-      };
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const user = await Service.getCurrentUser(token);
+        const fabricator= await Service.allFabricator(token);
+        const client = await Service.allClient(token);
+        // const project = await Service.allprojects(token);
+        dispatch(setUserData(user[0]));
+        dispatch(loadFabricator(fabricator));
+        dispatch(showClient(client));
+        // dispatch(showProjects(project));
+      } catch (error) {
+        console.log(error);
+        navigate("/");
+      }
+    };
 
-      fetchUser();
-    }, [dispatch]);
+    fetchUser();
+  }, [dispatch]);
 
   return (
     <Provider store={store}>
@@ -53,8 +61,8 @@ const App = () => {
               <div className="flex w-full h-full items-center justify-center px-20 py-10">
                 <div className="bg-white text-red-700 px-32 py-20 rounded-3xl border-2 border-red-700">
                   {result
-                    ? 'Connecting to Server, Please Wait...'
-                    : 'Connection Failed, Please Check Your Internet Connection'}
+                    ? "Connecting to Server, Please Wait..."
+                    : "Connection Failed, Please Check Your Internet Connection"}
                 </div>
               </div>
             </div>
@@ -69,7 +77,7 @@ const App = () => {
           <div className="flex flex-row">
             <div
               className={`fixed md:static flex flex-col md:bg-opacity-0 bg-white w-64 z-20 transition-transform duration-300 ${
-                sidebarOpen ? 'translate-x-0' : '-translate-x-full'
+                sidebarOpen ? "translate-x-0" : "-translate-x-full"
               } md:translate-x-0 md:w-64`}
             >
               <div className="flex justify-between items-center p-4">
@@ -79,7 +87,7 @@ const App = () => {
             {/* Main Content */}
             <div
               className={`flex h-[89vh] overflow-y-auto flex-grow transition-all duration-300 ${
-                sidebarOpen ? 'md:ml-64 ml-0 bg-black/50' : 'md:ml-0 ml-0'
+                sidebarOpen ? "md:ml-64 ml-0 bg-black/50" : "md:ml-0 ml-0"
               }`}
             >
               <Outlet />
@@ -88,7 +96,7 @@ const App = () => {
         </div>
       </div>
     </Provider>
-  )
-}
+  );
+};
 
-export default App
+export default App;

@@ -3,6 +3,8 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
   token: false,
   userData: {},
+  departmentData:[],
+  staffData:[]
 };
 
 const userSlice = createSlice({
@@ -10,13 +12,25 @@ const userSlice = createSlice({
   initialState,
   reducers: {
     login: (state, action) => {
-      state.token = action.payload.token;
+      // state.token = action.payload.token;
       state.userData = action.payload;
-      sessionStorage.setItem('token', action.payload.token); // Persist token in session storage
+      sessionStorage.setItem('token', action.payload.token); 
     },
     setUserData: (state, action) => {
       state.token = action.payload.token;
       state.userData = action.payload;
+    },
+    addStaff:(state,action)=>{
+      state.staffData.push(action.payload)
+    },
+    showStaff:(state,action)=>{
+      state.staffData = action.payload
+    },
+    addDepartment: (state,action)=>{
+      state.departmentData.push(action.payload)
+    },
+    showDepartment: (state, action)=>{
+      state.departmentData = action.payload
     },
     logout: (state) => {
       state.token = false;
@@ -30,6 +44,6 @@ const userSlice = createSlice({
   },
 });
 
-export const { login, setUserData, updatetoken, logout } = userSlice.actions;
+export const { login,showStaff ,addStaff, setUserData, addDepartment, showDepartment,updatetoken, logout } = userSlice.actions;
 
 export default userSlice.reducer;

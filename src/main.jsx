@@ -33,6 +33,7 @@ import {
   CreateRFI,
   AllSentRFI,
   AllReceivedRFI,
+  Submittals,
 } from './components/index.js'
 
 
@@ -103,6 +104,11 @@ const router = createBrowserRouter([
           { path: 'all-sent-rfi', element:<AllSentRFI/> },
           { path: 'all-received-rfi', element:<AllReceivedRFI/> },
         ]
+      },
+      {
+        path:'submittals',
+        element:<Submittals/>,
+        
       },
     ],
   },

@@ -42,6 +42,9 @@ import CreateRFI from './dashboard/staff/admin/rfi/CreateRFI'
 import AllSentRFI from './dashboard/staff/admin/rfi/AllSentRFI'
 import AllReceivedRFI from './dashboard/staff/admin/rfi/AllReceivedRFI'
 
+//Submittals
+import Submittals from './dashboard/staff/admin/submittals/Submittals'
+
 //Error Handling
 import ErrorBoundary from './error/ErrorBoundary'
 
@@ -87,5 +90,6 @@ export {
   CreateRFI,
   AllSentRFI,
   AllReceivedRFI,
+  Submittals,
   ErrorBoundary,
 }

@@ -34,6 +34,9 @@ import {
   AllSentRFI,
   AllReceivedRFI,
   Submittals,
+  SendSubmittals,
+  AllReceivedSubmittals,
+  AllSubmittals,
 } from './components/index.js'
 
 
@@ -108,6 +111,11 @@ const router = createBrowserRouter([
       {
         path:'submittals',
         element:<Submittals/>,
+        children: [
+          { path: 'send-submittals', element:<SendSubmittals/> },
+          { path: 'all-received-submittals', element:<AllReceivedSubmittals/> },
+          { path: 'all-submittals', element:<AllSubmittals/> },
+        ]
         
       },
     ],

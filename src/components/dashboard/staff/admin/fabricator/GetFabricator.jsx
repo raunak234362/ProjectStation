@@ -7,7 +7,7 @@ import store from "../../../../../store/store";
 
 const GetFabricator = () => {
   const { id } = useParams();
-  console.log(id);
+  console.log('------------------',id);
   const token = sessionStorage.getItem("token");
   const dispatch = useDispatch();
   const [fabricator, setFabricator] = useState();

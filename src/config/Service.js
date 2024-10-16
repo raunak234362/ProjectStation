@@ -4,7 +4,7 @@ import { BASE_URL } from './constant';
 class Service {
   // BASE_URL is stored as a constant
   static BASE_URL = BASE_URL;
-  
+
   // Fetch the logged-in user
   static async getCurrentUser(token) {
     try {
@@ -20,8 +20,6 @@ class Service {
       throw error;
     }
   }
-
-
 
   // Add a new employee (staff)
   static async addEmployee(updatedData, token) {
@@ -143,6 +141,7 @@ class Service {
 
   // Fetch Fabricator
   static async getFabricator(token,id){
+    console.log('Service:---',id)
     try {
       const response = await axios.get(`${BASE_URL}/fabricator/${id}`, {
         headers: {
@@ -196,6 +195,8 @@ class Service {
       throw error;
     }
   }
+
+
 
   // Add new vendor
   static async addVendor(data) {

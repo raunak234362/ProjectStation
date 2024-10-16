@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import App from './App.jsx'
@@ -38,6 +39,8 @@ import {
   AllReceivedSubmittals,
   AllSubmittals,
   GetFabricator,
+  GetClient,
+  CO,
 } from './components/index.js'
 
 
@@ -53,9 +56,13 @@ const router = createBrowserRouter([
     path: '/change-password/',
     element: <ChangePassword />,
   },
+  // {
+  //   path:'dashboard/fabricator/:id',
+  //   element:<GetFabricator/>
+  // },
   {
-    path:'dashboard/fabricator/:id',
-    element:<GetFabricator/>
+    path:'dashboard/client/:id',
+    element:<GetClient/>
   },
   {
     path: '/dashboard',
@@ -122,6 +129,10 @@ const router = createBrowserRouter([
           { path: 'all-submittals', element:<AllSubmittals/> },
         ]
         
+      },
+      {
+        path:'change-order',
+        element:<CO/>,
       },
     ],
   },

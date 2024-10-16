@@ -1,15 +1,20 @@
 /* eslint-disable no-unused-vars */
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Button } from "../../../../index.js";
+import { Button, GetFabricator } from "../../../../index.js";
 import Service from "../../../../../config/Service";
+import { redirect } from "react-router-dom";
 // import {showFabricator} from '../../../../../store/fabricatorSlice.js'
 const AllFabricator = () => {
   const fabricators = useSelector(
     (state) => state?.fabricatorData.fabricatorData
   );
+
+  console.log(fabricators)
   const dispatch = useDispatch();
   const [fabricator, setFabricator] = useState([]);
+  const [selectedFabricator, setSelectedFabricator] = useState(null)
+  const [isModalOpen, setIsModalOpen]=useState(false)
   const [filteredFabricators, setFilteredFabricators] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [sortOrder, setSortOrder] = useState({ key: "name", order: "asc" });
@@ -72,12 +77,22 @@ const AllFabricator = () => {
     setFabricator(filtered);
   };
 
-  const openFabricatorWindow = (id) => {
-    const newWindow = window.open(`${id}`, 'Fabricator Details', 'width=800,height=600');
-    if (newWindow) {
-      newWindow.opener = null; 
-    }
-  };
+  // const openFabricatorWindow = (id) => {
+  //   window.open(`/dashboard/fabricator/${id}`);
+  // };
+
+  const handleViewClick = async(fabricatorId)=>{
+    
+    setSelectedFabricator(fabricatorId)
+    setIsModalOpen(true)
+  }
+  
+  console.log(selectedFabricator)
+
+  const handleModalClose= async()=>{
+    setSelectedFabricator(null)
+    setIsModalOpen(false)
+  }
 
   return (
     <div className="bg-white/70 rounded-lg md:w-full w-[90vw]">
@@ -202,7 +217,7 @@ const AllFabricator = () => {
                     <td className="border px-2 py-1">{fabricator.state}</td>
                     <td className="border px-2 py-1">{fabricator.country}</td>
                     <td className="border px-2 py-1">
-                    <Button onClick={() => openFabricatorWindow(fabricator.id)}>View</Button>
+                    <Button onClick={() => handleViewClick(fabricator.id)}>View</Button>
                     </td>
                   </tr>
                 ))
@@ -210,6 +225,15 @@ const AllFabricator = () => {
             </tbody>
           </table>
         </div>
+        {
+          selectedFabricator && (
+            <GetFabricator
+              fabricatorId= {selectedFabricator}
+              isOpen= {isModalOpen}
+              onClose= {handleModalClose}
+            />
+          )
+        }
       </div>
     </div>
   );

@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
-
+import {Button} from '../../../../index'
 const AllClients = () => {
   const clientData = useSelector((state) => state?.fabricatorData?.clientData)
 
@@ -47,6 +47,10 @@ const AllClients = () => {
       direction: prevState.direction === 'asc' ? 'desc' : 'asc',
     }))
   }
+
+  const openClientWindow = (id) => {
+    window.open(`/dashboard/client/${id}`, '_blank');
+  };
 
   return (
     <div className="bg-white md:w-full w-[90vw] my-4">
@@ -129,7 +133,9 @@ const AllClients = () => {
                   <td className="border px-2 py-1">{client.city}</td>
                   <td className="border px-2 py-1">{client.state}</td>
                   <td className="border px-2 py-1">{client.country}</td>
-                  <td className="border px-2 py-1">Button</td>
+                  <td className="border px-2 py-1">
+                  <Button onClick={() => openClientWindow(client.id)}>View</Button>
+                  </td>
                 </tr>
               ))
             )}

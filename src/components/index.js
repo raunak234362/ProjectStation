@@ -21,6 +21,7 @@ import AllFabricator from './dashboard/staff/admin/fabricator/AllFabricator'
 import AddFabricatorUser from './dashboard/staff/admin/fabricator/AddFabricatorUser'
 import AllClients from './dashboard/staff/admin/fabricator/AllClients'
 import GetFabricator from './dashboard/staff/admin/fabricator/GetFabricator'
+import GetClient from './dashboard/staff/admin/fabricator/GetClient'
 
 //Team
 import ManageTeam from './dashboard/staff/admin/Team/ManageTeam'
@@ -48,6 +49,10 @@ import Submittals from './dashboard/staff/admin/submittals/Submittals'
 import SendSubmittals from './dashboard/staff/admin/submittals/SendSubmittals'
 import AllReceivedSubmittals from './dashboard/staff/admin/submittals/AllReceivedSubmittals'
 import AllSubmittals from './dashboard/staff/admin/submittals/AllSubmittals'
+
+//Change Order
+import CO from './dashboard/staff/admin/co/CO'
+
 //Error Handling
 import ErrorBoundary from './error/ErrorBoundary'
 
@@ -80,6 +85,7 @@ export {
   AllClients,
   AllFabricator,
   GetFabricator,
+  GetClient,
   ManageTeam,
   AddEmployee,
   AllEmployees,
@@ -98,5 +104,6 @@ export {
   SendSubmittals,
   AllReceivedSubmittals,
   AllSubmittals,
+  CO,
   ErrorBoundary,
 }

@@ -131,7 +131,7 @@ const Sidebar = () => {
                   : 'text-black hover:text-white hover:flex hover:justify-center hover:items-center hover:bg-teal-200  rounded-md'
               }
             >
-              <div>Update Program</div>
+              <div>Update Progress</div>
             </NavLink>
           </li>
           <li>

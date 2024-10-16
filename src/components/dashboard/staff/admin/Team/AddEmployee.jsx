@@ -1,116 +1,256 @@
 /* eslint-disable no-unused-vars */
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useForm } from 'react-hook-form'
+import { Input, Select, Button, Toggle } from '../../../../index'
+import { useDispatch } from 'react-redux'
+import { setUserData } from '../../../../../store/userSlice'
+import {
+  countries,
+  getCountryFlagEmojiFromCountryCode,
+} from 'country-codes-flags-phone-codes'
+import { useState } from 'react'
+import Service from '../../../../../config/Service'
 
-const AllEmployees = () => {
-  const token = sessionStorage.getItem("token");
-  const [filteredStaff, setFilteredStaff] = useState([]);
-  const [sortConfig, setSortConfig] = useState({ key: null, direction: "asc" });
-  const [searchQuery, setSearchQuery] = useState("");
+const AddEmployee = () => {
+  const token = sessionStorage.getItem('token')
+  const dispatch = useDispatch()
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+    clearErrors,
+  } = useForm()
+  const [showAlert, setShowalert] = useState(false)
 
-  const dispatch = useDispatch();
-  const staffs = useSelector((state) => state?.userData?.staffData);
+  const countryOptions = countries.map((country) => ({
+    label: `${getCountryFlagEmojiFromCountryCode(country.code)} ${
+      country.name
+    } (${country.dialCode})`,
+    value: country.dialCode,
+  }))
 
-  // Initialize the filtered staff list when 'staffs' changes
-  useEffect(() => {
-    if (staffs) {
-      setFilteredStaff(staffs);
+  const addStaff = async (data) => {
+    console.log(data)
+    if (data.password !== data.cnf_password) {
+      setShowalert(true)
+      return
     }
-  }, [staffs]);
-
-  // Sorting function
-  const handleSort = (key) => {
-    let direction = "asc";
-    if (sortConfig.key === key && sortConfig.direction === "asc") {
-      direction = "desc";
+    clearErrors('cnf_password')
+    const phoneNumber = `${data.country_code}${data.phone}`
+    const updatedData = {
+      ...data,
+      phone: phoneNumber,
     }
-    setSortConfig({ key, direction });
-
-    const sortedData = [...filteredStaff].sort((a, b) => {
-      if (a[key] < b[key]) return direction === "asc" ? -1 : 1;
-      if (a[key] > b[key]) return direction === "asc" ? 1 : -1;
-      return 0;
-    });
-
-    setFilteredStaff(sortedData);
-  };
-
-  // Filter/Search function
-  const handleSearch = (event) => {
-    const value = event.target.value.toLowerCase();
-    setSearchQuery(value);
-    const filtered = staffs?.filter((employee) =>
-      `${employee.f_name} ${employee.l_name}`.toLowerCase().includes(value) ||
-      employee.email.toLowerCase().includes(value) ||
-      employee.designation.toLowerCase().includes(value)
-    );
-    setFilteredStaff(filtered);
-  };
+    try {
+      const empData = await Service.addEmployee(updatedData, token)
+      dispatch(setUserData(updatedData))
+      console.log(setUserData(updatedData))
+    } catch (error) {
+      console.error('Error adding employee:', error)
+    }
+  }
 
   return (
-    <div className="bg-white/70 rounded-lg md:w-full w-[90vw]">
-      <div className="mt-5 p-4">
-        {/* Search Bar */}
-        <input
-          type="text"
-          value={searchQuery}
-          onChange={handleSearch}
-          placeholder="Search by name, email, or designation"
-          className="border px-2 py-2 rounded mb-4 w-full md:w-1/3"
-        />
-      </div>
+    <div className="flex w-full justify-center text-black my-5">
+      <div className="h-full w-full overflow-y-auto md:px-10 px-2 py-3">
+        <form onSubmit={handleSubmit(addStaff)}>
+          <div className="bg-teal-500/50 rounded-lg px-2 py-2 font-bold text-white">
+            User Information:
+          </div>
+          <div className="my-2 md:px-2 px-1">
+            <div className="w-full my-2">
+              <Input
+                label="Username:"
+                placeholder="Username"
+                size="lg"
+                color="blue"
+                name='username'
+                {...register('username', { required: true })}
+              />
+              {errors.username && <div>This field is required</div>}
+            </div>
+            <div className="w-full my-2">
+              <Input
+                label="First Name:"
+                placeholder="First Name"
+                size="lg"
+                color="blue"
+                {...register('f_name', { required: true })}
+              />
+              {errors.f_name && <div>This field is required</div>}
+            </div>
+            <div className="w-full my-2">
+              <Input
+                label="Middle Name:"
+                placeholder="Middle Name"
+                size="lg"
+                color="blue"
+                name='m_name'
+                {...register('m_name')}
+              />
+            </div>
+            <div className="w-full my-2">
+              <Input
+                label="Last Name:"
+                placeholder="Last Name"
+                size="lg"
+                color="blue"
+                name='l_name'
+                {...register('l_name')}
+              />
+            </div>
+          </div>
+          <div className="bg-teal-500/50 rounded-lg px-2 py-2 font-bold text-white">
+            User Department Details:
+          </div>
+          <div className="my-2 px-1 md:px-2">
+            <div className="w-full my-2">
+              <Input
+                label="Employee Code:"
+                placeholder="Employee Code"
+                size="lg"
+                color="blue"
+                name='emp_code'
+                {...register('emp_code', { required: true })}
+              />
+              {errors.emp_code && <div>This field is required</div>}
+            </div>
+            <div className="w-full my-2">
+            <Select
+                label="Department:"
+                color="blue"
+                name="department"
+                options={[
+                  { label: 'Select Department', value: '' },
+                  { label: 'HR', value: 1 },
+                  { label: 'IT', value: 2 },
+                ]}
+                className="w-full"
+                {...register('department')}
+                onChange={setValue}
+              />
+            </div>
+            {/* <div>
+              <Select
+                label="Role:"
+                color="blue"
+                name="role"
+                options={[
+                  { label: 'Select Role', value: '' },
+                  { label: 'Staff', value: 'STAFF' },
+                  { label: 'Client', value: 'CLIENT' },
+                  { label: 'Vendor', value: 'VENDOR' },
+                ]}
+                className="w-full"
+                {...register('role')}
+                onChange={setValue}
+              />
+              {errors.role && <div>This field is required</div>}
+            </div> */}
+            <div className="w-full my-2">
+              <Input
+                label="Designation:"
+                placeholder="Designation"
+                size="lg"
+                color="blue"
+                name='designation'
+                {...register('designation', { required: true })}
+              />
+              {errors.designation && <div>This field is required</div>}
+            </div>
+            <div className="grid md:grid-cols-2 bg-white border border-gray-400 px-5 md:w-full md:justify-center md:items-center rounded-lg">
+              <div className="">
+                <Toggle
+                  label="Project Manager"
+                  name="manager"
+                  {...register('manager')}
+                />
+              </div>
+              <div className="">
+                <Toggle
+                  label="Sales Employee"
+                  name="sales"
+                  {...register('sales')}
+                />
+              </div>
+            </div>
+          </div>
+          <div className="bg-teal-500/50 rounded-lg px-2 py-2 font-bold text-white">
+            Contact Information:
+          </div>
+          <div className="my-2 px-1 md:px-2">
+            <div className="w-full my-2">
+              <Input
+                label="Email:"
+                placeholder="Email"
+                size="lg"
+                color="blue"
+                name='email'
+                {...register('email')}
+              />
+            </div>
+            <div className="w-full gap-2 my-2 flex md:flex-row flex-col items-center">
+              <div className="md:w-[10%] w-full">
+                <Select
+                  label="Country Code:"
+                  color="blue"
+                  name="country_code"
+                  options={countryOptions}
+                  onChange={setValue}
+                />
+              </div>
+              <div className="w-full">
+                <Input
+                  label="Contact Number:"
+                  placeholder="Contact Number"
+                  size="lg"
+                  color="blue"
+                  {...register('phone', { required: true })}
+                />
+                {errors.phone && <div>This field is required</div>}
+              </div>
+            </div>
+          </div>
+          <div className="bg-teal-500/50 rounded-lg px-2 py-2 font-bold text-white">
+            Security:
+          </div>
+          <div className="my-2 px-1 md:px-2">
+            <div className="w-full my-2">
+              <Input
+                label="Password:"
+                placeholder="Password"
+                type="password"
+                size="lg"
+                color="blue"
+                {...register('password')}
+              />
+            </div>
+            <div className="w-full my-2">
+              <Input
+                label="Confirm Password:"
+                type="password"
+                placeholder="Confirm Password"
+                size="lg"
+                color="blue"
+                {...register('cnf_password')}
+              />
+            </div>
+          </div>
+          {showAlert && (
+            <div className="bg-red-500/50 rounded-lg px-2 py-2 font-bold text-white">
+              Passwords do not match
+            </div>
+          )}
 
-      <div className="mt-2 mx-3 bg-white overflow-x-auto">
-        {/* Making the table scrollable horizontally on small screens */}
-        <table className="h-fit w-full border-collapse text-center md:text-xl text-xs rounded-xl">
-          <thead>
-            <tr className="bg-teal-200/70">
-              <th className="px-5 py-2 cursor-pointer text-left" onClick={() => handleSort("username")}>
-                Username
-              </th>
-              <th className="px-5 py-2 text-left cursor-pointer" onClick={() => handleSort("f_name")}>
-                Employee Name
-              </th>
-              <th className="px-5 py-2 cursor-pointer text-left" onClick={() => handleSort("designation")}>
-                Designation
-              </th>
-              <th className="px-5 py-2 cursor-pointer text-left" onClick={() => handleSort("email")}>
-                Email
-              </th>
-              <th className="px-5 py-2 cursor-pointer text-left" onClick={() => handleSort("phone")}>
-                Phone
-              </th>
-              <th className="px-2 py-1">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filteredStaff?.length === 0 ? (
-              <tr className="bg-white">
-                <td colSpan="6" className="text-center">
-                  No Employees Found
-                </td>
-              </tr>
-            ) : (
-              filteredStaff.map((staff) => (
-                <tr key={staff.id} className="hover:bg-blue-gray-100 border">
-                  <td className="border px-5 py-2 text-left">{staff.username}</td>
-                  <td className="border px-5 py-2 text-left">
-                    {staff.f_name} {staff.m_name} {staff.l_name}
-                  </td>
-                  <td className="border px-5 py-2 text-left">{staff.designation}</td>
-                  <td className="border px-5 py-2 text-left">{staff.email}</td>
-                  <td className="border px-5 py-2 text-left">{staff.phone}</td>
-                  <td className="border px-2 py-1">
-                    <button className="text-blue-500 hover:text-blue-700">Action</button>
-                  </td>
-                </tr>
-              ))
-            )}
-          </tbody>
-        </table>
+          <div className="my-5 w-full">
+            <Button type="submit" className="w-full">
+              Submit
+            </Button>
+          </div>
+        </form>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default AllEmployees;
+export default AddEmployee

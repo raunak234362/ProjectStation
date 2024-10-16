@@ -1,16 +1,16 @@
 /* eslint-disable no-unused-vars */
-import { NavLink, useNavigate } from 'react-router-dom'
-import LOGO from '../../../assets/logo.png'
-import { useDispatch, useSelector } from 'react-redux'
-import Service from '../../../config/Service'
-import { useEffect, useState } from 'react'
-import { Button } from '../../index'
-import { logout as logoutAction } from '../../../store/userSlice'; 
+import { NavLink, useNavigate } from "react-router-dom";
+import LOGO from "../../../assets/logo.png";
+import { useDispatch, useSelector } from "react-redux";
+import Service from "../../../config/Service";
+import { useEffect, useState } from "react";
+import { Button } from "../../index";
+import { logout as logoutAction } from "../../../store/userSlice";
 const Sidebar = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  
-  const token = sessionStorage.getItem('token');
+
+  const token = sessionStorage.getItem("token");
   const [currentUser, setCurrentUser] = useState();
 
   const fetchUserData = async () => {
@@ -20,12 +20,12 @@ const Sidebar = () => {
 
   const fetchLogout = async () => {
     try {
-      sessionStorage.removeItem('userType');
-      sessionStorage.removeItem('token');
+      sessionStorage.removeItem("userType");
+      sessionStorage.removeItem("token");
       dispatch(logoutAction());
-      navigate('/');
+      navigate("/");
     } catch (error) {
-      console.error('Logout failed:', error);
+      console.error("Logout failed:", error);
     }
   };
 
@@ -33,21 +33,21 @@ const Sidebar = () => {
     fetchUserData();
   }, []);
 
-  const userType = sessionStorage.getItem('userType')
+  const userType = sessionStorage.getItem("userType");
   return (
-    <div className="flex flex-col md:h-[88vh] h-screen w-64 bg-white/70 md:border-4 text-black rounded-xl">
+    <div className="flex flex-col justify-between md:h-[88vh] h-[88vh] w-64 bg-white/70 md:border-4 text-black md:rounded-xl rounded-lg">
       <nav className="p-5">
         <ul className="flex flex-col gap-5">
-          <li className="w-full">
+          <li>
             <NavLink
-              to="/dashboard/home"
+              to="/dashboard/data"
               className={({ isActive }) =>
                 isActive
-                  ? 'flex justify-center items-center text-white bg-teal-400 rounded-md w-full  delay-150 transition-all ease-in-out'
-                  : 'text-black hover:text-white hover:flex hover:justify-center hover:items-center hover:bg-teal-200  rounded-md'
+                  ? "flex justify-center items-center text-white bg-teal-400 rounded-md w-full  delay-150"
+                  : "text-black hover:text-white hover:flex hover:justify-center hover:items-center hover:bg-teal-200  rounded-md"
               }
             >
-              <div>Home</div>
+              <div>Dashboard</div>
             </NavLink>
           </li>
           <li>
@@ -55,8 +55,8 @@ const Sidebar = () => {
               to="/dashboard/fabricator"
               className={({ isActive }) =>
                 isActive
-                  ? 'flex justify-center items-center text-white bg-teal-400 rounded-md w-full  delay-150'
-                  : 'text-black hover:text-white hover:flex hover:justify-center hover:items-center hover:bg-teal-200  rounded-md'
+                  ? "flex justify-center items-center text-white bg-teal-400 rounded-md w-full  delay-150"
+                  : "text-black hover:text-white hover:flex hover:justify-center hover:items-center hover:bg-teal-200  rounded-md"
               }
             >
               <div>Fabricator</div>
@@ -67,8 +67,8 @@ const Sidebar = () => {
               to="/dashboard/vendor"
               className={({ isActive }) =>
                 isActive
-                  ? 'flex justify-center items-center text-white bg-teal-400 rounded-md w-full  delay-150'
-                  : 'text-black hover:text-white hover:flex hover:justify-center hover:items-center hover:bg-teal-200  rounded-md'
+                  ? "flex justify-center items-center text-white bg-teal-400 rounded-md w-full  delay-150"
+                  : "text-black hover:text-white hover:flex hover:justify-center hover:items-center hover:bg-teal-200  rounded-md"
               }
             >
               <div>Vendor</div>
@@ -79,8 +79,8 @@ const Sidebar = () => {
               to="/dashboard/project"
               className={({ isActive }) =>
                 isActive
-                  ? 'flex justify-center items-center text-white bg-teal-400 rounded-md w-full  delay-150'
-                  : 'text-black hover:text-white hover:flex hover:justify-center hover:items-center hover:bg-teal-200  rounded-md'
+                  ? "flex justify-center items-center text-white bg-teal-400 rounded-md w-full  delay-150"
+                  : "text-black hover:text-white hover:flex hover:justify-center hover:items-center hover:bg-teal-200  rounded-md"
               }
             >
               <div>Project</div>
@@ -91,8 +91,8 @@ const Sidebar = () => {
               to="rfi"
               className={({ isActive }) =>
                 isActive
-                  ? 'flex justify-center items-center text-white bg-teal-400 rounded-md w-full  delay-150'
-                  : 'text-black hover:text-white hover:flex hover:justify-center hover:items-center hover:bg-teal-200  rounded-md'
+                  ? "flex justify-center items-center text-white bg-teal-400 rounded-md w-full  delay-150"
+                  : "text-black hover:text-white hover:flex hover:justify-center hover:items-center hover:bg-teal-200  rounded-md"
               }
             >
               <div>RFI</div>
@@ -103,8 +103,8 @@ const Sidebar = () => {
               to="submittals"
               className={({ isActive }) =>
                 isActive
-                  ? 'flex justify-center items-center text-white bg-teal-400 rounded-md w-full  delay-150'
-                  : 'text-black hover:text-white hover:flex hover:justify-center hover:items-center hover:bg-teal-200  rounded-md'
+                  ? "flex justify-center items-center text-white bg-teal-400 rounded-md w-full  delay-150"
+                  : "text-black hover:text-white hover:flex hover:justify-center hover:items-center hover:bg-teal-200  rounded-md"
               }
             >
               <div>Submittals</div>
@@ -115,8 +115,8 @@ const Sidebar = () => {
               to="change-order"
               className={({ isActive }) =>
                 isActive
-                  ? 'flex justify-center items-center text-white bg-teal-400 rounded-md w-full  delay-150'
-                  : 'text-black hover:text-white hover:flex hover:justify-center hover:items-center hover:bg-teal-200  rounded-md'
+                  ? "flex justify-center items-center text-white bg-teal-400 rounded-md w-full  delay-150"
+                  : "text-black hover:text-white hover:flex hover:justify-center hover:items-center hover:bg-teal-200  rounded-md"
               }
             >
               <div>Change Order</div>
@@ -127,8 +127,8 @@ const Sidebar = () => {
               to="update-program"
               className={({ isActive }) =>
                 isActive
-                  ? 'flex justify-center items-center text-white bg-teal-400 rounded-md w-full  delay-150'
-                  : 'text-black hover:text-white hover:flex hover:justify-center hover:items-center hover:bg-teal-200  rounded-md'
+                  ? "flex justify-center items-center text-white bg-teal-400 rounded-md w-full  delay-150"
+                  : "text-black hover:text-white hover:flex hover:justify-center hover:items-center hover:bg-teal-200  rounded-md"
               }
             >
               <div>Update Progress</div>
@@ -139,29 +139,38 @@ const Sidebar = () => {
               to="team"
               className={({ isActive }) =>
                 isActive
-                  ? 'flex justify-center items-center text-white bg-teal-400 rounded-md w-full delay-150'
-                  : 'text-black hover:text-white hover:flex hover:justify-center hover:items-center hover:bg-teal-200  rounded-md'
+                  ? "flex justify-center items-center text-white bg-teal-400 rounded-md w-full delay-150"
+                  : "text-black hover:text-white hover:flex hover:justify-center hover:items-center hover:bg-teal-200  rounded-md"
               }
             >
               <div>Manage Team</div>
             </NavLink>
           </li>
-          <li>
-            <Button
-            className='bg-teal-400 w-full' 
-             onClick={fetchLogout}>
-              Logout
-            </Button>
+          <li className="w-full">
+            <NavLink
+              to="/dashboard/home"
+              className={({ isActive }) =>
+                isActive
+                  ? "flex justify-center items-center text-white bg-teal-400 rounded-md w-full  delay-150 transition-all ease-in-out"
+                  : "text-black hover:text-white hover:flex hover:justify-center hover:items-center hover:bg-teal-200  rounded-md"
+              }
+            >
+              <div>Profile</div>
+            </NavLink>
           </li>
+          <li></li>
         </ul>
       </nav>
-      <div className='md:flex md:justify-right'>
+      <div className="md:flex md:justify-right mb-5">
+        <Button className="bg-teal-400 mx-4 w-full" onClick={fetchLogout}>
+          Logout
+        </Button>
         <div className="text-lg text-black md:hidden block">
           {currentUser?.username}
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Sidebar
+export default Sidebar;

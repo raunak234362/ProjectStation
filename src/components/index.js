@@ -52,6 +52,9 @@ import AllSubmittals from './dashboard/staff/admin/submittals/AllSubmittals'
 
 //Change Order
 import CO from './dashboard/staff/admin/co/CO'
+import AllSentCO from './dashboard/staff/admin/co/AllSentCO'
+import AllReceivedCO from './dashboard/staff/admin/co/AllReceivedCO'
+import SendCO from './dashboard/staff/admin/co/SendCO'
 
 //Error Handling
 import ErrorBoundary from './error/ErrorBoundary'
@@ -105,5 +108,8 @@ export {
   AllReceivedSubmittals,
   AllSubmittals,
   CO,
+  AllSentCO,
+  AllReceivedCO,
+  SendCO,
   ErrorBoundary,
 }

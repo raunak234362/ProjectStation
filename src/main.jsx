@@ -41,6 +41,9 @@ import {
   GetFabricator,
   GetClient,
   CO,
+  SendCO,
+  AllReceivedCO,
+  AllSentCO,
 } from './components/index.js'
 
 
@@ -133,6 +136,11 @@ const router = createBrowserRouter([
       {
         path:'change-order',
         element:<CO/>,
+        children: [
+          {path:'send-co', element:<SendCO/>},
+          {path:'all-received-co', element:<AllReceivedCO/>},
+          {path:'all-sent-co',element:<AllSentCO/>}
+        ]
       },
     ],
   },

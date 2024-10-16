@@ -20,6 +20,7 @@ import AddFabricator from './dashboard/staff/admin/fabricator/AddFabricator'
 import AllFabricator from './dashboard/staff/admin/fabricator/AllFabricator'
 import AddFabricatorUser from './dashboard/staff/admin/fabricator/AddFabricatorUser'
 import AllClients from './dashboard/staff/admin/fabricator/AllClients'
+import GetFabricator from './dashboard/staff/admin/fabricator/GetFabricator'
 
 //Team
 import ManageTeam from './dashboard/staff/admin/Team/ManageTeam'
@@ -78,6 +79,7 @@ export {
   AddFabricatorUser,
   AllClients,
   AllFabricator,
+  GetFabricator,
   ManageTeam,
   AddEmployee,
   AllEmployees,

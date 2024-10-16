@@ -1,44 +1,48 @@
 /* eslint-disable no-unused-vars */
-import { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux';
-import Service from '../../../../../config/Service'
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Button } from "../../../../index.js";
+import Service from "../../../../../config/Service";
 // import {showFabricator} from '../../../../../store/fabricatorSlice.js'
 const AllFabricator = () => {
-  const fabricators = useSelector((state) => state?.fabricatorData.fabricatorData)
-  const dispatch = useDispatch()
-  const [fabricator, setFabricator] = useState([])
-  const [filteredFabricators, setFilteredFabricators] = useState([])
-  const [searchQuery, setSearchQuery] = useState('')
-  const [sortOrder, setSortOrder] = useState({ key: 'name', order: 'asc' })
+  const fabricators = useSelector(
+    (state) => state?.fabricatorData.fabricatorData
+  );
+  const dispatch = useDispatch();
+  const [fabricator, setFabricator] = useState([]);
+  const [filteredFabricators, setFilteredFabricators] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [sortOrder, setSortOrder] = useState({ key: "name", order: "asc" });
   const [filters, setFilters] = useState({
-    country: '',
-    state: '',
-    city: '',
-  })
+    country: "",
+    state: "",
+    city: "",
+  });
 
-  useEffect(()=> {
-    setFabricator(fabricators)
-  }, [fabricators])
+  useEffect(() => {
+    setFabricator(fabricators);
+  }, [fabricators]);
 
   // Handle search filtering
   const handleSearch = (e) => {
-    setSearchQuery(e.target.value)
-    filterAndSortData(e.target.value, filters, sortOrder)
-  }
+    setSearchQuery(e.target.value);
+    filterAndSortData(e.target.value, filters, sortOrder);
+  };
 
   // Handle filter changes
   const handleFilterChange = (e) => {
-    const { name, value } = e.target
-    setFilters((prevFilters) => ({ ...prevFilters, [name]: value }))
-    filterAndSortData(searchQuery, { ...filters, [name]: value }, sortOrder)
-  }
+    const { name, value } = e.target;
+    setFilters((prevFilters) => ({ ...prevFilters, [name]: value }));
+    filterAndSortData(searchQuery, { ...filters, [name]: value }, sortOrder);
+  };
 
   // Sort fabricators based on the column header clicked
   const handleSort = (key) => {
-    const order = sortOrder.key === key && sortOrder.order === 'asc' ? 'desc' : 'asc'
-    setSortOrder({ key, order })
-    filterAndSortData(searchQuery, filters, { key, order })
-  }
+    const order =
+      sortOrder.key === key && sortOrder.order === "asc" ? "desc" : "asc";
+    setSortOrder({ key, order });
+    filterAndSortData(searchQuery, filters, { key, order });
+  };
 
   // Function to handle filtering and sorting
   const filterAndSortData = (searchQuery, filters, sortOrder) => {
@@ -47,26 +51,33 @@ const AllFabricator = () => {
         fab.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
         fab.city.toLowerCase().includes(searchQuery.toLowerCase()) ||
         fab.state.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        fab.country.toLowerCase().includes(searchQuery.toLowerCase())
+        fab.country.toLowerCase().includes(searchQuery.toLowerCase());
 
       const filterMatch =
         (!filters.country || fab.country === filters.country) &&
         (!filters.state || fab.state === filters.state) &&
-        (!filters.city || fab.city === filters.city)
+        (!filters.city || fab.city === filters.city);
 
-      return searchMatch && filterMatch
-    })
+      return searchMatch && filterMatch;
+    });
 
     // Sorting
     filtered.sort((a, b) => {
-      const aKey = a[sortOrder.key].toLowerCase()
-      const bKey = b[sortOrder.key].toLowerCase()
-      if (sortOrder.order === 'asc') return aKey > bKey ? 1 : -1
-      return aKey < bKey ? 1 : -1
-    })
+      const aKey = a[sortOrder.key].toLowerCase();
+      const bKey = b[sortOrder.key].toLowerCase();
+      if (sortOrder.order === "asc") return aKey > bKey ? 1 : -1;
+      return aKey < bKey ? 1 : -1;
+    });
 
-    setFabricator(filtered)
-  }
+    setFabricator(filtered);
+  };
+
+  const openFabricatorWindow = (id) => {
+    const newWindow = window.open(`${id}`, 'Fabricator Details', 'width=800,height=600');
+    if (newWindow) {
+      newWindow.opener = null; 
+    }
+  };
 
   return (
     <div className="bg-white/70 rounded-lg md:w-full w-[90vw]">
@@ -89,11 +100,13 @@ const AllFabricator = () => {
             className="border p-2 rounded"
           >
             <option value="">Filter by Country</option>
-            {Array.from(new Set(fabricators.map((fab) => fab.country))).map((country) => (
-              <option key={country} value={country}>
-                {country}
-              </option>
-            ))}
+            {Array.from(new Set(fabricators.map((fab) => fab.country))).map(
+              (country) => (
+                <option key={country} value={country}>
+                  {country}
+                </option>
+              )
+            )}
           </select>
 
           <select
@@ -103,11 +116,13 @@ const AllFabricator = () => {
             className="border p-2 rounded"
           >
             <option value="">Filter by State</option>
-            {Array.from(new Set(fabricators.map((fab) => fab.state))).map((state) => (
-              <option key={state} value={state}>
-                {state}
-              </option>
-            ))}
+            {Array.from(new Set(fabricators.map((fab) => fab.state))).map(
+              (state) => (
+                <option key={state} value={state}>
+                  {state}
+                </option>
+              )
+            )}
           </select>
 
           <select
@@ -117,11 +132,13 @@ const AllFabricator = () => {
             className="border p-2 rounded"
           >
             <option value="">Filter by City</option>
-            {Array.from(new Set(fabricators.map((fab) => fab.city))).map((city) => (
-              <option key={city} value={city}>
-                {city}
-              </option>
-            ))}
+            {Array.from(new Set(fabricators.map((fab) => fab.city))).map(
+              (city) => (
+                <option key={city} value={city}>
+                  {city}
+                </option>
+              )
+            )}
           </select>
         </div>
 
@@ -132,31 +149,35 @@ const AllFabricator = () => {
               <tr className="bg-teal-200/70">
                 <th
                   className="px-2 py-1 text-left cursor-pointer"
-                  onClick={() => handleSort('name')}
+                  onClick={() => handleSort("name")}
                 >
                   Fabricator Name
-                  {sortOrder.key === 'name' && (sortOrder.order === 'asc' ? ' ' : ' ')}
+                  {sortOrder.key === "name" &&
+                    (sortOrder.order === "asc" ? " " : " ")}
                 </th>
                 <th
                   className="px-2 py-1 cursor-pointer"
-                  onClick={() => handleSort('city')}
+                  onClick={() => handleSort("city")}
                 >
                   City
-                  {sortOrder.key === 'city' && (sortOrder.order === 'asc' ? ' ' : ' ')}
+                  {sortOrder.key === "city" &&
+                    (sortOrder.order === "asc" ? " " : " ")}
                 </th>
                 <th
                   className="px-2 py-1 cursor-pointer"
-                  onClick={() => handleSort('state')}
+                  onClick={() => handleSort("state")}
                 >
                   State
-                  {sortOrder.key === 'state' && (sortOrder.order === 'asc' ? ' ' : ' ')}
+                  {sortOrder.key === "state" &&
+                    (sortOrder.order === "asc" ? " " : " ")}
                 </th>
                 <th
                   className="px-2 py-1 cursor-pointer"
-                  onClick={() => handleSort('country')}
+                  onClick={() => handleSort("country")}
                 >
                   Country
-                  {sortOrder.key === 'country' && (sortOrder.order === 'asc' ? ' ' : ' ')}
+                  {sortOrder.key === "country" &&
+                    (sortOrder.order === "asc" ? " " : " ")}
                 </th>
                 <th className="px-2 py-1">Actions</th>
               </tr>
@@ -170,12 +191,19 @@ const AllFabricator = () => {
                 </tr>
               ) : (
                 fabricator?.map((fabricator) => (
-                  <tr key={fabricator.id} className="hover:bg-blue-gray-100 border">
-                    <td className="border px-2 py-1 text-left">{fabricator.name}</td>
+                  <tr
+                    key={fabricator.id}
+                    className="hover:bg-blue-gray-100 border"
+                  >
+                    <td className="border px-2 py-1 text-left">
+                      {fabricator.name}
+                    </td>
                     <td className="border px-2 py-1">{fabricator.city}</td>
                     <td className="border px-2 py-1">{fabricator.state}</td>
                     <td className="border px-2 py-1">{fabricator.country}</td>
-                    <td className="border px-2 py-1">Button</td>
+                    <td className="border px-2 py-1">
+                    <Button onClick={() => openFabricatorWindow(fabricator.id)}>View</Button>
+                    </td>
                   </tr>
                 ))
               )}
@@ -184,7 +212,7 @@ const AllFabricator = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default AllFabricator
+export default AllFabricator;

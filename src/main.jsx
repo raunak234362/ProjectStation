@@ -37,6 +37,7 @@ import {
   SendSubmittals,
   AllReceivedSubmittals,
   AllSubmittals,
+  GetFabricator,
 } from './components/index.js'
 
 
@@ -51,6 +52,10 @@ const router = createBrowserRouter([
   {
     path: '/change-password/',
     element: <ChangePassword />,
+  },
+  {
+    path:'dashboard/fabricator/:id',
+    element:<GetFabricator/>
   },
   {
     path: '/dashboard',

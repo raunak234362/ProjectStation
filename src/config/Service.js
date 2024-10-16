@@ -4,7 +4,7 @@ import { BASE_URL } from './constant';
 class Service {
   // BASE_URL is stored as a constant
   static BASE_URL = BASE_URL;
-
+  
   // Fetch the logged-in user
   static async getCurrentUser(token) {
     try {
@@ -129,6 +129,22 @@ class Service {
   static async allFabricator(token) {
     try {
       const response = await axios.get(`${BASE_URL}/fabricator`, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Token ${token}`,
+        },
+      });
+      return response.data;
+    } catch (error) {
+      console.log('Error fetching fabricators:', error);
+      throw error;
+    }
+  }
+
+  // Fetch Fabricator
+  static async getFabricator(token,id){
+    try {
+      const response = await axios.get(`${BASE_URL}/fabricator/${id}`, {
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Token ${token}`,

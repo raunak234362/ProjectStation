@@ -1,34 +1,122 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  fabricatorData: [],
-  clientData: [],
-}
-
+  fabricatorData: [
+    {
+      id: 1,
+      name: "Fabricator-1",
+      address: "123 Main St, Industrial Zone",
+      country: "US",
+      state: "Alabama",
+      city: "Alexander City",
+      zip_code: 45122,
+      branch: [
+        { address: "Alexander City" },
+        { address: "NewJersey" },
+        { address: "Alabama" },
+      ],
+      website: "https://dribbble.com/",
+      drive: "https://drive.google.com/drive/folders/sample1",
+    },
+    {
+      id: 2,
+      name: "Fabricator-2",
+      address: "456 Maple St, Industrial Area",
+      country: "US",
+      state: "California",
+      city: "Los Angeles",
+      zip_code: 90001,
+      branch: [
+        { address: "Alexander City" },
+        { address: "Washington" },
+        { address: "Berlin" },
+      ],
+      website: "https://behance.net/",
+      drive: "https://drive.google.com/drive/folders/sample2",
+    },
+    {
+      id: 3,
+      name: "Fabricator-3",
+      address: "789 Oak St, Commercial Hub",
+      country: "Canada",
+      state: "Ontario",
+      city: "Toronto",
+      zip_code: 10001,
+      branch: [
+        { address: "Tokyo" },
+        { address: "NewJersey" },
+        { address: "Alabama" },
+      ],
+      website: "https://example.com/",
+      drive: "https://drive.google.com/drive/folders/sample3",
+    },
+  ],
+  clientData: [
+    {
+      id: 1,
+      f_name: "Client-1",
+      fabricator: {
+        id: 1,
+        name: "Fabricator-1",
+        address: "123 Main St, Industrial Zone",
+        country: "US",
+        state: "Alabama",
+        city: "Alexander City",
+        zip_code: 10001,
+      },
+    },
+    {
+      id: 2,
+      f_name: "Client-2",
+      fabricator: {
+        id: 1,
+        name: "Fabricator-1",
+        address: "123 Main St, Industrial Zone",
+        country: "US",
+        state: "Alabama",
+        city: "Alexander City",
+        zip_code: 10001,
+      },
+    },
+    {
+      id: 3,
+      f_name: "Client-2",
+      fabricator: {
+        id: 1,
+        name: "Fabricator-2",
+        address: "456 Maple St, Industrial Area",
+        country: "US",
+        state: "California",
+        city: "Los Angeles",
+        zip_code: 90001,
+      },
+    },
+  ],
+};
 
 const fabricatorSlice = createSlice({
-  name: 'fabricatorData',
+  name: "fabricatorData",
   initialState,
   reducers: {
     loadFabricator: (state, action) => {
-      state.fabricatorData = action.payload
+      state.fabricatorData = action.payload;
     },
     addFabricator: (state, action) => {
-      state.fabricatorData.push(action.payload)
+      state.fabricatorData.push(action.payload);
     },
     addClient: (state, action) => {
-      state.clientData.push(action.payload)
+      state.clientData.push(action.payload);
     },
     showClient: (state, action) => {
-      state.clientData = action.payload
+      state.clientData = action.payload;
     },
     deleteFabricator: (state, action) => {
       state.fabricatorData = state.fabricatorData.filter(
-        (fabricator) => fabricator.id !== action.payload,
-      )
+        (fabricator) => fabricator.id !== action.payload
+      );
     },
   },
-})
+});
 
 export const {
   addFabricator,
@@ -36,6 +124,6 @@ export const {
   deleteFabricator,
   addClient,
   showClient,
-} = fabricatorSlice.actions
+} = fabricatorSlice.actions;
 
-export default fabricatorSlice.reducer
+export default fabricatorSlice.reducer;

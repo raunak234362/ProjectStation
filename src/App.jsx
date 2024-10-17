@@ -6,7 +6,7 @@ import { Header, Sidebar } from "./components/index";
 import { Outlet, useNavigate } from "react-router-dom";
 import Service from "./config/Service";
 import { setUserData } from "./store/userSlice";
-import { loadFabricator, showClient } from "./store/fabricatorSlice";
+// import { loadFabricator, showClient } from "./store/fabricatorSlice";
 
 const App = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -34,12 +34,12 @@ const App = () => {
     const fetchUser = async () => {
       try {
         const user = await Service.getCurrentUser(token);
-        const fabricator= await Service.allFabricator(token);
-        const client = await Service.allClient(token);
-        // const project = await Service.allprojects(token);
+        // const fabricator= await Service.allFabricator(token);
+        // const client = await Service.allClient(token);
+        // // const project = await Service.allprojects(token);
         dispatch(setUserData(user[0]));
-        dispatch(loadFabricator(fabricator));
-        dispatch(showClient(client));
+        // dispatch(loadFabricator(fabricator));
+        // dispatch(showClient(client));
         // dispatch(showProjects(project));
       } catch (error) {
         console.log(error);

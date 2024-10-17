@@ -23,10 +23,10 @@ const Fabricators = () => {
   const token = sessionStorage.getItem("token");
 
   const fetchAll = async () => {
-    const fabricatorData = await Service.allFabricator(token);
-    const clientData = await Service.allClient(token);
-    dispatch(loadFabricator(fabricatorData));
-    dispatch(showClient(clientData));
+    // const fabricatorData = await Service.allFabricator(token);
+    // const clientData = await Service.allClient(token);
+    // dispatch(loadFabricator(fabricatorData));
+    // dispatch(showClient(clientData));
   };
 
   useEffect(() => {

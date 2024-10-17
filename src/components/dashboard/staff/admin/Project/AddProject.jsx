@@ -97,6 +97,7 @@ const AddProject = () => {
                 name="status"
                 options={[
                   { label: "Select Status", value: "" },
+                  { label: "ASSIGNED", value: "ASSIGNED" },
                   { label: "ACTIVE", value: "ACTIVE" },
                   { label: "ON-HOLD", value: "ON-HOLD" },
                   { label: "INACTIVE", value: "INACTIVE" },

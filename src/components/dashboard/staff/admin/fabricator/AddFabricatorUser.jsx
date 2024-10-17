@@ -25,6 +25,25 @@ const AddFabricatorUser = () => {
   const fabricators = useSelector(
     (state) => state?.fabricatorData?.fabricatorData,
   )
+  const selectedFabricator = watch('fabricator')
+  const [branchOptions, setBranchOptions] = useState([])
+
+  useEffect(() => {
+    if (selectedFabricator) {
+      const fabricator = fabricators.find(fab => fab.id === selectedFabricator)
+      console.log(fabricator)
+      if (fabricator) {
+        setBranchOptions(
+          fabricator?.branch?.map(branches => ({
+            label: branches.address,
+            value: branches.address,
+          }))
+        )
+      }
+    } else {
+      setBranchOptions([]) 
+    }
+  }, [selectedFabricator, fabricators])
 
   const countryOptions = countries.map((country) => ({
     label: `${getCountryFlagEmojiFromCountryCode(country.code)} ${
@@ -77,13 +96,14 @@ const AddFabricatorUser = () => {
         phone: phoneNumber,
       }
       console.log(updatedData)
-      const clientUser = await Service.addClient(updatedData)
-      if (clientUser.status === 201){
-        dispatch(addClient(clientUser.data))
-        reset()
-      } else {
-        alert('Error in adding Client')
-      }
+      dispatch(addClient(updatedData))
+      // const clientUser = await Service.addClient(updatedData)
+      // if (clientUser.status === 201){
+      //   dispatch(addClient(clientUser.data))
+      //   reset()
+      // } else {
+      //   alert('Error in adding Client')
+      // }
     } catch (error) {
       console.log(error)
     }
@@ -112,28 +132,19 @@ const AddFabricatorUser = () => {
               />
               {errors.fabricator && <div>This field is required</div>}
             </div>
+           
             <div className="w-full my-2">
-              <Input
-                label="User Designation:"
-                placeholder="User Designation"
+              <Select
+                label="Branch:"
+                placeholder="Branch"
                 size="lg"
                 color="blue"
-                {...register('designation', {
-                  required: 'User designation is required',
-                })}
-              />
-              {errors.designation && <div>This field is required</div>}
-            </div>
-            <div className="w-full my-2">
-              <Input
-                label="Address:"
-                placeholder="Address"
-                size="lg"
-                color="blue"
+                options={branchOptions}
                 {...register('address')}
+                onChange={setValue}
               />
             </div>
-            <div className="my-2">
+            {/* <div className="my-2">
               <Select
                 label="Country: "
                 placeholder="Country"
@@ -182,7 +193,7 @@ const AddFabricatorUser = () => {
                 className="w-full"
                 {...register('zip_code')}
               />
-            </div>
+            </div> */}
           </div>
           <div className="bg-teal-500/50 rounded-lg px-2 py-2 font-bold text-white">
             User Information:
@@ -197,6 +208,18 @@ const AddFabricatorUser = () => {
                 {...register('username', { required: true })}
               />
               {errors.username && <div>This field is required</div>}
+            </div>
+            <div className="w-full my-2">
+              <Input
+                label="User Designation:"
+                placeholder="User Designation"
+                size="lg"
+                color="blue"
+                {...register('designation', {
+                  required: 'User designation is required',
+                })}
+              />
+              {errors.designation && <div>This field is required</div>}
             </div>
             <div className="w-full my-2">
               <Input

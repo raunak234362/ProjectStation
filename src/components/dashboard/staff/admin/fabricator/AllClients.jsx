@@ -1,13 +1,16 @@
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
-import {Button} from '../../../../index'
+import {Button, GetClient} from '../../../../index'
 const AllClients = () => {
   const clientData = useSelector((state) => state?.fabricatorData?.clientData)
+
+  console.log(clientData)
 
   const [searchQuery, setSearchQuery] = useState('')
   const [fabricatorFilter, setFabricatorFilter] = useState('All')
   const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' })
-
+  const [selectedClient,setSelectedClient]=useState(false)
+  const [isModalOpen, setIsModalOpen]=useState(false)
   // Get unique fabricators for filter dropdown
   const uniqueFabricators = [
     ...new Set(clientData?.map((client) => client.fabricator.name)),
@@ -24,9 +27,9 @@ const AllClients = () => {
       const fullName = `${client.f_name} ${client.m_name} ${client.l_name}`.toLowerCase()
       return (
         fullName.includes(searchQuery.toLowerCase()) ||
-        client.city.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        client.state.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        client.country.toLowerCase().includes(searchQuery.toLowerCase())
+        client?.fabricator?.city.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        client?.fabricator?.state.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        client?.fabricator?.country.toLowerCase().includes(searchQuery.toLowerCase())
       )
     })
     ?.sort((a, b) => {
@@ -48,9 +51,21 @@ const AllClients = () => {
     }))
   }
 
-  const openClientWindow = (id) => {
-    window.open(`/dashboard/client/${id}`, '_blank');
-  };
+  // const openClientWindow = (id) => {
+  //   window.open(`/dashboard/client/${id}`, '_blank');
+  // };
+  const handleViewClick = async(clientId)=>{
+    
+    setSelectedClient(clientId)
+    setIsModalOpen(true)
+  }
+  
+  console.log(selectedClient)
+
+  const handleModalClose= async()=>{
+    setSelectedClient(null)
+    setIsModalOpen(false)
+  }
 
   return (
     <div className="bg-white md:w-full w-[90vw] my-4">
@@ -130,17 +145,26 @@ const AllClients = () => {
                   <td className="border px-2 py-1 text-left">
                     {client.f_name} {client.m_name} {client.l_name}
                   </td>
-                  <td className="border px-2 py-1">{client.city}</td>
-                  <td className="border px-2 py-1">{client.state}</td>
-                  <td className="border px-2 py-1">{client.country}</td>
+                  <td className="border px-2 py-1">{client.fabricator.city}</td>
+                  <td className="border px-2 py-1">{client.fabricator.state}</td>
+                  <td className="border px-2 py-1">{client.fabricator.country}</td>
                   <td className="border px-2 py-1">
-                  <Button onClick={() => openClientWindow(client.id)}>View</Button>
+                  <Button onClick={() => handleViewClick(client.id)}>View</Button>
                   </td>
                 </tr>
               ))
             )}
           </tbody>
         </table>
+      {
+        selectedClient && (
+          <GetClient
+          clientId = {selectedClient}
+          isOpen={isModalOpen}
+          onClose={handleModalClose}
+          />
+        )
+      }
       </div>
     </div>
   )

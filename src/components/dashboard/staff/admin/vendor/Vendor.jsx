@@ -13,21 +13,21 @@ const Vendor = () => {
   const vendors = useSelector((state) => state?.vendorData?.vendorData);
   const vendorUsers = useSelector((state) => state?.vendorData?.vendorUserData);
 
-  const fetchAllVendors = async () => {
-    const vendorsData = await Service.allVendor(token);
-    dispatch(loadVendor(vendorsData));
-  };
+  // const fetchAllVendors = async () => {
+  //   const vendorsData = await Service.allVendor(token);
+  //   dispatch(loadVendor(vendorsData));
+  // };
 
-  const fetchVendorUsers = async () => {
-    const vendorUserData = await Service.allVendorUser(token);
-    dispatch(loadVendorUser(vendorUserData));
-    console.log(vendorUserData);
-  };
+  // const fetchVendorUsers = async () => {
+  //   const vendorUserData = await Service.allVendorUser(token);
+  //   dispatch(loadVendorUser(vendorUserData));
+  //   console.log(vendorUserData);
+  // };
 
-  useEffect(() => {
-    fetchVendorUsers();
-    fetchAllVendors();
-  }, []);
+  // useEffect(() => {
+  //   fetchVendorUsers();
+  //   fetchAllVendors();
+  // }, []);
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const toggleMenu = () => {

@@ -2,7 +2,7 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from "react";
 import Service from "../../../../../config/Service";
-import { Provider, useDispatch } from "react-redux";
+import { Provider, useDispatch, useSelector } from "react-redux";
 import {Button} from '../../../../index'
 
 const GetFabricator = ({ fabricatorId, isOpen, onClose }) => {
@@ -12,15 +12,33 @@ const GetFabricator = ({ fabricatorId, isOpen, onClose }) => {
   const dispatch = useDispatch();
   const [fabricator, setFabricator] = useState();
 
+  const fabData = useSelector((state)=>state.fabricatorData?.fabricatorData)
+
+  console.log(fabData)
+
   const fetchFabricator = async () => {
-    try {
-      const response = await Service.getFabricator(token, fabricatorId);
-      //   dispatch(showFabricator(response));
-      setFabricator(response);
-      console.log(response);
+
+  try {
+      // Find the fabricator with the matching ID from the Redux store data
+      const fabricator = fabData.find((fab) => fab.id === fabricatorId);
+
+      if (fabricator) {
+        setFabricator(fabricator);
+      } else {
+        console.log("Fabricator not found");
+      }
     } catch (error) {
       console.log("Error fetching fabricator:", error);
     }
+
+    // try {
+    //   const response = await Service.getFabricator(token, fabricatorId);
+    //   //   dispatch(showFabricator(response));
+    //   setFabricator(response);
+    //   console.log(response);
+    // } catch (error) {
+    //   console.log("Error fetching fabricator:", error);
+    // }
   };
 
   const handleClose = async()=>{

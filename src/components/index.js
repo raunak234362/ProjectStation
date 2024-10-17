@@ -36,7 +36,8 @@ import AddVendor from './dashboard/staff/admin/vendor/AddVendor'
 import AllVendors from './dashboard/staff/admin/vendor/AllVendors'
 import AllVendorUser from './dashboard/staff/admin/vendor/AllVendorUser'
 import AddVendorUser from './dashboard/staff/admin/vendor/AddVendorUser'
-
+import GetVendor from './dashboard/staff/admin/vendor/GetVendor'
+import GetVendorUser from './dashboard/staff/admin/vendor/GetVendorUser'
 
 //RFI
 import RFI from './dashboard/staff/admin/rfi/RFI'
@@ -98,7 +99,9 @@ export {
   AddVendor,
   AllVendors,
   AllVendorUser,
+  GetVendor,
   AddVendorUser,
+  GetVendorUser,
   RFI,
   CreateRFI,
   AllSentRFI,

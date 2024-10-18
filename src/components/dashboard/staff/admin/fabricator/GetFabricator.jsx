@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import Service from "../../../../../config/Service";
 import { Provider, useDispatch, useSelector } from "react-redux";
-import {Button} from '../../../../index'
+import { Button } from "../../../../index";
 
 const GetFabricator = ({ fabricatorId, isOpen, onClose }) => {
   console.log("---------------", fabricatorId);
@@ -12,13 +12,12 @@ const GetFabricator = ({ fabricatorId, isOpen, onClose }) => {
   const dispatch = useDispatch();
   const [fabricator, setFabricator] = useState();
 
-  const fabData = useSelector((state)=>state.fabricatorData?.fabricatorData)
+  const fabData = useSelector((state) => state.fabricatorData?.fabricatorData);
 
-  console.log(fabData)
+  console.log(fabData);
 
   const fetchFabricator = async () => {
-
-  try {
+    try {
       // Find the fabricator with the matching ID from the Redux store data
       const fabricator = fabData.find((fab) => fab.id === fabricatorId);
 
@@ -41,9 +40,9 @@ const GetFabricator = ({ fabricatorId, isOpen, onClose }) => {
     // }
   };
 
-  const handleClose = async()=>{
-    onClose(true)
-  }
+  const handleClose = async () => {
+    onClose(true);
+  };
 
   useEffect(() => {
     fetchFabricator();
@@ -51,10 +50,12 @@ const GetFabricator = ({ fabricatorId, isOpen, onClose }) => {
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-      <div className="bg-white md:p-5 rounded-lg shadow-lg w-11/12 max-w-4xl">
-      <div>
-        <Button className="bg-red-500" onClick={handleClose}>Close</Button>
-      </div>
+      <div className="bg-white h-[80%] md:p-5 rounded-lg shadow-lg w-11/12 ">
+        <div>
+          <Button className="bg-red-500" onClick={handleClose}>
+            Close
+          </Button>
+        </div>
         {/* header */}
         <div className="top-2 w-full flex justify-center z-10">
           <div className="mt-2">
@@ -65,16 +66,11 @@ const GetFabricator = ({ fabricatorId, isOpen, onClose }) => {
         </div>
 
         {/* Container */}
-        <div className="p-5 rounded-lg shadow-lg">
-          <div className="bg-gray-100 rounded-lg shadow-md p-5">
+        <div className="p-5 h-[88%] overflow-y-auto rounded-lg shadow-lg">
+          <div className="bg-gray-100/50 rounded-lg shadow-md p-5">
             <h2 className="text-lg font-semibold mb-4">Fabricator Details</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {[
-                { label: "Address", value: fabricator?.address },
-                { label: "City", value: fabricator?.city },
-                { label: "State", value: fabricator?.state },
-                { label: "Country", value: fabricator?.country },
-                { label: "Zipcode", value: fabricator?.zip_code },
                 {
                   label: "Website",
                   value: fabricator?.website ? (
@@ -114,7 +110,61 @@ const GetFabricator = ({ fabricatorId, isOpen, onClose }) => {
                 </div>
               ))}
             </div>
+
+            {/* Head Office */}
+            <div className="bg-gray-100 mt-5 rounded-lg shadow-md p-5">
+              <h2 className="text-lg font-semibold mb-4">
+                Head Office Location
+              </h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {[
+                  { label: "Address", value: fabricator?.address },
+                  { label: "City", value: fabricator?.city },
+                  { label: "State", value: fabricator?.state },
+                  { label: "Country", value: fabricator?.country },
+                  { label: "Zipcode", value: fabricator?.zip_code },
+                ].map(({ label, value }) => (
+                  <div key={label} className="flex flex-col">
+                    <span className="font-medium text-gray-700">{label}:</span>
+                    <span className="text-gray-600">
+                      {value || "Not available"}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
+          {/* Branch Details */}
+          {fabricator?.branch?.length > 0 && (
+            <div className="mt-4">
+              <h2 className="text-lg font-semibold mb-4">Branch Details</h2>
+              {fabricator.branch.map((branch, index) => (
+                <div
+                  key={index}
+                  className="bg-gray-100 rounded-lg shadow-md p-5 mt-2"
+                >
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {[
+                      { label: "Address", value: branch?.address },
+                      { label: "City", value: branch?.city },
+                      { label: "State", value: branch?.state },
+                      { label: "Country", value: branch?.country },
+                      { label: "Zipcode", value: branch?.zip_code },
+                    ].map(({ label, value }) => (
+                      <div key={label} className="flex flex-col">
+                        <span className="font-medium text-gray-700">
+                          {label}:
+                        </span>
+                        <span className="text-gray-600">
+                          {value || "Not available"}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </div>

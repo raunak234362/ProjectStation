@@ -1,11 +1,14 @@
 /* eslint-disable no-unused-vars */
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { Button, GetVendor } from "../../../../index";
 
 const AllVendors = () => {
   const vendors = useSelector((state) => state.vendorData?.vendorData);
 
-  const[vendor,setVendor]=useState([])
+  const [vendor, setVendor] = useState([]);
+  const [selectedVendor, setSelectedVendor] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [sortOrder, setSortOrder] = useState({ key: "name", order: "asc" });
   const [filters, setFilters] = useState({
@@ -16,13 +19,13 @@ const AllVendors = () => {
 
   useEffect(() => {
     setVendor(vendors);
-  },[vendors])
+  }, [vendors]);
 
   // Handle search filtering
-  const handleSearch = (e)=>{
+  const handleSearch = (e) => {
     setSearchQuery(e.target.value);
-    filterAndSortData(e.target.value, filters,sortOrder)
-  }
+    filterAndSortData(e.target.value, filters, sortOrder);
+  };
 
   // Handle filter changes
   const handleFilterChange = (e) => {
@@ -30,7 +33,6 @@ const AllVendors = () => {
     setFilters((prevFilters) => ({ ...prevFilters, [name]: value }));
     filterAndSortData(searchQuery, { ...filters, [name]: value }, sortOrder);
   };
-
 
   // Sort fabricators based on the column header clicked
   const handleSort = (key) => {
@@ -57,8 +59,8 @@ const AllVendors = () => {
       return searchMatch && filterMatch;
     });
 
-     // Sorting
-     filtered.sort((a, b) => {
+    // Sorting
+    filtered.sort((a, b) => {
       const aKey = a[sortOrder.key].toLowerCase();
       const bKey = b[sortOrder.key].toLowerCase();
       if (sortOrder.order === "asc") return aKey > bKey ? 1 : -1;
@@ -68,8 +70,15 @@ const AllVendors = () => {
     setVendor(filtered);
   };
 
+  const handleViewClick = async (vendorId) => {
+    setSelectedVendor(vendorId);
+    setIsModalOpen(true);
+  };
 
- 
+  const handleModalClose = async () => {
+    setSelectedVendor(null);
+    setIsModalOpen(false);
+  };
 
   return (
     <div className="bg-white/70 rounded-lg md:w-full w-[90vw]">
@@ -84,7 +93,7 @@ const AllVendors = () => {
         />
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <select
-          name="country"
+            name="country"
             className="p-2 border rounded"
             value={filters.country}
             onChange={handleFilterChange}
@@ -120,13 +129,11 @@ const AllVendors = () => {
             className="border p-2 rounded"
           >
             <option value="">Filter by City</option>
-            {Array.from(new Set(vendors.map((ven) => ven.city))).map(
-              (city) => (
-                <option key={city} value={city}>
-                  {city}
-                </option>
-              )
-            )}
+            {Array.from(new Set(vendors.map((ven) => ven.city))).map((city) => (
+              <option key={city} value={city}>
+                {city}
+              </option>
+            ))}
           </select>
         </div>
       </div>
@@ -140,7 +147,7 @@ const AllVendors = () => {
               >
                 Vendor Name{" "}
                 {sortOrder.key === "name" &&
-                    (sortOrder.order === "asc" ? " " : " ")}
+                  (sortOrder.order === "asc" ? " " : " ")}
               </th>
               <th
                 className="px-2 py-1 cursor-pointer"
@@ -148,7 +155,7 @@ const AllVendors = () => {
               >
                 City{" "}
                 {sortOrder.key === "city" &&
-                    (sortOrder.order === "asc" ? " " : " ")}
+                  (sortOrder.order === "asc" ? " " : " ")}
               </th>
               <th
                 className="px-2 py-1 cursor-pointer"
@@ -156,7 +163,7 @@ const AllVendors = () => {
               >
                 State{" "}
                 {sortOrder.key === "state" &&
-                    (sortOrder.order === "asc" ? " " : " ")}
+                  (sortOrder.order === "asc" ? " " : " ")}
               </th>
               <th
                 className="px-2 py-1 cursor-pointer"
@@ -164,7 +171,7 @@ const AllVendors = () => {
               >
                 Country{" "}
                 {sortOrder.key === "country" &&
-                    (sortOrder.order === "asc" ? " " : " ")}
+                  (sortOrder.order === "asc" ? " " : " ")}
               </th>
               <th className="px-2 py-1">Actions</th>
             </tr>
@@ -183,13 +190,24 @@ const AllVendors = () => {
                   <td className="border px-2 py-1">{vendor.city}</td>
                   <td className="border px-2 py-1">{vendor.state}</td>
                   <td className="border px-2 py-1">{vendor.country}</td>
-                  <td className="border px-2 py-1">Button</td>
+                  <td className="border px-2 py-1">
+                    <Button onClick={() => handleViewClick(vendor.id)}>
+                      View
+                    </Button>
+                  </td>
                 </tr>
               ))
             )}
           </tbody>
         </table>
       </div>
+      {selectedVendor && (
+        <GetVendor
+          vendorId={selectedVendor}
+          isOpen={isModalOpen}
+          onClose={handleModalClose}
+        />
+      )}
     </div>
   );
 };

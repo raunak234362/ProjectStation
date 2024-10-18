@@ -1,8 +1,21 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  projectData: [],
-  rfiData: []
+  projectData: [
+    {
+      id:1,
+      name: 'Project 1',
+      description:'Project Description 1',
+      estimatedHours: 100,
+      status:'ACTIVE',
+      stage:'(IFA)Issue For Approval',
+      tools:'TEKLA',
+      startDate:'2021-07-01',
+      endDate:'2021-12-31',
+    }
+  ],
+  rfiData: [],
+  submittalData:[]
 };
 
 const projectSlice = createSlice({

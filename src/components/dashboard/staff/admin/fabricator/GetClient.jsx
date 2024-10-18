@@ -32,7 +32,7 @@ const GetClient = ({ clientId, isOpen, onClose }) => {
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-      <div className="bg-white md:p-5 rounded-lg shadow-lg w-11/12 max-w-4xl">
+      <div className="bg-white h-[80%] md:p-5 rounded-lg shadow-lg w-11/12 max-w-4xl">
         <div>
           <Button className="bg-red-500" onClick={handleClose}>
             Close
@@ -48,13 +48,32 @@ const GetClient = ({ clientId, isOpen, onClose }) => {
         </div>
 
         {/* Container */}
-        <div className="p-5 rounded-lg shadow-lg">
+        <div className="p-5 h-[88%] overflow-y-auto rounded-lg shadow-lg">
           <div className="bg-gray-100 rounded-lg shadow-md p-5">
             <h2 className="text-lg font-semibold mb-4">Client Details</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {[
                 { label: "Name", value: client?.f_name },
-                { label: "City", value: client?.fabricator?.address },
+                { label: "Email", value: client?.email },
+                { label: "Phone", value: client?.phone },
+                { label: "Landline", value: client?.landline },
+                { label: "Alernate Number", value: client?.alt_number },
+                
+              ].map(({ label, value }) => (
+                <div key={label} className="flex flex-col">
+                  <span className="font-medium text-gray-700">{label}:</span>
+                  <span className="text-gray-600">
+                    {value || "Not available"}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="bg-gray-100 mt-5 rounded-lg shadow-md p-5">
+            <h2 className="text-lg font-semibold mb-4">Location </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {[
+                { label: "Address", value: client?.fabricator?.address },
                 { label: "City", value: client?.fabricator?.city },
                 { label: "State", value: client?.fabricator?.state },
                 { label: "Country", value: client?.fabricator?.country },

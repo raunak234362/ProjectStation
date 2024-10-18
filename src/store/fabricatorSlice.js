@@ -55,6 +55,10 @@ const initialState = {
     {
       id: 1,
       f_name: "Client-1",
+      designation:'Manager',
+      email:'client1@gmail.com',
+      phone:7878452112,
+      landline:+785545454,
       fabricator: {
         id: 1,
         name: "Fabricator-1",
@@ -68,6 +72,10 @@ const initialState = {
     {
       id: 2,
       f_name: "Client-2",
+      designation:'Manager',
+      email:'client2@gmail.com',
+      phone:7878452112,
+      landline:+785545454,
       fabricator: {
         id: 1,
         name: "Fabricator-1",
@@ -80,15 +88,19 @@ const initialState = {
     },
     {
       id: 3,
-      f_name: "Client-2",
+      f_name: "Client-3",
+      designation:'Manager',
+      email:'client3@gmail.com',
+      phone:7878452112,
+      landline:+785545454,
       fabricator: {
-        id: 1,
+        id: 2,
         name: "Fabricator-2",
-        address: "456 Maple St, Industrial Area",
+        address: "562 Main St, Tech Zone",
         country: "US",
-        state: "California",
-        city: "Los Angeles",
-        zip_code: 90001,
+        state: "Alaska",
+        city: "Georgia",
+        zip_code: 12454,
       },
     },
   ],

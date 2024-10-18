@@ -1,10 +1,14 @@
 /* eslint-disable no-unused-vars */
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { Button, GetVendorUser } from "../../../../index";
 
 const AllVendorUser = () => {
   const vendors = useSelector((state) => state.vendorData?.vendorUserData);
 
+  const [vendorUser, setVendorUser] = useState([]);
+  const [selectedVendorUser, setSelectedVendorUser] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [filteredVendors, setFilteredVendors] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [sortOrder, setSortOrder] = useState({ key: "f_name", order: "asc" });
@@ -44,7 +48,9 @@ const AllVendorUser = () => {
   const filterAndSortData = (searchQuery, filters, sortOrder) => {
     let filtered = vendors.filter((ven) => {
       const searchMatch =
-        `${ven.f_name} ${ven.m_name} ${ven.l_name}`.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        `${ven.f_name} ${ven.m_name} ${ven.l_name}`
+          .toLowerCase()
+          .includes(searchQuery.toLowerCase()) ||
         ven.vendor.city.toLowerCase().includes(searchQuery.toLowerCase()) ||
         ven.vendor.state.toLowerCase().includes(searchQuery.toLowerCase()) ||
         ven.vendor.country.toLowerCase().includes(searchQuery.toLowerCase());
@@ -60,14 +66,22 @@ const AllVendorUser = () => {
 
     // Sorting
     filtered.sort((a, b) => {
-      const aValue = sortOrder.key === "city" ? a.vendor.city : 
-                     sortOrder.key === "state" ? a.vendor.state : 
-                     sortOrder.key === "country" ? a.vendor.country : 
-                     `${a.f_name} ${a.m_name} ${a.l_name}`; // Vendor Name
-      const bValue = sortOrder.key === "city" ? b.vendor.city : 
-                     sortOrder.key === "state" ? b.vendor.state : 
-                     sortOrder.key === "country" ? b.vendor.country : 
-                     `${b.f_name} ${b.m_name} ${b.l_name}`; // Vendor Name
+      const aValue =
+        sortOrder.key === "city"
+          ? a.vendor.city
+          : sortOrder.key === "state"
+          ? a.vendor.state
+          : sortOrder.key === "country"
+          ? a.vendor.country
+          : `${a.f_name} ${a.m_name} ${a.l_name}`; // Vendor Name
+      const bValue =
+        sortOrder.key === "city"
+          ? b.vendor.city
+          : sortOrder.key === "state"
+          ? b.vendor.state
+          : sortOrder.key === "country"
+          ? b.vendor.country
+          : `${b.f_name} ${b.m_name} ${b.l_name}`; // Vendor Name
 
       // Compare values
       if (aValue < bValue) return sortOrder.order === "asc" ? -1 : 1;
@@ -76,6 +90,16 @@ const AllVendorUser = () => {
     });
 
     setFilteredVendors(filtered);
+  };
+
+  const handleViewClick = async (vendorUserId) => {
+    setSelectedVendorUser(vendorUserId);
+    setIsModalOpen(true);
+  };
+
+  const handleModalClose = async () => {
+    setSelectedVendorUser(null);
+    setIsModalOpen(false);
   };
 
   return (
@@ -216,13 +240,25 @@ const AllVendorUser = () => {
                   <td className="border px-2 py-1">{vendor.vendor.city}</td>
                   <td className="border px-2 py-1">{vendor.vendor.state}</td>
                   <td className="border px-2 py-1">{vendor.vendor.country}</td>
-                  <td className="border px-2 py-1">Button</td>
+                  <td className="border px-2 py-1">
+                    <Button onClick={() => handleViewClick(vendor.id)}>
+                      View
+                    </Button>
+                  </td>
                 </tr>
               ))
             )}
           </tbody>
         </table>
       </div>
+      {
+        selectedVendorUser && (
+          <GetVendorUser
+          vendorUserId= {selectedVendorUser}
+          onClose= {handleModalClose}
+          />
+        )
+      }
     </div>
   );
 };

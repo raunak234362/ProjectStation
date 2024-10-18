@@ -45,6 +45,7 @@ import RFI from './dashboard/staff/admin/rfi/RFI'
 import CreateRFI from './dashboard/staff/admin/rfi/CreateRFI'
 import AllSentRFI from './dashboard/staff/admin/rfi/AllSentRFI'
 import AllReceivedRFI from './dashboard/staff/admin/rfi/AllReceivedRFI'
+import GetSentRFI from './dashboard/staff/admin/rfi/GetSentRFI'
 
 //Submittals
 import Submittals from './dashboard/staff/admin/submittals/Submittals'
@@ -108,6 +109,7 @@ export {
   CreateRFI,
   AllSentRFI,
   AllReceivedRFI,
+  GetSentRFI,
   Submittals,
   SendSubmittals,
   AllReceivedSubmittals,

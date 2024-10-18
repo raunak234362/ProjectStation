@@ -3,7 +3,8 @@ import React from "react";
 import { useSelector } from "react-redux";
 
 const AllReceivedRFI = () => {
-  const RFI = useSelector((state) => state?.projectData.rfiData);
+
+  const RFI = useSelector((state) => state?.projectData?.rfiData);
   console.log(RFI);
 
   return (
@@ -16,7 +17,7 @@ const AllReceivedRFI = () => {
                 <th className="px-2 py-1">Fabricator Name</th>
                 <th className="px-2 py-1">Client Name</th>
                 <th className="px-2 py-1">Project Name</th>
-                <th className="px-2 py-1">mail ID</th>
+                <th className="px-2 py-1">Mail ID</th>
                 <th className="px-2 py-1">Subject/Remarks</th>
                 <th className="px-2 py-1">Date</th>
                 <th className="px-2 py-1">RFI Status</th>
@@ -25,31 +26,51 @@ const AllReceivedRFI = () => {
               </tr>
             </thead>
             <tbody>
-              {RFI.length === 0 ? (
+              {RFI?.length === 0 ? (
                 <tr className="bg-white">
-                  <td colSpan="6" className="text-center">
+                  <td colSpan="9" className="text-center">
                     No received RFI Found
                   </td>
                 </tr>
               ) : (
-                RFI?.map((project, index) => (
+                RFI?.map((project) => (
                   <tr
-                    key={project.id}
+                    key={project?.id}
                     className="hover:bg-blue-gray-100 border"
                   >
-                    <td className="border px-2 py-1 text-left">
-                      {project.fabricator}
+                    {/* <td className="border px-2 py-1 text-left">
+                      {project?.fabricator || "N/A"}
                     </td>
                     <td className="border px-2 py-1 text-left">
-                      {project.client.name}
+                      {project?.client?.name || "N/A"}
                     </td>
-                    <td className="border px-2 py-1">{project.project}</td>
-                    <td className="border px-2 py-1">{project.mail}</td>
-                    <td className="border px-2 py-1">{project.remarks}</td>
-                    <td className="border px-2 py-1">10-5-2024</td>
-                    <td className="border px-2 py-1">Open</td>
-                    <td className="border px-2 py-1">Forward</td>
-                    <td className="border px-2 py-1">Button</td>
+                    <td className="border px-2 py-1">
+                      {project?.project || "N/A"}
+                    </td>
+                    <td className="border px-2 py-1">
+                      {project?.mail || "N/A"}
+                    </td>
+                    <td className="border px-2 py-1">
+                      {project?.remarks || "No remarks"}
+                    </td>
+                    <td className="border px-2 py-1">
+                      {project?.date || "N/A"}
+                    </td>
+                    <td className="border px-2 py-1">
+                      {project?.status || "Open"}
+                    </td> */}
+                    {/* <td className="border px-2 py-1">
+                      
+                      <button className="bg-teal-300 px-2 py-1 rounded">
+                        Forward
+                      </button>
+                    </td>
+                    <td className="border px-2 py-1">
+                      
+                      <button className="bg-blue-300 px-2 py-1 rounded">
+                        View
+                      </button>
+                    </td> */}
                   </tr>
                 ))
               )}

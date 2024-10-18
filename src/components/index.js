@@ -13,6 +13,7 @@ import Projects from './dashboard/staff/admin/Project/Projects'
 import AllProject from './dashboard/staff/admin/Project/AllProject'
 import AddProject from './dashboard/staff/admin/Project/AddProject'
 import EditProject from './dashboard/staff/admin/Project/EditProject'
+import GetProject from './dashboard/staff/admin/Project/GetProject'
 
 //Fabricator
 import Fabricators from './dashboard/staff/admin/fabricator/Fabricators'
@@ -82,6 +83,7 @@ export {
   AddProject,
   Projects,
   AllProject,
+  GetProject,
   EditProject,
   Fabricators,
   AddFabricator,

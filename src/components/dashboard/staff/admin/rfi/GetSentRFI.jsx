@@ -38,6 +38,7 @@ const GetSentRFI = ({ rfiId, isOpen, onClose }) => {
           <Button className="bg-red-500" onClick={handleClose}>
             Close
           </Button>
+          
         </div>
 
         {/* header */}

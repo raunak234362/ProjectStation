@@ -33,9 +33,12 @@ const GetVendor = ({ vendorId, isOpen, onClose }) => {
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
       <div className="bg-white h-[80%] md:p-5 rounded-lg shadow-lg w-11/12 max-w-4xl">
-        <div>
+      <div className="flex flex-row justify-between">
           <Button className="bg-red-500" onClick={handleClose}>
             Close
+          </Button>
+          <Button>
+            Edit
           </Button>
         </div>
 

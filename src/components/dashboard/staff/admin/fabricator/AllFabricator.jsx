@@ -10,7 +10,7 @@ const AllFabricator = () => {
     (state) => state?.fabricatorData.fabricatorData
   );
 
-  console.log(fabricators)
+  // console.log(fabricators)
   const dispatch = useDispatch();
   const [fabricator, setFabricator] = useState([]);
   const [selectedFabricator, setSelectedFabricator] = useState(null)
@@ -87,7 +87,7 @@ const AllFabricator = () => {
     setIsModalOpen(true)
   }
   
-  console.log(selectedFabricator)
+  // console.log(selectedFabricator)
 
   const handleModalClose= async()=>{
     setSelectedFabricator(null)

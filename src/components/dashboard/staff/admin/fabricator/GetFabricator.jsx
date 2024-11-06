@@ -7,7 +7,8 @@ import { AddBranch, Button } from "../../../../index";
 
 const GetFabricator = ({ fabricatorId, isOpen, onClose }) => {
   const [isEditing, setIsEditing] = useState(false);
-  const [isBranchAdd, setIsBranchAdd]=useState(false)
+  const [isBranchAdd, setIsBranchAdd] = useState(false);
+  const [selectedFabricator, setSelectedFabricator] = useState(null);
   const token = sessionStorage.getItem("token");
   const dispatch = useDispatch();
   const [fabricator, setFabricator] = useState();
@@ -45,20 +46,19 @@ const GetFabricator = ({ fabricatorId, isOpen, onClose }) => {
   useEffect(() => {
     fetchFabricator();
   }, [fabricatorId]);
+  const handleAddBranch = async () => {
+    setSelectedFabricator(fabricator.id);
+    setIsBranchAdd(true);
+  };
 
-
-  const handleAddBranch =async ()=>{
-    console.log("Add Branch")
-    setIsBranchAdd(true)
-  }
-
-  const handleAddBranchClose=async()=>{
-    setIsBranchAdd(false)
-  }
+  const handleAddBranchClose = async () => {
+    setSelectedFabricator(null);
+    setIsBranchAdd(false);
+  };
 
   const handleEditBranch = async (index) => {
     console.log("Edit Branch", index);
-  }
+  };
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
@@ -115,8 +115,8 @@ const GetFabricator = ({ fabricatorId, isOpen, onClose }) => {
                   ),
                 },
                 {
-                  label:"Files",
-                }
+                  label: "Files",
+                },
               ].map(({ label, value }) => (
                 <div key={label} className="flex flex-col">
                   <span className="font-medium text-gray-700">{label}:</span>
@@ -155,7 +155,7 @@ const GetFabricator = ({ fabricatorId, isOpen, onClose }) => {
             <div className="mt-4">
               <div className="flex flex-row justify-between">
                 <h2 className="text-lg font-semibold mb-4">Branch Details</h2>
-                <Button onClick={handleAddBranch} >Add Branch</Button>
+                <Button onClick={handleAddBranch}>Add Branch</Button>
               </div>
               {fabricator.branch.map((branch, index) => (
                 <div
@@ -181,9 +181,7 @@ const GetFabricator = ({ fabricatorId, isOpen, onClose }) => {
                     ))}
                   </div>
                   <div className="flex justify-end mt-4">
-                    <Button
-                      onClick={() => handleEditBranch(index)}
-                    >
+                    <Button onClick={() => handleEditBranch(index)}>
                       Edit
                     </Button>
                   </div>
@@ -193,7 +191,13 @@ const GetFabricator = ({ fabricatorId, isOpen, onClose }) => {
           )}
         </div>
       </div>
-      {/* <AddBranch isBranch={isBranchAdd} onBranchClose={handleAddBranchClose} /> */}
+      {selectedFabricator && (
+        <AddBranch
+          fabricatorId={selectedFabricator}
+          isBranch={isBranchAdd}
+          onBranchClose={handleAddBranchClose}
+        />
+      )}
     </div>
   );
 };

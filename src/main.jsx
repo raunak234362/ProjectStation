@@ -63,10 +63,10 @@ const router = createBrowserRouter([
   //   path:'dashboard/fabricator/:id',
   //   element:<GetFabricator/>
   // },
-  {
-    path:'dashboard/client/:id',
-    element:<GetClient/>
-  },
+  // {
+  //   path:'dashboard/client/:id',
+  //   element:<GetClient/>
+  // },
   {
     path: '/dashboard',
     element: <App />,

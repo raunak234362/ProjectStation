@@ -197,12 +197,12 @@ const AddFabricator = () => {
             </div>
           </div>
 
-          <div className="bg-teal-500/50 rounded-lg px-2 py-2 font-bold text-white">
+          {/* <div className="bg-teal-500/50 rounded-lg px-2 py-2 font-bold text-white">
             Attach Files:
           </div>
           <div className="my-2 md:px-2 px-1">
             <MultipleFileUpload {...register("file")} onFilesChange={onFilesChange} />
-          </div>
+          </div> */}
 
           <div className="my-5 w-full">
             <Button type="submit" className="w-full">

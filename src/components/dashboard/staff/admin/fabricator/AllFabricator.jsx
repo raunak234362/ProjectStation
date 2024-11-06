@@ -224,6 +224,7 @@ const AllFabricator = () => {
               )}
             </tbody>
           </table>
+          
         </div>
         {
           selectedFabricator && (

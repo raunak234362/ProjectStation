@@ -3,18 +3,16 @@
 import React, { useEffect, useState } from "react";
 import Service from "../../../../../config/Service";
 import { Provider, useDispatch, useSelector } from "react-redux";
-import { Button } from "../../../../index";
+import { AddBranch, Button } from "../../../../index";
 
 const GetFabricator = ({ fabricatorId, isOpen, onClose }) => {
-  console.log("---------------", fabricatorId);
   const [isEditing, setIsEditing] = useState(false);
+  const [isBranchAdd, setIsBranchAdd]=useState(false)
   const token = sessionStorage.getItem("token");
   const dispatch = useDispatch();
   const [fabricator, setFabricator] = useState();
 
   const fabData = useSelector((state) => state.fabricatorData?.fabricatorData);
-
-  console.log(fabData);
 
   const fetchFabricator = async () => {
     try {
@@ -48,9 +46,23 @@ const GetFabricator = ({ fabricatorId, isOpen, onClose }) => {
     fetchFabricator();
   }, [fabricatorId]);
 
+
+  const handleAddBranch =async ()=>{
+    console.log("Add Branch")
+    setIsBranchAdd(true)
+  }
+
+  const handleAddBranchClose=async()=>{
+    setIsBranchAdd(false)
+  }
+
+  const handleEditBranch = async (index) => {
+    console.log("Edit Branch", index);
+  }
+
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-      <div className="bg-white h-[80%] md:p-5 rounded-lg shadow-lg w-11/12 ">
+      <div className="bg-white h-[80%] md:p-5 p-2 rounded-lg shadow-lg w-11/12 ">
         <div className="flex flex-row justify-between">
           <Button className="bg-red-500" onClick={handleClose}>
             Close
@@ -67,7 +79,7 @@ const GetFabricator = ({ fabricatorId, isOpen, onClose }) => {
         </div>
 
         {/* Container */}
-        <div className="p-5 h-[88%] overflow-y-auto rounded-lg shadow-lg">
+        <div className="p-1 h-[88%] overflow-y-auto rounded-lg shadow-lg">
           <div className="bg-gray-100/50 rounded-lg shadow-md p-5">
             <h2 className="text-lg font-semibold mb-4">Fabricator Details</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -102,6 +114,9 @@ const GetFabricator = ({ fabricatorId, isOpen, onClose }) => {
                     "Not available"
                   ),
                 },
+                {
+                  label:"Files",
+                }
               ].map(({ label, value }) => (
                 <div key={label} className="flex flex-col">
                   <span className="font-medium text-gray-700">{label}:</span>
@@ -138,7 +153,10 @@ const GetFabricator = ({ fabricatorId, isOpen, onClose }) => {
           {/* Branch Details */}
           {fabricator?.branch?.length > 0 && (
             <div className="mt-4">
-              <h2 className="text-lg font-semibold mb-4">Branch Details</h2>
+              <div className="flex flex-row justify-between">
+                <h2 className="text-lg font-semibold mb-4">Branch Details</h2>
+                <Button onClick={handleAddBranch} >Add Branch</Button>
+              </div>
               {fabricator.branch.map((branch, index) => (
                 <div
                   key={index}
@@ -162,12 +180,20 @@ const GetFabricator = ({ fabricatorId, isOpen, onClose }) => {
                       </div>
                     ))}
                   </div>
+                  <div className="flex justify-end mt-4">
+                    <Button
+                      onClick={() => handleEditBranch(index)}
+                    >
+                      Edit
+                    </Button>
+                  </div>
                 </div>
               ))}
             </div>
           )}
         </div>
       </div>
+      {/* <AddBranch isBranch={isBranchAdd} onBranchClose={handleAddBranchClose} /> */}
     </div>
   );
 };

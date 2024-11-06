@@ -40,7 +40,7 @@ const Sidebar = () => {
         <ul className="flex flex-col gap-5">
           <li>
             <NavLink
-              to="/dashboard/data"
+              to="data"
               className={({ isActive }) =>
                 isActive
                   ? "flex justify-center items-center text-white bg-teal-400 rounded-md w-full  delay-150"
@@ -52,7 +52,7 @@ const Sidebar = () => {
           </li>
           <li>
             <NavLink
-              to="/dashboard/fabricator"
+              to="fabricator"
               className={({ isActive }) =>
                 isActive
                   ? "flex justify-center items-center text-white bg-teal-400 rounded-md w-full  delay-150"
@@ -64,7 +64,7 @@ const Sidebar = () => {
           </li>
           <li>
             <NavLink
-              to="/dashboard/vendor"
+              to="vendor"
               className={({ isActive }) =>
                 isActive
                   ? "flex justify-center items-center text-white bg-teal-400 rounded-md w-full  delay-150"
@@ -76,7 +76,7 @@ const Sidebar = () => {
           </li>
           <li>
             <NavLink
-              to="/dashboard/project"
+              to="project"
               className={({ isActive }) =>
                 isActive
                   ? "flex justify-center items-center text-white bg-teal-400 rounded-md w-full  delay-150"
@@ -148,7 +148,7 @@ const Sidebar = () => {
           </li>
           <li className="w-full">
             <NavLink
-              to="/dashboard/home"
+              to="profile"
               className={({ isActive }) =>
                 isActive
                   ? "flex justify-center items-center text-white bg-teal-400 rounded-md w-full  delay-150 transition-all ease-in-out"

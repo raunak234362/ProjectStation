@@ -68,11 +68,11 @@ const router = createBrowserRouter([
   //   element:<GetClient/>
   // },
   {
-    path: '/dashboard',
+    path: '/admin',
     element: <App />,
     children: [
       {
-        path: 'home',
+        path: 'profile',
         element: <MainContent />,
       },
       {
@@ -143,6 +143,14 @@ const router = createBrowserRouter([
         ]
       },
     ],
+  },
+  {
+    path:'/client',
+    element:<App/>,
+    children:[
+      {
+        path:'profile',
+      }]
   },
  
   { path: '*', element: <ErrorBoundary /> },

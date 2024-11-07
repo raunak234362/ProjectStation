@@ -41,9 +41,7 @@ const GetProject = ({ projectId, onClose }) => {
           <Button className="bg-red-500" onClick={handleClose}>
             Close
           </Button>
-          <Button>
-            Edit
-          </Button>
+          <Button>Edit</Button>
         </div>
 
         {/* header */}
@@ -72,7 +70,6 @@ const GetProject = ({ projectId, onClose }) => {
                 { label: "Department", value: project?.department },
                 { label: "Department Manager", value: project?.manager },
                 { label: "Project Team", value: project?.team },
-                
               ].map(({ label, value }) => (
                 <div key={label} className="flex flex-col">
                   <span className="font-medium text-gray-700">{label}:</span>
@@ -82,6 +79,11 @@ const GetProject = ({ projectId, onClose }) => {
                 </div>
               ))}
             </div>
+          </div>
+          <div className="bg-gray-100/50 rounded-lg shadow-md p-5">
+            <h2 className="text-lg font-semibold mb-4">
+              Project Work Breakdown:
+            </h2>
           </div>
         </div>
       </div>

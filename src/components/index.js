@@ -15,6 +15,13 @@ import AddProject from './dashboard/staff/admin/Project/AddProject'
 import EditProject from './dashboard/staff/admin/Project/EditProject'
 import GetProject from './dashboard/staff/admin/Project/GetProject'
 
+
+//Work Breakdown
+import WorkBreakdown from './dashboard/staff/admin/WB/WorkBreakdown'
+import AddWB from './dashboard/staff/admin/WB/AddWB'
+import EditWB from './dashboard/staff/admin/WB/EditWB'
+
+
 //Fabricator
 import Fabricators from './dashboard/staff/admin/fabricator/Fabricators'
 import AddFabricator from './dashboard/staff/admin/fabricator/AddFabricator'
@@ -89,6 +96,9 @@ export {
   AllProject,
   GetProject,
   EditProject,
+  WorkBreakdown,
+  EditWB,
+  AddWB,
   Fabricators,
   AddFabricator,
   AddFabricatorUser,

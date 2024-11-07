@@ -84,6 +84,11 @@ const GetProject = ({ projectId, onClose }) => {
             <h2 className="text-lg font-semibold mb-4">
               Project Work Breakdown:
             </h2>
+            <div className="flex gap-4">
+              <Button>All Work Breakdown</Button>
+              <Button>Add Work Breakdown</Button>
+              <Button>Edit Work Breakdown</Button>
+            </div>
           </div>
         </div>
       </div>

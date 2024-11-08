@@ -46,6 +46,7 @@ const GetFabricator = ({ fabricatorId, isOpen, onClose }) => {
   useEffect(() => {
     fetchFabricator();
   }, [fabricatorId]);
+  
   const handleAddBranch = async () => {
     setSelectedFabricator(fabricator.id);
     setIsBranchAdd(true);

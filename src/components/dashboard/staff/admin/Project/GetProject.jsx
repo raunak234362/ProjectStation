@@ -3,10 +3,13 @@
 import React, { useEffect, useState } from "react";
 import Service from "../../../../../config/Service";
 import { Provider, useDispatch, useSelector } from "react-redux";
-import { Button } from "../../../../index";
+import { AddWB, Button } from "../../../../index";
 
 const GetProject = ({ projectId, onClose }) => {
   const [project, setProject] = useState([]);
+  const [selectedProject, setSelectedProject] = useState(null);
+  const [addWorkBreakdown, setAddWorkBreakdown] = useState(false);
+  const [editWorkBreakdown, setEditWorkBreakdown] = useState(false);
 
   const projectData = useSelector((state) => state?.projectData.projectData);
 
@@ -24,6 +27,17 @@ const GetProject = ({ projectId, onClose }) => {
     }
   };
 
+  const handleAddWorkBreakdown = () => {
+    console.log("Add Work Breakdown");
+    setSelectedProject(project.id);
+    setAddWorkBreakdown(true);
+  };
+
+  const handleCloseAWB = async()=>{
+    setSelectedProject(null);
+    setAddWorkBreakdown(false);
+  }
+
   const handleClose = async () => {
     onClose(true);
   };
@@ -32,7 +46,6 @@ const GetProject = ({ projectId, onClose }) => {
     fetchProject();
   }, [projectId]);
 
-  console.log(project);
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
@@ -69,6 +82,7 @@ const GetProject = ({ projectId, onClose }) => {
                 { label: "End Date", value: project?.approval_date },
                 { label: "Department", value: project?.department },
                 { label: "Department Manager", value: project?.manager },
+                { label: "Project Manager", value: project?.manager },
                 { label: "Project Team", value: project?.team },
               ].map(({ label, value }) => (
                 <div key={label} className="flex flex-col">
@@ -85,13 +99,18 @@ const GetProject = ({ projectId, onClose }) => {
               Project Work Breakdown:
             </h2>
             <div className="flex gap-4">
-              <Button>All Work Breakdown</Button>
-              <Button>Add Work Breakdown</Button>
+              <Button >
+                All Work Breakdown
+              </Button>
+              <Button onClick={() => handleAddWorkBreakdown(project.id)}>Add Work Breakdown</Button>
               <Button>Edit Work Breakdown</Button>
             </div>
           </div>
         </div>
       </div>
+      {selectedProject && (
+        <AddWB projectId={selectedProject} onClose={setAddWorkBreakdown} />
+      )}
     </div>
   );
 };

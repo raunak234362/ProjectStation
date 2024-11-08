@@ -17,9 +17,9 @@ import GetProject from './dashboard/staff/admin/Project/GetProject'
 
 
 //Work Breakdown
-import WorkBreakdown from './dashboard/staff/admin/WB/WorkBreakdown'
-import AddWB from './dashboard/staff/admin/WB/AddWB'
-import EditWB from './dashboard/staff/admin/WB/EditWB'
+import WorkBreakdown from './dashboard/staff/admin/Project/WorkBreakdown'
+import AddWB from './dashboard/staff/admin/Project/AddWB'
+import EditWB from './dashboard/staff/admin/Project/EditWB'
 
 
 //Fabricator

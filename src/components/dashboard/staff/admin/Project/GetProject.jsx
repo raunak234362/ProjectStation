@@ -34,8 +34,8 @@ const GetProject = ({ projectId, onClose }) => {
   };
 
   const handleCloseAWB = async()=>{
-    setSelectedProject(null);
     setAddWorkBreakdown(false);
+    setSelectedProject(null);
   }
 
   const handleClose = async () => {
@@ -109,7 +109,7 @@ const GetProject = ({ projectId, onClose }) => {
         </div>
       </div>
       {selectedProject && (
-        <AddWB projectId={selectedProject} onClose={setAddWorkBreakdown} />
+        <AddWB projectId={selectedProject} onClose={handleCloseAWB} />
       )}
     </div>
   );

@@ -64,11 +64,13 @@ const AddWB = ({ projectId, onClose }) => {
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
       <div className="bg-white h-[60%] md:p-5 p-2 rounded-lg shadow-lg md:w-5/6 w-4/5 ">
+
         <div className="flex flex-row justify-between">
           <Button className="bg-red-500" onClick={handleClose}>
             Close
           </Button>
         </div>
+
         <div className="top-2 w-full flex justify-center z-10">
           <div className="mt-2">
             <div className="bg-teal-400 text-white px-3 md:px-4 py-2 md:text-2xl font-bold rounded-lg shadow-md">
@@ -79,6 +81,7 @@ const AddWB = ({ projectId, onClose }) => {
 
         <div className="overflow-x-auto md:w-[80vw] w-[75vw] my-3">
           <table className="w-full border-collapse border border-gray-600 text-center text-sm ">
+
             <thead className="bg-gray-200">
               <tr>
                 <th className="border border-gray-600 px-2 py-1">Sl.No</th>
@@ -102,6 +105,7 @@ const AddWB = ({ projectId, onClose }) => {
                 </th>
               </tr>
             </thead>
+            
             <tbody>
               <tr className=" bg-green-100">
                 <td className="border border-gray-600 px-2 py-1">

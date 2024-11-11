@@ -1,8 +1,9 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from "react";
 import { Input, CustomSelect, Button } from "../../../../index";
-import { useForm, Controller,useFieldArray } from "react-hook-form";
+import { useForm, Controller, useFieldArray } from "react-hook-form";
 import { useSelector } from "react-redux";
 
 const AddWB = ({ projectId, onClose }) => {
@@ -105,35 +106,30 @@ const AddWB = ({ projectId, onClose }) => {
                     </td>
 
                     <td className="border border-gray-600 px-2 py-1">
-                      <Controller
+                      <CustomSelect
                         name={`rows.${index}.description`}
-                        control={control}
-                        render={({ field }) => (
-                          <CustomSelect
-                            {...field}
-                            label="Job Study - Description"
-                            color="blue"
-                            options={[
-                              {
-                                label: "Job Study - Modeling",
-                                value: "Modeling",
-                              },
-                              {
-                                label: "Job Study - Detailing",
-                                value: "Detailing",
-                              },
-                              {
-                                label: "Job Study - Erection",
-                                value: "Erection",
-                              },
-                              {
-                                label: "Job Study - Checking",
-                                value: "Checking",
-                              },
-                            ]}
-                            onChange={(value) => field.onChange(value)}
-                          />
-                        )}
+                        label="Job Study - Description"
+                        color="blue"
+                        options={[
+                          {
+                            label: "Job Study - Modeling",
+                            value: "Modeling",
+                          },
+                          {
+                            label: "Job Study - Detailing",
+                            value: "Detailing",
+                          },
+                          {
+                            label: "Job Study - Erection",
+                            value: "Erection",
+                          },
+                          {
+                            label: "Job Study - Checking",
+                            value: "Checking",
+                          },
+                        ]}
+                        {...register(`rows.${index}.description`)}
+                        onChange={setValue}
                       />
                     </td>
 
@@ -184,6 +180,7 @@ const AddWB = ({ projectId, onClose }) => {
             </Button>
             <Button type="submit" className="bg-blue-500 text-white">
               Submit
+            
             </Button>
           </div>
         </form>

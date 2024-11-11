@@ -1,0 +1,50 @@
+{
+    "taskDetail":[
+        {
+            "name" : "Modeling",
+            "task":[
+                {
+                    "name" : "Grid Placement",
+                    "subTask" : [
+                        {"name": "Create 1st horizontal & vertical grid line"},
+                        {"name": "Create 2nd horizontal & vertical grid line"},
+                        {"name": "Create 3rd horizontal & vertical grid line"},
+                        {"name": "Create 4th horizontal & vertical grid line"}
+                    ]
+                },
+                {
+                    "name" : "MP - Wall & Panel Placement"
+                }
+            ]
+        },
+        {
+            "name" : "Erection",
+            "task" : [
+                {
+                    "name" : "Detailing of AB Plans",
+                    "subTask" : [
+                        {"name": " 1st "},
+                        {"name": " 2nd "},
+                        {"name": " 3rd "},
+                        {"name": " 4th "}
+                    ]
+                }
+            ]
+        },
+        {
+            "name" : "Checking",
+            "task" : [
+                {
+                    "name" : "Detailing of AB Plans",
+                    "subTask" : [
+                        {"name": " 1st "},
+                        {"name": " 2nd "},
+                        {"name": " 3rd "},
+                        {"name": " 4th "}
+                    ]
+                }
+            ]
+        }
+
+    ]
+}

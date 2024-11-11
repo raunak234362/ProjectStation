@@ -52,7 +52,7 @@ const AddWB = ({ projectId, onClose }) => {
   const addRow = () => {
     setRows([
       ...rows,
-      { SNo: "", description: "", qty: "", Executionhours: "", UnitTime: "" },
+      { SNo: "", description: "", qty: "", executionHours: "", unitTime: "" },
     ]);
   };
 
@@ -64,7 +64,6 @@ const AddWB = ({ projectId, onClose }) => {
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
       <div className="bg-white h-[60%] md:p-5 p-2 rounded-lg shadow-lg md:w-5/6 w-4/5 ">
-
         <div className="flex flex-row justify-between">
           <Button className="bg-red-500" onClick={handleClose}>
             Close
@@ -80,8 +79,7 @@ const AddWB = ({ projectId, onClose }) => {
         </div>
 
         <div className="overflow-x-auto md:w-[80vw] w-[75vw] my-3">
-          <table className="w-full border-collapse border border-gray-600 text-center text-sm ">
-
+          <table className="w-full border-collapse border border-gray-600 text-center text-sm z-50">
             <thead className="bg-gray-200">
               <tr>
                 <th className="border border-gray-600 px-2 py-1">Sl.No</th>
@@ -89,6 +87,7 @@ const AddWB = ({ projectId, onClose }) => {
                   Description of WBS
                 </th>
                 <th className="border border-gray-600 px-2 py-1">Qty. (No.)</th>
+                <th className="border border-gray-600 px-2 py-1">Unit Time</th>
 
                 <th className="border border-gray-600 px-2 py-1">
                   Exection Time(Hr)
@@ -99,13 +98,13 @@ const AddWB = ({ projectId, onClose }) => {
                   Description of WBS
                 </th>
                 <th className="border border-gray-600 px-2 py-1">Qty. (No.)</th>
-
+                <th className="border border-gray-600 px-2 py-1">Unit Time</th>
                 <th className="border border-gray-600 px-2 py-1">
                   Checking Time(Hr)
                 </th>
               </tr>
             </thead>
-            
+
             <tbody>
               <tr className=" bg-green-100">
                 <td className="border border-gray-600 px-2 py-1">
@@ -114,70 +113,137 @@ const AddWB = ({ projectId, onClose }) => {
                 <td className="border border-gray-600 px-2 py-1">
                   <b>Job Study</b>
                 </td>
+                <td className="border border-gray-600 px-2 py-1"></td>{" "}
+                {/** oty*/}
+                <td className="border border-gray-600 px-2 py-1"></td>{" "}
+                {/** Unit Time*/}
+                <td className="border border-gray-600 px-2 py-1"></td>{" "}
+                {/** Execution Time*/}
+                <br />
                 <td className="border border-gray-600 px-2 py-1"></td>
+                {/* SlNo */}
                 <td className="border border-gray-600 px-2 py-1"></td>
-
+                {/* description */}
                 <td className="border border-gray-600 px-2 py-1"></td>
-
+                {/* Qty */}
                 <td className="border border-gray-600 px-2 py-1"></td>
+                {/* Unit time */}
                 <td className="border border-gray-600 px-2 py-1"></td>
-
-                <td className="border border-gray-600 px-2 py-1"></td>
-                <td className="border border-gray-600 px-2 py-1"></td>
+                {/* Checking Time */}
               </tr>
             </tbody>
+
             <tbody>
-              {[
-                {
-                  SNo: "JM",
-                  desc: "Job Study - Modelling",
-                  SNoCheck: "JC",
-                  descCheck: "Job Study - Model Checking",
-                },
-                {
-                  SNo: "JE",
-                  desc: "Job Study - Erection",
-                  SNoCheck: "JC",
-                  descCheck: "Job Study - Erection Checking",
-                },
-                {
-                  SNo: "JD",
-                  desc: "Job Study - Detailing",
-                  SNoCheck: "JC",
-                  descCheck: "Job Study - Detailing Checking",
-                },
-              ].map((item, idx) => (
-                <tr
-                  key={idx}
-                  className={`bg-green-100 ${idx % 2 === 0 ? "" : "/30"}`}
-                >
+              {rows.map((row, index) => (
+                <tr key={index}>
+                  <td className="border border-gray-600 px-2 py-1">JSM</td>
                   <td className="border border-gray-600 px-2 py-1">
-                    {item.SNo}
+                    <Select
+                    label="Description"
+                    color='blue'
+                    name="description"
+                    options={[
+                      { value: "Modeling", label: "Modeling" },
+                      { value: "Detailing", label: "Detailing" },
+                      { value: "Erection", label: "Erection" },
+                    ]}
+                    />
+                      
                   </td>
                   <td className="border border-gray-600 px-2 py-1">
-                    {item.desc}
+                    <Input
+                      type="number"
+                      min="0"
+                      label="Qty. No"
+                      placeholder="Qty"
+                      size="sm"
+                      value={row.qty}
+                      onChange={(e) =>
+                        handleRowChange(index, "qty", e.target.value)
+                      }
+                    />
                   </td>
-                  <td className="border border-gray-600 px-2 py-1"></td>
+                  <td className="border border-gray-600 px-2 py-1">
+                    <Input
+                      type="number"
+                      min="0"
+                      label="Unit Time"
+                      placeholder="Unit Time"
+                      size="sm"
+                      value={row.unitTime}
+                      onChange={(e) =>
+                        handleRowChange(index, "description", e.target.value)
+                      }
+                    />
+                  </td>
                   <td className="border border-gray-600 px-2 py-1"></td>
                   <br />
+                  <td className="border border-gray-600 px-2 py-1">JSC</td>
                   <td className="border border-gray-600 px-2 py-1">
-                    {item.SNoCheck}
+                    Job Study - Checking
                   </td>
                   <td className="border border-gray-600 px-2 py-1">
-                    {item.descCheck}
+                    <Input
+                      type="number"
+                      min="0"
+                      label="Qty. No"
+                      placeholder="Qty"
+                      size="sm"
+                      value={row.qty}
+                      onChange={(e) =>
+                        handleRowChange(index, "qty", e.target.value)
+                      }
+                    />
                   </td>
-                  <td className="border border-gray-600 px-2 py-1"></td>
-                  <td className="border border-gray-600 px-2 py-1"></td>
+                  <td className="border border-gray-600 px-2 py-1">
+                    <Input
+                      type="number"
+                      min="0"
+                      label="Unit Time"
+                      placeholder="Unit Time"
+                      size="sm"
+                      value={row.unitTime}
+                      onChange={(e) =>
+                        handleRowChange(index, "description", e.target.value)
+                      }
+                    />
+                  </td>
                 </tr>
               ))}
             </tbody>
-            <tbody>
+          </table>
+          <table className="w-full border-collapse border border-gray-600 text-center text-sm ">
+            <thead className="bg-gray-200">
+              <tr>
+                <th className="border border-gray-600 px-2 py-1">Sl.No</th>
+                <th className="border border-gray-600 px-2 py-1">
+                  Description of WBS
+                </th>
+                <th className="border border-gray-600 px-2 py-1">Qty. (No.)</th>
+                <th className="border border-gray-600 px-2 py-1">Unit Time</th>
+
+                <th className="border border-gray-600 px-2 py-1">
+                  Exection Time(Hr)
+                </th>
+                <br />
+                <th className="border border-gray-600 px-2 py-1">Sl.No</th>
+                <th className="border border-gray-600 px-2 py-1">
+                  Description of WBS
+                </th>
+                <th className="border border-gray-600 px-2 py-1">Qty. (No.)</th>
+                <th className="border border-gray-600 px-2 py-1">Unit Time</th>
+                <th className="border border-gray-600 px-2 py-1">
+                  Checking Time(Hr)
+                </th>
+              </tr>
+            </thead>
+            <tbody className="mt-10">
               {[
                 {
                   desc: "Modelling",
                   SNoCheck: "JC",
                   descCheck: "Job Study - Model Checking",
-                }
+                },
               ].map((item, idx) => (
                 <tr
                   key={idx}
@@ -191,6 +257,7 @@ const AddWB = ({ projectId, onClose }) => {
                   </td>
                   <td className="border border-gray-600 px-2 py-1"></td>
                   <td className="border border-gray-600 px-2 py-1"></td>
+                  <td className="border border-gray-600 px-2 py-1"></td>
                   <br />
                   <td className="border border-gray-600 px-2 py-1">
                     {item.SNoCheck}
@@ -198,6 +265,7 @@ const AddWB = ({ projectId, onClose }) => {
                   <td className="border border-gray-600 px-2 py-1">
                     {item.descCheck}
                   </td>
+                  <td className="border border-gray-600 px-2 py-1"></td>
                   <td className="border border-gray-600 px-2 py-1"></td>
                   <td className="border border-gray-600 px-2 py-1"></td>
                 </tr>

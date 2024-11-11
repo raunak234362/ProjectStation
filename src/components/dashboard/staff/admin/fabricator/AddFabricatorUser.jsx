@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { useForm } from 'react-hook-form'
-import { Input, Select, Button } from '../../../../index'
+import { Input, CustomSelect, Button } from '../../../../index'
 import { useDispatch, useSelector } from 'react-redux'
 import { addClient } from '../../../../../store/fabricatorSlice'
 import {
@@ -118,7 +118,7 @@ const AddFabricatorUser = () => {
           </div>
           <div className="my-2 px-1 md:px-2">
             <div className="w-full my-2">
-              <Select
+              <CustomSelect
                 label="Fabricator:"
                 placeholder="Fabricator"
                 size="lg"
@@ -134,7 +134,7 @@ const AddFabricatorUser = () => {
             </div>
            
             <div className="w-full my-2">
-              <Select
+              <CustomSelect
                 label="Branch:"
                 placeholder="Branch"
                 size="lg"
@@ -266,7 +266,7 @@ const AddFabricatorUser = () => {
             </div>
             <div className="w-full gap-2 my-2 flex md:flex-row flex-col items-center">
               <div className="md:w-[10%] w-full">
-                <Select
+                <CustomSelect
                   label="Country Code:"
                   color="blue"
                   name="country_code"

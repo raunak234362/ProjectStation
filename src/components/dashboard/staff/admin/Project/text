@@ -1,0 +1,60 @@
+<table className="w-full border-collapse border border-gray-600 text-center text-sm ">
+            <thead className="bg-gray-200">
+              <tr>
+                <th className="border border-gray-600 px-2 py-1">Sl.No</th>
+                <th className="border border-gray-600 px-2 py-1">
+                  Description of WBS
+                </th>
+                <th className="border border-gray-600 px-2 py-1">Qty. (No.)</th>
+                <th className="border border-gray-600 px-2 py-1">Unit Time</th>
+
+                <th className="border border-gray-600 px-2 py-1">
+                  Exection Time(Hr)
+                </th>
+                <br />
+                <th className="border border-gray-600 px-2 py-1">Sl.No</th>
+                <th className="border border-gray-600 px-2 py-1">
+                  Description of WBS
+                </th>
+                <th className="border border-gray-600 px-2 py-1">Qty. (No.)</th>
+                <th className="border border-gray-600 px-2 py-1">Unit Time</th>
+                <th className="border border-gray-600 px-2 py-1">
+                  Checking Time(Hr)
+                </th>
+              </tr>
+            </thead>
+            <tbody className="mt-10">
+              {[
+                {
+                  desc: "Modelling",
+                  SNoCheck: "JC",
+                  descCheck: "Job Study - Model Checking",
+                },
+              ].map((item, idx) => (
+                <tr
+                  key={idx}
+                  className={`bg-green-100 ${idx % 2 === 0 ? "" : "/30"}`}
+                >
+                  <td className="border border-gray-600 px-2 py-1">
+                    {item.SNo}
+                  </td>
+                  <td className="border border-gray-600 px-2 py-1">
+                    <b>{item.desc}</b>
+                  </td>
+                  <td className="border border-gray-600 px-2 py-1"></td>
+                  <td className="border border-gray-600 px-2 py-1"></td>
+                  <td className="border border-gray-600 px-2 py-1"></td>
+                  <br />
+                  <td className="border border-gray-600 px-2 py-1">
+                    {item.SNoCheck}
+                  </td>
+                  <td className="border border-gray-600 px-2 py-1">
+                    {item.descCheck}
+                  </td>
+                  <td className="border border-gray-600 px-2 py-1"></td>
+                  <td className="border border-gray-600 px-2 py-1"></td>
+                  <td className="border border-gray-600 px-2 py-1"></td>
+                </tr>
+              ))}
+            </tbody>
+          </table>

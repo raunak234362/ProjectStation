@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { useForm } from "react-hook-form";
-import { Input, Select, Button } from "../../../../index";
+import { Input, CustomSelect, Button } from "../../../../index";
 import { useEffect, useState } from "react";
 import Service from "../../../../../config/Service";
 import { useDispatch } from "react-redux";
@@ -79,7 +79,7 @@ const AddDepartment = () => {
             </div>
 
             <div className="w-full mt-4">
-              <Select
+              <CustomSelect
                 label="Manager:"
                 color="blue"
                 options={[

@@ -3,7 +3,7 @@
 import { useForm } from 'react-hook-form'
 import { useDispatch, useSelector } from 'react-redux'
 import { State, City } from 'country-state-city'
-import { Input, Select, Button, Toggle, MultipleFileUpload } from '../../../../index'
+import { Input, CustomSelect, Button, Toggle, MultipleFileUpload } from '../../../../index'
 import { useEffect, useState } from 'react'
 import { addFabricator } from '../../../../../store/fabricatorSlice'
 import Service from '../../../../../config/Service'
@@ -111,7 +111,7 @@ const AddFabricator = () => {
               />
             </div>
             <div className="my-2">
-              <Select
+              <CustomSelect
                 label="Country: "
                 placeholder="Country"
                 className="w-full"
@@ -130,7 +130,7 @@ const AddFabricator = () => {
               )}
             </div>
             <div className="my-2">
-              <Select
+              <CustomSelect
                 label="State: "
                 placeholder="State"
                 className="w-full"
@@ -149,7 +149,7 @@ const AddFabricator = () => {
             )} */}
             </div>
             <div className="my-2">
-              <Select
+              <CustomSelect
                 label="City: "
                 placeholder="City"
                 className="w-full"

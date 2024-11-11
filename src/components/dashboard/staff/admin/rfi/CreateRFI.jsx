@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import {
   Input,
-  Select,
+  CustomSelect,
   Button,
   Toggle,
   MultipleFileUpload,
@@ -42,7 +42,7 @@ const CreateRFI = () => {
           </div>
           <div className="my-2 md:px-2 px-1">
             <div className="w-full">
-              <Select
+              <CustomSelect
                 label="Fabricator Name:"
                 color="blue"
                 size="lg"
@@ -58,7 +58,7 @@ const CreateRFI = () => {
               {errors.fabricator && <div>This field is required</div>}
             </div>
             <div className="w-full mt-3">
-              <Select
+              <CustomSelect
                 label="Project Name:"
                 color="blue"
                 size="lg"
@@ -74,7 +74,7 @@ const CreateRFI = () => {
               {errors.project && <div>This field is required</div>}
             </div>
             <div className="w-full my-3">
-              <Select
+              <CustomSelect
                 label="Select Recipients:"
                 placeholder="Select Recipients"
                 size="lg"

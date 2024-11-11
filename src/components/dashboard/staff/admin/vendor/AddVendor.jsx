@@ -2,7 +2,7 @@ import { City, State } from 'country-state-city'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useDispatch } from 'react-redux'
-import { Input, Button, Select } from '../../../../index'
+import { Input, Button, CustomSelect } from '../../../../index'
 import Service from '../../../../../config/Service'
 import { addVendor } from '../../../../../store/vendorSlice'
 
@@ -100,7 +100,7 @@ const AddVendor = () => {
               />
             </div>
             <div className="my-2">
-              <Select
+              <CustomSelect
                 label="Country: "
                 placeholder="Country"
                 className="w-full"
@@ -119,7 +119,7 @@ const AddVendor = () => {
               )}
             </div>
             <div className="my-2">
-              <Select
+              <CustomSelect
                 label="State: "
                 placeholder="State"
                 className="w-full"
@@ -138,7 +138,7 @@ const AddVendor = () => {
               )} */}
             </div>
             <div className="my-2">
-              <Select
+              <CustomSelect
                 label="City: "
                 placeholder="City"
                 className="w-full"

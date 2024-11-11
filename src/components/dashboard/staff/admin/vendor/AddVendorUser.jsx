@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import { Select, Input, Button, Toggle } from "../../../../index";
+import { CustomSelect, Input, Button, Toggle } from "../../../../index";
 
 import { City, State } from "country-state-city";
 import { useEffect, useState } from "react";
@@ -73,7 +73,7 @@ const AddVendorUser = () => {
           </div>
           <div className="my-2 md:px-2 px-1">
             <div className="w-full py-1">
-              <Select
+              <CustomSelect
                 label="Select Vendor:"
                 placeholder="Select Vendor"
                 size="lg"
@@ -88,7 +88,7 @@ const AddVendorUser = () => {
               {errors.vendor && <div>This field is required</div>}
             </div>
             <div className="w-full my-2">
-              <Select
+              <CustomSelect
                 label="Branch:"
                 placeholder="Branch"
                 size="lg"
@@ -161,7 +161,7 @@ const AddVendorUser = () => {
           <div className="my-2 md:px-2 px-1">
             <div className="w-full grid md:grid-cols-[15%,80%] grid-flow-row items-center">
               <div className="w-full py-1">
-                <Select
+                <CustomSelect
                   label="Country Code:"
                   color="blue"
                   name="country_code"

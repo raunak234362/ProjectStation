@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { useForm } from 'react-hook-form'
-import { Input, Select, Button, Toggle } from '../../../../index'
+import { Input, CustomSelect, Button, Toggle } from '../../../../index'
 import { useDispatch } from 'react-redux'
 import { setUserData } from '../../../../../store/userSlice'
 import {
@@ -116,7 +116,7 @@ const AddEmployee = () => {
               {errors.emp_code && <div>This field is required</div>}
             </div>
             <div className="w-full my-2">
-            <Select
+            <CustomSelect
                 label="Department:"
                 color="blue"
                 name="department"
@@ -191,7 +191,7 @@ const AddEmployee = () => {
             </div>
             <div className="w-full gap-2 my-2 flex md:flex-row flex-col items-center">
               <div className="md:w-[10%] w-full">
-                <Select
+                <CustomSelect
                   label="Country Code:"
                   color="blue"
                   name="country_code"

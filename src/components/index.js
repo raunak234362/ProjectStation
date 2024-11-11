@@ -75,14 +75,14 @@ import ErrorBoundary from './error/ErrorBoundary'
 // fields
 import Button from './fields/Button'
 import Input from './fields/Input'
-import Select from './fields/Select'
+import CustomSelect from './fields/Select'
 import Toggle from './fields/Toggle'
 import MultipleFileUpload from './fields/MultipleFileUpload'
 
 export {
   Button,
   Input,
-  Select,
+  CustomSelect,
   Toggle,
   MultipleFileUpload,
   Login,

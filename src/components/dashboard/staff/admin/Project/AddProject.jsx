@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import { Input, Select, Button, Toggle } from "../../../../index";
+import { Input, CustomSelect, Button, Toggle } from "../../../../index";
 import { addProject } from "../../../../../store/projectSlice";
 // import { Option } from '@material-tailwind/react'
 const AddProject = () => {
@@ -33,7 +33,7 @@ const AddProject = () => {
           </div>
           <div className="my-2 md:px-2 px-1">
             <div className="w-full my-3">
-              <Select
+              <CustomSelect
                 label="Fabricator"
                 placeholder="Fabricator"
                 size="lg"
@@ -91,7 +91,7 @@ const AddProject = () => {
           </div>
           <div className="my-2 md:px-2 px-1">
             <div className="w-full my-3">
-              <Select
+              <CustomSelect
                 label="Status"
                 color="blue"
                 name="status"
@@ -111,7 +111,7 @@ const AddProject = () => {
             </div>
 
             <div className="w-full my-3">
-              <Select
+              <CustomSelect
                 label="Stage"
                 name="stage"
                 color="blue"
@@ -183,7 +183,7 @@ const AddProject = () => {
           </div>
           <div className="my-2 md:px-2 px-1">
             <div className="w-full my-3">
-              <Select
+              <CustomSelect
                 label="Tools:"
                 color="blue"
                 name="tool"

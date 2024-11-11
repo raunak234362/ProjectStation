@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from "react";
-import { Input, Select, Button, Toggle, MultipleFileUpload } from '../../../../index'
+import { Input, CustomSelect, Button, Toggle, MultipleFileUpload } from '../../../../index'
 import { useDispatch, useSelector } from 'react-redux'
 import { State, City } from 'country-state-city'
 import { useForm } from "react-hook-form";
@@ -152,7 +152,7 @@ const AddBranch = ({ fabricatorId,isBranch, onBranchClose }) => {
               />
             </div>
             <div className="my-2">
-              <Select
+              <CustomSelect
                 label="Country: "
                 placeholder="Country"
                 className="w-full"
@@ -171,7 +171,7 @@ const AddBranch = ({ fabricatorId,isBranch, onBranchClose }) => {
               )}
             </div>
             <div className="my-2">
-              <Select
+              <CustomSelect
                 label="State: "
                 placeholder="State"
                 className="w-full"
@@ -190,7 +190,7 @@ const AddBranch = ({ fabricatorId,isBranch, onBranchClose }) => {
             )} */}
             </div>
             <div className="my-2">
-              <Select
+              <CustomSelect
                 label="City: "
                 placeholder="City"
                 className="w-full"

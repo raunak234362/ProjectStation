@@ -9,10 +9,17 @@ import { useSelector } from "react-redux";
 const AddWB = ({ projectId, onClose }) => {
   const [project, setProject] = useState({});
   const projectData = useSelector((state) => state?.projectData.projectData);
-  // const [rows, setRows] = useState([
-  //   { description: "", qty: "", unitTime: "", executionTime: "" },
-  // ]);
-  const { register, handleSubmit, watch, control, setValue } = useForm();
+
+  const { register, handleSubmit, watch, control, setValue } = useForm({
+    defaultValues: {
+      rows: [
+        { description: "Modeling", qty: 0, unitTime: 0, executionTime: 0 },
+        { description: "Detailing", qty: 0, unitTime: 0, executionTime: 0 },
+        { description: "Erection", qty: 0, unitTime: 0, executionTime: 0 },
+        { description: "Checking", qty: 0, unitTime: 0, executionTime: 0 },
+      ],
+    },
+  });
 
   const { fields, append } = useFieldArray({
     control,
@@ -35,11 +42,12 @@ const AddWB = ({ projectId, onClose }) => {
       { description: "", qty: 0, unitTime: 0, executionTime: 0 },
     ]);
   };
+
   const handleClose = () => {
     onClose(true);
   };
 
-  const onSubmit = (data) => {
+  const handleJobStudy = (data) => {
     console.log("Form Data:", data);
   };
 
@@ -47,7 +55,7 @@ const AddWB = ({ projectId, onClose }) => {
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-      <div className="bg-white h-[60%] md:p-5 p-2 rounded-lg shadow-lg md:w-5/6 w-4/5">
+      <div className="bg-white h-[80%] md:p-5 p-2 rounded-lg shadow-lg md:w-5/6 w-4/5">
         <div className="flex flex-row justify-between">
           <Button className="bg-red-500" onClick={handleClose}>
             Close
@@ -61,75 +69,79 @@ const AddWB = ({ projectId, onClose }) => {
             </div>
           </div>
         </div>
+        <div className="h-[80%] overflow-y-auto">
+          <form
+            onSubmit={handleSubmit(handleJobStudy)}
+            className="overflow-x-auto mt-5 md:w-[80vw] w-[75vw] my-3"
+          >
+            <div className="flex justify-center items-center font-bold">Job Study</div>
+            <table className="w-full border-collapse border border-gray-600 text-center text-sm">
+              <thead className="bg-gray-200">
+                <tr>
+                  <th className="border border-gray-600 px-2 py-1">Sl.No</th>
+                  <th className="border border-gray-600 px-2 py-1">
+                    Description of WBS
+                  </th>
+                  <th className="border border-gray-600 px-2 py-1">
+                    Qty. (No.)
+                  </th>
+                  <th className="border border-gray-600 px-2 py-1">
+                    Unit Time
+                  </th>
+                  <th className="border border-gray-600 px-2 py-1">
+                    Execution Time (Hr)
+                  </th>
+                </tr>
+              </thead>
 
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className="overflow-x-auto mt-5 md:w-[80vw] w-[75vw] my-3"
-        >
-          <table className="w-full border-collapse border border-gray-600 text-center text-sm">
-            <thead className="bg-gray-200">
-              <tr>
-                <th className="border border-gray-600 px-2 py-1">Sl.No</th>
-                <th className="border border-gray-600 px-2 py-1">
-                  Description of WBS
-                </th>
-                <th className="border border-gray-600 px-2 py-1">Qty. (No.)</th>
-                <th className="border border-gray-600 px-2 py-1">Unit Time</th>
-                <th className="border border-gray-600 px-2 py-1">
-                  Execution Time (Hr)
-                </th>
-              </tr>
-            </thead>
+              <tbody>
+                <tr className="bg-green-100">
+                  <td className="border border-gray-600 px-2 py-1">
+                    <b>JS</b>
+                  </td>
+                  <td className="border border-gray-600 px-2 py-1">
+                    <b>Job Study</b>
+                  </td>
+                  <td className="border border-gray-600 px-2 py-1"></td>
+                  <td className="border border-gray-600 px-2 py-1"></td>
+                  <td className="border border-gray-600 px-2 py-1"></td>
+                </tr>
 
-            <tbody>
-              <tr className="bg-green-100">
-                <td className="border border-gray-600 px-2 py-1">
-                  <b>JS</b>
-                </td>
-                <td className="border border-gray-600 px-2 py-1">
-                  <b>Job Study</b>
-                </td>
-                <td className="border border-gray-600 px-2 py-1"></td>
-                <td className="border border-gray-600 px-2 py-1"></td>
-                <td className="border border-gray-600 px-2 py-1"></td>
-              </tr>
-
-              {rows?.map((row, index) => {
-                const qty = watch(`rows.${index}.qty`) || 0;
-                const unitTime = watch(`rows.${index}.unitTime`) || 0;
-                const executionTime = ((qty * unitTime) / 60).toFixed(2);
-
-                return (
-                  <tr key={index}>
+                {fields.map((field, index) => (
+                  <tr key={field.id}>
                     <td className="border border-gray-600 px-2 py-1">
                       {index + 1}
                     </td>
 
                     <td className="border border-gray-600 px-2 py-1">
-                      <CustomSelect
+                      <Controller
                         name={`rows.${index}.description`}
-                        label="Job Study - Description"
-                        color="blue"
-                        options={[
-                          {
-                            label: "Job Study - Modeling",
-                            value: "Modeling",
-                          },
-                          {
-                            label: "Job Study - Detailing",
-                            value: "Detailing",
-                          },
-                          {
-                            label: "Job Study - Erection",
-                            value: "Erection",
-                          },
-                          {
-                            label: "Job Study - Checking",
-                            value: "Checking",
-                          },
-                        ]}
-                        {...register(`rows.${index}.description`)}
-                        onChange={setValue}
+                        control={control}
+                        render={({ field }) => (
+                          <CustomSelect
+                            {...field}
+                            label="Job Study - Description"
+                            color="blue"
+                            options={[
+                              {
+                                label: "Job Study - Modeling",
+                                value: "Modeling",
+                              },
+                              {
+                                label: "Job Study - Detailing",
+                                value: "Detailing",
+                              },
+                              {
+                                label: "Job Study - Erection",
+                                value: "Erection",
+                              },
+                              {
+                                label: "Job Study - Checking",
+                                value: "Checking",
+                              },
+                            ]}
+                          />
+                        )}
                       />
                     </td>
 
@@ -144,6 +156,16 @@ const AddWB = ({ projectId, onClose }) => {
                             min="0"
                             placeholder="Qty"
                             size="md"
+                            onChange={(e) => {
+                              field.onChange(e);
+                              const qty = e.target.value || 0;
+                              const unitTime =
+                                watch(`rows.${index}.unitTime`) || 0;
+                              setValue(
+                                `rows.${index}.executionTime`,
+                                ((qty * unitTime) / 60).toFixed(2)
+                              );
+                            }}
                           />
                         )}
                       />
@@ -160,30 +182,82 @@ const AddWB = ({ projectId, onClose }) => {
                             min="0"
                             placeholder="Unit Time"
                             size="md"
+                            onChange={(e) => {
+                              field.onChange(e);
+                              const unitTime = e.target.value || 0;
+                              const qty = watch(`rows.${index}.qty`) || 0;
+                              setValue(
+                                `rows.${index}.executionTime`,
+                                ((qty * unitTime) / 60).toFixed(2)
+                              );
+                            }}
                           />
                         )}
                       />
                     </td>
 
                     <td className="border border-gray-600 px-2 py-1">
-                      {executionTime}
+                      {watch(`rows.${index}.executionTime`)}
                     </td>
                   </tr>
-                );
-              })}
-            </tbody>
-          </table>
+                ))}
+              </tbody>
+            </table>
 
-          <div className="mt-4 flex justify-between">
-            <Button onClick={addRow} className="bg-green-500 text-white">
+            <div className="mt-4 flex justify-between">
+              {/* <Button onClick={addRow} className="bg-green-500 text-white">
               Add Row
-            </Button>
-            <Button type="submit" className="bg-blue-500 text-white">
-              Submit
-            
-            </Button>
+            </Button> */}
+            <div className="font-semibold">
+              Add Job Study -
+            </div>
+              <Button type="submit" className="bg-blue-500 text-white">
+                Submit
+              </Button>
+            </div>
+          </form>
+
+          <div className="flex justify-center mt-5">
+            <form
+              className="overflow-x-auto mt-5 md:w-[80vw] w-[75vw] my-3"
+              onSubmit={handleSubmit()}
+            >
+              <table className="w-full border-collapse border border-gray-600 text-center text-sm">
+                <thead className="bg-gray-200">
+                  <tr>
+                    <th className="border border-gray-600 px-2 py-1">Sl.No</th>
+                    <th className="border border-gray-600 px-2 py-1">
+                      Description of WBS
+                    </th>
+                    <th className="border border-gray-600 px-2 py-1">
+                      Qty. (No.)
+                    </th>
+                    <th className="border border-gray-600 px-2 py-1">
+                      Unit Time
+                    </th>
+                    <th className="border border-gray-600 px-2 py-1">
+                      Execution Time (Hr)
+                    </th>
+                    <br />
+                    <th className="border border-gray-600 px-2 py-1">Sl.No</th>
+                    <th className="border border-gray-600 px-2 py-1">
+                      Description of WBS
+                    </th>
+                    <th className="border border-gray-600 px-2 py-1">
+                      Qty. (No.)
+                    </th>
+                    <th className="border border-gray-600 px-2 py-1">
+                      Unit Time
+                    </th>
+                    <th className="border border-gray-600 px-2 py-1">
+                      Execution Time (Hr)
+                    </th>
+                  </tr>
+                </thead>
+              </table>
+            </form>
           </div>
-        </form>
+        </div>
       </div>
     </div>
   );

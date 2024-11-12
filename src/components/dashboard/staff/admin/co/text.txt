@@ -10,9 +10,9 @@ import { useForm, Controller, useFieldArray } from "react-hook-form";
 
 const SendCO = () => {
   const [files, setFiles] = useState([]);
+  // const [rows, setRows] = useState([{ slNo: "", changeDescription: "", reference: "", element: "", qty: "", hours: "", cost: "", remarks: "" }]);
   const [totalHours, setTotalHours] = useState(0);
   const [totalCost, setTotalCost] = useState(0);
-
   const {
     register,
     setValue,
@@ -27,15 +27,6 @@ const SendCO = () => {
     name: "rows",
   });
 
-  // Watch the rows field to calculate totals
-  const rows = watch("rows") || [];
-
-  useEffect(() => {
-    const hoursSum = rows.reduce((sum, row) => sum + (parseFloat(row.hours) || 0), 0);
-    const costSum = rows.reduce((sum, row) => sum + (parseFloat(row.cost) || 0), 0);
-    setTotalHours(hoursSum);
-    setTotalCost(costSum);
-  }, [rows]);
 
   // Handle file selection changes
   const onFilesChange = (updatedFiles) => {
@@ -49,6 +40,20 @@ const SendCO = () => {
     // dispatch(addRFI(data)) or similar
   };
 
+
+  
+  
+  const rows = watch("rows");
+
+
+  useEffect(() => {
+    const hoursSum = rows.reduce((sum, row) => sum + (parseFloat(row.hours) || 0), 0);
+    const costSum = rows.reduce((sum, row) => sum + (parseFloat(row.cost) || 0), 0);
+    setTotalHours(hoursSum);
+    setTotalCost(costSum);
+  }, [rows]);
+
+
   const addRow = () => {
     const currentRows = watch("rows") || [];
     setValue("rows", [
@@ -56,6 +61,11 @@ const SendCO = () => {
       { changeDescription: "", reference: "", element: "", qty: "", hours: "", cost: "", remarks: "" },
     ]);
   };
+
+  // Add a new row to the table
+  // const addRow = () => {
+  //   setRows([...rows, { slNo: "", description: "", reference: "", element: "", qty: "", hours: "", cost: "", remarks: "" }]);
+  // };
 
   return (
     <div className="flex w-full justify-center text-black my-5">
@@ -163,7 +173,7 @@ const SendCO = () => {
                     <td className="border border-gray-300 px-2 py-1">{index + 1}</td>
                     <td className="border border-gray-600 px-2 py-1">
                       <Controller
-                        name={`rows.${index}.changeDescription`}
+                        name={`row.${index}.changeDescription`}
                         control={control}
                         render={({ field }) => (
                           <Input
@@ -178,7 +188,7 @@ const SendCO = () => {
                     </td>
                     <td className="border border-gray-600 px-2 py-1">
                       <Controller
-                        name={`rows.${index}.reference`}
+                        name={`row.${index}.reference`}
                         control={control}
                         render={({ field }) => (
                           <Input
@@ -193,7 +203,7 @@ const SendCO = () => {
                     </td>
                     <td className="border border-gray-600 px-2 py-1">
                       <Controller
-                        name={`rows.${index}.element`}
+                        name={`row.${index}.element`}
                         control={control}
                         render={({ field }) => (
                           <Input
@@ -208,7 +218,7 @@ const SendCO = () => {
                     </td>
                     <td className="border border-gray-600 px-2 py-1">
                       <Controller
-                        name={`rows.${index}.qty`}
+                        name={`row.${index}.qty`}
                         control={control}
                         render={({ field }) => (
                           <Input
@@ -222,10 +232,9 @@ const SendCO = () => {
                         )}
                       />
                     </td>
-                    {/* Other columns for reference, element, qty, hours, cost, and remarks */}
                     <td className="border border-gray-600 px-2 py-1">
                       <Controller
-                        name={`rows.${index}.hours`}
+                        name={`row.${index}.hours`}
                         control={control}
                         render={({ field }) => (
                           <Input
@@ -241,7 +250,7 @@ const SendCO = () => {
                     </td>
                     <td className="border border-gray-600 px-2 py-1">
                       <Controller
-                        name={`rows.${index}.cost`}
+                        name={`row.${index}.cost`}
                         control={control}
                         render={({ field }) => (
                           <Input
@@ -257,12 +266,12 @@ const SendCO = () => {
                     </td>
                     <td className="border border-gray-600 px-2 py-1">
                       <Controller
-                        name={`rows.${index}.remarks`}
+                        name={`row.${index}.remarks`}
                         control={control}
                         render={({ field }) => (
                           <Input
                             {...field}
-                            type="textarea"
+                            type="number"
                             label="Remarks"
                             min="0"
                             placeholder="Remarks"
@@ -271,6 +280,8 @@ const SendCO = () => {
                         )}
                       />
                     </td>
+
+                    
                   </tr>
                 ))}
                 <tr>
@@ -296,9 +307,8 @@ const SendCO = () => {
             />
           </div>
 
-          {/* Submit Button */}
-          <Button color="green" size="lg" type="submit">
-            Submit
+          <Button type="submit" color="teal" size="lg" fullWidth>
+            Send CO
           </Button>
         </form>
       </div>

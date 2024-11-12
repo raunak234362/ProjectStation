@@ -221,7 +221,9 @@ const initialState = {
       },
     },
   ],
+  changeOrder: [],
   submittalData: [],
+
 };
 
 const projectSlice = createSlice({

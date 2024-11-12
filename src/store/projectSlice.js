@@ -242,6 +242,18 @@ const projectSlice = createSlice({
         (project) => project.id !== action.payload
       );
     },
+    addCO:(state, action)=>{
+      state.changeOrder.push(action.payload);
+      localStorage.setItem("changeOrder", JSON.stringify(state.changeOrder));
+    },
+    showCO: (state, action) => {
+      state.changeOrder = action.payload;
+    },
+    deleteCO: (state, action) => {
+      state.changeOrder = state.changeOrder.filter(
+        (changeOrder) => changeOrder.id !== action.payload
+      );
+    },
     addRFI: (state, action) => {
       state.rfiData.push(action.payload);
       localStorage.setItem("rfiData", JSON.stringify(state.rfiData));
@@ -259,6 +271,9 @@ export const {
   addProject,
   showProjects,
   deleteProject,
+  addCO,
+  showCO,
+  deleteCO,
   addRFI,
   showRFIs,
   deleteRFI,

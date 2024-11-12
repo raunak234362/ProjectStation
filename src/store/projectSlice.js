@@ -223,7 +223,7 @@ const initialState = {
   ],
   changeOrder: [],
   submittalData: [],
-
+  workBreajdown: [],
 };
 
 const projectSlice = createSlice({

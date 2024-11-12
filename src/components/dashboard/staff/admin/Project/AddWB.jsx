@@ -254,6 +254,98 @@ const AddWB = ({ projectId, onClose }) => {
                     </th>
                   </tr>
                 </thead>
+                <tbody>
+
+                {/* MODELING */}
+                <tr className="bg-green-100">
+                  <td className="border border-gray-600 px-2 py-1">
+                    <b>JM</b>
+                  </td>
+                  <td className="border border-gray-600 px-2 py-1">
+                    <b>Modeling</b>
+                  </td>
+                  <td className="border border-gray-600 px-2 py-1"></td>
+                  <td className="border border-gray-600 px-2 py-1"></td>
+                  <td className="border border-gray-600 px-2 py-1"></td>
+                  <br />
+                  <td className="border border-gray-600 px-2 py-1">
+                    <b>JMC</b>
+                  </td>
+                  <td className="border border-gray-600 px-2 py-1">
+                    <b>Model Checking</b>
+                  </td>
+                  <td className="border border-gray-600 px-2 py-1"></td>
+                  <td className="border border-gray-600 px-2 py-1"></td>
+                  <td className="border border-gray-600 px-2 py-1"></td>
+                </tr>
+
+                <tr className="bg-green-100">
+                  <td className="border border-gray-600 px-2 py-1">
+                    M1
+                  </td>
+                  <td className="border border-gray-600 px-2 py-1">
+                  Grid Placement
+                  </td>
+                  <td className="border border-gray-600 px-2 py-1"></td>
+                  <td className="border border-gray-600 px-2 py-1"></td>
+                  <td className="border border-gray-600 px-2 py-1"></td>
+                  <br />
+                  <td className="border border-gray-600 px-2 py-1">
+                    JMC
+                  </td>
+                  <td className="border border-gray-600 px-2 py-1">
+                  Model Checking
+                  </td>
+                  <td className="border border-gray-600 px-2 py-1"></td>
+                  <td className="border border-gray-600 px-2 py-1"></td>
+                  <td className="border border-gray-600 px-2 py-1"></td>
+                </tr>
+
+                {/* ERECTION */}
+                <tr className="bg-green-100">
+                  <td className="border border-gray-600 px-2 py-1">
+                    <b>JE</b>
+                  </td>
+                  <td className="border border-gray-600 px-2 py-1">
+                    <b>Erection</b>
+                  </td>
+                  <td className="border border-gray-600 px-2 py-1"></td>
+                  <td className="border border-gray-600 px-2 py-1"></td>
+                  <td className="border border-gray-600 px-2 py-1"></td>
+                  <br />
+                  <td className="border border-gray-600 px-2 py-1">
+                    <b>JEC</b>
+                  </td>
+                  <td className="border border-gray-600 px-2 py-1">
+                    <b>Erection Checking</b>
+                  </td>
+                  <td className="border border-gray-600 px-2 py-1"></td>
+                  <td className="border border-gray-600 px-2 py-1"></td>
+                  <td className="border border-gray-600 px-2 py-1"></td>
+                </tr>
+                {/* DETAILING */}
+                <tr className="bg-green-100">
+                  <td className="border border-gray-600 px-2 py-1">
+                    <b>JD</b>
+                  </td>
+                  <td className="border border-gray-600 px-2 py-1">
+                    <b>DETAILING</b>
+                  </td>
+                  <td className="border border-gray-600 px-2 py-1"></td>
+                  <td className="border border-gray-600 px-2 py-1"></td>
+                  <td className="border border-gray-600 px-2 py-1"></td>
+                  <br />
+                  <td className="border border-gray-600 px-2 py-1">
+                    <b>JDC</b>
+                  </td>
+                  <td className="border border-gray-600 px-2 py-1">
+                    <b>Detail Checking</b>
+                  </td>
+                  <td className="border border-gray-600 px-2 py-1"></td>
+                  <td className="border border-gray-600 px-2 py-1"></td>
+                  <td className="border border-gray-600 px-2 py-1"></td>
+                </tr>
+                </tbody>
               </table>
             </form>
           </div>

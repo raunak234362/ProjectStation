@@ -21,6 +21,7 @@ import WorkBreakdown from './dashboard/staff/admin/Project/WorkBreakdown'
 import AddWB from './dashboard/staff/admin/Project/AddWB'
 import EditWB from './dashboard/staff/admin/Project/EditWB'
 import JobStudy from './dashboard/staff/admin/Project/JobStudy'
+import SelectedWBTask from './dashboard/staff/admin/Project/SelectedWBTask'
 
 
 //Fabricator
@@ -101,6 +102,7 @@ export {
   EditWB,
   AddWB,
   JobStudy,
+  SelectedWBTask,
   Fabricators,
   AddFabricator,
   AddFabricatorUser,

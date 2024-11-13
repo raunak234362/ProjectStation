@@ -20,6 +20,7 @@ import GetProject from './dashboard/staff/admin/Project/GetProject'
 import WorkBreakdown from './dashboard/staff/admin/Project/WorkBreakdown'
 import AddWB from './dashboard/staff/admin/Project/AddWB'
 import EditWB from './dashboard/staff/admin/Project/EditWB'
+import JobStudy from './dashboard/staff/admin/Project/JobStudy'
 
 
 //Fabricator
@@ -99,6 +100,7 @@ export {
   WorkBreakdown,
   EditWB,
   AddWB,
+  JobStudy,
   Fabricators,
   AddFabricator,
   AddFabricatorUser,

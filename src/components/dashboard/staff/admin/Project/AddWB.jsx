@@ -1,30 +1,22 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
+/* eslint-disable react/prop-types */
 import React, { useEffect, useState } from "react";
-import { Input, CustomSelect, Button } from "../../../../index";
-import { useForm, Controller, useFieldArray } from "react-hook-form";
+import { Input, CustomSelect, Button, JobStudy } from "../../../../index";
+import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
+import task from "./task.json";
 
 const AddWB = ({ projectId, onClose }) => {
   const [project, setProject] = useState({});
   const projectData = useSelector((state) => state?.projectData.projectData);
+  const { register, handleSubmit, watch, control, setValue } = useForm();
 
-  const { register, handleSubmit, watch, control, setValue } = useForm({
-    defaultValues: {
-      rows: [
-        { description: "Modeling", qty: 0, unitTime: 0, executionTime: 0 },
-        { description: "Detailing", qty: 0, unitTime: 0, executionTime: 0 },
-        { description: "Erection", qty: 0, unitTime: 0, executionTime: 0 },
-        { description: "Checking", qty: 0, unitTime: 0, executionTime: 0 },
-      ],
-    },
-  });
+  const selectedTask = watch("taskName");
+  const selectedTaskData = task?.taskDetail?.find(
+    (item) => item?.taskName === selectedTask
+  )?.task;
 
-  const { fields, append } = useFieldArray({
-    control,
-    name: "rows",
-  });
+  console.log(selectedTaskData);
 
   const fetchProject = async () => {
     const project = projectData.find((project) => project.id === projectId);
@@ -35,27 +27,13 @@ const AddWB = ({ projectId, onClose }) => {
     fetchProject();
   }, [projectId]);
 
-  const addRow = () => {
-    const currentRows = watch("rows") || [];
-    setValue("rows", [
-      ...currentRows,
-      { description: "", qty: 0, unitTime: 0, executionTime: 0 },
-    ]);
-  };
-
   const handleClose = () => {
     onClose(true);
   };
 
-  const handleJobStudy = (data) => {
-    console.log("Form Data:", data);
-  };
-
-  const rows = watch("rows");
-
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-      <div className="bg-white h-[80%] md:p-5 p-2 rounded-lg shadow-lg md:w-5/6 w-4/5">
+      <div className="bg-white h-[90%] md:p-5 p-2 rounded-lg shadow-lg md:w-5/6 w-4/5">
         <div className="flex flex-row justify-between">
           <Button className="bg-red-500" onClick={handleClose}>
             Close
@@ -63,290 +41,100 @@ const AddWB = ({ projectId, onClose }) => {
         </div>
 
         <div className="top-2 w-full flex justify-center z-10">
-          <div className="mt-2">
-            <div className="bg-teal-400 text-white px-3 md:px-4 py-2 md:text-2xl font-bold rounded-lg shadow-md">
-              Work-Break Down Structure
-            </div>
+          <div className="bg-teal-400 text-white px-3 md:px-4 py-2 md:text-2xl font-bold rounded-lg shadow-md">
+            Work-Break Down Structure
           </div>
         </div>
-        <div className="h-[80%] overflow-y-auto">
-          <form
-            onSubmit={handleSubmit(handleJobStudy)}
-            className="overflow-x-auto mt-5 md:w-[80vw] w-[75vw] my-3"
-          >
-            <div className="flex justify-center items-center font-bold">Job Study</div>
-            <table className="w-full border-collapse border border-gray-600 text-center text-sm">
-              <thead className="bg-gray-200">
-                <tr>
-                  <th className="border border-gray-600 px-2 py-1">Sl.No</th>
-                  <th className="border border-gray-600 px-2 py-1">
-                    Description of WBS
-                  </th>
-                  <th className="border border-gray-600 px-2 py-1">
-                    Qty. (No.)
-                  </th>
-                  <th className="border border-gray-600 px-2 py-1">
-                    Unit Time
-                  </th>
-                  <th className="border border-gray-600 px-2 py-1">
-                    Execution Time (Hr)
-                  </th>
-                </tr>
-              </thead>
+        <div className="h-[85%] overflow-y-auto">
+          <JobStudy />
 
-              <tbody>
-                <tr className="bg-green-100">
-                  <td className="border border-gray-600 px-2 py-1">
-                    <b>JS</b>
-                  </td>
-                  <td className="border border-gray-600 px-2 py-1">
-                    <b>Job Study</b>
-                  </td>
-                  <td className="border border-gray-600 px-2 py-1"></td>
-                  <td className="border border-gray-600 px-2 py-1"></td>
-                  <td className="border border-gray-600 px-2 py-1"></td>
-                </tr>
-
-                {fields.map((field, index) => (
-                  <tr key={field.id}>
-                    <td className="border border-gray-600 px-2 py-1">
-                      {index + 1}
-                    </td>
-
-                    <td className="border border-gray-600 px-2 py-1">
-                      <Controller
-                        name={`rows.${index}.description`}
-                        control={control}
-                        render={({ field }) => (
-                          <CustomSelect
-                            {...field}
-                            label="Job Study - Description"
-                            color="blue"
-                            options={[
-                              {
-                                label: "Job Study - Modeling",
-                                value: "Modeling",
-                              },
-                              {
-                                label: "Job Study - Detailing",
-                                value: "Detailing",
-                              },
-                              {
-                                label: "Job Study - Erection",
-                                value: "Erection",
-                              },
-                              {
-                                label: "Job Study - Checking",
-                                value: "Checking",
-                              },
-                            ]}
-                          />
-                        )}
-                      />
-                    </td>
-
-                    <td className="border border-gray-600 px-2 py-1">
-                      <Controller
-                        name={`rows.${index}.qty`}
-                        control={control}
-                        render={({ field }) => (
-                          <Input
-                            {...field}
-                            type="number"
-                            min="0"
-                            placeholder="Qty"
-                            size="md"
-                            onChange={(e) => {
-                              field.onChange(e);
-                              const qty = e.target.value || 0;
-                              const unitTime =
-                                watch(`rows.${index}.unitTime`) || 0;
-                              setValue(
-                                `rows.${index}.executionTime`,
-                                ((qty * unitTime) / 60).toFixed(2)
-                              );
-                            }}
-                          />
-                        )}
-                      />
-                    </td>
-
-                    <td className="border border-gray-600 px-2 py-1">
-                      <Controller
-                        name={`rows.${index}.unitTime`}
-                        control={control}
-                        render={({ field }) => (
-                          <Input
-                            {...field}
-                            type="number"
-                            min="0"
-                            placeholder="Unit Time"
-                            size="md"
-                            onChange={(e) => {
-                              field.onChange(e);
-                              const unitTime = e.target.value || 0;
-                              const qty = watch(`rows.${index}.qty`) || 0;
-                              setValue(
-                                `rows.${index}.executionTime`,
-                                ((qty * unitTime) / 60).toFixed(2)
-                              );
-                            }}
-                          />
-                        )}
-                      />
-                    </td>
-
-                    <td className="border border-gray-600 px-2 py-1">
-                      {watch(`rows.${index}.executionTime`)}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-
-            <div className="mt-4 flex justify-between">
-              {/* <Button onClick={addRow} className="bg-green-500 text-white">
-              Add Row
-            </Button> */}
-            <div className="font-semibold">
-              Add Job Study -
-            </div>
-              <Button type="submit" className="bg-blue-500 text-white">
-                Submit
-              </Button>
-            </div>
-          </form>
-
-          <div className="flex justify-center mt-5">
+          <div className=" flex py-5 justify-center mt-5">
             <form
               className="overflow-x-auto mt-5 md:w-[80vw] w-[75vw] my-3"
               onSubmit={handleSubmit()}
             >
-              <table className="w-full border-collapse border border-gray-600 text-center text-sm">
-                <thead className="bg-gray-200">
-                  <tr>
-                    <th className="border border-gray-600 px-2 py-1">Sl.No</th>
-                    <th className="border border-gray-600 px-2 py-1">
-                      Description of WBS
-                    </th>
-                    <th className="border border-gray-600 px-2 py-1">
-                      Qty. (No.)
-                    </th>
-                    <th className="border border-gray-600 px-2 py-1">
-                      Unit Time
-                    </th>
-                    <th className="border border-gray-600 px-2 py-1">
-                      Execution Time (Hr)
-                    </th>
-                    <br />
-                    <th className="border border-gray-600 px-2 py-1">Sl.No</th>
-                    <th className="border border-gray-600 px-2 py-1">
-                      Description of WBS
-                    </th>
-                    <th className="border border-gray-600 px-2 py-1">
-                      Qty. (No.)
-                    </th>
-                    <th className="border border-gray-600 px-2 py-1">
-                      Unit Time
-                    </th>
-                    <th className="border border-gray-600 px-2 py-1">
-                      Execution Time (Hr)
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
+              <div className="my-5">
+                <CustomSelect
+                  label="WBS - Description"
+                  color="blue"
+                  options={[
+                    { label: "Modeling", value: "MODELING" },
+                    { label: "Detailing", value: "DETAILING" },
+                    { label: "Erection", value: "ERECTION" },
+                  ]}
+                  {...register("taskName", { required: true })}
+                  onChange={setValue}
+                />
+              </div>
+              <div className="mt-5 bg-white h-[60vh] overflow-auto rounded-lg">
+                <table className="w-full mt-3 border-collapse border border-gray-600 text-center text-sm">
+                  <thead className="bg-gray-200">
+                    <tr>
+                      <th className="border border-gray-600 px-2 py-1">
+                        Sl.No
+                      </th>
+                      <th className="border border-gray-600 px-2 py-1">
+                        Description of WBS
+                      </th>
+                      <th className="border border-gray-600 px-2 py-1">
+                        Qty. (No.)
+                      </th>
+                      <th className="border border-gray-600 px-2 py-1">
+                        Execution Time (Hr)
+                      </th>
+                      <th className="border border-gray-600 px-2 py-1">
+                        Sl.No
+                      </th>
+                      <th className="border border-gray-600 px-2 py-1">
+                        Checking
+                      </th>
+                      <th className="border border-gray-600 px-2 py-1">
+                        Qty. (No.)
+                      </th>
+                      <th className="border border-gray-600 px-2 py-1">
+                        Checking Time (Hr)
+                      </th>
+                      <th className="border border-gray-600 px-2 py-1">
+                        Actions
+                      </th>
+                    </tr>
+                  </thead>
 
-                {/* MODELING */}
-                <tr className="bg-green-100">
-                  <td className="border border-gray-600 px-2 py-1">
-                    <b>JM</b>
-                  </td>
-                  <td className="border border-gray-600 px-2 py-1">
-                    <b>Modeling</b>
-                  </td>
-                  <td className="border border-gray-600 px-2 py-1"></td>
-                  <td className="border border-gray-600 px-2 py-1"></td>
-                  <td className="border border-gray-600 px-2 py-1"></td>
-                  <br />
-                  <td className="border border-gray-600 px-2 py-1">
-                    <b>JMC</b>
-                  </td>
-                  <td className="border border-gray-600 px-2 py-1">
-                    <b>Model Checking</b>
-                  </td>
-                  <td className="border border-gray-600 px-2 py-1"></td>
-                  <td className="border border-gray-600 px-2 py-1"></td>
-                  <td className="border border-gray-600 px-2 py-1"></td>
-                </tr>
-
-                <tr className="bg-green-100">
-                  <td className="border border-gray-600 px-2 py-1">
-                    M1
-                  </td>
-                  <td className="border border-gray-600 px-2 py-1">
-                  Grid Placement
-                  </td>
-                  <td className="border border-gray-600 px-2 py-1"></td>
-                  <td className="border border-gray-600 px-2 py-1"></td>
-                  <td className="border border-gray-600 px-2 py-1"></td>
-                  <br />
-                  <td className="border border-gray-600 px-2 py-1">
-                    JMC
-                  </td>
-                  <td className="border border-gray-600 px-2 py-1">
-                  Model Checking
-                  </td>
-                  <td className="border border-gray-600 px-2 py-1"></td>
-                  <td className="border border-gray-600 px-2 py-1"></td>
-                  <td className="border border-gray-600 px-2 py-1"></td>
-                </tr>
-
-                {/* ERECTION */}
-                <tr className="bg-green-100">
-                  <td className="border border-gray-600 px-2 py-1">
-                    <b>JE</b>
-                  </td>
-                  <td className="border border-gray-600 px-2 py-1">
-                    <b>Erection</b>
-                  </td>
-                  <td className="border border-gray-600 px-2 py-1"></td>
-                  <td className="border border-gray-600 px-2 py-1"></td>
-                  <td className="border border-gray-600 px-2 py-1"></td>
-                  <br />
-                  <td className="border border-gray-600 px-2 py-1">
-                    <b>JEC</b>
-                  </td>
-                  <td className="border border-gray-600 px-2 py-1">
-                    <b>Erection Checking</b>
-                  </td>
-                  <td className="border border-gray-600 px-2 py-1"></td>
-                  <td className="border border-gray-600 px-2 py-1"></td>
-                  <td className="border border-gray-600 px-2 py-1"></td>
-                </tr>
-                {/* DETAILING */}
-                <tr className="bg-green-100">
-                  <td className="border border-gray-600 px-2 py-1">
-                    <b>JD</b>
-                  </td>
-                  <td className="border border-gray-600 px-2 py-1">
-                    <b>DETAILING</b>
-                  </td>
-                  <td className="border border-gray-600 px-2 py-1"></td>
-                  <td className="border border-gray-600 px-2 py-1"></td>
-                  <td className="border border-gray-600 px-2 py-1"></td>
-                  <br />
-                  <td className="border border-gray-600 px-2 py-1">
-                    <b>JDC</b>
-                  </td>
-                  <td className="border border-gray-600 px-2 py-1">
-                    <b>Detail Checking</b>
-                  </td>
-                  <td className="border border-gray-600 px-2 py-1"></td>
-                  <td className="border border-gray-600 px-2 py-1"></td>
-                  <td className="border border-gray-600 px-2 py-1"></td>
-                </tr>
-                </tbody>
-              </table>
+                  <tbody className="overflow-y-auto">
+                    {selectedTaskData?.map((taskItem, index) => (
+                      <tr key={index} className="bg-green-100">
+                        <td className="border border-gray-600 px-2 py-1">
+                          {index + 1}
+                        </td>
+                        <td className="border border-gray-600 px-2 py-1">
+                          {taskItem.name}
+                        </td>
+                        <td className="border border-gray-600 px-2 py-1">
+                          {/* Qty */}
+                        </td>
+                        <td className="border border-gray-600 px-2 py-1">
+                          {/* Execution Time */}
+                        </td>
+                        <td className="border border-gray-600 px-2 py-1">
+                          {/* Checking ID */}
+                        </td>
+                        <td className="border border-gray-600 px-2 py-1">
+                          {/* Checking */}
+                        </td>
+                        <td className="border border-gray-600 px-2 py-1">
+                          {/* Checking Qty */}
+                        </td>
+                        <td className="border border-gray-600 px-2 py-1">
+                          {/* Checking Time */}
+                        </td>
+                        <td className="border border-gray-600 px-2 py-1">
+                          <Button>Open</Button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             </form>
           </div>
         </div>

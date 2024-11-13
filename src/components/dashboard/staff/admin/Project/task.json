@@ -1,0 +1,114 @@
+{
+    "taskDetail":[
+        {
+            "taskName" : "MODELING",
+            "task":[
+                {
+                    "name" : "Grid Placement",
+                    "subTask" : []
+                },
+                {
+                    "name" : "MP - Wall & Panel Placement",
+                    "subTask" : []
+                },
+                {
+                    "name" : "MP - Column Placement",
+                    "subTask" : []
+                },
+                {
+                    "name" : "Base Plate",
+                    "subTask" : []
+                },
+                {
+                    "name" : "MP - Beam Placement",
+                    "subTask" : []
+                },
+                {
+                    "name" : "MP - Material Attachment",
+                    "subTask" : []
+                },
+                {
+                    "name" : "MP - Joist Placement",
+                    "subTask" : []
+                },
+                {
+                    "name" : "MP - Lintel",
+                    "subTask" : []
+                },
+                {
+                    "name" : "MP - Embed Placement",
+                    "subTask" : []
+                },
+                {
+                    "name" : "MP - Girt & Purlin Placement",
+                    "subTask" : []
+                },
+                {
+                    "name" : "MP - Jamb & Header Placement",
+                    "subTask" : []
+                },
+                {
+                    "name" : "MP - Brace Placement",
+                    "subTask" : []
+                },
+                {
+                    "name" : "MP - Truss Placement",
+                    "subTask" : []
+                },
+                {
+                    "name" : "MP - Sag Rod Placement",
+                    "subTask" : []
+                },
+                {
+                    "name" : "MP - Grating & Checkered Plate Placement",
+                    "subTask" : []
+                },
+                {
+                    "name" : "MP- Misc",
+                    "subTask" : []
+                },
+                {
+                    "name" : "MP - Stair Placement & Connection",
+                    "subTask" : []
+                },
+                {
+                    "name" : "MP - Ladder Placement & Connection",
+                    "subTask" : []
+                },
+                {
+                    "name" : "MP- Misc",
+                    "subTask" : []
+                },
+                {
+                    "name" : "MP- Misc",
+                    "subTask" : []
+                },
+                {
+                    "name" : "MP - Material Attachment",
+                    "subTask" : []
+                }
+
+            ]
+        },
+        {
+            "taskName" : "ERECTION",
+            "task" : [
+                {
+                    "name" : "Detailing of AB Plans",
+                    "subTask" : []
+                }
+            ]
+        },
+        {
+            "taskName" : "DETAILING",
+            "task" : [
+                {
+                    "name" : "Detailing of AB Plans",
+                    "subTask" : []
+                }
+            ]
+        }
+        
+
+    ]
+}

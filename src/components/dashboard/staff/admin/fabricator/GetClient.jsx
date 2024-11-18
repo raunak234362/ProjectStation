@@ -21,6 +21,7 @@ const GetClient = ({ clientId, isOpen, onClose }) => {
       console.log("Error fetching client:", error);
     }
   };
+  console.log(client?.fabricator);
 
   const handleClose = async () => {
     onClose(true);
@@ -73,11 +74,11 @@ const GetClient = ({ clientId, isOpen, onClose }) => {
             <h2 className="text-lg font-semibold mb-4">Location </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {[
-                { label: "Address", value: client?.fabricator?.address },
-                { label: "City", value: client?.fabricator?.city },
-                { label: "State", value: client?.fabricator?.state },
-                { label: "Country", value: client?.fabricator?.country },
-                { label: "Zipcode", value: client?.fabricator?.zip_code },
+                 { label: "Address", value: client?.fabricator?.headquater?.address },
+                 { label: "City", value: client?.fabricator?.branch?.id ? client?.fabricator?.branch?.city : client?.fabricator?.headquater?.city },
+                 { label: "State", value: client?.fabricator?.branch?.id ? client?.fabricator?.branch?.state : client?.fabricator?.headquater?.state },
+                 { label: "Country", value: client?.fabricator?.branch?.id ? client?.fabricator?.branch?.country : client?.fabricator?.headquater?.country },
+                 { label: "Zipcode", value: client?.fabricator?.branch?.id ? client?.fabricator?.branch?.zip_code : client?.fabricator?.headquater?.zip_code },
               ].map(({ label, value }) => (
                 <div key={label} className="flex flex-col">
                   <span className="font-medium text-gray-700">{label}:</span>

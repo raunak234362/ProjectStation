@@ -20,8 +20,8 @@ const AddFabricator = () => {
     formState: { errors },
   } = useForm()
 
-  const country = watch('country')
-  const state = watch('state')
+  const country = watch('headquater.country')
+  const state = watch('headquater.state')
   const [stateList, setStateList] = useState([
     {
       label: 'Select State',
@@ -65,14 +65,20 @@ const AddFabricator = () => {
   };
 
   const handleaddFabricator = async (data) => {
+    const fabricatorData={
+      id: new Date().getTime(),
+      branch: [],
+      ...data
+    }
     try {
-      const fabData = await Service.addFabricator(token, data)
-      if (fabData.status === 201){ 
-        dispatch(addFabricator(fabData.data))
-        reset();
-      }
-      else
-        alert('Error in adding Fabricator')
+      dispatch(addFabricator(fabricatorData))
+      // const fabData = await Service.addFabricator(token, data)
+      // if (fabData.status === 201){ 
+      //   dispatch(addFabricator(fabData.data))
+      //   reset();
+      // }
+      // else
+      //   alert('Error in adding Fabricator')
     } catch (error) {
       console.log(error)
     }
@@ -107,7 +113,7 @@ const AddFabricator = () => {
                 placeholder="Address"
                 size="lg"
                 color="blue"
-                {...register('address')}
+                {...register('headquater.address')}
               />
             </div>
             <div className="my-2">
@@ -122,7 +128,7 @@ const AddFabricator = () => {
                     value: country,
                   })),
                 ]}
-                {...register('country', { required: 'Country is required' })}
+                {...register('headquater.country', { required: 'Country is required' })}
                 onChange={setValue}
               />
               {errors.country && (
@@ -141,7 +147,7 @@ const AddFabricator = () => {
                     value: state1,
                   })),
                 ]}
-                {...register('state', { required: true })}
+                {...register('headquater.state', { required: true })}
                 onChange={setValue}
               />
               {/* {errors.state && (
@@ -154,7 +160,7 @@ const AddFabricator = () => {
                 placeholder="City"
                 className="w-full"
                 options={[{ label: 'Select City', value: '' }, ...cityList]}
-                {...register('city', { required: true })}
+                {...register('headquater.city', { required: true })}
                 onChange={setValue}
               />
               {errors.city && (
@@ -166,7 +172,7 @@ const AddFabricator = () => {
                 label="Zipcode: "
                 placeholder="Zipcode"
                 className="w-full"
-                {...register('zip_code', { required: true })}
+                {...register('headquater.zip_code', { required: true })}
               />
               {errors.zip_code && (
                 <p className="text-red-600">{errors?.zipCode?.message}</p>

@@ -1,16 +1,23 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from "react";
-import { Input, CustomSelect, Button, Toggle, MultipleFileUpload } from '../../../../index'
-import { useDispatch, useSelector } from 'react-redux'
-import { State, City } from 'country-state-city'
+import {
+  Input,
+  CustomSelect,
+  Button,
+  Toggle,
+  MultipleFileUpload,
+} from "../../../../index";
+import { useDispatch, useSelector } from "react-redux";
+import { State, City } from "country-state-city";
 import { useForm } from "react-hook-form";
+import { addBranchToFabricator } from "../../../../../store/fabricatorSlice";
 
-const AddBranch = ({ fabricatorId,isBranch, onBranchClose }) => {
+const AddBranch = ({ fabricatorId, isBranch, onBranchClose }) => {
   const [fabricator, setFabricator] = useState();
-  const token = sessionStorage.getItem('token')
+  const token = sessionStorage.getItem("token");
   const [files, setFiles] = useState([]);
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const {
     register,
     setValue,
@@ -18,36 +25,37 @@ const AddBranch = ({ fabricatorId,isBranch, onBranchClose }) => {
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm()
+  } = useForm();
 
-  const country = watch('country')
-  const state = watch('state')
+  const country = watch("country");
+  const state = watch("state");
   const [stateList, setStateList] = useState([
     {
-      label: 'Select State',
-      value: '',
+      label: "Select State",
+      value: "",
     },
-  ])
+  ]);
 
   const [cityList, setCityList] = useState([
     {
-      label: 'Select City',
-      value: '',
+      label: "Select City",
+      value: "",
     },
-  ])
+  ]);
 
   const countryList = {
-    'United States': 'US',
-    Canada: 'CA',
-    India: 'IN',
-  }
+    "United States": "US",
+    Canada: "CA",
+    India: "IN",
+  };
+
   useEffect(() => {
-    const stateListObject = {}
+    const stateListObject = {};
     State.getStatesOfCountry(countryList[country])?.forEach((state1) => {
-      stateListObject[state1.name] = state1.isoCode
-    })
-    setStateList(stateListObject)
-  }, [country])
+      stateListObject[state1.name] = state1.isoCode;
+    });
+    setStateList(stateListObject);
+  }, [country]);
 
   useEffect(() => {
     setCityList(
@@ -55,17 +63,17 @@ const AddBranch = ({ fabricatorId,isBranch, onBranchClose }) => {
         (city) => ({
           label: city?.name,
           value: city?.name,
-        }),
-      ),
-    )
-  }, [state])
+        })
+      )
+    );
+  }, [state]);
 
   const onFilesChange = (updatedFiles) => {
     setFiles(updatedFiles);
   };
 
   const fabData = useSelector((state) => state.fabricatorData?.fabricatorData);
-  console.log(fabData)
+  console.log(fabData);
 
   const fetchFabricator = async () => {
     try {
@@ -74,7 +82,7 @@ const AddBranch = ({ fabricatorId,isBranch, onBranchClose }) => {
 
       if (fabricator) {
         setFabricator(fabricator);
-        console.log(fabricator)
+        console.log(fabricator);
       } else {
         console.log("Fabricator not found");
       }
@@ -91,14 +99,23 @@ const AddBranch = ({ fabricatorId,isBranch, onBranchClose }) => {
     //   console.log("Error fetching fabricator:", error);
     // }
   };
-  useEffect(()=>{
+  useEffect(() => {
     fetchFabricator();
-  },[fabricatorId])
-
+  }, [fabricatorId]);
 
   const handleAddBranch = async (data) => {
-    console.log(data)
-  }
+    const branchData = {
+      id: new Date().getTime(),
+      address: data.address,
+      country: data.country,
+      state: data.state,
+      city: data.city,
+      zip_code: data.zip_code,
+    }
+    console.log(branchData);
+    dispatch(addBranchToFabricator({ fabricatorId, branchData }));
+    
+  };
 
   const handleClose = async () => {
     onBranchClose(true);
@@ -113,8 +130,8 @@ const AddBranch = ({ fabricatorId,isBranch, onBranchClose }) => {
             Close
           </Button>
         </div>
-         {/* header */}
-         <div className="top-2 w-full flex justify-center z-10">
+        {/* header */}
+        <div className="top-2 w-full flex justify-center z-10">
           <div className="mt-2">
             <div className="bg-teal-400 text-white px-3 md:px-4 py-2 md:text-2xl font-bold rounded-lg shadow-md">
               Fabricator: {fabricator?.name || "Unknown"}
@@ -148,7 +165,7 @@ const AddBranch = ({ fabricatorId,isBranch, onBranchClose }) => {
                 placeholder="Address"
                 size="lg"
                 color="blue"
-                {...register('address')}
+                {...register("address")}
               />
             </div>
             <div className="my-2">
@@ -157,13 +174,13 @@ const AddBranch = ({ fabricatorId,isBranch, onBranchClose }) => {
                 placeholder="Country"
                 className="w-full"
                 options={[
-                  { label: 'Select Country', value: '' },
+                  { label: "Select Country", value: "" },
                   ...Object.keys(countryList).map((country) => ({
                     label: country,
                     value: country,
                   })),
                 ]}
-                {...register('country', { required: 'Country is required' })}
+                {...register("country", { required: "Country is required" })}
                 onChange={setValue}
               />
               {errors.country && (
@@ -176,13 +193,13 @@ const AddBranch = ({ fabricatorId,isBranch, onBranchClose }) => {
                 placeholder="State"
                 className="w-full"
                 options={[
-                  { label: 'Select State', value: '' },
+                  { label: "Select State", value: "" },
                   ...Object.keys(stateList).map((state1) => ({
                     label: state1,
                     value: state1,
                   })),
                 ]}
-                {...register('state', { required: true })}
+                {...register("state", { required: true })}
                 onChange={setValue}
               />
               {/* {errors.state && (
@@ -194,8 +211,8 @@ const AddBranch = ({ fabricatorId,isBranch, onBranchClose }) => {
                 label="City: "
                 placeholder="City"
                 className="w-full"
-                options={[{ label: 'Select City', value: '' }, ...cityList]}
-                {...register('city', { required: true })}
+                options={[{ label: "Select City", value: "" }, ...cityList]}
+                {...register("city", { required: true })}
                 onChange={setValue}
               />
               {errors.city && (
@@ -207,44 +224,14 @@ const AddBranch = ({ fabricatorId,isBranch, onBranchClose }) => {
                 label="Zipcode: "
                 placeholder="Zipcode"
                 className="w-full"
-                {...register('zip_code', { required: true })}
+                {...register("zip_code", { required: true })}
               />
               {errors.zip_code && (
                 <p className="text-red-600">{errors?.zipCode?.message}</p>
               )}
             </div>
           </div>
-          {/* <div className="bg-teal-500/50 rounded-lg px-2 py-2 font-bold text-white">
-            Website:
-          </div>
-          <div className="my-2 md:px-2 px-1">
-            <div className="my-2">
-              <Input
-                label="Website: "
-                type="url"
-                placeholder="Website"
-                className="w-full"
-                {...register('website')}
-              />
-            </div>
-            <div className="my-2">
-              <Input
-                label="Drive: "
-                type="url"
-                placeholder="Drive"
-                className="w-full"
-                {...register('drive')}
-              />
-            </div>
-          </div> */}
-
-          {/* <div className="bg-teal-500/50 rounded-lg px-2 py-2 font-bold text-white">
-            Attach Files:
-          </div>
-          <div className="my-2 md:px-2 px-1">
-            <MultipleFileUpload {...register("file")} onFilesChange={onFilesChange} />
-          </div> */}
-
+          
           <div className="my-5 w-full">
             <Button type="submit" className="w-full">
               Add Branch

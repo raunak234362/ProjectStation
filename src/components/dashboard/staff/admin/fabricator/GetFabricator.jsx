@@ -19,7 +19,7 @@ const GetFabricator = ({ fabricatorId, isOpen, onClose }) => {
     try {
       // Find the fabricator with the matching ID from the Redux store data
       const fabricator = fabData.find((fab) => fab.id === fabricatorId);
-
+      console.log(fabricator);
       if (fabricator) {
         setFabricator(fabricator);
       } else {
@@ -28,7 +28,7 @@ const GetFabricator = ({ fabricatorId, isOpen, onClose }) => {
     } catch (error) {
       console.log("Error fetching fabricator:", error);
     }
-
+    
     // try {
     //   const response = await Service.getFabricator(token, fabricatorId);
     //   //   dispatch(showFabricator(response));
@@ -135,11 +135,11 @@ const GetFabricator = ({ fabricatorId, isOpen, onClose }) => {
               </h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {[
-                  { label: "Address", value: fabricator?.address },
-                  { label: "City", value: fabricator?.city },
-                  { label: "State", value: fabricator?.state },
-                  { label: "Country", value: fabricator?.country },
-                  { label: "Zipcode", value: fabricator?.zip_code },
+                  { label: "Address", value: fabricator?.headquater?.address },
+                  { label: "City", value: fabricator?.headquater?.city },
+                  { label: "State", value: fabricator?.headquater?.state },
+                  { label: "Country", value: fabricator?.headquater?.country },
+                  { label: "Zipcode", value: fabricator?.headquater?.zip_code },
                 ].map(({ label, value }) => (
                   <div key={label} className="flex flex-col">
                     <span className="font-medium text-gray-700">{label}:</span>
@@ -152,7 +152,7 @@ const GetFabricator = ({ fabricatorId, isOpen, onClose }) => {
             </div>
           </div>
           {/* Branch Details */}
-          {fabricator?.branch?.length > 0 && (
+          {fabricator?.branch?.length >= 0 && (
             <div className="mt-4">
               <div className="flex flex-row justify-between">
                 <h2 className="text-lg font-semibold mb-4">Branch Details</h2>

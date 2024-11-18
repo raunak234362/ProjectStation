@@ -31,12 +31,11 @@ const AddFabricatorUser = () => {
   useEffect(() => {
     if (selectedFabricator) {
       const fabricator = fabricators.find(fab => fab.id === selectedFabricator)
-      console.log(fabricator)
       if (fabricator) {
         setBranchOptions(
           fabricator?.branch?.map(branches => ({
             label: branches.address,
-            value: branches.address,
+            value: branches.id,
           }))
         )
       }
@@ -44,6 +43,8 @@ const AddFabricatorUser = () => {
       setBranchOptions([]) 
     }
   }, [selectedFabricator, fabricators])
+
+  console.log(branchOptions)
 
   const countryOptions = countries.map((country) => ({
     label: `${getCountryFlagEmojiFromCountryCode(country.code)} ${
@@ -92,8 +93,10 @@ const AddFabricatorUser = () => {
     try {
       const phoneNumber = `${data?.country_code}${data?.phone}`
       const updatedData = {
+        id: new Date().getTime(),
         ...data,
         phone: phoneNumber,
+        fabricator: fabricators.find(fab => fab.id === data.fabricator),
       }
       console.log(updatedData)
       dispatch(addClient(updatedData))
@@ -144,56 +147,6 @@ const AddFabricatorUser = () => {
                 onChange={setValue}
               />
             </div>
-            {/* <div className="my-2">
-              <Select
-                label="Country: "
-                placeholder="Country"
-                className="w-full"
-                options={[
-                  { label: 'Select Country', value: '' },
-                  ...Object.keys(countryList).map((country) => ({
-                    label: country,
-                    value: country,
-                  })),
-                ]}
-                {...register('country')}
-                onChange={setValue}
-              />
-            </div>
-            <div className="my-2">
-              <Select
-                label="State: "
-                placeholder="State"
-                className="w-full"
-                options={[
-                  { label: 'Select State', value: '' },
-                  ...Object.keys(stateList).map((state1) => ({
-                    label: state1,
-                    value: state1,
-                  })),
-                ]}
-                {...register('state')}
-                onChange={setValue}
-              />
-            </div>
-            <div className="my-2">
-              <Select
-                label="City: "
-                placeholder="City"
-                className="w-full"
-                options={[{ label: 'Select City', value: '' }, ...cityList]}
-                {...register('city')}
-                onChange={setValue}
-              />
-            </div>
-            <div className="my-2">
-              <Input
-                label="Zipcode: "
-                placeholder="Zipcode"
-                className="w-full"
-                {...register('zip_code')}
-              />
-            </div> */}
           </div>
           <div className="bg-teal-500/50 rounded-lg px-2 py-2 font-bold text-white">
             User Information:
@@ -271,8 +224,7 @@ const AddFabricatorUser = () => {
                   color="blue"
                   name="country_code"
                   options={countryOptions}
-                  onChange={setValue} // Update country_code field
-                  // {...register('country_code', { required: true })}
+                  onChange={setValue}
                 />
               </div>
               <div className="w-full">
@@ -284,6 +236,24 @@ const AddFabricatorUser = () => {
                   {...register('phone', { required: true })}
                 />
                 {errors.phone && <div>This field is required</div>}
+              </div>
+              <div className="w-full">
+                <Input
+                  label="Landline Number:"
+                  placeholder="Landline Number"
+                  size="lg"
+                  color="blue"
+                  {...register('landline')}
+                />
+              </div>
+              <div className="w-full">
+                <Input
+                  label="Alternate Landline Number:"
+                  placeholder="Alternate Landline Number"
+                  size="lg"
+                  color="blue"
+                  {...register('alt_landline')}
+                />
               </div>
             </div>
             <div className="w-full my-2">

@@ -40,7 +40,7 @@ const Sidebar = () => {
         <ul className="flex flex-col gap-5">
           <li>
             <NavLink
-              to="data"
+              to="dashboard"
               className={({ isActive }) =>
                 isActive
                   ? "flex justify-center items-center text-white bg-teal-400 rounded-md w-full  delay-150"

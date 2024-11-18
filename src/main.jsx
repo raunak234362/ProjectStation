@@ -44,6 +44,7 @@ import {
   SendCO,
   AllReceivedCO,
   AllSentCO,
+  Dashboard,
 } from './components/index.js'
 
 
@@ -77,7 +78,7 @@ const router = createBrowserRouter([
       },
       {
         path: 'dashboard',
-        
+        element:<Dashboard/>,
       },
       {
         path: 'project',

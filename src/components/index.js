@@ -3,6 +3,7 @@ import Login from './login/Login'
 import LoginAuthentication from './login/LoginAuthentication'
 
 //Dashboard
+import Dashboard from './dashboard/staff/admin/dashboard/Dashboard'
 import MainContent from './dashboard/main/MainContent'
 import ChangePassword from './dashboard/main/ChangePassword'
 import Sidebar from './dashboard/sidebar/Sidebar'
@@ -89,6 +90,7 @@ export {
   MultipleFileUpload,
   Login,
   LoginAuthentication,
+  Dashboard,
   MainContent,
   ChangePassword,
   Sidebar,

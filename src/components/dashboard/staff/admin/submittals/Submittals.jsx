@@ -1,8 +1,11 @@
 /* eslint-disable no-unused-vars */
 import React from 'react'
 import { NavLink, Outlet } from 'react-router-dom'
+import {useSelector} from "react-redux";
 
 const Submittals = () => {
+  const submittals= useSelector((state)=>state.projectData?.submittals);
+  console.log(submittals);
   return (
     <div className="w-full mx-5">
       <div className="flex w-full justify-center items-center">

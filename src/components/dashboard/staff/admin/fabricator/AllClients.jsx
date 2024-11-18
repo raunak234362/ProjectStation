@@ -145,9 +145,9 @@ const AllClients = () => {
                   <td className="border px-2 py-1 text-left">
                     {client.f_name} {client.m_name} {client.l_name}
                   </td>
-                  <td className="border px-2 py-1">{client.fabricator.city}</td>
-                  <td className="border px-2 py-1">{client.fabricator.state}</td>
-                  <td className="border px-2 py-1">{client.fabricator.country}</td>
+                  <td className="border px-2 py-1">{client.fabricator.headquater.city}</td>
+                  <td className="border px-2 py-1">{client.fabricator.headquater.state}</td>
+                  <td className="border px-2 py-1">{client.fabricator.headquater.country}</td>
                   <td className="border px-2 py-1">
                   <Button onClick={() => handleViewClick(client.id)}>View</Button>
                   </td>

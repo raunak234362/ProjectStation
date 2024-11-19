@@ -166,8 +166,8 @@ const Dashboard = () => {
               </div>
 
               {/* Project Table */}
-              <div className="mt-5 bg-white h-[30vh] overflow-y-hidden rounded-lg">
-                <table className=" md:w-full h-[30vh] overflow-auto w-[90vw] border-collapse text-center md:text-lg text-xs rounded-xl">
+              <div className="mt-5 bg-white h-[30vh] overflow-y-auto rounded-lg">
+                <table className=" md:w-full overflow-auto w-[90vw] border-collapse text-center md:text-lg text-xs rounded-xl">
                   <thead>
                     <tr className="bg-teal-200/70">
                       <th

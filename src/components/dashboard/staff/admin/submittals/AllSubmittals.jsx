@@ -1,143 +1,219 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
-import React, {useEffect, useState} from 'react'
-import {useSelector} from "react-redux";
-import submittals from "./Submittals.jsx";
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { Button } from "../../../../index";
 
 // Utility function to get nested values safely
 const getNestedValue = (obj, path) => {
-    return path.split('.').reduce((acc, part) => acc && acc[part], obj);
-  };
-  
+  return path.split(".").reduce((acc, part) => acc && acc[part], obj);
+};
 
 const AllSubmittals = () => {
-    const Submittals = useSelector((state) => state.projectData?.submittals);
+  const Submittals = useSelector((state) => state.projectData?.submittals);
+  //   console.log(Submittals);
+  const [selectedSubmittals, setSelectedSubmittals] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [filteredSubmittals, setFilteredSubmittals] = useState(Submittals);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filters, setFilters] = useState({
+    fabricator: "",
+    project: "",
+    status: "",
+  });
+  const [sortConfig, setSortConfig] = useState({ key: "", direction: "asc" });
 
-    const [selectedSubmittals, setSelectedSubmittals] = useState(null);
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [filteredSubmittals, setFilteredSubmittals] = useState(Submittals);
-    const [searchTerm, setSearchTerm] = useState("");
-    const [filters, setFilters] = useState({
-        fabricator: "",
-        project: "",
-        status: ""
-    });
-    const [sortConfig, setSortConfig] = useState({key:"",direction:"asc"});
+  const handleSearch = (e) => {
+    const term = e.target.value;
+    setSearchTerm(term);
+  };
 
-    const filterAndSort = (data,term, filters)=>{
-        let filteredData=data || [];
+  const handleFilterChange = (e) => {
+    const { name, value } = e.target;
+    setFilters((prev) => ({ ...prev, [name]: value }));
+  };
 
-        if(term){
-            filteredData = filteredData.filter(
-                (submittals)=>
-                    submittals.remarks.toLowerCase().includes(term.toLowerCase()) ||
-                    submittals.email.toLowerCase().includes(term.toLowerCase()),
-            );
-        }
+  const filterAndSort = (data, term, filters) => {
+    let filteredData = data || [];
 
-        if(filters.fabricator){
-            filteredData = filteredData.filter(
-                (submittals)=>
-                    submittals.fabricator.toLowerCase()=== filters.fabricator.toLowerCase()
-            )
-        }
-
-        if(filters.project){
-            filteredData= filteredData.filter(
-                (submittals)=>
-                    submittals?.fabricator?.project?.name?.toLowerCase() === filters.project.toLowerCase() ||
-                    submittals?.project?.name?.toLowerCase() === filters.project.toLowerCase()
-            )
-        }
-
-        if(filters.status){
-            filteredData = filteredData.filter(
-                (submittals)=>
-                    submittals.status.toLowerCase() === filters.status
-            )
-        }
-
-        // Apply sorting
-    if (sortConfig.key) {
-        filteredData.sort((a, b) => {
-          const aValue = getNestedValue(a, sortConfig.key) || "";
-          const bValue = getNestedValue(b, sortConfig.key) || "";
-  
-          if (typeof aValue === "string" && typeof bValue === "string") {
-            return sortConfig.direction === "asc"
-              ? aValue.localeCompare(bValue)
-              : bValue.localeCompare(aValue);
-          }
-  
-          if (sortConfig.key === "date") {
-            return sortConfig.direction === "asc"
-              ? new Date(aValue) - new Date(bValue)
-              : new Date(bValue) - new Date(aValue);
-          }
-  
-          return sortConfig.direction === "asc"
-            ? aValue - bValue
-            : bValue - aValue;
-        });
-      }
-      setFilteredSubmittals(filteredData);
+    if (term) {
+      filteredData = filteredData.filter(
+        (sub) =>
+          sub.remarks.toLowerCase().includes(term.toLowerCase()) ||
+          sub.email.toLowerCase().includes(term.toLowerCase())
+      );
     }
 
-    const handleSort = (key) => {
-        let direction = "asc";
-        if (sortConfig.key === key && sortConfig.direction === "asc") {
-          direction = "desc";
+    if (filters.fabricator) {
+      filteredData = filteredData.filter(
+        (sub) =>
+          sub?.fabricator?.name?.toLowerCase() ===
+          filters.fabricator.toLowerCase()
+      );
+    }
+
+    if (filters.project) {
+      filteredData = filteredData.filter(
+        (sub) =>
+          sub?.fabricator?.project?.name?.toLowerCase() ===
+            filters.project.toLowerCase() ||
+          sub?.project?.name?.toLowerCase() === filters.project.toLowerCase()
+      );
+      console.log(filteredData);
+    }
+
+    if (filters.status) {
+      filteredData = filteredData.filter(
+        (sub) => sub.status.toLowerCase() === filters.status
+      );
+    }
+
+    // Apply sorting
+    if (sortConfig.key) {
+      filteredData.sort((a, b) => {
+        const aValue = getNestedValue(a, sortConfig.key) || "";
+        const bValue = getNestedValue(b, sortConfig.key) || "";
+
+        if (typeof aValue === "string" && typeof bValue === "string") {
+          return sortConfig.direction === "asc"
+            ? aValue.localeCompare(bValue)
+            : bValue.localeCompare(aValue);
         }
-        setSortConfig({ key, direction });
-      };
 
-    useEffect(() => {
-        filterAndSort(Submittals,searchTerm,filters)
-    }, [Submittals, searchTerm, filters]);
+        if (sortConfig.key === "date") {
+          return sortConfig.direction === "asc"
+            ? new Date(aValue) - new Date(bValue)
+            : new Date(bValue) - new Date(aValue);
+        }
 
-    return (
-        <div className='bg-white/70 rounded-lg md:w-full w-[90vw]'>
-            <div className="mt-5 h-auto p-4">
-                <div className="overflow-x-auto">
-                    <table className="min-w-full border-collapse text-center text-sm md:text-lg rounded-xl">
-                        <thead>
-                        <tr className='bg-teal-200/70'>
+        return sortConfig.direction === "asc"
+          ? aValue - bValue
+          : bValue - aValue;
+      });
+    }
+    setFilteredSubmittals(filteredData);
+  };
 
-                            <th className='px-2 py-1 text-left'>Fabricator Name</th>
-                            <th className='px-2 py-1 text-left'>Project Name</th>
-                            <th className='px-2 py-1'>Subject/Remarks</th>
-                            <th className='px-2 py-1'>Recipients</th>
-                            <th className='px-2 py-1'>Date</th>
-                            {/* <th className='px-2 py-1'>RFI Status</th> */}
-                            <th className='px-2 py-1'>Actions</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {/* {RFI.length === 0 ? (
-                   <tr className="bg-white">
-                   <td colSpan="6" className="text-center">
-                   No sent RFI Found
-                   </td>
-                 </tr>
-              ):( RFI?.map((project,index) => (
-                    <tr key={project.id} className='hover:bg-blue-gray-100 border'>
-                      
-                      <td className='border px-2 py-1 text-left'>{project.fabricator}</td>
-                      <td className='border px-2 py-1'>{project.project}</td>
-                      <td className='border px-2 py-1'>{project.remarks}</td>
-                      <td className='border px-2 py-1'>{project.recipients}</td>
-                      <td className='border px-2 py-1'>10-5-2024</td>
-                      <td className='border px-2 py-1'>Open</td>
-                      <td className='border px-2 py-1'>Button</td>
-                    </tr>
-                  ))
-              )} */}
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+
+  const handleSort = (key) => {
+    let direction = "asc";
+    if (sortConfig.key === key && sortConfig.direction === "asc") {
+      direction = "desc";
+    }
+    setSortConfig({ key, direction });
+  };
+
+  const handleViewClick = async (submittalsId) => {
+    console.log(submittalsId);
+    setSelectedSubmittals(submittalsId);
+    setIsModalOpen(true);
+  };
+
+  useEffect(() => {
+    filterAndSort(Submittals, searchTerm, filters);
+  }, [Submittals, searchTerm, filters]);
+
+  return (
+    <div className="bg-white/70 rounded-lg md:w-full w-[90vw]">
+      <div className="mt-5 h-auto p-4">
+        {/* Search and Filter Options */}
+        <div className="flex flex-col md:flex-row gap-2 mb-4">
+          <input
+            type="text"
+            placeholder="Search by remarks or recipient"
+            value={searchTerm}
+            onChange={handleSearch}
+            className="px-2 py-1 rounded border border-gray-300"
+          />
+          <select
+            name="fabricator"
+            value={filters.fabricator}
+            onChange={handleFilterChange}
+            className="px-2 py-1 rounded border border-gray-300"
+          >
+            <option value="">Filter by Fabricator</option>
+            {[...new Set(Submittals?.map((sub) => sub?.fabricator?.name))].map(
+              (name) => (
+                <option key={name} value={name}>
+                  {name}
+                </option>
+              )
+            )}
+          </select>
+          <select
+            name="project"
+            value={filters.project}
+            onChange={handleFilterChange}
+            className="px-2 py-1 rounded border border-gray-300"
+          >
+            <option value="">Filter by Project</option>
+            {[
+              ...new Set(
+                Submittals?.map(
+                  (sub) => sub?.fabricator?.project?.name || sub?.project?.name
+                )
+              ),
+            ].map((name) => (
+              <option key={name} value={name}>
+                {name}
+              </option>
+            ))}
+          </select>
+          <select
+            name="status"
+            value={filters.status}
+            onChange={handleFilterChange}
+            className="px-2 py-1 rounded border border-gray-300"
+          >
+            <option value="">Filter by Status</option>
+            <option value="open">Open</option>
+            <option value="closed">Closed</option>
+          </select>
         </div>
-    )
-}
+        <div className="overflow-x-auto">
+          <table className="min-w-full border-collapse text-center text-sm md:text-lg rounded-xl">
+            <thead>
+              <tr className="bg-teal-200/70">
+                <th className="px-2 py-1 text-left">Fabricator Name</th>
+                <th className="px-2 py-1 text-left">Project Name</th>
+                <th className="px-2 py-1">Subject/Remarks</th>
+                <th className="px-2 py-1">Recipients</th>
+                <th className="px-2 py-1">Date</th>
+                {/* <th className='px-2 py-1'>RFI Status</th> */}
+                <th className="px-2 py-1">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filteredSubmittals?.length === 0 ? (
+                <tr className="bg-white">
+                  <td colSpan="6" className="text-center">
+                    No sent RFI Found
+                  </td>
+                </tr>
+              ) : (
+                filteredSubmittals?.map((sub, index) => (
+                  <tr key={sub?.id} className="hover:bg-blue-gray-100 border">
+                    <td className="border px-2 py-1 text-left">
+                      {sub?.fabricator?.name}
+                    </td>
+                    <td className="border px-2 py-1">
+                      {sub?.fabricator?.project?.name}
+                    </td>
+                    <td className="border px-2 py-1">{sub?.remarks}</td>
+                    <td className="border px-2 py-1">{sub?.recipients}</td>
+                    <td className="border px-2 py-1">10-5-2024</td>
+                    <Button onClick={() => handleViewClick(sub.id)}>
+                      View
+                    </Button>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  );
+};
 
-export default AllSubmittals
+export default AllSubmittals;

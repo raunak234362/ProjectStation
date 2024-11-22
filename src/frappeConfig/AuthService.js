@@ -7,6 +7,7 @@ class AuthService {
 
   // Login Method
   static async login({ username, password }) {
+    console.log('Login:', username, password);
     try {
       const formData = new URLSearchParams();
       formData.append('usr', username.toLowerCase()); // Frappe uses `usr` as the field for username

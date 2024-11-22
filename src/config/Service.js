@@ -132,6 +132,7 @@ class Service {
           Authorization: `Token ${token}`,
         },
       });
+      console.log(response)
       return response.data;
     } catch (error) {
       console.log('Error fetching fabricators:', error);

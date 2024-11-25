@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Provider, useDispatch } from "react-redux";
 import store from "./store/store";
 

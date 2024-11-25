@@ -85,6 +85,7 @@ const AddProject = () => {
               />
               {errors.estimatedHours && <div>This field is required</div>}
             </div>
+          
           </div>
           <div className="bg-teal-500/50 rounded-lg px-2 py-2 font-bold text-white">
             Project Stage & Status:

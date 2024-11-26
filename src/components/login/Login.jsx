@@ -1,32 +1,33 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
-import { useForm } from 'react-hook-form'
-import LOGO from '../../assets/logo.png'
-import Background from '../../assets/background-image.jpg'
-import { Input, Button } from '../index'
-import { Link, useNavigate } from 'react-router-dom'
-import { MdLockReset } from 'react-icons/md'
-import { useDispatch, useSelector } from 'react-redux'
-import { updatetoken as authLogin, setUserData } from '../../store/userSlice'
+import { useForm } from "react-hook-form";
+import LOGO from "../../assets/logo.png";
+import Background from "../../assets/background-image.jpg";
+import { Input, Button } from "../index";
+import { Link, useNavigate } from "react-router-dom";
+import { MdLockReset } from "react-icons/md";
+import { useDispatch, useSelector } from "react-redux";
+import { updatetoken as authLogin, setUserData } from "../../store/userSlice";
 // import AuthService from '../../config/AuthService'
-import AuthService from '../../frappeConfig/AuthService'
-import Service from '../../config/Service'
-import { useEffect } from 'react'
+import AuthService from "../../frappeConfig/AuthService";
+import Service from "../../config/Service";
+import { useEffect } from "react";
+import { logout as logoutAction } from "../../store/userSlice";
 
 const Login = () => {
-  const navigate = useNavigate()
-  const dispatch = useDispatch()
-  const token = sessionStorage.getItem('token')
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const token = sessionStorage.getItem("token");
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm()
+  } = useForm();
 
   const login = async (data) => {
     try {
-      const user = await AuthService.login(data)
-      console.log(user)
+      const user = await AuthService.login(data);
+      console.log(user);
       // if ('token' in user) {
       //   const token = user.token
       //   // sessionStorage.setItem('token', )
@@ -48,7 +49,6 @@ const Login = () => {
       //   } else if (userData[0].role === 'VENDOR') {
       //     userType = 'vendor';
       //   }
-        
 
       //   sessionStorage.setItem('userType', userType)
       //   dispatch(authLogin(user))
@@ -69,26 +69,36 @@ const Login = () => {
       //   navigate('/')
       // }
     } catch (error) {
-      console.log(error)
-      if (error.message === 'Invalid Credentials') {
-        alert('Invalid Credentials')
+      console.log(error);
+      if (error.message === "Invalid Credentials") {
+        alert("Invalid Credentials");
       } else {
-        alert('Could not connect to server')
+        alert("Could not connect to server");
       }
     }
-  }
+  };
+
+  const fetchLogout = async () => {
+    try {
+      const response = await AuthService.logout(token);
+      dispatch(logoutAction());
+      navigate("/");
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
+  };
+
   const fetchUser = async () => {
     try {
-      const User = await Service.getCurrentUser(token)
-      dispatch(setUserData(User))
+      const User = await Service.getCurrentUser(token);
+      dispatch(setUserData(User));
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
   useEffect(() => {
-    fetchUser()
-  }, [])
-
+    fetchUser();
+  }, []);
 
   return (
     <div className="">
@@ -114,8 +124,8 @@ const Login = () => {
                   label="Username:"
                   placeholder="USERNAME"
                   type="text"
-                  {...register('username', {
-                    required: 'Username is required',
+                  {...register("username", {
+                    required: "Username is required",
                   })}
                 />
                 {errors.username && (
@@ -127,8 +137,8 @@ const Login = () => {
                   label="Password:"
                   placeholder="PASSWORD"
                   type="password"
-                  {...register('password', {
-                    required: 'Password is required',
+                  {...register("password", {
+                    required: "Password is required",
                   })}
                 />
                 {errors.password && (
@@ -151,6 +161,9 @@ const Login = () => {
                   Forgot Password ?
                 </Link>
               </div>
+              <Button className="bg-teal-400 mx-4 w-full" onClick={fetchLogout}>
+                Logout
+              </Button>
             </div>
           </div>
         </div>
@@ -163,7 +176,7 @@ const Login = () => {
         />
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Login
+export default Login;

@@ -6,6 +6,7 @@ import Service from "../../../config/Service";
 import { useEffect, useState } from "react";
 import { Button } from "../../index";
 import { logout as logoutAction } from "../../../store/userSlice";
+import AuthService from "../../../frappeConfig/AuthService";
 const Sidebar = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -18,11 +19,23 @@ const Sidebar = () => {
     setCurrentUser(userData[0]);
   };
 
+  // const fetchLogout = async () => {
+  //   try {
+  //     const response = await AuthService.logout(token);
+  //     sessionStorage.removeItem("userType");
+  //     sessionStorage.removeItem("token");
+  //     dispatch(logoutAction());
+  //     navigate("/");
+  //   } catch (error) {
+  //     console.error("Logout failed:", error);
+  //   }
+  // };
+  // Sidebar.js
   const fetchLogout = async () => {
     try {
-      sessionStorage.removeItem("userType");
-      sessionStorage.removeItem("token");
-      dispatch(logoutAction());
+      
+      const response = await AuthService.logout(token);
+      dispatch(logoutAction()); 
       navigate("/");
     } catch (error) {
       console.error("Logout failed:", error);

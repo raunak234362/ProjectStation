@@ -36,22 +36,32 @@ class AuthService {
   }
 
   // Logout Method
-  static async logout() {
-    try {
-      const response = await axios.post(`${this.BASE_URL}/api/method/logout`);
-      if (response.status === 200) {
-        console.log('Logout successful:', response.data);
-        sessionStorage.removeItem('token');
-        sessionStorage.removeItem('userType');
-        return response.data;
-      } else {
-        throw new Error('Logout failed');
+  // AuthService.js
+static async logout(token) {
+  try {
+    const response = await axios.post(
+      `${this.BASE_URL}/method/logout`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${token}`, // Send the token as an Authorization header
+        },
       }
-    } catch (error) {
-      console.error('Error during logout:', error);
-      throw new Error('Could not connect to server');
+    );
+    if (response.status === 200) {
+      console.log('Logout successful:', response.data);
+      sessionStorage.removeItem('token');
+      sessionStorage.removeItem('userType');
+      return response.data;
+    } else {
+      throw new Error('Logout failed');
     }
+  } catch (error) {
+    console.error('Error during logout:', error);
+    throw new Error('Could not connect to server');
   }
+}
+
 }
 
 export default AuthService;

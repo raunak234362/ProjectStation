@@ -149,8 +149,8 @@ const AddEmployee = () => {
             </div> */}
             <div className="w-full my-2">
               <Input
-                label="Designation:"
-                placeholder="Designation"
+                label="Role:"
+                placeholder="Role"
                 size="lg"
                 color="blue"
                 name='designation'

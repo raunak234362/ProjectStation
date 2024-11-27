@@ -32,7 +32,7 @@ const Login = () => {
         const token = user.token
         // sessionStorage.setItem('token', )
         const userData = await Service.getCurrentUser(token)
-        console.log(userData)
+        console.log("UserData",userData)
         let userType = 'user'
         if (userData[0].role === 'STAFF') {
           if (userData[0].is_superuser) {

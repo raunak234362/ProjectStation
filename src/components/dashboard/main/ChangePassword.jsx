@@ -53,7 +53,7 @@ const ChangePassword = () => {
         <Header />
       </div>
       <div className="flex justify-center mt-24 text-sm md:text-xl">
-        <div>Welcome to Project Station. <span className='font-font'>{nameExtractor(user)}</span></div>
+        <div>Welcome to Project Station. <span className='font-font font-bold'>{nameExtractor(user)}</span></div>
       </div>
       <div className="flex h-[80vh] justify-center items-center">
         <div className="bg-white p-4 rounded-md shadow-lg w-96">

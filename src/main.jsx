@@ -47,6 +47,14 @@ import {
   Dashboard,
 } from './components/index.js'
 
+import {Dashboard as ClientDashboard,
+  Profile as ClientProfile,
+  Project as ClientProject,
+  RFI as ClientRFI,
+  Submittals as ClientSubmittals,
+  ChangeOrder as ClientCO,
+  Team as ClientTeam,
+} from './components/dashboard/client/clientIndex.js'
 
 
 // Define the router configuration
@@ -155,7 +163,33 @@ const router = createBrowserRouter([
     children:[
       {
         path:'profile',
-      }]
+        element:<ClientProfile/>,
+      },
+      {
+        path:'dashboard',
+        element:<ClientDashboard/>
+      },
+      {
+        path:'project',
+        element:<ClientProject/>
+      },
+      {
+        path:'rfi',
+        element:<ClientRFI/>,
+      },
+      {
+        path:'submittals',
+        element:<ClientSubmittals/>,
+      },
+      {
+        path:'change-order',
+        element:<ClientCO/>,
+      },
+      {
+        path:'team',
+        element:<ClientTeam/>,
+      }
+    ]
   },
  
   { path: '*', element: <ErrorBoundary /> },

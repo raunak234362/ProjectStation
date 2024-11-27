@@ -27,12 +27,11 @@ const Login = () => {
   const login = async (data) => {
     try {
       const user = await AuthService.login(data);
-      console.log(user);
       if ('token' in user) {
         const token = user.token
         // sessionStorage.setItem('token', )
         const userData = await Service.getCurrentUser(token)
-        console.log("UserData",userData)
+        console.log("UserData :",userData)
         let userType = 'user'
         if (userData[0].role === 'STAFF') {
           if (userData[0].is_superuser) {

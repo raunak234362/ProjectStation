@@ -163,7 +163,7 @@ const router = createBrowserRouter([
     children:[
       {
         path:'profile',
-        element:<ClientProfile/>,
+        element:<MainContent/>,
       },
       {
         path:'dashboard',

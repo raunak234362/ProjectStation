@@ -88,8 +88,6 @@ const Dashboard = () => {
 
       <div className="h-[85vh] mt-2 overflow-y-auto">
         <div className="my-5 grid md:grid-cols-3 grid-cols-1 gap-5">
-
-
           <div className="grid text-center md:grid-cols-2 grid-cols-2 gap-5 ">
             <div className="flex flex-col justify-center items-center bg-white/50 rounded-lg p-3 shadow-lg">
               <div className="font-bold text-base text-gray-800">
@@ -131,11 +129,17 @@ const Dashboard = () => {
           {/* pie chart */}
           <div className="bg-white/70 rounded-lg md:w-full w-[90vw] p-4">
             WBT Project completion status
-            <img src="https://www.tableau.com/sites/default/files/2021-06/DataGlossary_Icons_Pie%20Chart.jpg" alt="" />
+            <img
+              src="https://www.tableau.com/sites/default/files/2021-06/DataGlossary_Icons_Pie%20Chart.jpg"
+              alt=""
+            />
           </div>
           <div className="bg-white/70 rounded-lg md:w-full w-[90vw] p-4">
             Vendor Project completion status
-            <img src="https://www.tableau.com/sites/default/files/2021-06/DataGlossary_Icons_Pie%20Chart.jpg" alt="" />
+            <img
+              src="https://www.tableau.com/sites/default/files/2021-06/DataGlossary_Icons_Pie%20Chart.jpg"
+              alt=""
+            />
           </div>
         </div>
         {/* Project Table */}

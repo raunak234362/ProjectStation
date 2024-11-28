@@ -7,6 +7,8 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import LoginContent from './view/login/LoginContent.jsx'
 import { Provider } from 'react-redux'
 import store from './store/store.js'
+
+//For WBT-Admin
 import {
   AddEmployee,
   AddFabricator,
@@ -47,6 +49,8 @@ import {
   Dashboard,
 } from './components/index.js'
 
+
+//For Client-Admin
 import {Dashboard as ClientDashboard,
   Profile as ClientProfile,
   Project as ClientProject,
@@ -188,6 +192,21 @@ const router = createBrowserRouter([
       {
         path:'team',
         element:<ClientTeam/>,
+      }
+    ]
+  },
+  {
+    path:'sales',
+    element:<App/>,
+    children: [
+      {
+        path:'dashboard',
+      },
+      {
+        path:'profile',
+      },
+      {
+        path:'projects',
       }
     ]
   },

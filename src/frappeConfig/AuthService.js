@@ -10,14 +10,14 @@ class AuthService {
     console.log('Login:', username, password);
     try {
       const formData = new URLSearchParams();
-      formData.append('usr', username.toLowerCase()); // Frappe uses `usr` as the field for username
-      formData.append('pwd', password); // Frappe uses `pwd` for password
-      console.log(formData)
+      formData.append('usr', username.toLowerCase()); 
+      formData.append('pwd', password);
       const response = await axios.post(`${this.BASE_URL}/method/login`, formData, {
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
         },
       });
+      console.log('Response:', response);
 
       if (response.status === 200) {
         console.log('Login successful:', response.data);

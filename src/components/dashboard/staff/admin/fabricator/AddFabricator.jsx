@@ -65,6 +65,7 @@ const AddFabricator = () => {
   };
 
   const handleaddFabricator = async (data) => {
+    console.log(data)
     const fabricatorData={
       id: new Date().getTime(),
       branch: [],

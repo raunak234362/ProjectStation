@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Provider, useDispatch } from "react-redux";
 import store from "./store/store";
@@ -6,6 +7,7 @@ import { useCallback, useEffect, useState } from "react";
 import { Header, Sidebar } from "./components/index";
 import { Outlet, useNavigate } from "react-router-dom";
 import Service from "./config/Service";
+// import FrappeService from "./frappeConfig/FrappeService";
 import { setUserData } from "./store/userSlice";
 // import { loadFabricator, showClient } from "./store/fabricatorSlice";
 
@@ -33,8 +35,9 @@ const App = () => {
 
   useEffect(() => {
     const fetchUser = async () => {
+      const user = await Service.getCurrentUser(token);
+      // console.log("User :", user);
       try {
-        const user = await Service.getCurrentUser(token);
         // const fabricator= await Service.allFabricator(token);
         // const client = await Service.allClient(token);
         // // const project = await Service.allprojects(token);

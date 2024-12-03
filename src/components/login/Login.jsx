@@ -53,7 +53,7 @@ const Login = () => {
         sessionStorage.setItem('userType', userType)
         dispatch(authLogin(user))
         // dispatch(setUserData(userData[0]))
-        console.log(userData[0].is_firstLogin)
+        console.log(userData.data.is_firstLogin)
         if (userData[0]?.is_firstLogin) navigate('/change-password/')
         else if(userType === 'admin') navigate('/admin/dashboard')
         else if(userType === 'client') navigate('/client')

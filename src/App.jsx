@@ -41,7 +41,7 @@ const App = () => {
         // const fabricator= await Service.allFabricator(token);
         // const client = await Service.allClient(token);
         // // const project = await Service.allprojects(token);
-        dispatch(setUserData(user[0]));
+        dispatch(setUserData(user.data));
         // dispatch(loadFabricator(fabricator));
         // dispatch(showClient(client));
         // dispatch(showProjects(project));

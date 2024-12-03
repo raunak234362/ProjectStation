@@ -27,20 +27,21 @@ const Login = () => {
   const login = async (data) => {
     try {
       const user = await AuthService.login(data);
+      // console.log("User :",user)
       if ('token' in user) {
         const token = user.token
-        // sessionStorage.setItem('token', )
+        // sessionStorage.setItem('Token',token ))
         const userData = await Service.getCurrentUser(token)
         console.log("UserData :",userData)
         let userType = 'user'
-        if (userData[0].role === 'STAFF') {
-          if (userData[0].is_superuser) {
+        if (userData.data?.role === 'STAFF') {
+          if (userData.data?.is_superuser) {
             userType = 'admin';
-          } else if (userData[0].is_sales) {
+          } else if (userData.data.is_sales) {
             userType = 'sales';
-          } else if (userData[0].is_staff && userData[0].is_manager) {
+          } else if (userData.data.is_staff && userData.data.is_manager) {
             userType = 'department-manager';
-          } else if (userData[0].is_manager) {
+          } else if (userData.data.is_manager) {
             userType = 'project-manager';
           }
         } else if (userData[0].role === 'CLIENT') {
@@ -51,7 +52,7 @@ const Login = () => {
 
         sessionStorage.setItem('userType', userType)
         dispatch(authLogin(user))
-        dispatch(setUserData(userData[0]))
+        // dispatch(setUserData(userData[0]))
         console.log(userData[0].is_firstLogin)
         if (userData[0]?.is_firstLogin) navigate('/change-password/')
         else if(userType === 'admin') navigate('/admin/dashboard')
@@ -77,27 +78,27 @@ const Login = () => {
     }
   };
 
-  const fetchLogout = async () => {
-    try {
-      const response = await AuthService.logout(token);
-      dispatch(logoutAction());
-      navigate("/");
-    } catch (error) {
-      console.error("Logout failed:", error);
-    }
-  };
+  // const fetchLogout = async () => {
+  //   try {
+  //     const response = await AuthService.logout(token);
+  //     dispatch(logoutAction());
+  //     navigate("/");
+  //   } catch (error) {
+  //     console.error("Logout failed:", error);
+  //   }
+  // };
 
-  const fetchUser = async () => {
-    try {
-      const User = await Service.getCurrentUser(token);
-      dispatch(setUserData(User));
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  useEffect(() => {
-    fetchUser();
-  }, []);
+  // const fetchUser = async () => {
+  //   try {
+  //     const User = await Service.getCurrentUser(token);
+  //     dispatch(setUserData(User));
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+  // useEffect(() => {
+  //   fetchUser();
+  // }, []);
 
   return (
     <div className="">

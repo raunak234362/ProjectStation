@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { BASE_URL, BASE_URL3 } from './constant';
+import { BASE_URL } from './constant';
 
 class Service {
   // BASE_URL is stored as a constant
@@ -8,10 +8,10 @@ class Service {
   // Fetch the logged-in user
   static async getCurrentUser(token) {
     try {
-      const response = await axios.post(`${BASE_URL3}/token`, {
+      const response = await axios.post(`${BASE_URL}/user/`, {
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
+          Authorization: `Token ${token}`,
         },
       });
       return response.data;

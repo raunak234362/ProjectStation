@@ -30,18 +30,19 @@ const Login = () => {
       // console.log("User :",user)
       if ('token' in user) {
         const token = user.token
-        // sessionStorage.setItem('Token',token ))
+        sessionStorage.setItem('Token',token )
+        console.log("Token :",token)
         const userData = await Service.getCurrentUser(token)
-        console.log("UserData :",userData)
+        // console.log("UserData :",userData)
         let userType = 'user'
-        if (userData.data?.role === 'STAFF') {
-          if (userData.data?.is_superuser) {
+        if (userData[0].role === 'STAFF') {
+          if (userData[0].is_superuser) {
             userType = 'admin';
-          } else if (userData.data.is_sales) {
+          } else if (userData[0].is_sales) {
             userType = 'sales';
-          } else if (userData.data.is_staff && userData.data.is_manager) {
+          } else if (userData[0].is_staff && userData[0].is_manager) {
             userType = 'department-manager';
-          } else if (userData.data.is_manager) {
+          } else if (userData[0].is_manager) {
             userType = 'project-manager';
           }
         } else if (userData[0].role === 'CLIENT') {
@@ -52,7 +53,7 @@ const Login = () => {
 
         sessionStorage.setItem('userType', userType)
         dispatch(authLogin(user))
-        // dispatch(setUserData(userData[0]))
+        dispatch(setUserData(userData[0]))
         console.log(userData[0].is_firstLogin)
         if (userData[0]?.is_firstLogin) navigate('/change-password/')
         else if(userType === 'admin') navigate('/admin/dashboard')

@@ -55,7 +55,7 @@ const Login = () => {
         dispatch(setUserData(userData[0]))
         console.log(userData[0].is_firstLogin)
         if (userData[0]?.is_firstLogin) navigate('/change-password/')
-        else if(userType === 'admin') navigate('/admin/dashboard')
+        else if(userType === 'admin') navigate('/admin')
         else if(userType === 'client') navigate('/client')
         else if(userType === 'sales') navigate('/sales')
         else if(userType === 'staff') navigate('/staff')

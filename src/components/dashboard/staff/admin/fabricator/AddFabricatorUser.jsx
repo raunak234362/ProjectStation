@@ -98,7 +98,7 @@ const AddFabricatorUser = () => {
         phone: phoneNumber,
         fabricator: fabricators.find(fab => fab.id === data.fabricator),
       }
-      console.log(updatedData)
+      console.log("Client Data----------",updatedData)
       dispatch(addClient(updatedData))
       // const clientUser = await Service.addClient(updatedData)
       // if (clientUser.status === 201){

@@ -8,9 +8,10 @@ import { Link, useNavigate } from "react-router-dom";
 import { MdLockReset } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { updatetoken as authLogin, setUserData } from "../../store/userSlice";
-import AuthService from '../../config/AuthService'
-// import AuthService from "../../frappeConfig/AuthService";
-import Service from "../../config/Service";
+// import AuthService from '../../config/AuthService'
+import AuthService from "../../frappeConfig/AuthService";
+import Service from "../../frappeConfig/FrappeService";
+// import Service from "../../config/Service";
 import { useEffect } from "react";
 import { logout as logoutAction } from "../../store/userSlice";
 
@@ -30,25 +31,25 @@ const Login = () => {
       // console.log("User :",user)
       if ('token' in user) {
         const token = user.token
-        sessionStorage.setItem('Token',token )
+        // sessionStorage.setItem('Token',token )
         const userData = await Service.getCurrentUser(token)
         console.log("UserData :",userData)
         let userType = 'user'
-        if (userData[0].role === 'STAFF') {
-          if (userData[0].is_superuser) {
-            userType = 'admin';
-          } else if (userData[0].is_sales) {
-            userType = 'sales';
-          } else if (userData[0].is_staff && userData[0].is_manager) {
-            userType = 'department-manager';
-          } else if (userData[0].is_manager) {
-            userType = 'project-manager';
-          }
-        } else if (userData[0].role === 'CLIENT') {
-          userType = 'client';
-        } else if (userData[0].role === 'VENDOR') {
-          userType = 'vendor';
-        }
+        // if (userData[0].role === 'STAFF') {
+        //   if (userData[0].is_superuser) {
+        //     userType = 'admin';
+        //   } else if (userData[0].is_sales) {
+        //     userType = 'sales';
+        //   } else if (userData[0].is_staff && userData[0].is_manager) {
+        //     userType = 'department-manager';
+        //   } else if (userData[0].is_manager) {
+        //     userType = 'project-manager';
+        //   }
+        // } else if (userData[0].role === 'CLIENT') {
+        //   userType = 'client';
+        // } else if (userData[0].role === 'VENDOR') {
+        //   userType = 'vendor';
+        // }
 
         sessionStorage.setItem('userType', userType)
         dispatch(authLogin(user))

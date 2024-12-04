@@ -62,7 +62,7 @@ import {Dashboard as ClientDashboard,
 
 
 //For Sales-Admin
-// import {Dashboard as SalesDashboard} from './components/dashboard/staff/sales/dashboard/Dashboard.jsx'
+import {Dashboard as SalesDashboard} from './components/dashboard/staff/sales/dashboard/Dashboard.jsx'
 
 
 // Define the router configuration
@@ -205,11 +205,11 @@ const router = createBrowserRouter([
     children: [
       {
         path:'dashboard',
-        // element:<SalesDashboard/> 
+        element:<SalesDashboard/> 
       },
       {
         path:'profile',
-        // element:<MainContent/>
+        element:<MainContent/>
       },
       {
         path:'projects',

@@ -27,10 +27,9 @@ const Login = () => {
   const login = async (data) => {
     try {
       const user = await AuthService.login(data);
-      // console.log("User :",user)
       if ('token' in user) {
         const token = user.token
-        sessionStorage.setItem('Token',token )
+        // sessionStorage.setItem('token', )
         const userData = await Service.getCurrentUser(token)
         console.log("UserData :",userData)
         let userType = 'user'
@@ -55,7 +54,7 @@ const Login = () => {
         dispatch(setUserData(userData[0]))
         console.log(userData[0].is_firstLogin)
         if (userData[0]?.is_firstLogin) navigate('/change-password/')
-        else if(userType === 'admin') navigate('/admin')
+        else if(userType === 'admin') navigate('/admin/dashboard')
         else if(userType === 'client') navigate('/client')
         else if(userType === 'sales') navigate('/sales')
         else if(userType === 'staff') navigate('/staff')
@@ -78,27 +77,27 @@ const Login = () => {
     }
   };
 
-  // const fetchLogout = async () => {
-  //   try {
-  //     const response = await AuthService.logout(token);
-  //     dispatch(logoutAction());
-  //     navigate("/");
-  //   } catch (error) {
-  //     console.error("Logout failed:", error);
-  //   }
-  // };
+  const fetchLogout = async () => {
+    try {
+      const response = await AuthService.logout(token);
+      dispatch(logoutAction());
+      navigate("/");
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
+  };
 
-  // const fetchUser = async () => {
-  //   try {
-  //     const User = await Service.getCurrentUser(token);
-  //     dispatch(setUserData(User));
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-  // useEffect(() => {
-  //   fetchUser();
-  // }, []);
+  const fetchUser = async () => {
+    try {
+      const User = await Service.getCurrentUser(token);
+      dispatch(setUserData(User));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    fetchUser();
+  }, []);
 
   return (
     <div className="">

@@ -8,7 +8,7 @@ class Service {
   // Fetch the logged-in user
   static async getCurrentUser(token) {
     try {
-      const response = await axios.post(`${BASE_URL}/user/`, {
+      const response = await axios.get(`${BASE_URL}/user/`, {
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Token ${token}`,

@@ -7,7 +7,6 @@ class Service {
 
   // Fetch the logged-in user
   static async getCurrentUser(token) {
-    console.log('Token:', token);
     try {
       const response = await axios.post(`${BASE_URL}/user/`, {
         headers: {

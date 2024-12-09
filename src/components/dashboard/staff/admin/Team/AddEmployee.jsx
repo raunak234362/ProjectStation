@@ -76,7 +76,7 @@ const AddEmployee = () => {
       <div className="w-full h-full px-2 py-3 overflow-y-auto md:px-10">
         <form onSubmit={handleSubmit(addStaff)}>
           <div className="px-2 py-2 font-bold text-white rounded-lg bg-teal-500/50">
-            User Information:
+            User Informations:
           </div>
           <div className="px-1 my-2 md:px-2">
             <div className="w-full my-2">

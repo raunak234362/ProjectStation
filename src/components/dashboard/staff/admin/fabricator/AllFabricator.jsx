@@ -144,7 +144,7 @@ const AllFabricator = () => {
               {filteredFabricators?.length === 0 ? (
                 <tr className="bg-white">
                   <td colSpan="5" className="text-center">
-                    No Fabricator Found
+                    No Fabricators Found
                   </td>
                 </tr>
               ) : (

@@ -7,11 +7,12 @@ class Service {
 
   // Fetch the logged-in user
   static async getCurrentUser(token) {
+    console.log(token)
     try {
-      const response = await axios.get(`${BASE_URL}/user/`, {
+      const response = await axios.post(`${BASE_URL}/token`, {
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Token ${token}`,
+          Authorization: `Bearer ${token}`,
         },
       });
       return response.data;
@@ -23,15 +24,17 @@ class Service {
 
   // Add a new employee (staff)
   static async addEmployee(updatedData, token) {
+    console.log(updatedData)
     try {
       const data = new FormData();
       Object.keys(updatedData).forEach(key => data.append(key, updatedData[key]));
-      const response = await axios.post(`${BASE_URL}/user/staff/`, data, {
+      const response = await axios.post(`${BASE_URL}/signup/`, updatedData, {
         headers: {
-          'Content-Type': 'multipart/form-data',
+          "Content-Type": "application/json",
           Authorization: `Token ${token}`,
         },
       });
+      console.log(response.data)
       return response.data;
     } catch (error) {
       console.log('Error adding staff:', error.response?.data || error);
@@ -41,8 +44,11 @@ class Service {
 
   // Change password
   static async changePassword(token, data) {
+
+    console.log(data)
+
     try {
-      const response = await axios.put(`${BASE_URL}/change-password/`, data, {
+      const response = await axios.put(`${BASE_URL}/reset/`, data, {
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Token ${token}`,
@@ -294,23 +300,23 @@ class Service {
   }
 
   // Ping server
-  static async ping() {
-    try {
-      const response = await Promise.race([
-        axios.get(`${BASE_URL}/ping`, {
-          headers: {
-            'Content-Type': 'application/json',
-          }}),
-        new Promise((resolve, reject) => {
-          setTimeout(() => reject(new Error('Timeout')), 10000);
-        }),
-      ]);
-      return response.data.connection;
-    } catch (error) {
-      console.log('Error pinging server:', error);
-      return false;
-    }
-  }
+  // static async ping() {
+  //   try {
+  //     const response = await Promise.race([
+  //       axios.get(`${BASE_URL}/ping`, {
+  //         headers: {
+  //           'Content-Type': 'application/json',
+  //         }}),
+  //       new Promise((resolve, reject) => {
+  //         setTimeout(() => reject(new Error('Timeout')), 10000);
+  //       }),
+  //     ]);
+  //     return response.data.connection;
+  //   } catch (error) {
+  //     console.log('Error pinging server:', error);
+  //     return false;
+  //   }
+  // }
 }
 
 export default Service;

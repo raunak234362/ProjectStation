@@ -64,10 +64,14 @@ const AddEmployee = () => {
       console.log(updatedData);
       const empData = await Service.addEmployee(updatedData, token);
       console.log(empData);
+      if (empData.success) {
+        alert(empData.message)
+      }
       dispatch(setUserData(updatedData));
       console.log(setUserData(updatedData));
     } catch (error) {
       console.error("Error adding employee:", error);
+      alert(error.response.message)
     }
   };
 

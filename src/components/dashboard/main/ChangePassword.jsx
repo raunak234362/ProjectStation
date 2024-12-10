@@ -22,10 +22,11 @@ const ChangePassword = () => {
   const fetchUser = async () => {
     try {
       const User = await Service.getCurrentUser(token);
-      setUser(User[0]);
-      console.log(User[0]);
+      console.log(User.data);
+      setUser(User.data);
+      console.log(User.data);
     } catch (error) {
-      console.log(error);
+      console.log(error.message);
     }
   };
   useEffect(() => {
@@ -40,7 +41,7 @@ const ChangePassword = () => {
 
       sessionStorage.setItem("token", cngPassword.data.data);
 
-      navigate("/dashboard/home");
+      navigate("/dashboard");
     } else {
       if ("cnf_password" in cngPassword.response.data)
         errors.cnf_password = cngPassword.response.data.cnf_password;

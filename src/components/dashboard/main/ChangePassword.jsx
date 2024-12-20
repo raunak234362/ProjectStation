@@ -41,7 +41,7 @@ const ChangePassword = () => {
 
       sessionStorage.setItem("token", cngPassword.data.data);
 
-      navigate("/dashboard");
+      navigate('/admin/dashboard');
     } else {
       if ("cnf_password" in cngPassword.response.data)
         errors.cnf_password = cngPassword.response.data.cnf_password;

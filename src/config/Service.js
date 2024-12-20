@@ -9,7 +9,7 @@ class Service {
   static async getCurrentUser(token) {
     console.log(token)
     try {
-      const response = await axios.post(`${BASE_URL}/token`, {
+      const response = await axios.post(`${BASE_URL}/auth/getuserbytoken`, {
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
@@ -48,7 +48,7 @@ class Service {
     console.log(data)
 
     try {
-      const response = await axios.put(`${BASE_URL}/reset/`, data, {
+      const response = await axios.post(`${BASE_URL}/auth/resetpassword/`, data, {
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Token ${token}`,

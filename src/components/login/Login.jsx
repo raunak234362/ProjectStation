@@ -27,6 +27,7 @@ const Login = () => {
   const login = async (data) => {
     try {
       const user = await AuthService.login(data);
+      console.log(user);
       if ('token' in user) {
         const token = user.token
         // sessionStorage.setItem('token', )
@@ -64,7 +65,7 @@ const Login = () => {
         else if(userType === 'vendor') navigate('/vendor')
         else navigate('/')
       } else {
-        alert('Invalid Credentials')
+        alert('Invalid Credentials Check')
         navigate('/')
       }
     } catch (error) {
@@ -151,15 +152,15 @@ const Login = () => {
               </div>
             </form>
             <div>
-              <div className="flex items-center justify-center">
+              {/* <div className="flex items-center justify-center">
                 <Link
-                  to="/forget-password"
+                  to="/forged"
                   className="flex items-center justify-center gap-2 text-blue-500 bg-white"
                 >
                   <MdLockReset />
                   Forgot Password ?
                 </Link>
-              </div>
+              </div> */}
               {/* <Button className="w-full mx-4 bg-teal-400" onClick={fetchLogout}>
                 Logout
               </Button> */}

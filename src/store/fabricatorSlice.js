@@ -1,50 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  fabricatorData: [
-    {
-      id: 1,
-      name: "Fabricator-1",
-      headquater: {
-        address: "123 Main St, Industrial Zone",
-        country: "US",
-        state: "Alabama",
-        city: "Alexander City",
-        zip_code: 45122,
-      },
-      branch: [],
-      website: "https://dribbble.com/",
-      drive: "https://drive.google.com/drive/folders/sample1",
-    },
-    {
-      id: 2,
-      name: "Fabricator-2",
-      headquater: {
-        address: "456 Maple St, Industrial Area",
-        country: "US",
-        state: "California",
-        city: "Los Angeles",
-        zip_code: 90001,
-      },
-      branch: [],
-      website: "https://behance.net/",
-      drive: "https://drive.google.com/drive/folders/sample2",
-    },
-    {
-      id: 3,
-      name: "Fabricator-3",
-      headquater: {
-        address: "789 Oak St, Commercial Hub",
-        country: "Canada",
-        state: "Ontario",
-        city: "Toronto",
-        zip_code: 10001,
-      },
-      branch: [],
-      website: "https://example.com/",
-      drive: "https://drive.google.com/drive/folders/sample3",
-    },
-  ],
+  fabricatorData: [],
   clientData: [
     {
       id: 1,

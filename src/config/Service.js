@@ -1,11 +1,11 @@
 import axios from 'axios';
 import { BASE_URL } from './constant';
-
+const token = sessionStorage.getItem('token')
 class Service {
   // BASE_URL is stored as a constant
   static BASE_URL = BASE_URL;
 
-  // Fetch the logged-in user
+  // Fetch the logged-in user - updated
   static async getCurrentUser(token) {
     console.log(token)
     try {
@@ -42,7 +42,7 @@ class Service {
     }
   }
 
-  // Change password
+  // Change password-updated
   static async changePassword(token, data) {
 
     console.log(data)
@@ -112,30 +112,48 @@ class Service {
   }
 
   // Add new fabricator
-  static async addFabricator(token, data) {
+  static async addFabricator(fabricatorData) {
+    console.log('Successfully Added Fabricator: ', fabricatorData)
     try {
-      const fabData = new FormData();
-      Object.keys(data).forEach(key => fabData.append(key, data[key]));
-      const response = await axios.post(`${BASE_URL}/fabricator/`, fabData, {
+      const formData = {...fabricatorData}
+      const response = await axios.post(`${BASE_URL}/fabricator/fabricator/`, formData, {
         headers: {
-          'Content-Type': 'multipart/form-data',
-          Authorization: `Token ${token}`,
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'Application/json',
         },
       });
-      return response;
+      return response.data;
     } catch (error) {
-      console.log('Error adding fabricator:', error);
-      return error;
+      console.log('Error in adding Fabricator: ', error)
+      throw error
     }
   }
+
+  //Add Fabricator Branch
+  static async addFabricatorBranch(fabricatorBranchData, id) {
+    try {
+      const formData = {...fabricatorBranchData}
+      const response = await axios.post(`${BASE_URL}/fabricator/fabricator/${id}/addbranch/`, formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'Application/json',
+        },
+      });
+      return response.data;
+    }
+    catch (error) {
+      console.log('Error in adding Fabricator Branch: ', error)
+      throw error
+    }
+    }
 
   // Fetch all fabricators
   static async allFabricator(token) {
     try {
-      const response = await axios.get(`${BASE_URL}/fabricator`, {
+      const response = await axios.get(`${BASE_URL}/fabricator/fabricator`, {
         headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Token ${token}`,
+          'Content-Type': 'Application/json',
+          Authorization: `Bearer ${token}`,
         },
       });
       console.log(response)
@@ -166,18 +184,12 @@ class Service {
   // Add Client user
   static async addClient(data) {
     try {
-      const clientData = new FormData();
-      
-      Object.keys(data).forEach(key => {
-        if (data[key])
-          clientData.append(key, data[key]);
-      });
-      clientData.append('role', 'CLIENT');
+      const clientData = {...data};
       console.log(data)
-      const response = await axios.post(`${BASE_URL}/fabricator/${data['fabricator']}/clients/`, clientData, {
+      const response = await axios.post(`${BASE_URL}/client/client/${data.fabricator}/addclient/`, clientData, {
         headers: {
-          'Content-Type': 'multipart/form-data',
-          Authorization: `Token ${sessionStorage.getItem('token')}`,
+          'Content-Type': 'Application/json',
+          Authorization: `Bearer ${token}`,
         },
       });
       return response;

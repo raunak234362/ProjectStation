@@ -1,16 +1,22 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
-import { useForm } from 'react-hook-form'
-import { useDispatch, useSelector } from 'react-redux'
-import { State, City } from 'country-state-city'
-import { Input, CustomSelect, Button, Toggle, MultipleFileUpload } from '../../../../index'
-import { useEffect, useState } from 'react'
-import { addFabricator } from '../../../../../store/fabricatorSlice'
-import Service from '../../../../../config/Service'
+import { useForm } from "react-hook-form";
+import { useDispatch, useSelector } from "react-redux";
+import { State, City } from "country-state-city";
+import {
+  Input,
+  CustomSelect,
+  Button,
+  Toggle,
+  MultipleFileUpload,
+} from "../../../../index";
+import { useEffect, useState } from "react";
+import { addFabricator } from "../../../../../store/fabricatorSlice";
+import Service from "../../../../../config/Service";
 const AddFabricator = () => {
-  const token = sessionStorage.getItem('token')
+  const token = sessionStorage.getItem("token");
   const [files, setFiles] = useState([]);
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const {
     register,
     setValue,
@@ -18,36 +24,38 @@ const AddFabricator = () => {
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm()
+  } = useForm();
 
-  const country = watch('headquater.country')
-  const state = watch('headquater.state')
+  const fab = useSelector((state) => state.fabricatorData.fabricatorData);
+
+  const country = watch("headquater.country");
+  const state = watch("headquater.state");
   const [stateList, setStateList] = useState([
     {
-      label: 'Select State',
-      value: '',
+      label: "Select State",
+      value: "",
     },
-  ])
+  ]);
 
   const [cityList, setCityList] = useState([
     {
-      label: 'Select City',
-      value: '',
+      label: "Select City",
+      value: "",
     },
-  ])
+  ]);
 
   const countryList = {
-    'United States': 'US',
-    Canada: 'CA',
-    India: 'IN',
-  }
+    "United States": "US",
+    Canada: "CA",
+    India: "IN",
+  };
   useEffect(() => {
-    const stateListObject = {}
+    const stateListObject = {};
     State.getStatesOfCountry(countryList[country])?.forEach((state1) => {
-      stateListObject[state1.name] = state1.isoCode
-    })
-    setStateList(stateListObject)
-  }, [country])
+      stateListObject[state1.name] = state1.isoCode;
+    });
+    setStateList(stateListObject);
+  }, [country]);
 
   useEffect(() => {
     setCityList(
@@ -55,40 +63,37 @@ const AddFabricator = () => {
         (city) => ({
           label: city?.name,
           value: city?.name,
-        }),
-      ),
-    )
-  }, [state])
+        })
+      )
+    );
+  }, [state]);
 
   const onFilesChange = (updatedFiles) => {
     setFiles(updatedFiles);
   };
 
-  const handleaddFabricator = async (data) => {
-    console.log(data)
-    const fabricatorData={
-      id: new Date().getTime(),
-      branch: [],
-      ...data
-    }
+
+
+  const onSubmit = async (data) => {
+    console.log(data);
     try {
-      dispatch(addFabricator(fabricatorData))
-      // const fabData = await Service.addFabricator(token, data)
-      // if (fabData.status === 201){ 
-      //   dispatch(addFabricator(fabData.data))
-      //   reset();
-      // }
-      // else
-      //   alert('Error in adding Fabricator')
+      const response = await Service.addFabricator(data);
+      console.log(response);
+      if (response.status === 201) {
+        dispatch(addFabricator(response.data));
+        reset();
+      } else {
+        alert("Error in adding Fabricator");
+      }
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
 
   return (
     <div className="flex w-full justify-center text-black my-5">
       <div className="h-full w-full overflow-y-auto md:px-10 px-2 py-3">
-        <form onSubmit={handleSubmit(handleaddFabricator)}>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <div className="bg-teal-500/50 rounded-lg px-2 py-2 font-bold text-white">
             Fabricator:
           </div>
@@ -99,7 +104,7 @@ const AddFabricator = () => {
                 placeholder="Fabricator Name"
                 size="lg"
                 color="blue"
-                {...register('name', { required: true })}
+                {...register("name", { required: true })}
               />
               {errors.name && <div>This field is required</div>}
             </div>
@@ -114,7 +119,7 @@ const AddFabricator = () => {
                 placeholder="Address"
                 size="lg"
                 color="blue"
-                {...register('headquater.address')}
+                {...register("headquater.address")}
               />
             </div>
             <div className="my-2">
@@ -123,13 +128,15 @@ const AddFabricator = () => {
                 placeholder="Country"
                 className="w-full"
                 options={[
-                  { label: 'Select Country', value: '' },
+                  { label: "Select Country", value: "" },
                   ...Object.keys(countryList).map((country) => ({
                     label: country,
                     value: country,
                   })),
                 ]}
-                {...register('headquater.country', { required: 'Country is required' })}
+                {...register("headquater.country", {
+                  required: "Country is required",
+                })}
                 onChange={setValue}
               />
               {errors.country && (
@@ -142,13 +149,13 @@ const AddFabricator = () => {
                 placeholder="State"
                 className="w-full"
                 options={[
-                  { label: 'Select State', value: '' },
+                  { label: "Select State", value: "" },
                   ...Object.keys(stateList).map((state1) => ({
                     label: state1,
                     value: state1,
                   })),
                 ]}
-                {...register('headquater.state', { required: true })}
+                {...register("headquater.state", { required: true })}
                 onChange={setValue}
               />
               {/* {errors.state && (
@@ -160,8 +167,8 @@ const AddFabricator = () => {
                 label="City: "
                 placeholder="City"
                 className="w-full"
-                options={[{ label: 'Select City', value: '' }, ...cityList]}
-                {...register('headquater.city', { required: true })}
+                options={[{ label: "Select City", value: "" }, ...cityList]}
+                {...register("headquater.city", { required: true })}
                 onChange={setValue}
               />
               {errors.city && (
@@ -173,7 +180,7 @@ const AddFabricator = () => {
                 label="Zipcode: "
                 placeholder="Zipcode"
                 className="w-full"
-                {...register('headquater.zip_code', { required: true })}
+                {...register("headquater.zip_code", { required: true })}
               />
               {errors.zip_code && (
                 <p className="text-red-600">{errors?.zipCode?.message}</p>
@@ -190,7 +197,7 @@ const AddFabricator = () => {
                 type="url"
                 placeholder="Website"
                 className="w-full"
-                {...register('website')}
+                {...register("website")}
               />
             </div>
             <div className="my-2">
@@ -199,7 +206,7 @@ const AddFabricator = () => {
                 type="url"
                 placeholder="Drive"
                 className="w-full"
-                {...register('drive')}
+                {...register("drive")}
               />
             </div>
           </div>
@@ -219,7 +226,7 @@ const AddFabricator = () => {
         </form>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default AddFabricator
+export default AddFabricator;

@@ -37,11 +37,8 @@ const ChangePassword = () => {
     const cngPassword = await Service.changePassword(token, data);
     console.log(cngPassword);
     if (cngPassword.status == 200) {
-      alert(cngPassword.data.message);
-
-      sessionStorage.setItem("token", cngPassword.data.data);
-
-      navigate('/admin/dashboard');
+      alert(cngPassword.data.success)
+      navigate('/admin/dashboard')
     } else {
       if ("cnf_password" in cngPassword.response.data)
         errors.cnf_password = cngPassword.response.data.cnf_password;

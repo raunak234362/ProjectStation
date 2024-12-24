@@ -9,11 +9,11 @@ const fabricatorSlice = createSlice({
   name: "fabricatorData",
   initialState,
   reducers: {
-    loadFabricator: (state, action) => {
-      state.fabricatorData = action.payload;
-    },
     addFabricator: (state, action) => {
       state.fabricatorData.push(action.payload);
+    },
+    loadFabricator: (state, action) => {
+      state.fabricatorData = action.payload;
     },
     updateFabricator(state, action) {
       const updatedFabricator = action.payload;

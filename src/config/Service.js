@@ -1,61 +1,68 @@
-import axios from 'axios';
-import { BASE_URL } from './constant';
-const token = sessionStorage.getItem('token')
+import axios from "axios";
+import { BASE_URL } from "./constant";
+const token = sessionStorage.getItem("token");
 class Service {
   // BASE_URL is stored as a constant
   static BASE_URL = BASE_URL;
 
   // Fetch the logged-in user - updated
   static async getCurrentUser(token) {
-    console.log(token)
+    console.log(token);
     try {
       const response = await axios.post(`${BASE_URL}/auth/getuserbytoken`, {
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
       });
       return response.data;
     } catch (error) {
-      console.log('Error finding Current user:', error);
+      console.log("Error finding Current user:", error);
       throw error;
     }
   }
 
   // Add a new employee (staff) -- updated
   static async addEmployee(updatedData) {
-    console.log(updatedData)
+    console.log(updatedData);
     try {
-      const formData = {...updatedData}
-      const response = await axios.post(`${BASE_URL}/employee/employee`, formData, {
-        headers: {
-          "Content-Type": "Application/js on",
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const formData = { ...updatedData };
+      const response = await axios.post(
+        `${BASE_URL}/employee/employee`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "Application/js on",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       return response.data;
     } catch (error) {
-      console.log('Error adding staff:', error.response?.data || error);
+      console.log("Error adding staff:", error.response?.data || error);
       throw error;
     }
   }
 
   // Change password-updated -- updated
   static async changePassword(token, data) {
-
-    console.log(data)
+    console.log(data);
 
     try {
-      const response = await axios.post(`${BASE_URL}/auth/resetpassword/`, data, {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Token ${token}`,
-        },
-      });
+      const response = await axios.post(
+        `${BASE_URL}/auth/resetpassword/`,
+        data,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Token ${token}`,
+          },
+        }
+      );
       return response;
     } catch (error) {
-      console.log('Error changing password:', error);
-      return error
+      console.log("Error changing password:", error);
+      return error;
     }
   }
 
@@ -64,13 +71,13 @@ class Service {
     try {
       const response = await axios.get(`${BASE_URL}/employee/employee`, {
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
       });
       return response.data;
     } catch (error) {
-      console.log('Error fetching employees:', error);
+      console.log("Error fetching employees:", error);
       throw error;
     }
   }
@@ -80,13 +87,13 @@ class Service {
     try {
       const response = await axios.get(`${BASE_URL}/department/department`, {
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
           Authorization: `Token ${token}`,
         },
       });
       return response.data;
     } catch (error) {
-      console.log('Error fetching departments:', error);
+      console.log("Error fetching departments:", error);
       throw error;
     }
   }
@@ -94,87 +101,100 @@ class Service {
   // Add new department -- updated
   static async addDepartment(data) {
     try {
-      const departmentData = {...data};
-      
-      const response = await axios.post(`${BASE_URL}/department/department`, departmentData, {
-        headers: {
-          'Content-Type': 'Application/json',
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const departmentData = { ...data };
+
+      const response = await axios.post(
+        `${BASE_URL}/department/department`,
+        departmentData,
+        {
+          headers: {
+            "Content-Type": "Application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       return response.data;
     } catch (error) {
-      console.log('Error adding department:', error);
+      console.log("Error adding department:", error);
       throw error;
     }
   }
 
   // Add new fabricator -- updated
   static async addFabricator(fabricatorData) {
-    console.log('Successfully Added Fabricator: ', fabricatorData)
+    console.log("Successfully Added Fabricator: ", fabricatorData);
     try {
-      const formData = {...fabricatorData}
-      const response = await axios.post(`${BASE_URL}/fabricator/fabricator/`, formData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'Application/json',
-        },
-      });
+      const formData = { ...fabricatorData };
+      const response = await axios.post(
+        `${BASE_URL}/fabricator/fabricator/`,
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "Application/json",
+          },
+        }
+      );
       return response.data;
     } catch (error) {
-      console.log('Error in adding Fabricator: ', error)
-      throw error
+      console.log("Error in adding Fabricator: ", error);
+      throw error;
     }
   }
 
   //Add Fabricator Branch -- updated
   static async addFabricatorBranch(fabricatorBranchData, id) {
     try {
-      const formData = {...fabricatorBranchData}
-      const response = await axios.post(`${BASE_URL}/fabricator/fabricator/${id}/addbranch/`, formData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'Application/json',
-        },
-      });
+      const formData = { ...fabricatorBranchData };
+      const response = await axios.post(
+        `${BASE_URL}/fabricator/fabricator/${id}/addbranch/`,
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "Application/json",
+          },
+        }
+      );
       return response.data;
+    } catch (error) {
+      console.log("Error in adding Fabricator Branch: ", error);
+      throw error;
     }
-    catch (error) {
-      console.log('Error in adding Fabricator Branch: ', error)
-      throw error
-    }
-    }
+  }
 
   // Fetch all fabricators -- updated
   static async allFabricator(token) {
     try {
       const response = await axios.get(`${BASE_URL}/fabricator/fabricator`, {
         headers: {
-          'Content-Type': 'Application/json',
+          "Content-Type": "Application/json",
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log(response)
-      return response.data;
+      return response.data.data;
     } catch (error) {
-      console.log('Error fetching fabricators:', error);
+      console.log("Error fetching fabricators:", error);
       throw error;
     }
   }
 
   // Fetch Fabricator -- updated
-  static async getFabricator(token,id){
-    console.log('Service:---',id)
+  static async getFabricator(token, id) {
+    console.log("Service:---", id);
     try {
-      const response = await axios.get(`${BASE_URL}/fabricator/fabricator/${id}`, {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Token ${token}`,
-        },
-      });
+      const response = await axios.get(
+        `${BASE_URL}/fabricator/fabricator/${id}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Token ${token}`,
+          },
+        }
+      );
       return response.data;
     } catch (error) {
-      console.log('Error fetching fabricators:', error);
+      console.log("Error fetching fabricators:", error);
       throw error;
     }
   }
@@ -182,17 +202,21 @@ class Service {
   // Add Client user -- updated
   static async addClient(data) {
     try {
-      const clientData = {...data};
-      console.log(data)
-      const response = await axios.post(`${BASE_URL}/client/client/${data.fabricator}/addclient/`, clientData, {
-        headers: {
-          'Content-Type': 'Application/json',
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const clientData = { ...data };
+      console.log(data);
+      const response = await axios.post(
+        `${BASE_URL}/client/client/${data.fabricator}/addclient/`,
+        clientData,
+        {
+          headers: {
+            "Content-Type": "Application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       return response;
     } catch (error) {
-      console.log('Error adding client:', error);
+      console.log("Error adding client:", error);
       throw error;
     }
   }
@@ -200,41 +224,41 @@ class Service {
   // Fetch all clients -- updated
   static async allClient(token) {
     try {
-      const response = await axios.get(`${BASE_URL}/client/client/getallclients`, {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Token ${token}`,
-        },
-      });
+      const response = await axios.get(
+        `${BASE_URL}/client/client/getallclients`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Token ${token}`,
+          },
+        }
+      );
       return response.data.data;
     } catch (error) {
-      console.log('Error fetching clients:', error);
+      console.log("Error fetching clients:", error);
       throw error;
     }
   }
-
-
 
   // Add new vendor
   static async addVendor(data) {
     try {
       const vendorData = new FormData();
-      
-      Object.keys(data).forEach(key => {
-        if (data[key])
-          vendorData.append(key, data[key]);
+
+      Object.keys(data).forEach((key) => {
+        if (data[key]) vendorData.append(key, data[key]);
       });
-      vendorData.append('role', 'VENDOR');
-      console.log(data)
+      vendorData.append("role", "VENDOR");
+      console.log(data);
       const response = await axios.post(`${BASE_URL}/vendor/`, vendorData, {
         headers: {
-          'Content-Type': 'multipart/form-data',
-          Authorization: `Token ${sessionStorage.getItem('token')}`,
+          "Content-Type": "multipart/form-data",
+          Authorization: `Token ${sessionStorage.getItem("token")}`,
         },
       });
       return response;
     } catch (error) {
-      console.log('Error adding vendor:', error);
+      console.log("Error adding vendor:", error);
       throw error;
     }
   }
@@ -242,22 +266,25 @@ class Service {
   static async addVendorUser(data) {
     try {
       const vendorUserData = new FormData();
-      
-      Object.keys(data).forEach(key => {
-        if (data[key])
-          vendorUserData.append(key, data[key]);
+
+      Object.keys(data).forEach((key) => {
+        if (data[key]) vendorUserData.append(key, data[key]);
       });
-      vendorUserData.append('role', 'VENDOR');
-      console.log(data)
-      const response = await axios.post(`${BASE_URL}/vendor/${data['vendor']}/users/`, vendorUserData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-          Authorization: `Token ${sessionStorage.getItem('token')}`,
-        },
-      });
+      vendorUserData.append("role", "VENDOR");
+      console.log(data);
+      const response = await axios.post(
+        `${BASE_URL}/vendor/${data["vendor"]}/users/`,
+        vendorUserData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Token ${sessionStorage.getItem("token")}`,
+          },
+        }
+      );
       return response;
     } catch (error) {
-      console.log('Error adding vendor:', error);
+      console.log("Error adding vendor:", error);
       throw error;
     }
   }
@@ -267,13 +294,13 @@ class Service {
     try {
       const response = await axios.get(`${BASE_URL}/user/vendor/`, {
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
           Authorization: `Token ${token}`,
         },
       });
       return response.data;
     } catch (error) {
-      console.log('Error fetching vendors:', error);
+      console.log("Error fetching vendors:", error);
       throw error;
     }
   }
@@ -282,29 +309,46 @@ class Service {
     try {
       const response = await axios.get(`${BASE_URL}/vendor/`, {
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
           Authorization: `Token ${token}`,
         },
       });
       return response.data;
     } catch (error) {
-      console.log('Error fetching vendors:', error);
+      console.log("Error fetching vendors:", error);
       throw error;
     }
   }
 
-  // Fetch all projects
-  static async allprojects(token){
+  //Add new project -- updated
+  static async addProject(projectData) {
     try {
-      const response = await axios.get(`${BASE_URL}/project/`, {
+      const formData = { ...projectData };
+      const response = await axios.post(`${BASE_URL}/project/projects`, formData, {
         headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Token ${token}`,
+          "Content-Type": "Application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      return response?.data?.data;
+    } catch (error) {
+      console.log("Error adding project:", error);
+      throw error;
+    }
+  }
+
+  // Fetch all projects --updated
+  static async allprojects(token) {
+    try {
+      const response = await axios.get(`${BASE_URL}/project/projects`, {
+        headers: {
+          "Content-Type": "Application/json",
+          Authorization: `Bearer ${token}`,
         },
       });
       return response.data;
     } catch (error) {
-      console.log('Error fetching projects:', error);
+      console.log("Error fetching projects:", error);
       throw error;
     }
   }

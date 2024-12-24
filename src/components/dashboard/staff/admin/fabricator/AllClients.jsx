@@ -20,7 +20,7 @@ const AllClients = () => {
   const filteredClients = clientData
     ?.filter((client) => {
       // Filter by fabricator
-      if (fabricatorFilter !== 'All' && client.fabricator.name !== fabricatorFilter) {
+      if (fabricatorFilter !== 'All' && client.fabricator?.name !== fabricatorFilter) {
         return false
       }
       // Search filter (case-insensitive)

@@ -93,7 +93,7 @@ const Dashboard = () => {
               <div className="font-bold text-base text-gray-800">
                 All Projects
               </div>
-              <div className="text-3xl font-bold">{projects.length}</div>
+              {/* <div className="text-3xl font-bold">{projects.length}</div> */}
             </div>
             <div className="flex flex-col justify-center items-center bg-white/50 rounded-lg p-3 shadow-lg">
               <div className="font-bold text-base text-gray-800">

@@ -3,13 +3,14 @@ import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { Input, CustomSelect, Button, Toggle } from "../../../../index";
 import { addProject } from "../../../../../store/projectSlice";
+import Service from "../../../../../config/Service";
 // import { Option } from '@material-tailwind/react'
 const AddProject = () => {
   const projectData = useSelector((state) => state.projectData?.projectData);
-  const fabricatorData = useSelector(
-    (state) => state.fabricatorData?.fabricatorData?.data
-  );
+  const fabricatorData = useSelector((state) => state.fabricatorData?.fabricatorData);
   console.log(fabricatorData);
+  const departmentData = useSelector((state) => state.userData?.departmentData);
+  console.log(departmentData);
   const dispatch = useDispatch();
   const {
     register,
@@ -18,8 +19,14 @@ const AddProject = () => {
     formState: { errors },
   } = useForm();
 
-  const AddProject = (data) => {
-    // console.log(data)
+  const onSubmit = async(data) => {
+    console.log(data)
+    try {
+      const response = await Service.addProject(data);
+      console.log(response);
+    } catch (error) {
+        console.log(error);
+    }
     dispatch(addProject(data));
     console.log(addProject(data));
   };
@@ -27,7 +34,7 @@ const AddProject = () => {
   return (
     <div className="flex w-full justify-center text-black my-5">
       <div className="h-full w-full overflow-y-auto md:px-10 px-2 py-3">
-        <form onSubmit={handleSubmit(AddProject)}>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <div className="bg-teal-500/50 rounded-lg px-2 py-2 font-bold text-white">
             Fabricator Information:
           </div>
@@ -38,7 +45,7 @@ const AddProject = () => {
                 placeholder="Fabricator"
                 size="lg"
                 color="blue"
-                options={fabricatorData.map((fabricator) => ({
+                options={fabricatorData?.map((fabricator) => ({
                   label: fabricator.fabName,
                   value: fabricator.id,
                 }))}

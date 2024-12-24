@@ -74,7 +74,9 @@ const AddBranch = ({ fabricatorId, isBranch, onBranchClose }) => {
     setFiles(updatedFiles);
   };
 
-  const fabData = useSelector((state) => state.fabricatorData?.fabricatorData?.data);
+  const fabData = useSelector(
+    (state) => state.fabricatorData?.fabricatorData?.data
+  );
 
   const fetchFabricator = async () => {
     try {
@@ -102,23 +104,15 @@ const AddBranch = ({ fabricatorId, isBranch, onBranchClose }) => {
   };
   useEffect(() => {
     fetchFabricator();
-  }, [fabricatorId]);
+  }, []);
 
   const onSubmit = async (data) => {
     try {
       const response = await Service.addFabricatorBranch(data, fabricatorId);
       console.log(response);
-      // if (response.status === 201) {
-      //   dispatch(addBranchToFabricator(response.data));
-      //   reset();
-      // } else {
-      //   alert("Error in adding Fabricator");
-      // }
-    }
-    catch (error) {
+    } catch (error) {
       console.log(error);
     }
-    
   };
 
   const handleClose = async () => {
@@ -138,7 +132,7 @@ const AddBranch = ({ fabricatorId, isBranch, onBranchClose }) => {
         <div className="top-2 w-full flex justify-center z-10">
           <div className="mt-2">
             <div className="bg-teal-400 text-white px-3 md:px-4 py-2 md:text-2xl font-bold rounded-lg shadow-md">
-              Fabricator: {fabricator?.name || "Unknown"}
+              Fabricator: {fabricator?.fabName || "Unknown"}
             </div>
           </div>
         </div>
@@ -184,7 +178,9 @@ const AddBranch = ({ fabricatorId, isBranch, onBranchClose }) => {
                     value: country,
                   })),
                 ]}
-                {...register("branch.country", { required: "Country is required" })}
+                {...register("branch.country", {
+                  required: "Country is required",
+                })}
                 onChange={setValue}
               />
               {errors.country && (
@@ -235,7 +231,7 @@ const AddBranch = ({ fabricatorId, isBranch, onBranchClose }) => {
               )}
             </div>
           </div>
-          
+
           <div className="my-5 w-full">
             <Button type="submit" className="w-full">
               Add Branch

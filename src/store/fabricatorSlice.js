@@ -2,68 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   fabricatorData: [],
-  clientData: [
-    {
-      id: 1,
-      f_name: "Client-1",
-      designation: "Manager",
-      email: "client1@gmail.com",
-      phone: 7878452112,
-      landline: +785545454,
-      fabricator: {
-        id: 1,
-        name: "Fabricator-1",
-        headquater: {
-          address: "123 Main St, Industrial Zone",
-          country: "US",
-          state: "Alabama",
-          city: "Alexander City",
-          zip_code: 10001,
-        },
-        branch: [],
-      },
-    },
-    {
-      id: 2,
-      f_name: "Client-2",
-      designation: "Manager",
-      email: "client2@gmail.com",
-      phone: 7878452112,
-      landline: +785545454,
-      fabricator: {
-        id: 1,
-        name: "Fabricator-1",
-        headquater: {
-          address: "123 Main St, Industrial Zone",
-          country: "US",
-          state: "Alabama",
-          city: "Alexander City",
-          zip_code: 10001,
-        },
-        branch: [],
-      },
-    },
-    {
-      id: 3,
-      f_name: "Client-3",
-      designation: "Manager",
-      email: "client3@gmail.com",
-      phone: 7878452112,
-      landline: +785545454,
-      fabricator: {
-        id: 2,
-        name: "Fabricator-2",
-        headquater: {
-          address: "562 Main St, Tech Zone",
-          country: "US",
-          state: "Alaska",
-          city: "Georgia",
-          zip_code: 12454,
-        },
-        branch: [],
-      },
-    },
-  ],
+  clientData: [],
 };
 
 const fabricatorSlice = createSlice({

@@ -22,14 +22,14 @@ class Service {
     }
   }
 
-  // Add a new employee (staff)
+  // Add a new employee (staff) -- updated
   static async addEmployee(updatedData) {
     console.log(updatedData)
     try {
       const formData = {...updatedData}
       const response = await axios.post(`${BASE_URL}/employee/employee`, formData, {
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "Application/js on",
           Authorization: `Bearer ${token}`,
         },
       });
@@ -40,7 +40,7 @@ class Service {
     }
   }
 
-  // Change password-updated
+  // Change password-updated -- updated
   static async changePassword(token, data) {
 
     console.log(data)
@@ -59,10 +59,10 @@ class Service {
     }
   }
 
-  // Fetch all employees (staff)
+  // Fetch all employees (staff) -- updated
   static async allEmployee(token) {
     try {
-      const response = await axios.get(`${BASE_URL}/user/staff`, {
+      const response = await axios.get(`${BASE_URL}/employee/employee`, {
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
@@ -75,10 +75,10 @@ class Service {
     }
   }
 
-  // Fetch all departments
+  // Fetch all departments -- updated
   static async allDepartment(token) {
     try {
-      const response = await axios.get(`${BASE_URL}/department`, {
+      const response = await axios.get(`${BASE_URL}/department/department`, {
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Token ${token}`,
@@ -91,15 +91,15 @@ class Service {
     }
   }
 
-  // Add new department
-  static async addDepartment(token, data) {
+  // Add new department -- updated
+  static async addDepartment(data) {
     try {
-      const departmentData = new FormData();
-      Object.keys(data).forEach(key => departmentData.append(key, data[key]));
-      const response = await axios.post(`${BASE_URL}/department/`, departmentData, {
+      const departmentData = {...data};
+      
+      const response = await axios.post(`${BASE_URL}/department/department`, departmentData, {
         headers: {
-          'Content-Type': 'multipart/form-data',
-          Authorization: `Token ${token}`,
+          'Content-Type': 'Application/json',
+          Authorization: `Bearer ${token}`,
         },
       });
       return response.data;
@@ -109,7 +109,7 @@ class Service {
     }
   }
 
-  // Add new fabricator
+  // Add new fabricator -- updated
   static async addFabricator(fabricatorData) {
     console.log('Successfully Added Fabricator: ', fabricatorData)
     try {
@@ -127,7 +127,7 @@ class Service {
     }
   }
 
-  //Add Fabricator Branch
+  //Add Fabricator Branch -- updated
   static async addFabricatorBranch(fabricatorBranchData, id) {
     try {
       const formData = {...fabricatorBranchData}
@@ -145,7 +145,7 @@ class Service {
     }
     }
 
-  // Fetch all fabricators
+  // Fetch all fabricators -- updated
   static async allFabricator(token) {
     try {
       const response = await axios.get(`${BASE_URL}/fabricator/fabricator`, {
@@ -162,11 +162,11 @@ class Service {
     }
   }
 
-  // Fetch Fabricator
+  // Fetch Fabricator -- updated
   static async getFabricator(token,id){
     console.log('Service:---',id)
     try {
-      const response = await axios.get(`${BASE_URL}/fabricator/${id}`, {
+      const response = await axios.get(`${BASE_URL}/fabricator/fabricator/${id}`, {
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Token ${token}`,
@@ -179,7 +179,7 @@ class Service {
     }
   }
 
-  // Add Client user
+  // Add Client user -- updated
   static async addClient(data) {
     try {
       const clientData = {...data};
@@ -197,7 +197,7 @@ class Service {
     }
   }
 
-  // Fetch all clients
+  // Fetch all clients -- updated
   static async allClient(token) {
     try {
       const response = await axios.get(`${BASE_URL}/client/client/getallclients`, {

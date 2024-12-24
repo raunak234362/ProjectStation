@@ -11,14 +11,15 @@ const ManageTeam = () => {
 const token = sessionStorage.getItem("token")
 const dispatch =useDispatch();
 
-const staffs = useSelector((state)=>state?.userData?.staffData)
+const staffs = useSelector((state)=>state?.userData?.staffData?.data)
 const departments = useSelector((state)=>state?.userData?.departmentData)
 // console.log(departments) 
+// console.log(staffs)
 
   const fetchAllStaff = async()=>{
     const staffData = await Service.allEmployee(token)
     const departmentData = await Service.allDepartment(token)
-
+    console.log(departmentData)
     dispatch(showDepartment(departmentData))
     dispatch(showStaff(staffData))
   } 

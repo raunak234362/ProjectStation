@@ -151,7 +151,7 @@ const AddEmployee = () => {
                 onChange={setValue}
               />
             </div>
-            <div className="mb-2">
+            {/* <div className="mb-2">
               <CustomSelect
                 label="Role:"
                 color="blue"
@@ -167,7 +167,7 @@ const AddEmployee = () => {
                 onChange={setValue}
               />
               {errors.role && <div>This field is required</div>}
-            </div>
+            </div> */}
             <div className="grid px-5 bg-white border border-gray-400 rounded-lg md:grid-cols-2 md:w-full md:justify-center md:items-center">
               <div className="">
                 <Toggle

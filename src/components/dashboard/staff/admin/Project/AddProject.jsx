@@ -5,9 +5,9 @@ import { Input, CustomSelect, Button, Toggle } from "../../../../index";
 import { addProject } from "../../../../../store/projectSlice";
 // import { Option } from '@material-tailwind/react'
 const AddProject = () => {
-  const projectData = useSelector((state) => state.projectData);
+  const projectData = useSelector((state) => state.projectData?.projectData);
   const fabricatorData = useSelector(
-    (state) => state.fabricatorData?.fabricatorData
+    (state) => state.fabricatorData?.fabricatorData?.data
   );
   console.log(fabricatorData);
   const dispatch = useDispatch();
@@ -39,7 +39,7 @@ const AddProject = () => {
                 size="lg"
                 color="blue"
                 options={fabricatorData.map((fabricator) => ({
-                  label: fabricator.name,
+                  label: fabricator.fabName,
                   value: fabricator.id,
                 }))}
                 {...register("fabricator", { required: true })}

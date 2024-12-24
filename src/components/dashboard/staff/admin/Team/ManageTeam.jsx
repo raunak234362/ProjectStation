@@ -113,8 +113,8 @@ const departments = useSelector((state)=>state?.userData?.departmentData)
           </ul>
         </nav>
       </div>
-      </div>
         <Outlet />
+      </div>
     </div>
   );
 };

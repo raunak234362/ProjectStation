@@ -76,8 +76,8 @@ const AddEmployee = () => {
   };
 
   return (
-    <div className="flex justify-center w-full my-5 text-black">
-      <div className="w-full h-full px-2 py-3 overflow-y-auto md:px-10">
+    <div className="flex justify-center w-full text-black">
+      <div className="w-full h-full px-2 py-3 bg-white overflow-y-auto md:px-10">
         <form onSubmit={handleSubmit(addStaff)}>
           <div className="px-2 py-2 font-bold text-white rounded-lg bg-teal-500/50">
             User Informations:

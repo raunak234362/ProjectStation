@@ -12,9 +12,9 @@ const AllClients = () => {
   const [selectedClient,setSelectedClient]=useState(false)
   const [isModalOpen, setIsModalOpen]=useState(false)
   // Get unique fabricators for filter dropdown
-  const uniqueFabricators = [
-    ...new Set(clientData?.map((client) => client.fabricator.name)),
-  ]
+  // const uniqueFabricators = [
+  //   ...new Set(clientData?.map((client) => client?.fabricator?.name)),
+  // ]
 
   // Filtering, searching, and sorting logic
   const filteredClients = clientData
@@ -27,9 +27,9 @@ const AllClients = () => {
       const fullName = `${client.f_name} ${client.m_name} ${client.l_name}`.toLowerCase()
       return (
         fullName.includes(searchQuery.toLowerCase()) ||
-        client?.fabricator?.city.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        client?.fabricator?.state.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        client?.fabricator?.country.toLowerCase().includes(searchQuery.toLowerCase())
+        client?.fabricator?.headquater?.city.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        client?.fabricator?.headquater?.state.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        client?.fabricator?.headquater?.country.toLowerCase().includes(searchQuery.toLowerCase())
       )
     })
     ?.sort((a, b) => {
@@ -86,7 +86,7 @@ const AllClients = () => {
           className="border p-2 rounded"
         >
           <option value="All">All Fabricators</option>
-          {uniqueFabricators.map((fabricator) => (
+          {clientData.map((fabricator) => (
             <option key={fabricator} value={fabricator}>
               {fabricator}
             </option>
@@ -102,31 +102,31 @@ const AllClients = () => {
                 className="px-2 py-1 text-left cursor-pointer"
                 onClick={() => handleSort('fabricator.name')}
               >
-                Fabricator {sortConfig.key === 'fabricator.name' && (sortConfig.direction === 'asc' ? '' : '')}
+                Fabricator {sortConfig.key === 'fabricator.name' && (sortConfig.direction === 'asc' ? '↑' : '↓')}
               </th>
               <th
                 className="px-2 py-1 text-left cursor-pointer"
                 onClick={() => handleSort('f_name')}
               >
-                Client Name {sortConfig.key === 'f_name' && (sortConfig.direction === 'asc' ? '' : '')}
+                Client Name {sortConfig.key === 'f_name' && (sortConfig.direction === 'asc' ? '↑' : '↓')}
               </th>
               <th
                 className="px-2 py-1 cursor-pointer"
-                onClick={() => handleSort('city')}
+                onClick={() => handleSort('fabricator.headquater.city')}
               >
-                City {sortConfig.key === 'city' && (sortConfig.direction === 'asc' ? '' : '')}
+                City {sortConfig.key === 'fabricator.headquater.city' && (sortConfig.direction === 'asc' ? '↑' : '↓')}
               </th>
               <th
                 className="px-2 py-1 cursor-pointer"
-                onClick={() => handleSort('state')}
+                onClick={() => handleSort('fabricator.headquater.state')}
               >
-                State {sortConfig.key === 'state' && (sortConfig.direction === 'asc' ? '' : '')}
+                State {sortConfig.key === 'fabricator.headquater.state' && (sortConfig.direction === 'asc' ? '↑' : '↓')}
               </th>
               <th
                 className="px-2 py-1 cursor-pointer"
-                onClick={() => handleSort('country')}
+                onClick={() => handleSort('fabricator.headquater.country')}
               >
-                Country {sortConfig.key === 'country' && (sortConfig.direction === 'asc' ? '↑' : '↓')}
+                Country {sortConfig.key === 'fabricator.headquater.country' && (sortConfig.direction === 'asc' ? '↑' : '↓')}
               </th>
               <th className="px-2 py-1">Actions</th>
             </tr>
@@ -143,11 +143,11 @@ const AllClients = () => {
                 <tr key={client.id} className="hover:bg-blue-gray-100 border">
                   <td className="border px-2 py-1 text-left">{client.fabricator.name}</td>
                   <td className="border px-2 py-1 text-left">
-                    {client.f_name} {client.m_name} {client.l_name}
+                    {client?.f_name} {client?.m_name} {client?.l_name}
                   </td>
-                  <td className="border px-2 py-1">{client.fabricator.headquater.city}</td>
-                  <td className="border px-2 py-1">{client.fabricator.headquater.state}</td>
-                  <td className="border px-2 py-1">{client.fabricator.headquater.country}</td>
+                  <td className="border px-2 py-1">{client?.fabricator?.headquater?.city}</td>
+                  <td className="border px-2 py-1">{client?.fabricator?.headquater?.state}</td>
+                  <td className="border px-2 py-1">{client?.fabricator?.headquater?.country}</td>
                   <td className="border px-2 py-1">
                   <Button onClick={() => handleViewClick(client.id)}>View</Button>
                   </td>

@@ -23,18 +23,16 @@ class Service {
   }
 
   // Add a new employee (staff)
-  static async addEmployee(updatedData, token) {
+  static async addEmployee(updatedData) {
     console.log(updatedData)
     try {
-      const data = new FormData();
-      Object.keys(updatedData).forEach(key => data.append(key, updatedData[key]));
-      const response = await axios.post(`${BASE_URL}/signup/`, updatedData, {
+      const formData = {...updatedData}
+      const response = await axios.post(`${BASE_URL}/employee/employee`, formData, {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Token ${token}`,
+          Authorization: `Bearer ${token}`,
         },
       });
-      console.log(response.data)
       return response.data;
     } catch (error) {
       console.log('Error adding staff:', error.response?.data || error);
@@ -67,7 +65,7 @@ class Service {
       const response = await axios.get(`${BASE_URL}/user/staff`, {
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Token ${token}`,
+          Authorization: `Bearer ${token}`,
         },
       });
       return response.data;
@@ -202,13 +200,13 @@ class Service {
   // Fetch all clients
   static async allClient(token) {
     try {
-      const response = await axios.get(`${BASE_URL}/user/client`, {
+      const response = await axios.get(`${BASE_URL}/client/client/getallclients`, {
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Token ${token}`,
         },
       });
-      return response.data;
+      return response.data.data;
     } catch (error) {
       console.log('Error fetching clients:', error);
       throw error;

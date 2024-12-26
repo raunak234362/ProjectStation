@@ -37,7 +37,7 @@ const App = () => {
     console.log(token)
     const fetchUser = async () => {
       const user = await Service.getCurrentUser(token);
-      console.log("User :", user);
+      // console.log("User :", user);
       try {
         // const fabricator= await Service.allFabricator(token);
         // const client = await Service.allClient(token);

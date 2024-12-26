@@ -15,7 +15,7 @@ import AllProject from './dashboard/staff/admin/Project/AllProject'
 import AddProject from './dashboard/staff/admin/Project/AddProject'
 import EditProject from './dashboard/staff/admin/Project/EditProject'
 import GetProject from './dashboard/staff/admin/Project/GetProject'
-
+import AddFiles from './dashboard/staff/admin/Project/AddFiles'
 
 //Work Breakdown
 import WorkBreakdown from './dashboard/staff/admin/Project/WorkBreakdown'
@@ -87,6 +87,7 @@ export {
   Input,
   CustomSelect,
   Toggle,
+  AddFiles,
   MultipleFileUpload,
   Login,
   LoginAuthentication,

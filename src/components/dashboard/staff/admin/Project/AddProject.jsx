@@ -9,8 +9,10 @@ const AddProject = () => {
   const projectData = useSelector((state) => state.projectData?.projectData);
   const fabricatorData = useSelector((state) => state.fabricatorData?.fabricatorData);
   console.log(fabricatorData);
-  const departmentData = useSelector((state) => state.userData?.departmentData);
-  console.log(departmentData);
+  const departmentData = useSelector((state) => state.userData?.departmentData?.data);
+  const userData = useSelector((state) => state.userData?.staffData.data);
+  const teams=useSelector((state)=>state?.userData?.teamData)
+  console.log(userData)
   const dispatch = useDispatch();
   const {
     register,
@@ -23,11 +25,11 @@ const AddProject = () => {
     console.log(data)
     try {
       const response = await Service.addProject(data);
+      dispatch(addProject(data));
       console.log(response);
     } catch (error) {
         console.log(error);
     }
-    dispatch(addProject(data));
     console.log(addProject(data));
   };
 
@@ -107,7 +109,7 @@ const AddProject = () => {
                   { label: "Select Status", value: "" },
                   { label: "ASSIGNED", value: "ASSIGNED" },
                   { label: "ACTIVE", value: "ACTIVE" },
-                  { label: "ON-HOLD", value: "ON-HOLD" },
+                  { label: "ONHOLD", value: "ON-HOLD" },
                   { label: "INACTIVE", value: "INACTIVE" },
                   { label: "DELAY", value: "DELAY" },
                   { label: "COMPLETE", value: "COMPLETE" },
@@ -150,40 +152,49 @@ const AddProject = () => {
             Department Information:
           </div>
           <div className="my-2 md:px-2 px-1">
-            <div className="w-full my-3">
-              <Input
-                label="Department:"
+          <div className="w-full my-3">
+              <CustomSelect
+                label="Department"
                 placeholder="Department"
                 size="lg"
                 color="blue"
+                options={departmentData?.map((department) => ({
+                  label: department.name,
+                  value: department.id,
+                }))}
                 {...register("department", { required: true })}
+                onChange={setValue}
               />
-              {errors.department && <div>This field is required</div>}
+              {errors.fabricator && <div>This field is required</div>}
             </div>
             <div className="w-full my-3">
-              <Input
-                label="Manager:"
+              <CustomSelect
+                label="Manager"
                 placeholder="Manager"
                 size="lg"
                 color="blue"
+                options={userData?.filter(user => user.is_manager)?.map((user) => ({  label: user.f_name, value: user.id}))}  
                 {...register("manager", { required: true })}
+                onChange={setValue}
               />
-              {errors.manager && <div>This field is required</div>}
+              {errors.fabricator && <div>This field is required</div>}
             </div>
           </div>
           <div className="bg-teal-500/50 rounded-lg px-2 py-2 font-bold text-white">
             Team Information:
           </div>
           <div className="my-2 md:px-2 px-1">
-            <div className="w-full my-3">
-              <Input
-                label="Team:"
+          <div className="w-full my-3">
+              <CustomSelect
+                label="Team"
                 placeholder="Team"
                 size="lg"
                 color="blue"
+                options={teams?.map((team) => ({  label: team.name, value: team.id}))}  
                 {...register("team", { required: true })}
+                onChange={setValue}
               />
-              {errors.team && <div>This field is required</div>}
+              {errors.fabricator && <div>This field is required</div>}
             </div>
           </div>
           <div className="bg-teal-500/50 rounded-lg px-2 py-2 font-bold text-white">

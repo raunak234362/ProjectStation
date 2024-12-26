@@ -4,8 +4,8 @@ import { useSelector } from "react-redux";
 import { Button, GetProject } from "../../../../index.js";
 
 const AllProjects = () => {
-  const projects = useSelector((state) => state?.projectData.projectData);
-  
+  const projects = useSelector((state) => state?.projectData?.projectData);
+  console.log(projects);
   const [selectedProject, setSelectedProject] =useState(null);
   const [isModalOpen, setIsModalOpen]=useState(false)
   const [searchTerm, setSearchTerm] = useState("");
@@ -48,11 +48,11 @@ const AllProjects = () => {
     return 0;
   });
 
-  const filteredProjects = sortedProjects.filter((project) => {
+  const filteredProjects = sortedProjects?.filter((project) => {
     return (
-      project.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
-      (statusFilter === "" || project.status === statusFilter) &&
-      (fabricatorFilter === "" || project.fabricator === fabricatorFilter)
+      project?.name?.toLowerCase().includes(searchTerm.toLowerCase()) &&
+      (statusFilter === "" || project?.status === statusFilter) &&
+      (fabricatorFilter === "" || project?.fabricator === fabricatorFilter)
     );
   });
 
@@ -160,14 +160,14 @@ const AllProjects = () => {
             </tr>
           </thead>
           <tbody>
-            {filteredProjects.length === 0 ? (
+            {filteredProjects?.length === 0 ? (
               <tr className="bg-white">
                 <td colSpan="6" className="text-center">
                   No Projects Found
                 </td>
               </tr>
             ) : (
-              filteredProjects.map((project, index) => (
+              filteredProjects?.map((project, index) => (
                 <tr key={project.id} className="hover:bg-blue-gray-100 border">
                   <td className="border px-2 py-1 text-left">{project.name}</td>
                   <td className="border px-2 py-1">{project.fabricator}</td>

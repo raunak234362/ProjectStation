@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import Service from "../../../../../config/Service";
 import { Provider, useDispatch, useSelector } from "react-redux";
-import { AddWB, Button } from "../../../../index";
+import { AddFiles, AddWB, Button } from "../../../../index";
 
 const GetProject = ({ projectId, onClose }) => {
   const [project, setProject] = useState([]);
@@ -111,6 +111,7 @@ const GetProject = ({ projectId, onClose }) => {
       {selectedProject && (
         <AddWB projectId={selectedProject} onClose={handleCloseAWB} />
       )}
+      <AddFiles />
     </div>
   );
 };

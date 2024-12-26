@@ -6,7 +6,7 @@ function MultipleFileUpload({ onFilesChange }) {
   const [files, setFiles] = useState([]);
 
   const handleFileChange = (event) => {
-    const selectedFiles = Array.from(event.target.files);
+    const selectedFiles = Array?.from(event.target.files);
     setFiles((prevFiles) => {
       const updatedFiles = [...prevFiles, ...selectedFiles];
       onFilesChange(updatedFiles); // Update parent component with the new file list
@@ -16,8 +16,8 @@ function MultipleFileUpload({ onFilesChange }) {
 
   const removeFile = (indexToRemove) => {
     setFiles((prevFiles) => {
-      const updatedFiles = prevFiles.filter((_, index) => index !== indexToRemove);
-      onFilesChange(updatedFiles); // Update parent component after removal
+      const updatedFiles = prevFiles?.filter((_, index) => index !== indexToRemove);
+      onFilesChange(updatedFiles); 
       return updatedFiles;
     });
   };

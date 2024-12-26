@@ -7,25 +7,22 @@ import Service from "../../../../../config/Service.js";
 import { loadFabricator } from "../../../../../store/fabricatorSlice.js";
 
 const AllFabricator = () => {
-  const fabricators = useSelector(
-    (state) => state?.fabricatorData?.fabricatorData?.data || []
-  );
+  const fabricators = useSelector((state) => state?.fabricatorData?.fabricatorData);
 
-  console.log(fabricators);
+  // console.log(fabricators);
   const dispatch = useDispatch();
 
   const getAllFabricators = async () => {
     try {
       const response = await Service.allFabricator();
       dispatch(loadFabricator(response));
-    }
-    catch (error) {
+    } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   useEffect(() => {
-    getAllFabricators()
+    getAllFabricators();
   }, []);
 
   const [filteredFabricators, setFilteredFabricators] = useState([]);
@@ -49,9 +46,15 @@ const AllFabricator = () => {
     let filtered = fabricators?.filter((fab) => {
       const searchMatch =
         fab?.fabName?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        fab?.headquaters?.city?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        fab?.headquaters?.state?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        fab?.headquaters?.country?.toLowerCase().includes(searchQuery.toLowerCase());
+        fab?.headquaters?.city
+          ?.toLowerCase()
+          .includes(searchQuery.toLowerCase()) ||
+        fab?.headquaters?.state
+          ?.toLowerCase()
+          .includes(searchQuery.toLowerCase()) ||
+        fab?.headquaters?.country
+          ?.toLowerCase()
+          .includes(searchQuery.toLowerCase());
 
       const filterMatch =
         (!filters?.country || fab.headquaters?.country === filters?.country) &&
@@ -128,7 +131,10 @@ const AllFabricator = () => {
               onChange={handleFilterChange}
               className="border p-2 rounded"
             >
-              <option value="">Filter by {filterKey.charAt(0).toUpperCase() + filterKey.slice(1)}</option>
+              <option value="">
+                Filter by{" "}
+                {filterKey.charAt(0).toUpperCase() + filterKey.slice(1)}
+              </option>
               {Array.from(
                 new Set(fabricators?.map((fab) => fab?.headquaters[filterKey]))
               ).map((value) => (
@@ -152,7 +158,8 @@ const AllFabricator = () => {
                     onClick={() => handleSort(key)}
                   >
                     {key.charAt(0).toUpperCase() + key.slice(1)}
-                    {sortOrder.key === key && (sortOrder.order === "asc" ? " ↑" : " ↓")}
+                    {sortOrder.key === key &&
+                      (sortOrder.order === "asc" ? " ↑" : " ↓")}
                   </th>
                 ))}
                 <th className="px-2 py-1">Actions</th>
@@ -167,16 +174,23 @@ const AllFabricator = () => {
                 </tr>
               ) : (
                 filteredFabricators?.map((fab) => (
-                  <tr
-                    key={fab.id}
-                    className="hover:bg-blue-gray-100 border"
-                  >
-                    <td className="border px-2 py-1 text-left">{fab.fabName}</td>
-                    <td className="border px-2 py-1">{fab.headquaters?.city}</td>
-                    <td className="border px-2 py-1">{fab.headquaters?.state}</td>
-                    <td className="border px-2 py-1">{fab.headquaters?.country}</td>
+                  <tr key={fab.id} className="hover:bg-blue-gray-100 border">
+                    <td className="border px-2 py-1 text-left">
+                      {fab.fabName}
+                    </td>
                     <td className="border px-2 py-1">
-                      <Button onClick={() => handleViewClick(fab.id)}>View</Button>
+                      {fab.headquaters?.city}
+                    </td>
+                    <td className="border px-2 py-1">
+                      {fab.headquaters?.state}
+                    </td>
+                    <td className="border px-2 py-1">
+                      {fab.headquaters?.country}
+                    </td>
+                    <td className="border px-2 py-1">
+                      <Button onClick={() => handleViewClick(fab.id)}>
+                        View
+                      </Button>
                     </td>
                   </tr>
                 ))

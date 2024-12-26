@@ -12,27 +12,24 @@ const Projects = () => {
   const token = sessionStorage.getItem("token");
   const fetchAllProjects = async () => {
     const projectData = await Service.allprojects(token);
-    console.log(projectData);
-    dispatch(showProjects(projectData));
+    dispatch(showProjects(projectData?.data));
   };
   const fetchAllFabricator = async () => {
     const fabricatorData = await Service.allFabricator(token);
-    console.log(fabricatorData);
     dispatch(loadFabricator(fabricatorData));
-  }
+  };
   const fetchAllDepartment = async () => {
     const departmentData = await Service.allDepartment(token);
-    console.log(departmentData);
     dispatch(showDepartment(departmentData));
-  }
+  };
 
   useEffect(() => {
-    fetchAllDepartment()
-    fetchAllProjects()
-    fetchAllFabricator()
+    fetchAllDepartment();
+    fetchAllProjects();
+    fetchAllFabricator();
   }, []);
 
-  const projects = useSelector((state) => state?.projectData.projectData?.data);
+  const projects = useSelector((state) => state?.projectData.projectData);
 
   const userTypes = sessionStorage.getItem("userType");
   console.log(userTypes);

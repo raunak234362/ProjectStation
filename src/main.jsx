@@ -59,6 +59,8 @@ import {Dashboard as ClientDashboard,
   ChangeOrder as ClientCO,
   Team as ClientTeam,
 } from './components/dashboard/client/clientIndex.js'
+import AddTeam from './components/dashboard/staff/admin/Team/AddTeam.jsx'
+import AllTeam from './components/dashboard/staff/admin/Team/AllTeam.jsx'
 
 
 //For Sales-Admin
@@ -133,6 +135,8 @@ const router = createBrowserRouter([
           { path: 'all-employees', element: <AllEmployees /> },
           { path: 'all-department', element: <AllDepartment /> },
           { path: 'add-department', element: <AddDepartment /> },
+          { path: 'add-team', element: <AddTeam /> },
+          { path: 'all-team', element: <AllTeam /> },
         ]
       },
       {

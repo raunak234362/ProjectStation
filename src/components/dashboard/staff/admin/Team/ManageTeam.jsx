@@ -111,6 +111,30 @@ const departments = useSelector((state)=>state?.userData?.departmentData)
                 All Department
               </NavLink>
             </li>
+            <li className="px-2">
+              <NavLink
+                to="add-team"
+                className={({ isActive }) =>
+                  isActive
+                    ? "bg-teal-300 drop-shadow-lg flex px-5 py-2 rounded-lg font-semibold"
+                    : "hover:bg-teal-200 rounded-lg flex px-5 py-2 hover:text-white"
+                }
+              >
+                Add Team
+              </NavLink>
+            </li>
+            <li className="px-2">
+              <NavLink
+                to="all-team"
+                className={({ isActive }) =>
+                  isActive
+                    ? "bg-teal-300 drop-shadow-lg flex px-5 py-2 rounded-lg font-semibold"
+                    : "hover:bg-teal-200 rounded-lg flex px-5 py-2 hover:text-white"
+                }
+              >
+                All Team
+              </NavLink>
+            </li>
           </ul>
         </nav>
       </div>

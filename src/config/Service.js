@@ -324,12 +324,16 @@ class Service {
   static async addProject(projectData) {
     try {
       const formData = { ...projectData };
-      const response = await axios.post(`${BASE_URL}/project/projects`, formData, {
-        headers: {
-          "Content-Type": "Application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await axios.post(
+        `${BASE_URL}/project/projects`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "Application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       return response?.data?.data;
     } catch (error) {
       console.log("Error adding project:", error);
@@ -349,6 +353,56 @@ class Service {
       return response.data;
     } catch (error) {
       console.log("Error fetching projects:", error);
+      throw error;
+    }
+  }
+  // Fetch all Project File --updated
+  static async addProjectFile(token,id) {
+    try {
+      const response = await axios.post(`${BASE_URL}/project/projects/${id}/add_file`, {
+        headers: {
+          "Content-Type": "Multipart/form-data",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      return response.data;
+    } catch (error) {
+      console.log("Error fetching projects:", error);
+      throw error;
+    }
+  }
+
+
+
+  // Add Teams -- updated
+  static async addTeam(teamData) {
+    try {
+      const formData = { ...teamData };
+      const response = await axios.post(`${BASE_URL}/team/teams`, formData, {
+        headers: {
+          "Content-Type": "Application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      return response.data;
+    } catch (error) {
+      console.log("Error adding team:", error);
+      throw error;
+    }
+  }
+
+  // Fetch all teams -- updated
+  static async allteams(token) {
+    try {
+      const response = await axios.get(`${BASE_URL}/team/teams`, {
+        headers: {
+          "Content-Type": "Application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      return response.data;
+    } catch (error) {
+      console.log("Error fetching teams:", error);
       throw error;
     }
   }

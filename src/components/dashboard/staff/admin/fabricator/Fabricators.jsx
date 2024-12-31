@@ -16,10 +16,9 @@ const Fabricators = () => {
   // Function to toggle menu visibility
 
   const fabricators = useSelector(
-    (state) => state?.fabricatorData?.fabricatorData?.data
-  );
+    (state) => state?.fabricatorData?.fabricatorData);
   const clients = useSelector((state) => state?.fabricatorData?.clientData);
-  console.log(clients);
+  console.log(fabricators);
 
   const token = sessionStorage.getItem("token");
 

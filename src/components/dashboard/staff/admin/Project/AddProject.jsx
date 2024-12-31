@@ -8,9 +8,9 @@ import Service from "../../../../../config/Service";
 const AddProject = () => {
   const projectData = useSelector((state) => state.projectData?.projectData);
   const fabricatorData = useSelector((state) => state.fabricatorData?.fabricatorData);
-  console.log(fabricatorData);
   const departmentData = useSelector((state) => state.userData?.departmentData?.data);
-  const userData = useSelector((state) => state.userData?.staffData.data);
+  const userData = useSelector((state) => state.userData?.staffData?.data);
+  console.log(userData);
   const teams=useSelector((state)=>state?.userData?.teamData)
   console.log(userData)
   const dispatch = useDispatch();

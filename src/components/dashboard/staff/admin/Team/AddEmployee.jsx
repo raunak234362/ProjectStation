@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { useForm } from "react-hook-form";
 import { Input, CustomSelect, Button, Toggle } from "../../../../index";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setUserData } from "../../../../../store/userSlice";
 import {
   countries,
@@ -24,12 +24,12 @@ const AddEmployee = () => {
     clearErrors,
   } = useForm();
   const [showAlert, setShowalert] = useState(false);
-  const [departments, setDepartments] = useState([]);
+  const [departments, setDepartments] = useState(useSelector((state) => state?.userData?.departmentData?.dat));
 
   useEffect(() => {
     (async () => {
       try {
-        const response = await axios.get(`${BASE_URL}/getalldepartments`);
+        const response = await axios.get(`${BASE_URL}/department/department`);
         console.log(response.data?.data);
         const department = response?.data?.data.map((item) => {
           return { label: item.name, value: item };

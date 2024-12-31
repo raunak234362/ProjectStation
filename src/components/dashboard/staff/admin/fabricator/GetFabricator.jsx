@@ -14,13 +14,13 @@ const GetFabricator = ({ fabricatorId, isOpen, onClose }) => {
   const [fabricator, setFabricator] = useState();
 
   const fabData = useSelector(
-    (state) => state.fabricatorData?.fabricatorData?.data
+    (state) => state.fabricatorData?.fabricatorData
   );
 
   const fetchFabricator = async () => {
     try {
       // Find the fabricator with the matching ID from the Redux store data
-      const fabricator = fabData.find((fab) => fab.id === fabricatorId);
+      const fabricator = fabData?.find((fab) => fab.id === fabricatorId);
       console.log(fabricator);
       if (fabricator) {
         setFabricator(fabricator);

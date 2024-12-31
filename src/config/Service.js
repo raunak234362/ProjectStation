@@ -7,7 +7,6 @@ class Service {
 
   // Fetch the logged-in user - updated
   static async getCurrentUser(token) {
-    console.log(token);
     try {
       const response = await axios.post(`${BASE_URL}/auth/getuserbytoken`, {
         headers: {
@@ -24,7 +23,6 @@ class Service {
 
   // Add a new employee (staff) -- updated
   static async addEmployee(updatedData) {
-    console.log(updatedData);
     try {
       const formData = { ...updatedData };
       const response = await axios.post(
@@ -32,7 +30,7 @@ class Service {
         formData,
         {
           headers: {
-            "Content-Type": "Application/js on",
+            "Content-Type": "Application/json",
             Authorization: `Bearer ${token}`,
           },
         }
@@ -46,7 +44,6 @@ class Service {
 
   // Change password-updated -- updated
   static async changePassword(token, data) {
-    console.log(data);
 
     try {
       const response = await axios.post(
@@ -124,6 +121,7 @@ class Service {
   static async addFabricator(fabricatorData) {
     console.log("Successfully Added Fabricator: ", fabricatorData);
     try {
+      const token = sessionStorage.getItem("token");
       const formData = { ...fabricatorData };
       const response = await axios.post(
         `${BASE_URL}/fabricator/fabricator/`,

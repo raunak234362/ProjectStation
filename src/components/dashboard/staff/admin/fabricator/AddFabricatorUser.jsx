@@ -24,7 +24,7 @@ const AddFabricatorUser = () => {
   } = useForm();
 
   const fabricators = useSelector(
-    (state) => state?.fabricatorData?.fabricatorData?.data
+    (state) => state?.fabricatorData?.fabricatorData
   );
   const selectedFabricator = watch("fabricator");
   const [branchOptions, setBranchOptions] = useState();
@@ -34,9 +34,10 @@ const AddFabricatorUser = () => {
       const fabricator = fabricators.find(
         (fab) => fab.id === selectedFabricator
       );
+      console.log(fabricator?.headquaters);
       if (fabricator) {
         const combinedBranches = [
-          ...(fabricator.headquarters ? [fabricator.headquarters] : []),
+          ...(fabricator.headquaters ? [fabricator.headquaters] : []),
           ...(fabricator.branches || []),
         ];
         console.log(combinedBranches);

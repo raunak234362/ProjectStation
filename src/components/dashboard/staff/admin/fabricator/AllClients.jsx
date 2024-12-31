@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
 import {Button, GetClient} from '../../../../index'
@@ -140,13 +141,13 @@ const AllClients = () => {
             ) : (
               clientData?.map((client) => (
                 <tr key={client.id} className="hover:bg-blue-gray-100 border">
-                  <td className="border px-2 py-1 text-left">{client.fabricator.name}</td>
+                  <td className="border px-2 py-1 text-left">{client?.fabricator?.fabName}</td>
                   <td className="border px-2 py-1 text-left">
                     {client?.f_name} {client?.m_name} {client?.l_name}
                   </td>
-                  <td className="border px-2 py-1">{client?.fabricator?.headquater?.city}</td>
-                  <td className="border px-2 py-1">{client?.fabricator?.headquater?.state}</td>
-                  <td className="border px-2 py-1">{client?.fabricator?.headquater?.country}</td>
+                  <td className="border px-2 py-1">{client?.city}</td>
+                  <td className="border px-2 py-1">{client?.state}</td>
+                  <td className="border px-2 py-1">{client?.country}</td>
                   <td className="border px-2 py-1">
                   <Button onClick={() => handleViewClick(client.id)}>View</Button>
                   </td>

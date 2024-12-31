@@ -8,8 +8,9 @@ import { Header, Sidebar } from "./components/index";
 import { Outlet, useNavigate } from "react-router-dom";
 import Service from "./config/Service";
 // import FrappeService from "./frappeConfig/FrappeService";
-import { setUserData } from "./store/userSlice";
-// import { loadFabricator, showClient } from "./store/fabricatorSlice";
+import { setUserData, showStaff } from "./store/userSlice";
+import { loadFabricator, showClient } from "./store/fabricatorSlice";
+import { showProjects } from "./store/projectSlice";
 
 const App = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -37,15 +38,17 @@ const App = () => {
     console.log(token)
     const fetchUser = async () => {
       const user = await Service.getCurrentUser(token);
+      dispatch(setUserData(user.data));
       // console.log("User :", user);
       try {
-        // const fabricator= await Service.allFabricator(token);
-        // const client = await Service.allClient(token);
-        // // const project = await Service.allprojects(token);
-        dispatch(setUserData(user.data));
-        // dispatch(loadFabricator(fabricator));
-        // dispatch(showClient(client));
-        // dispatch(showProjects(project));
+        const userData = await Service.allEmployee(token);
+        dispatch(showStaff(userData));
+        const fabricator= await Service.allFabricator(token);
+        dispatch(loadFabricator(fabricator));
+        const client = await Service.allClient(token);
+        dispatch(showClient(client));
+        const project = await Service.allprojects(token);
+        dispatch(showProjects(project?.data));
       } catch (error) {
         console.log(error);
         navigate("/");

@@ -14,22 +14,33 @@ const GetProject = ({ projectId, onClose }) => {
   const [selectedEditProject, setSelectedEditProject] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const projectData = useSelector((state) => state?.projectData.projectData);
+  const projectData = useSelector((state) =>
+    state?.projectData.projectData.find((project) => project.id === projectId)
+  );
+  console.log("Project Data", projectData);
 
-  const fetchFiles =async()=>{
-    const fileData =await Service.allProjectFile(projectId)
-  }
 
-  const fetchProject = async () => {
+  
+
+  // const fetchFiles = async (data) => {
+  //   console.log("Fetching files", data);
+  //   try {
+  //     const files = await Service.allProjectFile(projectId,data);
+      
+  //     console.log("Files", files);
+  //   } catch (error) {
+  //     console.log("Error fetching files:", error);
+  //   }
+  // };
+
+  const fetchFileAndOpen = async (fileId) => {
     try {
-      const project = projectData.find((project) => project.id === projectId);
-      if (project) {
-        setProject(project);
-      } else {
-        console.log("Project not found");
-      }
+      const response = await Service.allProjectFile(projectId,fileId); // API call to fetch the file
+      console.log("Response", response);
+      const fileUrl = `${BASE_URL}${response}`; // Construct file URL
+      window.open(fileUrl, "_blank"); // Open file in a new tab
     } catch (error) {
-      console.log("Error fetching project:", error);
+      console.error("Error opening file:", error);
     }
   };
 
@@ -39,10 +50,10 @@ const GetProject = ({ projectId, onClose }) => {
     setAddWorkBreakdown(true);
   };
 
-  const handleCloseAWB = async()=>{
+  const handleCloseAWB = async () => {
     setAddWorkBreakdown(false);
     setSelectedProject(null);
-  }
+  };
 
   const handleClose = async () => {
     onClose(true);
@@ -50,14 +61,10 @@ const GetProject = ({ projectId, onClose }) => {
 
   // console.log("Project", project?.files(map((file) => file.path))
 
-  useEffect(() => {
-    fetchProject();
-  }, [projectId]);
-
 
   const handleEditClick = () => {
     setIsModalOpen(true);
-    setSelectedEditProject(project);
+    setSelectedEditProject(projectData);
   };
   const handleModalClose = () => {
     setIsModalOpen(false);
@@ -89,21 +96,46 @@ const GetProject = ({ projectId, onClose }) => {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {[
-                { label: "Fabricator", value: project?.fabricator?.fabName },
-                { label: "Description", value: project?.description },
-                { label: "Estimated Hours", value: project?.estimatedHours },
-                { label: "Status", value: project?.status },
-                { label: "Stage", value: project?.stage },
-                { label: "Tool", value: project?.tools },
-                { label: "Start Date", value: project?.startDate },
-                { label: "End Date", value: project?.approvalDate },
-                { label: "Department", value: project?.department?.name },
-                { label: "Department Manager", value: project?.manager?.f_name },
-                { label: "Project Manager", value: project?.manager?.f_name },
+                {
+                  label: "Fabricator",
+                  value: projectData?.fabricator?.fabName,
+                },
+                { label: "Description", value: projectData?.description },
+                {
+                  label: "Estimated Hours",
+                  value: projectData?.estimatedHours,
+                },
+                { label: "Status", value: projectData?.status },
+                { label: "Stage", value: projectData?.stage },
+                { label: "Tool", value: projectData?.tools },
+                { label: "Start Date", value: projectData?.startDate },
+                { label: "End Date", value: projectData?.approvalDate },
+                { label: "Department", value: projectData?.department?.name },
+                {
+                  label: "Department Manager",
+                  value: projectData?.manager?.f_name,
+                },
+                {
+                  label: "Project Manager",
+                  value: projectData?.manager?.f_name,
+                },
+                // {
+                //   label: "Files",
+                //   value: Array.isArray(projectData?.files)
+                //     ? projectData?.files.map((file, index) => (
+                //         <Button
+                //           key={index}
+                //           onClick={() => fetchFileAndOpen(file.id)} // Open file in a new tab
+                //         >
+                //           {file.originalName || `File ${index + 1}`}
+                //         </Button>
+                //       ))
+                //     : "Not available",
+                // },
                 {
                   label: "Files",
-                  value: Array.isArray(project?.files)
-                    ? project?.files.map((file, index) => (
+                  value: Array.isArray(projectData?.files)
+                    ? projectData?.files?.map((file, index) => (
                         <a
                           key={index}
                           href={`${BASE_URL}${file.path}`} // Use the file path with baseURL
@@ -113,10 +145,12 @@ const GetProject = ({ projectId, onClose }) => {
                         >
                           {file.originalName || `File ${index + 1}`}
                         </a>
+                        // <Button key={index} onClick={() => fetchFiles(file.id)}>
+                        //   {file.originalName || `File ${index + 1}`}
+                        // </Button>
                       ))
                     : "Not available",
                 },
-
               ]?.map(({ label, value }) => (
                 <div key={label} className="flex flex-col">
                   <span className="font-medium text-gray-700">{label}:</span>
@@ -132,10 +166,10 @@ const GetProject = ({ projectId, onClose }) => {
               Project Work Breakdown:
             </h2>
             <div className="flex gap-4">
-              <Button >
-                All Work Breakdown
+              <Button>All Work Breakdown</Button>
+              <Button onClick={() => handleAddWorkBreakdown(project.id)}>
+                Add Work Breakdown
               </Button>
-              <Button onClick={() => handleAddWorkBreakdown(project.id)}>Add Work Breakdown</Button>
               <Button>Edit Work Breakdown</Button>
             </div>
           </div>
@@ -148,7 +182,6 @@ const GetProject = ({ projectId, onClose }) => {
       {selectedEditProject && (
         <EditProject project={selectedEditProject} onClose={handleModalClose} />
       )}
-      
     </div>
   );
 };

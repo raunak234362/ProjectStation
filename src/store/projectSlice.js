@@ -726,6 +726,11 @@ const projectSlice = createSlice({
     showProjects: (state, action) => {
       state.projectData = action.payload;
     },
+    updateProjectData: (state, action) => {
+      state.projectData = state.projectData.map((project) =>
+        project.id === action.payload.id ? { ...project, ...action.payload } : project
+      )
+    },
     deleteProject: (state, action) => {
       state.projectData = state.projectData.filter(
         (project) => project.id !== action.payload
@@ -759,6 +764,7 @@ const projectSlice = createSlice({
 export const {
   addProject,
   showProjects,
+  updateProjectData,
   deleteProject,
   addCO,
   showCO,

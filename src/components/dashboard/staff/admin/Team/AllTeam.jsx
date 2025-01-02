@@ -1,21 +1,23 @@
+/* eslint-disable no-unused-vars */
 import { useEffect, useState } from "react";
 import Service from "../../../../../config/Service";
 import { useDispatch, useSelector } from "react-redux";
 import { showTeam } from "../../../../../store/userSlice";
-
+import { Button } from "../../../../index";
+import GetTeamByID from "./GetTeamByID";
 const AllTeam = () => {
   const token = sessionStorage.getItem("token");
+  const [selectedTeam, setSelectedTeam] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [filteredTeams, setFilteredTeams] = useState([]);
   const [sortConfig, setSortConfig] = useState({ key: null, direction: "asc" });
   const [searchQuery, setSearchQuery] = useState("");
 
 const teams=useSelector((state)=>state?.userData?.teamData)
-console.log(teams)
   const dispatch = useDispatch();
   const fetchTeams = async () => {
     try {
       const response = await Service?.allteams(token);
-      console.log(response.data);
       dispatch(showTeam(response?.data));
     } catch (error) {
       console.log(error.message);
@@ -39,6 +41,21 @@ console.log(teams)
       return 0;
     });
     setFilteredTeams(sortedData);
+  };
+
+  const handleViewClick = async (teamId) => {
+    try {
+      const team = await Service.getTeamById(teamId);
+      setSelectedTeam(team);
+      setIsModalOpen(true);
+    } catch (error) {
+      console.error("Error fetching team details:", error);
+    }
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setSelectedTeam(null);
   };
 
   // Search function
@@ -113,17 +130,28 @@ console.log(teams)
                     <td className="border px-5 py-2 text-left">
                       {team?.manager?.f_name || "No Manager Assigned"}
                     </td>
-                    <td className="border px-2 py-1">
-                      <button className="text-blue-500 hover:text-blue-700">
-                        Action
-                      </button>
-                    </td>
+                    <td  className="border justify-center items-center flex px-2 py-1">
+                  {team?.members?.length > 0 ? (
+                    team.members.length
+                  ) : (
+                    <Button onClick={() => handleViewClick(team.id)}>
+                      View/Add
+                    </Button>
+                  )}
+                </td>
                   </tr>
                 ))
               )}
             </tbody>
           </table>
         </div>
+        {selectedTeam && (
+          <GetTeamByID
+          team={selectedTeam}
+          isOpen={isModalOpen}
+          onClose={handleCloseModal}
+          />
+        )}
       </div>
     </div>
   );

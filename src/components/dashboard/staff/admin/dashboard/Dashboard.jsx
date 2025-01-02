@@ -50,15 +50,15 @@ const Dashboard = () => {
 
   const filteredProjects = sortedProjects.filter((project) => {
     return (
-      project.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
-      (statusFilter === "" || project.status === statusFilter) &&
-      (fabricatorFilter === "" || project.fabricator === fabricatorFilter)
+      project.name?.toLowerCase().includes(searchTerm.toLowerCase()) &&
+      (statusFilter === "" || project?.status === statusFilter) &&
+      (fabricatorFilter === "" || project?.fabricator?.fabName === fabricatorFilter)
     );
   });
 
   // Get unique fabricator names for the filter dropdown.
   const uniqueFabricators = [
-    ...new Set(projects.map((project) => project.fabricator)),
+    ...new Set(projects.map((project) => project.fabricator?.fabName)),
   ];
 
   const handleViewClick = async (fabricatorId) => {

@@ -27,11 +27,17 @@ const userSlice = createSlice({
     showStaff: (state, action) => {
       state.staffData = action.payload;
     },
+    updateStaffData: (state, action) => {
+      state.staffData =state.staffData.map((staff)=> staff.id === action.payload.id ? {...staff, ...action.payload} : staff);
+    },
     addTeam: (state, action) => {
       state.teamData.push(action.payload);
     },
     showTeam: (state, action) => {
       state.teamData = action.payload;
+    },
+    updateTeamData: (state, action) => {
+      state.teamData = state.teamData.map((team)=> team.id === action.payload.id ? {...team, ...action.payload} : team);
     },
     addDepartment: (state, action) => {
       state.departmentData.push(action.payload);
@@ -56,6 +62,8 @@ export const {
   showStaff,
   addStaff,
   setUserData,
+  updateStaffData,
+  updateTeamData,
   addDepartment,
   showDepartment,
   addTeam,

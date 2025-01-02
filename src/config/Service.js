@@ -44,7 +44,6 @@ class Service {
 
   // Change password-updated -- updated
   static async changePassword(token, data) {
-
     try {
       const response = await axios.post(
         `${BASE_URL}/auth/resetpassword/`,
@@ -354,12 +353,61 @@ class Service {
       throw error;
     }
   }
-  // Fetch all Project File --updated
-  static async addProjectFile(token,id) {
+
+  // Edit project by ID -- updated
+  static async editProject(id, data) {
+    console.log("Service:---", id);
     try {
-      const response = await axios.post(`${BASE_URL}/project/projects/${id}/add_file`, {
+      const response = await axios.patch(
+        `${BASE_URL}/project/projects/${id}`,
+        data,
+        {
+          headers: {
+            "Content-Type": "Application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      console.log("Error editing project:", error);
+      throw error;
+    }
+  }
+
+  // Fetch all Project File --updated
+  static async addProjectFile(data, id) {
+    // const formData = new FormData();
+    // for(let i = 0 ; i < data.length ; i++){
+    //   formData.append("files", data[i]);
+    // }
+    // const formData = new FormData();
+    // formData.append("files", data);
+    try {
+      const response = await axios.post(
+        `${BASE_URL}/project/projects/${id}/add_file`,
+        data,
+        {
+          headers: {
+            "Content-Type": "Multipart/form-data",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      console.log("Error fetching projects:", error);
+      throw error;
+    }
+  }
+
+  // Fetch all Project File --updated
+  static async allProjectFile(projectID,fileID) {
+    const token = sessionStorage.getItem("token");
+    try {
+      const response = await axios.get(`${BASE_URL}/project/projects/${projectID}/files/${fileID}`, {
         headers: {
-          "Content-Type": "Multipart/form-data",
+          "Content-Type": "Application/json",
           Authorization: `Bearer ${token}`,
         },
       });
@@ -369,8 +417,6 @@ class Service {
       throw error;
     }
   }
-
-
 
   // Add Teams -- updated
   static async addTeam(teamData) {
@@ -390,8 +436,9 @@ class Service {
   }
 
   // Fetch all teams -- updated
-  static async allteams(token) {
+  static async allteams() {
     try {
+      const token = sessionStorage.getItem("token");
       const response = await axios.get(`${BASE_URL}/team/teams`, {
         headers: {
           "Content-Type": "Application/json",
@@ -401,6 +448,23 @@ class Service {
       return response.data;
     } catch (error) {
       console.log("Error fetching teams:", error);
+      throw error;
+    }
+  }
+
+  // Fetch team by ID -- updated
+  static async getTeamById(teamId) {
+    try {
+      const token = sessionStorage.getItem("token");
+      const response = await axios.get(`${BASE_URL}/team/teams/${teamId}`, {
+        headers: {
+          "Content-Type": "Application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      return response.data;
+    } catch (error) {
+      console.log("Error fetching team:", error);
       throw error;
     }
   }

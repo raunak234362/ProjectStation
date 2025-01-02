@@ -8,7 +8,7 @@ import { Header, Sidebar } from "./components/index";
 import { Outlet, useNavigate } from "react-router-dom";
 import Service from "./config/Service";
 // import FrappeService from "./frappeConfig/FrappeService";
-import { setUserData, showStaff } from "./store/userSlice";
+import { setUserData, showStaff, showTeam } from "./store/userSlice";
 import { loadFabricator, showClient } from "./store/fabricatorSlice";
 import { showProjects } from "./store/projectSlice";
 
@@ -39,7 +39,6 @@ const App = () => {
     const fetchUser = async () => {
       const user = await Service.getCurrentUser(token);
       dispatch(setUserData(user.data));
-      // console.log("User :", user);
       try {
         const userData = await Service.allEmployee(token);
         dispatch(showStaff(userData));
@@ -49,6 +48,8 @@ const App = () => {
         dispatch(showClient(client));
         const project = await Service.allprojects(token);
         dispatch(showProjects(project?.data));
+        const TeamData = await Service.allteams(token);
+        dispatch(showTeam(TeamData));
       } catch (error) {
         console.log(error);
         navigate("/");

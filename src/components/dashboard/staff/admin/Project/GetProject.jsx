@@ -3,20 +3,26 @@
 import React, { useEffect, useState } from "react";
 import Service from "../../../../../config/Service";
 import { Provider, useDispatch, useSelector } from "react-redux";
-import { AddFiles, AddWB, Button } from "../../../../index";
+import { AddFiles, AddWB, Button, EditProject } from "../../../../index";
+import { BASE_URL } from "../../../../../config/constant";
 
 const GetProject = ({ projectId, onClose }) => {
   const [project, setProject] = useState([]);
   const [selectedProject, setSelectedProject] = useState(null);
   const [addWorkBreakdown, setAddWorkBreakdown] = useState(false);
   const [editWorkBreakdown, setEditWorkBreakdown] = useState(false);
+  const [selectedEditProject, setSelectedEditProject] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const projectData = useSelector((state) => state?.projectData.projectData);
+
+  const fetchFiles =async()=>{
+    const fileData =await Service.allProjectFile(projectId)
+  }
 
   const fetchProject = async () => {
     try {
       const project = projectData.find((project) => project.id === projectId);
-
       if (project) {
         setProject(project);
       } else {
@@ -42,10 +48,21 @@ const GetProject = ({ projectId, onClose }) => {
     onClose(true);
   };
 
+  // console.log("Project", project?.files(map((file) => file.path))
+
   useEffect(() => {
     fetchProject();
   }, [projectId]);
 
+
+  const handleEditClick = () => {
+    setIsModalOpen(true);
+    setSelectedEditProject(project);
+  };
+  const handleModalClose = () => {
+    setIsModalOpen(false);
+    setSelectedEditProject(null);
+  };
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
@@ -54,7 +71,7 @@ const GetProject = ({ projectId, onClose }) => {
           <Button className="bg-red-500" onClick={handleClose}>
             Close
           </Button>
-          <Button>Edit</Button>
+          <Button onClick={handleEditClick}>Edit</Button>
         </div>
 
         {/* header */}
@@ -72,19 +89,35 @@ const GetProject = ({ projectId, onClose }) => {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {[
-                { label: "Fabricator", value: project?.fabricator },
+                { label: "Fabricator", value: project?.fabricator?.fabName },
                 { label: "Description", value: project?.description },
                 { label: "Estimated Hours", value: project?.estimatedHours },
                 { label: "Status", value: project?.status },
                 { label: "Stage", value: project?.stage },
                 { label: "Tool", value: project?.tools },
-                { label: "Start Date", value: project?.start_date },
-                { label: "End Date", value: project?.approval_date },
-                { label: "Department", value: project?.department },
-                { label: "Department Manager", value: project?.manager },
-                { label: "Project Manager", value: project?.manager },
-                { label: "Project Team", value: project?.team },
-              ].map(({ label, value }) => (
+                { label: "Start Date", value: project?.startDate },
+                { label: "End Date", value: project?.approvalDate },
+                { label: "Department", value: project?.department?.name },
+                { label: "Department Manager", value: project?.manager?.f_name },
+                { label: "Project Manager", value: project?.manager?.f_name },
+                {
+                  label: "Files",
+                  value: Array.isArray(project?.files)
+                    ? project?.files.map((file, index) => (
+                        <a
+                          key={index}
+                          href={`${BASE_URL}${file.path}`} // Use the file path with baseURL
+                          target="_blank" // Open in a new tab
+                          rel="noopener noreferrer"
+                          className="text-blue-500 hover:underline"
+                        >
+                          {file.originalName || `File ${index + 1}`}
+                        </a>
+                      ))
+                    : "Not available",
+                },
+
+              ]?.map(({ label, value }) => (
                 <div key={label} className="flex flex-col">
                   <span className="font-medium text-gray-700">{label}:</span>
                   <span className="text-gray-600">
@@ -111,7 +144,11 @@ const GetProject = ({ projectId, onClose }) => {
       {selectedProject && (
         <AddWB projectId={selectedProject} onClose={handleCloseAWB} />
       )}
-      <AddFiles />
+
+      {selectedEditProject && (
+        <EditProject project={selectedEditProject} onClose={handleModalClose} />
+      )}
+      
     </div>
   );
 };

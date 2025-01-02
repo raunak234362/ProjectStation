@@ -58,7 +58,7 @@ const Dashboard = () => {
 
   // Get unique fabricator names for the filter dropdown.
   const uniqueFabricators = [
-    ...new Set(projects.map((project) => project.fabricator?.fabName)),
+    ...new Set(projects.map((project) => project.fabricator?.name)),
   ];
 
   const handleViewClick = async (fabricatorId) => {

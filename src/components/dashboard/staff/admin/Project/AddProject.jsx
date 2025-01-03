@@ -11,8 +11,8 @@ const AddProject = () => {
   const departmentData = useSelector((state) => state.userData?.departmentData?.data);
   const userData = useSelector((state) => state.userData?.staffData?.data);
   console.log(userData);
-  const teams=useSelector((state)=>state?.userData?.teamData)
-  console.log(userData)
+  const teams=useSelector((state)=>state?.userData?.teamData?.data)
+  console.log(teams)
   const dispatch = useDispatch();
   const {
     register,
@@ -209,7 +209,7 @@ const AddProject = () => {
                 options={[
                   { label: "Select Tools", value: "" },
                   { label: "TEKLA", value: "TEKLA" },
-                  { label: "SDS-2", value: "SDS-2" },
+                  { label: "SDS2", value: "SDS2" },
                 ]}
                 className="w-full"
                 {...register("tools")}

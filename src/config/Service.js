@@ -402,17 +402,20 @@ class Service {
   }
 
   // Fetch all Project File --updated
-  static async allProjectFile(projectID,fileID) {
-    console.log("projectID----",projectID);
-    console.log("fileID----",fileID);
+  static async allProjectFile(projectID, fileID) {
+    console.log("projectID----", projectID);
+    console.log("fileID----", fileID);
     const token = sessionStorage.getItem("token");
     try {
-      const response = await axios.get(`${BASE_URL}/project/projects/viewfile/${projectID}/${fileID}`, {
-        headers: {
-          "Content-Type": "Application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await axios.get(
+        `${BASE_URL}/project/projects/viewfile/${projectID}/${fileID}`,
+        {
+          headers: {
+            "Content-Type": "Application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       return response.data;
     } catch (error) {
       console.log("Error fetching projects:", error);
@@ -467,6 +470,29 @@ class Service {
       return response.data;
     } catch (error) {
       console.log("Error fetching team:", error);
+      throw error;
+    }
+  }
+
+  //
+  static async addTeamMember(teamID, data) {
+    console.log("Service:---", teamID);
+    console.log("Service:---", data);
+    try {
+      const token = sessionStorage.getItem("token");
+      const response = await axios.patch(
+        `${BASE_URL}/team/teams/${teamID}/addmember`,
+        data,
+        {
+          headers: {
+            "Content-Type": "Application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      console.log("Error adding team member:", error);
       throw error;
     }
   }

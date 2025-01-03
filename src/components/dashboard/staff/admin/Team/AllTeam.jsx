@@ -13,11 +13,12 @@ const AllTeam = () => {
   const [sortConfig, setSortConfig] = useState({ key: null, direction: "asc" });
   const [searchQuery, setSearchQuery] = useState("");
 
-const teams=useSelector((state)=>state?.userData?.teamData)
+const teams=useSelector((state)=>state?.userData?.teamData?.data)
   const dispatch = useDispatch();
   const fetchTeams = async () => {
     try {
       const response = await Service?.allteams(token);
+      setFilteredTeams(response?.data);
       dispatch(showTeam(response?.data));
     } catch (error) {
       console.log(error.message);
@@ -111,14 +112,14 @@ const teams=useSelector((state)=>state?.userData?.teamData)
               </tr>
             </thead>
             <tbody>
-              {teams?.length === 0 ? (
+              {filteredTeams?.length === 0 ? (
                 <tr className="bg-white">
                   <td colSpan="4" className="text-center">
-                    No Departments Found
+                    No Team Found
                   </td>
                 </tr>
               ) : (
-                teams.map((team, index) => (
+                filteredTeams?.map((team, index) => (
                   <tr
                     key={team.id}
                     className="hover:bg-blue-gray-100 border"
@@ -131,13 +132,10 @@ const teams=useSelector((state)=>state?.userData?.teamData)
                       {team?.manager?.f_name || "No Manager Assigned"}
                     </td>
                     <td  className="border justify-center items-center flex px-2 py-1">
-                  {team?.members?.length > 0 ? (
-                    team.members.length
-                  ) : (
+                  
                     <Button onClick={() => handleViewClick(team.id)}>
                       View/Add
-                    </Button>
-                  )}
+                    </Button> 
                 </td>
                   </tr>
                 ))

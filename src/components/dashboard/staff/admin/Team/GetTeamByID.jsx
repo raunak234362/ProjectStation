@@ -36,7 +36,7 @@ const GetTeamByID = ({ team, taskID, isOpen, onClose }) => {
   );
 
   const staffData = useSelector((state) => state?.userData?.staffData?.data);
-  console.log(staffData);
+  console.log(taskData);
 
   function segerateTeam(){
     let teamMembers ={}
@@ -52,7 +52,7 @@ const GetTeamByID = ({ team, taskID, isOpen, onClose }) => {
         //   uniqueMembers.add(name);
           return {
             label: name,
-            value: parseInt(staff?.id),
+            value: staff?.id
           };
         }
         return null;
@@ -68,13 +68,10 @@ const GetTeamByID = ({ team, taskID, isOpen, onClose }) => {
   }, []);
 
   const addMembers = async (data) => {
+    console.log(data)
     try{
-        const response = await Service.addTeamMember(taskID, data);
-        if(response.status === 200){
-            setIsSuccessOpen(true);
-        }else{
-            setIsFailedOpen(true);
-        }
+        const response = await Service.addTeamMember(teamID, data);
+       return response();
     }catch(error){
         console.error(error);
     }
@@ -158,6 +155,9 @@ const GetTeamByID = ({ team, taskID, isOpen, onClose }) => {
                         onChange={setValue}
                       />
                     </div>
+                    {/* <div className="my-2">
+                        <Button type="submit">Add Member</Button>
+                    </div> */}
 
                     <div className="flex justify-end mt-4">
                       <Button type="submit">Add</Button>

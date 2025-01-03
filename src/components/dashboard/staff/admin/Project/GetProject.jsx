@@ -33,21 +33,21 @@ const GetProject = ({ projectId, onClose }) => {
   //   }
   // };
 
-  const fetchFileAndOpen = async (fileId) => {
-    try {
-      const response = await Service.allProjectFile(projectId,fileId); // API call to fetch the file
-      console.log("Response", response);
-      const fileUrl = `${BASE_URL}${response}`; // Construct file URL
-      window.open(fileUrl, "_blank"); // Open file in a new tab
-    } catch (error) {
-      console.error("Error opening file:", error);
-    }
-  };
+  // const fetchFileAndOpen = async (fileId) => {
+  //   try {
+  //     const response = await Service.allProjectFile(projectId, fileId, { responseType: 'blob' }); // API call to fetch the file as blob
+  //     console.log("File response", response);
+  //     // const fileUrl = URL.createObjectURL(response.data); // Create object URL from blob
+  //     // console.log("File URL", fileUrl);
+  //     window.open(response, "_blank"); // Open file in a new tab
+  //   } catch (error) {
+  //     console.error("Error opening file:", error);
+  //   }
+  // };
 
   const handleAddWorkBreakdown = () => {
-    console.log("Add Work Breakdown");
-    setSelectedProject(project.id);
     setAddWorkBreakdown(true);
+    setSelectedProject(projectData.id);
   };
 
   const handleCloseAWB = async () => {
@@ -138,16 +138,13 @@ const GetProject = ({ projectId, onClose }) => {
                     ? projectData?.files?.map((file, index) => (
                         <a
                           key={index}
-                          href={`${BASE_URL}${file.path}`} // Use the file path with baseURL
+                          href={`${BASE_URL}/project/projects/viewfile/${projectId}/${file.id}`} // Use the file path with baseURL
                           target="_blank" // Open in a new tab
                           rel="noopener noreferrer"
                           className="text-blue-500 hover:underline"
                         >
                           {file.originalName || `File ${index + 1}`}
                         </a>
-                        // <Button key={index} onClick={() => fetchFiles(file.id)}>
-                        //   {file.originalName || `File ${index + 1}`}
-                        // </Button>
                       ))
                     : "Not available",
                 },

@@ -403,9 +403,11 @@ class Service {
 
   // Fetch all Project File --updated
   static async allProjectFile(projectID,fileID) {
+    console.log("projectID----",projectID);
+    console.log("fileID----",fileID);
     const token = sessionStorage.getItem("token");
     try {
-      const response = await axios.get(`${BASE_URL}/project/projects/${projectID}/files/${fileID}`, {
+      const response = await axios.get(`${BASE_URL}/project/projects/viewfile/${projectID}/${fileID}`, {
         headers: {
           "Content-Type": "Application/json",
           Authorization: `Bearer ${token}`,

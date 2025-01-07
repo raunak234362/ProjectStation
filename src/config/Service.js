@@ -319,6 +319,7 @@ class Service {
 
   //Add new project -- updated
   static async addProject(projectData) {
+    const token = sessionStorage.getItem("token");
     try {
       const formData = { ...projectData };
       const response = await axios.post(

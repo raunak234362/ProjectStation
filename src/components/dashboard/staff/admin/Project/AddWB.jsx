@@ -111,7 +111,6 @@ const AddWB = ({ projectId, onClose }) => {
                       <th className="border border-gray-600 px-2 py-1">Sl.No</th>
                       <th className="border border-gray-600 px-2 py-1">Description of WBS</th>
                       <th className="border border-gray-600 px-2 py-1">Qty. (No.)</th>
-                      <th className="border border-gray-600 px-2 py-1">Unit Time. (min)</th>
                       <th className="border border-gray-600 px-2 py-1">Execution Time (Hr)</th>
                       <th className="border border-gray-600 px-2 py-1">Checking Time (Hr)</th>
                       <th className="border border-gray-600 px-2 py-1">Actions</th>
@@ -123,7 +122,6 @@ const AddWB = ({ projectId, onClose }) => {
                       <tr key={index} className="bg-green-100">
                         <td className="border border-gray-600 px-2 py-1">{index + 1}</td>
                         <td className="border border-gray-600 px-2 py-1">{taskItem.name}</td>
-                        <td className="border border-gray-600 px-2 py-1"></td>
                         <td className="border border-gray-600 px-2 py-1"></td>
                         <td className="border border-gray-600 px-2 py-1"></td>
                         <td className="border border-gray-600 px-2 py-1"></td>

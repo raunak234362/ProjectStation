@@ -19,13 +19,6 @@ const SelectedWBTask = ({ onClose, selectedTask, selectedTaskId }) => {
     formState: { errors },
   } = useForm();
 
-  const { fields, append } = useFieldArray({
-    control,
-    name: "rows",
-  });
-
-  const rows = watch("rows") || [];
-
   const fetchWorkBD = async () => {
     const workBreakDown = workBreakdown.find(
       (wb) => wb.taskName === selectedTask
@@ -35,7 +28,7 @@ const SelectedWBTask = ({ onClose, selectedTask, selectedTaskId }) => {
   };
 
   const taskData = workBD?.task?.find((task) => task.id === selectedTaskId);
-
+  console.log(taskData);
   useEffect(() => {
     fetchWorkBD();
   }, []);
@@ -47,28 +40,12 @@ const SelectedWBTask = ({ onClose, selectedTask, selectedTaskId }) => {
     // dispatch(addRFI(data)) or similar
   };
 
-  const addRow = () => {
-    const currentRows = watch("rows") || [];
-    setValue("rows", [
-      ...currentRows,
-      {
-        changeDescription: "",
-        reference: "",
-        element: "",
-        qty: "",
-        hours: "",
-        cost: "",
-        remarks: "",
-      },
-    ]);
-  };
-
   const handleClose = () => {
     onClose(true);
   };
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-      <div className="bg-white h-[90%] md:p-5 p-2 rounded-lg shadow-lg md:w-5/6 w-4/5">
+      <div className="bg-white h-fit md:p-5 p-2 rounded-lg shadow-lg md:w-2/5 w-full">
         <div className="flex flex-row justify-between">
           <Button className="bg-red-500" onClick={handleClose}>
             Close
@@ -80,110 +57,34 @@ const SelectedWBTask = ({ onClose, selectedTask, selectedTaskId }) => {
           </div>
         </div>
         <div className="mt-5 bg-white h-[60vh] overflow-auto rounded-lg">
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <table className="w-full mt-3 border-collapse border border-gray-600 text-center text-sm">
-              <thead className="bg-gray-200">
-                <tr>
-                  <th className="border border-gray-600 px-2 py-1">Sl.No</th>
-                  <th className="border border-gray-600 px-2 py-1">
-                    Description of WBS
-                  </th>
-                  <th className="border border-gray-600 px-2 py-1">
-                    Qty. (No.)
-                  </th>
-                  <th className="border border-gray-600 px-2 py-1">
-                    Unit time({selectedTask})
-                  </th>
-                  <th className="border border-gray-600 px-2 py-1">
-                    Unit time(CHECKING)
-                  </th>
-                  <th className="border border-gray-600 px-2 py-1">
-                    Execution Time (Hr)
-                  </th>
-                  <th className="border border-gray-600 px-2 py-1">
-                    Checking Time (Hr)
-                  </th>
-                </tr>
-              </thead>
-
-              <tbody>
-                {rows?.map((row, index) => (
-                  <tr key={index} className="bg-green-100">
-                    <td className="border border-gray-600 px-2 py-1">
-                      {index + 1}
-                    </td>
-                    <td className="border border-gray-600 px-2 py-1">
-                      <Controller
-                        name={`rows.${index}.changeDescription`}
-                        control={control}
-                        render={({ field }) => (
-                          <Input
-                            {...field}
-                            type="text"
-                            label="Change of Description"
-                            placeholder="Change of Description"
-                            size="md"
-                          />
-                        )}
-                      />
-                    </td>
-                    <td className="border border-gray-600 px-2 py-1">
-                      <Controller
-                        name={`rows.${index}.changeDescription`}
-                        control={control}
-                        render={({ field }) => (
-                          <Input
-                            {...field}
-                            type="number"
-                            min="0"
-                            label="Change of Description"
-                            placeholder="Change of Description"
-                            size="md"
-                          />
-                        )}
-                      />
-                    </td>
-                    <td className="border border-gray-600 px-2 py-1">
-                      <Controller
-                        name={`rows.${index}.changeDescription`}
-                        control={control}
-                        render={({ field }) => (
-                          <Input
-                            {...field}
-                            type="number"
-                            min="0"
-                            label="Change of Description"
-                            placeholder="Change of Description"
-                            size="md"
-                          />
-                        )}
-                      />
-                    </td>
-                    <td className="border border-gray-600 px-2 py-1">
-                      <Controller
-                        name={`rows.${index}.changeDescription`}
-                        control={control}
-                        render={({ field }) => (
-                          <Input
-                            {...field}
-                            type="number"
-                            min="0"
-                            label="Change of Description"
-                            placeholder="Change of Description"
-                            size="md"
-                          />
-                        )}
-                      />
-                    </td>
-                    <td className="border border-gray-600 px-2 py-1"></td>
-                    <td className="border border-gray-600 px-2 py-1"></td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-            <Button onClick={addRow} color="blue" size="lg" type="button">
-              Add Row
-            </Button>
+          <form
+            className="gap-y-2 flex flex-col"
+            onSubmit={handleSubmit(onSubmit)}
+          >
+            <div>
+              <Input 
+              label="Qty" 
+              name="qty"
+              placeholder="Qty" 
+              {...register("qty")} />
+            </div>
+            <div>
+              <Input
+                label="Unit Time"
+                name="unitTime"
+                placeholder="Unit Time"
+                {...register("unitTime")}
+              />
+            </div>
+            <div>
+              <Input
+                label="Unit Time for Checking"
+                name="unitTimeChecking"
+                placeholder="Unit Time for Checking"
+                {...register("unitTimeChecking")}
+              />
+            </div>
+            <Button type="submit">Add</Button>
           </form>
         </div>
       </div>

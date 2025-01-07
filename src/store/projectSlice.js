@@ -366,7 +366,7 @@ const initialState = {
         {
           id: 1,
           name: "Grid Placement",
-          subTask: [],
+          subTask: {},
         },
         {
           id: 2,

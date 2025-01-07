@@ -32,7 +32,7 @@ const GetTeamByID = ({ team, taskID, isOpen, onClose }) => {
   console.log(teamID);
 
   const taskData = useSelector((state) =>
-    state?.userData?.teamData.find((team) => team.id === teamID)
+    state?.userData?.teamData?.data?.find((team) => team.id === teamID)
   );
 
   const staffData = useSelector((state) => state?.userData?.staffData?.data);
@@ -45,7 +45,7 @@ const GetTeamByID = ({ team, taskID, isOpen, onClose }) => {
   function fetchStaff() {
     const uniqueMembers = new Set();
 
-    const memberOptions = staffData
+    const memberOptions = staffData?.members
       ?.map((staff) => {
         const name = staff?.f_name;
         if (name) {
@@ -125,7 +125,7 @@ const GetTeamByID = ({ team, taskID, isOpen, onClose }) => {
               <strong className="text-gray-700 text-lg">
                 Add Team Member:
               </strong>
-              <div className="h-fit">
+              <div className="h-[50vh]">
                   <form onSubmit={handleSubmit(addMembers)}>
                     <div className="my-2">
                       <CustomSelect

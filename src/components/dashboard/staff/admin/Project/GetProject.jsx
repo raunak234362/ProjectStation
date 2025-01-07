@@ -85,7 +85,7 @@ const GetProject = ({ projectId, onClose }) => {
         <div className="top-2 w-full flex justify-center z-10">
           <div className="mt-2">
             <div className="bg-teal-400 text-white px-3 md:px-4 py-2 md:text-2xl font-bold rounded-lg shadow-md">
-              Project: {project?.name || "Unknown"}
+              Project: {projectData?.name || "Unknown"}
             </div>
           </div>
         </div>

@@ -45,22 +45,22 @@ const GetTeamByID = ({ team, taskID, isOpen, onClose }) => {
   function fetchStaff() {
     const uniqueMembers = new Set();
 
-    const memberOptions = staffData?.members
-      ?.map((staff) => {
-        const name = staff?.f_name;
-        if (name) {
-        //   uniqueMembers.add(name);
-          return {
-            label: name,
-            value: staff?.id
-          };
-        }
-        return null;
-      })
-      .filter(Boolean) // Remove null values from the array
-      .sort((a, b) => a.label.localeCompare(b.label)); // Sort alphabetically
+    // const memberOptions = staffData?.members
+    //   ?.map((staff) => {
+    //     const name = staff?.f_name;
+    //     if (name) {
+    //     //   uniqueMembers.add(name);
+    //       return {
+    //         label: name,
+    //         value: staff?.id
+    //       };
+    //     }
+    //     return null;
+    //   })
+    //   .filter(Boolean) // Remove null values from the array
+    //   .sort((a, b) => a.label.localeCompare(b.label)); // Sort alphabetically
 
-    setMemberOptions(memberOptions);
+    // setMemberOptions(memberOptions);
   };
 
   useEffect(() => {

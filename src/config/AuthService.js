@@ -11,8 +11,7 @@ class AuthService {
       formData.append('username', username.toUpperCase())
       formData.append('password', password)
        
-      const response = await axios.post(`${BASE_URL}/user/login/`, formData, {
-      // const response = await axios.post(`http://192.168.1.49:5000/login/`, formData, {
+      const response = await axios.post(`${BASE_URL}/auth/login/`, formData, {
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
         },

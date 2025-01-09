@@ -7,7 +7,7 @@ const AllDepartment = () => {
   const [sortConfig, setSortConfig] = useState({ key: null, direction: "asc" });
   const [searchQuery, setSearchQuery] = useState("");
 
-  const departments = useSelector((state) => state?.userData?.departmentData);
+  const departments = useSelector((state) => state?.userData?.departmentData?.data);
   
   // Initialize the filtered department list when 'departments' changes
   useEffect(() => {
@@ -102,7 +102,7 @@ const AllDepartment = () => {
                     {department?.name}
                   </td>
                   <td className="border px-5 py-2 text-left">
-                    {department?.manager?.username || "No Manager Assigned"}
+                    {department?.manager?.f_name || "No Manager Assigned"}
                   </td>
                   <td className="border px-2 py-1">
                     <button className="text-blue-500 hover:text-blue-700">

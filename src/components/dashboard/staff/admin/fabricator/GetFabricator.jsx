@@ -13,12 +13,14 @@ const GetFabricator = ({ fabricatorId, isOpen, onClose }) => {
   const dispatch = useDispatch();
   const [fabricator, setFabricator] = useState();
 
-  const fabData = useSelector((state) => state.fabricatorData?.fabricatorData);
+  const fabData = useSelector(
+    (state) => state.fabricatorData?.fabricatorData
+  );
 
   const fetchFabricator = async () => {
     try {
       // Find the fabricator with the matching ID from the Redux store data
-      const fabricator = fabData.find((fab) => fab.id === fabricatorId);
+      const fabricator = fabData?.find((fab) => fab.id === fabricatorId);
       console.log(fabricator);
       if (fabricator) {
         setFabricator(fabricator);
@@ -28,7 +30,7 @@ const GetFabricator = ({ fabricatorId, isOpen, onClose }) => {
     } catch (error) {
       console.log("Error fetching fabricator:", error);
     }
-    
+
     // try {
     //   const response = await Service.getFabricator(token, fabricatorId);
     //   //   dispatch(showFabricator(response));
@@ -46,7 +48,7 @@ const GetFabricator = ({ fabricatorId, isOpen, onClose }) => {
   useEffect(() => {
     fetchFabricator();
   }, [fabricatorId]);
-  
+
   const handleAddBranch = async () => {
     setSelectedFabricator(fabricator.id);
     setIsBranchAdd(true);
@@ -92,7 +94,7 @@ const GetFabricator = ({ fabricatorId, isOpen, onClose }) => {
                       href={fabricator.website}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-blue-500 hover:underline"
+                      className="text-blue-500 text-wrap hover:underline"
                     >
                       {fabricator.website}
                     </a>
@@ -119,7 +121,7 @@ const GetFabricator = ({ fabricatorId, isOpen, onClose }) => {
                   label: "Files",
                 },
               ].map(({ label, value }) => (
-                <div key={label} className="flex flex-col">
+                <div key={label} className="flex flex-col text-wrap">
                   <span className="font-medium text-gray-700">{label}:</span>
                   <span className="text-gray-600">
                     {value || "Not available"}
@@ -135,11 +137,14 @@ const GetFabricator = ({ fabricatorId, isOpen, onClose }) => {
               </h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {[
-                  { label: "Address", value: fabricator?.headquater?.address },
-                  { label: "City", value: fabricator?.headquater?.city },
-                  { label: "State", value: fabricator?.headquater?.state },
-                  { label: "Country", value: fabricator?.headquater?.country },
-                  { label: "Zipcode", value: fabricator?.headquater?.zip_code },
+                  { label: "Address", value: fabricator?.headquaters?.address },
+                  { label: "City", value: fabricator?.headquaters?.city },
+                  { label: "State", value: fabricator?.headquaters?.state },
+                  { label: "Country", value: fabricator?.headquaters?.country },
+                  {
+                    label: "Zipcode",
+                    value: fabricator?.headquaters?.zip_code,
+                  },
                 ].map(({ label, value }) => (
                   <div key={label} className="flex flex-col">
                     <span className="font-medium text-gray-700">{label}:</span>
@@ -150,46 +155,47 @@ const GetFabricator = ({ fabricatorId, isOpen, onClose }) => {
                 ))}
               </div>
             </div>
-          </div>
-          {/* Branch Details */}
-          {fabricator?.branch?.length >= 0 && (
-            <div className="mt-4">
-              <div className="flex flex-row justify-between">
-                <h2 className="text-lg font-semibold mb-4">Branch Details</h2>
-                <Button onClick={handleAddBranch}>Add Branch</Button>
-              </div>
-              {fabricator.branch.map((branch, index) => (
-                <div
-                  key={index}
-                  className="bg-gray-100 rounded-lg shadow-md p-5 mt-2"
-                >
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {[
-                      { label: "Address", value: branch?.address },
-                      { label: "City", value: branch?.city },
-                      { label: "State", value: branch?.state },
-                      { label: "Country", value: branch?.country },
-                      { label: "Zipcode", value: branch?.zip_code },
-                    ].map(({ label, value }) => (
-                      <div key={label} className="flex flex-col">
-                        <span className="font-medium text-gray-700">
-                          {label}:
-                        </span>
-                        <span className="text-gray-600">
-                          {value || "Not available"}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-                  <div className="flex justify-end mt-4">
-                    <Button onClick={() => handleEditBranch(index)}>
-                      Edit
-                    </Button>
-                  </div>
+          
+            {/* Branch Details */}
+            {fabricator?.branches?.length >= 0 && (
+              <div className="mt-4">
+                <div className="flex flex-row justify-between">
+                  <h2 className="text-lg font-semibold mb-4">Branch Details</h2>
+                  <Button onClick={handleAddBranch}>Add Branch</Button>
                 </div>
-              ))}
-            </div>
-          )}
+                {fabricator.branches.map((branch, index) => (
+                  <div
+                    key={index}
+                    className="bg-gray-100 rounded-lg shadow-md p-5 mt-2"
+                  >
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      {[
+                        { label: "Address", value: branch?.address },
+                        { label: "City", value: branch?.city },
+                        { label: "State", value: branch?.state },
+                        { label: "Country", value: branch?.country },
+                        { label: "Zipcode", value: branch?.zip_code },
+                      ].map(({ label, value }) => (
+                        <div key={label} className="flex flex-col">
+                          <span className="font-medium text-gray-700">
+                            {label}:
+                          </span>
+                          <span className="text-gray-600">
+                            {value || "Not available"}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                    <div className="flex justify-end mt-4">
+                      <Button onClick={() => handleEditBranch(index)}>
+                        Edit
+                      </Button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
       </div>
       {selectedFabricator && (

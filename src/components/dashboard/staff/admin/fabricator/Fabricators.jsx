@@ -16,17 +16,17 @@ const Fabricators = () => {
   // Function to toggle menu visibility
 
   const fabricators = useSelector(
-    (state) => state?.fabricatorData?.fabricatorData
-  );
+    (state) => state?.fabricatorData?.fabricatorData);
   const clients = useSelector((state) => state?.fabricatorData?.clientData);
+  console.log(fabricators);
 
   const token = sessionStorage.getItem("token");
 
   const fetchAll = async () => {
     const fabricatorData = await Service.allFabricator(token);
-    // const clientData = await Service.allClient(token);
-    // dispatch(loadFabricator(fabricatorData));
-    // dispatch(showClient(clientData));
+    const clientData = await Service.allClient(token);
+    dispatch(loadFabricator(fabricatorData));
+    dispatch(showClient(clientData));
   };
 
   useEffect(() => {
@@ -51,11 +51,11 @@ const Fabricators = () => {
             <div className="font-bold text-xl text-gray-800">
               Total Fabricators
             </div>
-            <div className="text-3xl font-bold">{fabricators.length}</div>
+            <div className="text-3xl font-bold">{fabricators?.length}</div>
           </div>
           <div className="flex flex-col justify-center items-center bg-white/50 rounded-lg p-3 shadow-lg">
             <div className="font-bold text-xl text-gray-800">Total Client</div>
-            <div className="text-3xl font-bold">{clients.length}</div>
+            <div className="text-3xl font-bold">{clients?.length}</div>
           </div>
         </div>
 

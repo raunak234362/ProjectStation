@@ -11,14 +11,15 @@ const ManageTeam = () => {
 const token = sessionStorage.getItem("token")
 const dispatch =useDispatch();
 
-const staffs = useSelector((state)=>state?.userData?.staffData)
+const staffs = useSelector((state)=>state?.userData?.staffData?.data)
 const departments = useSelector((state)=>state?.userData?.departmentData)
 // console.log(departments) 
+// console.log(staffs)
 
   const fetchAllStaff = async()=>{
     const staffData = await Service.allEmployee(token)
     const departmentData = await Service.allDepartment(token)
-
+    console.log(departmentData)
     dispatch(showDepartment(departmentData))
     dispatch(showStaff(staffData))
   } 
@@ -110,11 +111,35 @@ const departments = useSelector((state)=>state?.userData?.departmentData)
                 All Department
               </NavLink>
             </li>
+            <li className="px-2">
+              <NavLink
+                to="add-team"
+                className={({ isActive }) =>
+                  isActive
+                    ? "bg-teal-300 drop-shadow-lg flex px-5 py-2 rounded-lg font-semibold"
+                    : "hover:bg-teal-200 rounded-lg flex px-5 py-2 hover:text-white"
+                }
+              >
+                Add Team
+              </NavLink>
+            </li>
+            <li className="px-2">
+              <NavLink
+                to="all-team"
+                className={({ isActive }) =>
+                  isActive
+                    ? "bg-teal-300 drop-shadow-lg flex px-5 py-2 rounded-lg font-semibold"
+                    : "hover:bg-teal-200 rounded-lg flex px-5 py-2 hover:text-white"
+                }
+              >
+                All Team
+              </NavLink>
+            </li>
           </ul>
         </nav>
       </div>
-      </div>
         <Outlet />
+      </div>
     </div>
   );
 };

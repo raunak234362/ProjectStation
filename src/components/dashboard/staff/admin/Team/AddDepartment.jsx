@@ -14,43 +14,44 @@ const AddDepartment = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const token = sessionStorage.getItem("token");
   const dispatch = useDispatch();
   const [managerOptions, setManagerOptions] = useState([]);
-
+  const token = sessionStorage.getItem("token");
   // Fetch managers when the component mounts
+  const fetchManagers = async () => {
+    try {
+      // Fetching the user data
+      const userData = await Service?.allEmployee(token);
+      console.log(userData);
+      const options = Array.isArray(userData?.data)
+        ? userData?.data
+            .filter((user) => user.is_manager === true)
+            .map((user) => {
+              return {
+                label: `${user.f_name} ${user.l_name}`,
+                value: user.id,
+              };
+            })
+        : [];
+      console.log(options);
+      setManagerOptions(options);
+    } catch (error) {
+      console.error("Failed to fetch employee data", error);
+    }
+  };
+
   useEffect(() => {
-    const fetchManagers = async () => {
-      try {
-        const userData = await Service.allEmployee(token);
-        console.log(userData)
-        const managers = userData.filter(
-          (employee) => employee.manager === true
-        );
-        console.log(managers);
-        const options = managers.map((mng) => ({
-          label: mng.username,
-          value: mng.id,
-        }));
-        setManagerOptions(options);
-      } catch (error) {
-        console.error("Failed to fetch employee data", error);
-      }
-    };
     fetchManagers();
-  }, [token]);
+  }, []);
 
   // Add department function
   const onSubmit = async (data) => {
     console.log(data);
     try {
-      const departmentData = await Service.addDepartment(token, data);
-      if (departmentData.status === 201) {
-        dispatch(addDepartment(departmentData.data));
-        console.log("Department added successfully:", departmentData);
-      } else {
-        alert("Error in adding Department");
-      }
+      const departmentData = await Service.addDepartment(data);
+
+      dispatch(addDepartment(departmentData.data));
+      console.log("Department added successfully:", departmentData);
     } catch (error) {
       console.log("Failed to add department", error);
     }
@@ -83,11 +84,11 @@ const AddDepartment = () => {
                 label="Manager:"
                 color="blue"
                 options={[
-                  { label: "Select Manager", value: "" }, 
-                  ...managerOptions, 
+                  { label: "Select Manager", value: "" },
+                  ...managerOptions,
                 ]}
-                {...register("manager")} 
-                onChange={(e) => setValue("manager", e.target.value)} 
+                {...register("manager")}
+                onChange={setValue}
               />
               {errors.manager && (
                 <div className="text-red-500">This field is required</div>

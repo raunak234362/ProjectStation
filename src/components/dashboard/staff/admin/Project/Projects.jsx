@@ -1,20 +1,46 @@
 /* eslint-disable no-unused-vars */
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { NavLink, Outlet } from "react-router-dom";
+import Service from "../../../../../config/Service";
+import { useEffect } from "react";
+import { showProjects } from "../../../../../store/projectSlice";
+import { loadFabricator } from "../../../../../store/fabricatorSlice";
+import { showDepartment } from "../../../../../store/userSlice";
 
 const Projects = () => {
+  const dispatch = useDispatch();
+  const token = sessionStorage.getItem("token");
+  const fetchAllProjects = async () => {
+    const projectData = await Service.allprojects(token);
+    dispatch(showProjects(projectData?.data));
+  };
+  const fetchAllFabricator = async () => {
+    const fabricatorData = await Service.allFabricator(token);
+    dispatch(loadFabricator(fabricatorData));
+  };
+  const fetchAllDepartment = async () => {
+    const departmentData = await Service.allDepartment(token);
+    dispatch(showDepartment(departmentData));
+  };
+
+  useEffect(() => {
+    fetchAllDepartment();
+    fetchAllProjects();
+    fetchAllFabricator();
+  }, []);
+
   const projects = useSelector((state) => state?.projectData.projectData);
 
   const userTypes = sessionStorage.getItem("userType");
   console.log(userTypes);
   // Count the number of active projects
-  const activeProjectsCount = projects.filter(
-    (project) => project.status === "ACTIVE"
+  const activeProjectsCount = projects?.filter(
+    (project) => project?.status === "ACTIVE"
   ).length;
 
   // Count the number of completed projects
-  const completedProjectsCount = projects.filter(
-    (project) => project.status === "COMPLETED"
+  const completedProjectsCount = projects?.filter(
+    (project) => project?.status === "COMPLETED"
   ).length;
 
   return (
@@ -31,7 +57,7 @@ const Projects = () => {
               <div className="font-bold text-xl text-gray-800">
                 Total Projects
               </div>
-              <div className="text-3xl font-bold">{projects.length}</div>
+              <div className="text-3xl font-bold">{projects?.length}</div>
             </div>
             <div className="flex flex-col justify-center items-center bg-white/50 rounded-lg p-3 shadow-lg">
               <div className="font-bold text-xl text-gray-800">

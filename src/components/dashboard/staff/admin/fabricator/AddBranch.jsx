@@ -12,8 +12,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { State, City } from "country-state-city";
 import { useForm } from "react-hook-form";
 import { addBranchToFabricator } from "../../../../../store/fabricatorSlice";
+import Service from "../../../../../config/Service";
 
 const AddBranch = ({ fabricatorId, isBranch, onBranchClose }) => {
+  console.log(fabricatorId);
   const [fabricator, setFabricator] = useState();
   const token = sessionStorage.getItem("token");
   const [files, setFiles] = useState([]);
@@ -27,8 +29,8 @@ const AddBranch = ({ fabricatorId, isBranch, onBranchClose }) => {
     formState: { errors },
   } = useForm();
 
-  const country = watch("country");
-  const state = watch("state");
+  const country = watch("branch.country");
+  const state = watch("branch.state");
   const [stateList, setStateList] = useState([
     {
       label: "Select State",
@@ -72,8 +74,9 @@ const AddBranch = ({ fabricatorId, isBranch, onBranchClose }) => {
     setFiles(updatedFiles);
   };
 
-  const fabData = useSelector((state) => state.fabricatorData?.fabricatorData);
-  console.log(fabData);
+  const fabData = useSelector(
+    (state) => state.fabricatorData?.fabricatorData?.data
+  );
 
   const fetchFabricator = async () => {
     try {
@@ -101,20 +104,15 @@ const AddBranch = ({ fabricatorId, isBranch, onBranchClose }) => {
   };
   useEffect(() => {
     fetchFabricator();
-  }, [fabricatorId]);
+  }, []);
 
-  const handleAddBranch = async (data) => {
-    const branchData = {
-      id: new Date().getTime(),
-      address: data.address,
-      country: data.country,
-      state: data.state,
-      city: data.city,
-      zip_code: data.zip_code,
+  const onSubmit = async (data) => {
+    try {
+      const response = await Service.addFabricatorBranch(data, fabricatorId);
+      console.log(response);
+    } catch (error) {
+      console.log(error);
     }
-    console.log(branchData);
-    dispatch(addBranchToFabricator({ fabricatorId, branchData }));
-    
   };
 
   const handleClose = async () => {
@@ -134,12 +132,12 @@ const AddBranch = ({ fabricatorId, isBranch, onBranchClose }) => {
         <div className="top-2 w-full flex justify-center z-10">
           <div className="mt-2">
             <div className="bg-teal-400 text-white px-3 md:px-4 py-2 md:text-2xl font-bold rounded-lg shadow-md">
-              Fabricator: {fabricator?.name || "Unknown"}
+              Fabricator: {fabricator?.fabName || "Unknown"}
             </div>
           </div>
         </div>
 
-        <form onSubmit={handleSubmit(handleAddBranch)} className="mt-5">
+        <form onSubmit={handleSubmit(onSubmit)} className="mt-5">
           {/* <div className="bg-teal-500/50 rounded-lg px-2 py-2 font-bold text-white">
             Branch:
           </div>
@@ -165,7 +163,7 @@ const AddBranch = ({ fabricatorId, isBranch, onBranchClose }) => {
                 placeholder="Address"
                 size="lg"
                 color="blue"
-                {...register("address")}
+                {...register("branch.address")}
               />
             </div>
             <div className="my-2">
@@ -180,7 +178,9 @@ const AddBranch = ({ fabricatorId, isBranch, onBranchClose }) => {
                     value: country,
                   })),
                 ]}
-                {...register("country", { required: "Country is required" })}
+                {...register("branch.country", {
+                  required: "Country is required",
+                })}
                 onChange={setValue}
               />
               {errors.country && (
@@ -199,7 +199,7 @@ const AddBranch = ({ fabricatorId, isBranch, onBranchClose }) => {
                     value: state1,
                   })),
                 ]}
-                {...register("state", { required: true })}
+                {...register("branch.state", { required: true })}
                 onChange={setValue}
               />
               {/* {errors.state && (
@@ -212,7 +212,7 @@ const AddBranch = ({ fabricatorId, isBranch, onBranchClose }) => {
                 placeholder="City"
                 className="w-full"
                 options={[{ label: "Select City", value: "" }, ...cityList]}
-                {...register("city", { required: true })}
+                {...register("branch.city", { required: true })}
                 onChange={setValue}
               />
               {errors.city && (
@@ -224,14 +224,14 @@ const AddBranch = ({ fabricatorId, isBranch, onBranchClose }) => {
                 label="Zipcode: "
                 placeholder="Zipcode"
                 className="w-full"
-                {...register("zip_code", { required: true })}
+                {...register("branch.zip_code", { required: true })}
               />
               {errors.zip_code && (
                 <p className="text-red-600">{errors?.zipCode?.message}</p>
               )}
             </div>
           </div>
-          
+
           <div className="my-5 w-full">
             <Button type="submit" className="w-full">
               Add Branch

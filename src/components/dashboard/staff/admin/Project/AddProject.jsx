@@ -3,13 +3,16 @@ import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { Input, CustomSelect, Button, Toggle } from "../../../../index";
 import { addProject } from "../../../../../store/projectSlice";
+import Service from "../../../../../config/Service";
 // import { Option } from '@material-tailwind/react'
 const AddProject = () => {
-  const projectData = useSelector((state) => state.projectData);
-  const fabricatorData = useSelector(
-    (state) => state.fabricatorData?.fabricatorData
-  );
-  console.log(fabricatorData);
+  const projectData = useSelector((state) => state.projectData?.projectData);
+  const fabricatorData = useSelector((state) => state.fabricatorData?.fabricatorData);
+  const departmentData = useSelector((state) => state.userData?.departmentData?.data);
+  const userData = useSelector((state) => state.userData?.staffData?.data);
+  console.log(userData);
+  const teams=useSelector((state)=>state?.userData?.teamData?.data)
+  console.log(teams)
   const dispatch = useDispatch();
   const {
     register,
@@ -18,16 +21,22 @@ const AddProject = () => {
     formState: { errors },
   } = useForm();
 
-  const AddProject = (data) => {
-    // console.log(data)
-    dispatch(addProject(data));
+  const onSubmit = async(data) => {
+    console.log(data)
+    try {
+      const response = await Service.addProject(data);
+      dispatch(addProject(data));
+      console.log(response);
+    } catch (error) {
+        console.log(error);
+    }
     console.log(addProject(data));
   };
 
   return (
     <div className="flex w-full justify-center text-black my-5">
       <div className="h-full w-full overflow-y-auto md:px-10 px-2 py-3">
-        <form onSubmit={handleSubmit(AddProject)}>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <div className="bg-teal-500/50 rounded-lg px-2 py-2 font-bold text-white">
             Fabricator Information:
           </div>
@@ -38,8 +47,8 @@ const AddProject = () => {
                 placeholder="Fabricator"
                 size="lg"
                 color="blue"
-                options={fabricatorData.map((fabricator) => ({
-                  label: fabricator.name,
+                options={fabricatorData?.map((fabricator) => ({
+                  label: fabricator.fabName,
                   value: fabricator.id,
                 }))}
                 {...register("fabricator", { required: true })}
@@ -100,7 +109,7 @@ const AddProject = () => {
                   { label: "Select Status", value: "" },
                   { label: "ASSIGNED", value: "ASSIGNED" },
                   { label: "ACTIVE", value: "ACTIVE" },
-                  { label: "ON-HOLD", value: "ON-HOLD" },
+                  { label: "ONHOLD", value: "ON-HOLD" },
                   { label: "INACTIVE", value: "INACTIVE" },
                   { label: "DELAY", value: "DELAY" },
                   { label: "COMPLETE", value: "COMPLETE" },
@@ -143,40 +152,49 @@ const AddProject = () => {
             Department Information:
           </div>
           <div className="my-2 md:px-2 px-1">
-            <div className="w-full my-3">
-              <Input
-                label="Department:"
+          <div className="w-full my-3">
+              <CustomSelect
+                label="Department"
                 placeholder="Department"
                 size="lg"
                 color="blue"
+                options={departmentData?.map((department) => ({
+                  label: department.name,
+                  value: department.id,
+                }))}
                 {...register("department", { required: true })}
+                onChange={setValue}
               />
-              {errors.department && <div>This field is required</div>}
+              {errors.fabricator && <div>This field is required</div>}
             </div>
             <div className="w-full my-3">
-              <Input
-                label="Manager:"
+              <CustomSelect
+                label="Manager"
                 placeholder="Manager"
                 size="lg"
                 color="blue"
+                options={userData?.filter(user => user.is_manager)?.map((user) => ({  label: user.f_name, value: user.id}))}  
                 {...register("manager", { required: true })}
+                onChange={setValue}
               />
-              {errors.manager && <div>This field is required</div>}
+              {errors.fabricator && <div>This field is required</div>}
             </div>
           </div>
           <div className="bg-teal-500/50 rounded-lg px-2 py-2 font-bold text-white">
             Team Information:
           </div>
           <div className="my-2 md:px-2 px-1">
-            <div className="w-full my-3">
-              <Input
-                label="Team:"
+          <div className="w-full my-3">
+              <CustomSelect
+                label="Team"
                 placeholder="Team"
                 size="lg"
                 color="blue"
+                options={teams?.map((team) => ({  label: team.name, value: team.id}))}  
                 {...register("team", { required: true })}
+                onChange={setValue}
               />
-              {errors.team && <div>This field is required</div>}
+              {errors.fabricator && <div>This field is required</div>}
             </div>
           </div>
           <div className="bg-teal-500/50 rounded-lg px-2 py-2 font-bold text-white">
@@ -191,7 +209,7 @@ const AddProject = () => {
                 options={[
                   { label: "Select Tools", value: "" },
                   { label: "TEKLA", value: "TEKLA" },
-                  { label: "SDS-2", value: "SDS-2" },
+                  { label: "SDS2", value: "SDS2" },
                 ]}
                 className="w-full"
                 {...register("tools")}

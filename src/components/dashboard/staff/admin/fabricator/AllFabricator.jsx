@@ -3,12 +3,27 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Button, GetFabricator } from "../../../../index.js";
+import Service from "../../../../../config/Service.js";
+import { loadFabricator } from "../../../../../store/fabricatorSlice.js";
 
 const AllFabricator = () => {
-  const fabricators = useSelector(
-    (state) => state?.fabricatorData.fabricatorData || []
-  );
+  const fabricators = useSelector((state) => state?.fabricatorData?.fabricatorData);
+
+  // console.log(fabricators);
   const dispatch = useDispatch();
+
+  const getAllFabricators = async () => {
+    try {
+      const response = await Service.allFabricator();
+      dispatch(loadFabricator(response));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getAllFabricators();
+  }, []);
 
   const [filteredFabricators, setFilteredFabricators] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
@@ -28,25 +43,31 @@ const AllFabricator = () => {
 
   // Filter and sort data
   const filterAndSortData = () => {
-    let filtered = fabricators.filter((fab) => {
+    let filtered = fabricators?.filter((fab) => {
       const searchMatch =
-        fab?.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        fab?.headquater?.city.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        fab?.headquater?.state.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        fab?.headquater?.country.toLowerCase().includes(searchQuery.toLowerCase());
+        fab?.fabName?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        fab?.headquaters?.city
+          ?.toLowerCase()
+          .includes(searchQuery.toLowerCase()) ||
+        fab?.headquaters?.state
+          ?.toLowerCase()
+          .includes(searchQuery.toLowerCase()) ||
+        fab?.headquaters?.country
+          ?.toLowerCase()
+          .includes(searchQuery.toLowerCase());
 
       const filterMatch =
-        (!filters.country || fab.headquater?.country === filters.country) &&
-        (!filters.state || fab.headquater?.state === filters.state) &&
-        (!filters.city || fab.headquater?.city === filters.city);
+        (!filters?.country || fab.headquaters?.country === filters?.country) &&
+        (!filters?.state || fab.headquaters?.state === filters?.state) &&
+        (!filters?.city || fab.headquaters?.city === filters?.city);
 
       return searchMatch && filterMatch;
     });
 
     // Sorting
     filtered.sort((a, b) => {
-      const aKey = a.headquater[sortOrder.key]?.toLowerCase();
-      const bKey = b.headquater[sortOrder.key]?.toLowerCase();
+      const aKey = a.headquaters[sortOrder.key]?.toLowerCase();
+      const bKey = b.headquaters[sortOrder.key]?.toLowerCase();
       if (sortOrder.order === "asc") return aKey > bKey ? 1 : -1;
       return aKey < bKey ? 1 : -1;
     });
@@ -102,7 +123,7 @@ const AllFabricator = () => {
 
         {/* Filter Section */}
         <div className="mb-4 grid grid-cols-1 md:grid-cols-3 gap-4">
-          {["country", "state", "city"].map((filterKey) => (
+          {["country", "state", "city"]?.map((filterKey) => (
             <select
               key={filterKey}
               name={filterKey}
@@ -110,9 +131,12 @@ const AllFabricator = () => {
               onChange={handleFilterChange}
               className="border p-2 rounded"
             >
-              <option value="">Filter by {filterKey.charAt(0).toUpperCase() + filterKey.slice(1)}</option>
+              <option value="">
+                Filter by{" "}
+                {filterKey.charAt(0).toUpperCase() + filterKey.slice(1)}
+              </option>
               {Array.from(
-                new Set(fabricators.map((fab) => fab.headquater[filterKey]))
+                new Set(fabricators?.map((fab) => fab?.headquaters[filterKey]))
               ).map((value) => (
                 <option key={value} value={value}>
                   {value}
@@ -134,7 +158,8 @@ const AllFabricator = () => {
                     onClick={() => handleSort(key)}
                   >
                     {key.charAt(0).toUpperCase() + key.slice(1)}
-                    {sortOrder.key === key && (sortOrder.order === "asc" ? " ↑" : " ↓")}
+                    {sortOrder.key === key &&
+                      (sortOrder.order === "asc" ? " ↑" : " ↓")}
                   </th>
                 ))}
                 <th className="px-2 py-1">Actions</th>
@@ -149,16 +174,23 @@ const AllFabricator = () => {
                 </tr>
               ) : (
                 filteredFabricators?.map((fab) => (
-                  <tr
-                    key={fab.id}
-                    className="hover:bg-blue-gray-100 border"
-                  >
-                    <td className="border px-2 py-1 text-left">{fab.name}</td>
-                    <td className="border px-2 py-1">{fab.headquater?.city}</td>
-                    <td className="border px-2 py-1">{fab.headquater?.state}</td>
-                    <td className="border px-2 py-1">{fab.headquater?.country}</td>
+                  <tr key={fab.id} className="hover:bg-blue-gray-100 border">
+                    <td className="border px-2 py-1 text-left">
+                      {fab.fabName}
+                    </td>
                     <td className="border px-2 py-1">
-                      <Button onClick={() => handleViewClick(fab.id)}>View</Button>
+                      {fab.headquaters?.city}
+                    </td>
+                    <td className="border px-2 py-1">
+                      {fab.headquaters?.state}
+                    </td>
+                    <td className="border px-2 py-1">
+                      {fab.headquaters?.country}
+                    </td>
+                    <td className="border px-2 py-1">
+                      <Button onClick={() => handleViewClick(fab.id)}>
+                        View
+                      </Button>
                     </td>
                   </tr>
                 ))

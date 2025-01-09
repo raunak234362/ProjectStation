@@ -1,71 +1,96 @@
 /* eslint-disable no-unused-vars */
-import { useForm } from 'react-hook-form'
-import { Input, CustomSelect, Button, Toggle } from '../../../../index'
-import { useDispatch } from 'react-redux'
-import { setUserData } from '../../../../../store/userSlice'
+import { useForm } from "react-hook-form";
+import { Input, CustomSelect, Button, Toggle } from "../../../../index";
+import { useDispatch, useSelector } from "react-redux";
+import { setUserData } from "../../../../../store/userSlice";
 import {
   countries,
   getCountryFlagEmojiFromCountryCode,
-} from 'country-codes-flags-phone-codes'
-import { useState } from 'react'
-import Service from '../../../../../config/Service'
+} from "country-codes-flags-phone-codes";
+import { useState } from "react";
+import Service from "../../../../../config/Service";
+import { useEffect } from "react";
+import axios from "axios";
+import { BASE_URL } from "../../../../../config/constant";
 
 const AddEmployee = () => {
-  const token = sessionStorage.getItem('token')
-  const dispatch = useDispatch()
+  const token = sessionStorage.getItem("token");
+  const dispatch = useDispatch();
   const {
     register,
     handleSubmit,
     formState: { errors },
     setValue,
     clearErrors,
-  } = useForm()
-  const [showAlert, setShowalert] = useState(false)
+  } = useForm();
+  const [showAlert, setShowalert] = useState(false);
+  const [departments, setDepartments] = useState(useSelector((state) => state?.userData?.departmentData?.dat));
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const response = await axios.get(`${BASE_URL}/department/department`);
+        console.log(response.data?.data);
+        const department = response?.data?.data.map((item) => {
+          return { label: item.name, value: item };
+        });
+        setDepartments(department);
+      } catch (error) {
+        console.log(error.message);
+      }
+    })();
+  }, []);
 
   const countryOptions = countries.map((country) => ({
     label: `${getCountryFlagEmojiFromCountryCode(country.code)} ${
       country.name
     } (${country.dialCode})`,
     value: country.dialCode,
-  }))
+  }));
 
   const addStaff = async (data) => {
-    console.log(data)
+    console.log(data);
     if (data.password !== data.cnf_password) {
-      setShowalert(true)
-      return
+      setShowalert(true);
+      return;
     }
-    clearErrors('cnf_password')
-    const phoneNumber = `${data.country_code}${data.phone}`
+    clearErrors("cnf_password");
+    const phoneNumber = `${data.country_code}${data.phone}`;
     const updatedData = {
       ...data,
       phone: phoneNumber,
-    }
+    };
     try {
-      const empData = await Service.addEmployee(updatedData, token)
-      dispatch(setUserData(updatedData))
-      console.log(setUserData(updatedData))
+      console.log(updatedData);
+      const empData = await Service.addEmployee(updatedData, token);
+      console.log(empData);
+      if (empData.success) {
+        alert(empData.message)
+      }
+      dispatch(setUserData(updatedData));
+      console.log(setUserData(updatedData));
     } catch (error) {
-      console.error('Error adding employee:', error)
+      console.error("Error adding employee:", error);
+      alert(error.response.message)
     }
-  }
+  };
 
   return (
-    <div className="flex w-full justify-center text-black my-5">
-      <div className="h-full w-full overflow-y-auto md:px-10 px-2 py-3">
+    <div className="flex justify-center w-full text-black">
+      <div className="w-full h-full px-2 py-3 bg-white overflow-y-auto md:px-10">
         <form onSubmit={handleSubmit(addStaff)}>
-          <div className="bg-teal-500/50 rounded-lg px-2 py-2 font-bold text-white">
-            User Information:
+          <div className="px-2 py-2 font-bold text-white rounded-lg bg-teal-500/50">
+            User Informations:
           </div>
-          <div className="my-2 md:px-2 px-1">
+          <div className="px-1 my-2 md:px-2">
             <div className="w-full my-2">
               <Input
                 label="Username:"
                 placeholder="Username"
                 size="lg"
                 color="blue"
-                name='username'
-                {...register('username', { required: true })}
+                name="username"
+                {...register("username", { required: true })}
               />
               {errors.username && <div>This field is required</div>}
             </div>
@@ -75,7 +100,7 @@ const AddEmployee = () => {
                 placeholder="First Name"
                 size="lg"
                 color="blue"
-                {...register('f_name', { required: true })}
+                {...register("f_name", { required: true })}
               />
               {errors.f_name && <div>This field is required</div>}
             </div>
@@ -85,8 +110,8 @@ const AddEmployee = () => {
                 placeholder="Middle Name"
                 size="lg"
                 color="blue"
-                name='m_name'
-                {...register('m_name')}
+                name="m_name"
+                {...register("m_name")}
               />
             </div>
             <div className="w-full my-2">
@@ -95,101 +120,86 @@ const AddEmployee = () => {
                 placeholder="Last Name"
                 size="lg"
                 color="blue"
-                name='l_name'
-                {...register('l_name')}
+                name="l_name"
+                {...register("l_name")}
               />
             </div>
           </div>
-          <div className="bg-teal-500/50 rounded-lg px-2 py-2 font-bold text-white">
+          <div className="px-2 py-2 font-bold text-white rounded-lg bg-teal-500/50">
             User Department Details:
           </div>
-          <div className="my-2 px-1 md:px-2">
+          <div className="px-1 my-2 md:px-2">
             <div className="w-full my-2">
               <Input
                 label="Employee Code:"
                 placeholder="Employee Code"
                 size="lg"
                 color="blue"
-                name='emp_code'
-                {...register('emp_code', { required: true })}
+                name="emp_code"
+                {...register("emp_code", { required: true })}
               />
               {errors.emp_code && <div>This field is required</div>}
             </div>
             <div className="w-full my-2">
-            <CustomSelect
+              <CustomSelect
                 label="Department:"
                 color="blue"
                 name="department"
-                options={[
-                  { label: 'Select Department', value: '' },
-                  { label: 'HR', value: 1 },
-                  { label: 'IT', value: 2 },
-                ]}
+                options={departments}
                 className="w-full"
-                {...register('department')}
+                {...register("department")}
                 onChange={setValue}
               />
             </div>
-            {/* <div>
-              <Select
+            {/* <div className="mb-2">
+              <CustomSelect
                 label="Role:"
                 color="blue"
                 name="role"
                 options={[
-                  { label: 'Select Role', value: '' },
-                  { label: 'Staff', value: 'STAFF' },
-                  { label: 'Client', value: 'CLIENT' },
-                  { label: 'Vendor', value: 'VENDOR' },
+                  { label: "Select Role", value: "" },
+                  { label: "Staff", value: "STAFF" },
+                  { label: "Client", value: "CLIENT" },
+                  { label: "Vendor", value: "VENDOR" },
                 ]}
                 className="w-full"
-                {...register('role')}
+                {...register("role")}
                 onChange={setValue}
               />
               {errors.role && <div>This field is required</div>}
             </div> */}
-            <div className="w-full my-2">
-              <Input
-                label="Role:"
-                placeholder="Role"
-                size="lg"
-                color="blue"
-                name='designation'
-                {...register('designation', { required: true })}
-              />
-              {errors.designation && <div>This field is required</div>}
-            </div>
-            <div className="grid md:grid-cols-2 bg-white border border-gray-400 px-5 md:w-full md:justify-center md:items-center rounded-lg">
+            <div className="grid px-5 bg-white border border-gray-400 rounded-lg md:grid-cols-2 md:w-full md:justify-center md:items-center">
               <div className="">
                 <Toggle
                   label="Project Manager"
                   name="manager"
-                  {...register('manager')}
+                  {...register("manager")}
                 />
               </div>
               <div className="">
                 <Toggle
                   label="Sales Employee"
                   name="sales"
-                  {...register('sales')}
+                  {...register("sales")}
                 />
               </div>
             </div>
           </div>
-          <div className="bg-teal-500/50 rounded-lg px-2 py-2 font-bold text-white">
+          <div className="px-2 py-2 font-bold text-white rounded-lg bg-teal-500/50">
             Contact Information:
           </div>
-          <div className="my-2 px-1 md:px-2">
+          <div className="px-1 my-2 md:px-2">
             <div className="w-full my-2">
               <Input
                 label="Email:"
                 placeholder="Email"
                 size="lg"
                 color="blue"
-                name='email'
-                {...register('email')}
+                name="email"
+                {...register("email")}
               />
             </div>
-            <div className="w-full gap-2 my-2 flex md:flex-row flex-col items-center">
+            <div className="flex flex-col items-center w-full gap-2 my-2 md:flex-row">
               <div className="md:w-[10%] w-full">
                 <CustomSelect
                   label="Country Code:"
@@ -205,16 +215,16 @@ const AddEmployee = () => {
                   placeholder="Contact Number"
                   size="lg"
                   color="blue"
-                  {...register('phone', { required: true })}
+                  {...register("phone", { required: true })}
                 />
                 {errors.phone && <div>This field is required</div>}
               </div>
             </div>
           </div>
-          <div className="bg-teal-500/50 rounded-lg px-2 py-2 font-bold text-white">
+          <div className="px-2 py-2 font-bold text-white rounded-lg bg-teal-500/50">
             Security:
           </div>
-          <div className="my-2 px-1 md:px-2">
+          <div className="px-1 my-2 md:px-2">
             <div className="w-full my-2">
               <Input
                 label="Password:"
@@ -222,7 +232,7 @@ const AddEmployee = () => {
                 type="password"
                 size="lg"
                 color="blue"
-                {...register('password')}
+                {...register("password")}
               />
             </div>
             <div className="w-full my-2">
@@ -232,17 +242,17 @@ const AddEmployee = () => {
                 placeholder="Confirm Password"
                 size="lg"
                 color="blue"
-                {...register('cnf_password')}
+                {...register("cnf_password")}
               />
             </div>
           </div>
           {showAlert && (
-            <div className="bg-red-500/50 rounded-lg px-2 py-2 font-bold text-white">
+            <div className="px-2 py-2 font-bold text-white rounded-lg bg-red-500/50">
               Passwords do not match
             </div>
           )}
 
-          <div className="my-5 w-full">
+          <div className="w-full my-5">
             <Button type="submit" className="w-full">
               Submit
             </Button>
@@ -250,7 +260,7 @@ const AddEmployee = () => {
         </form>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default AddEmployee
+export default AddEmployee;

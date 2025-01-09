@@ -1,49 +1,75 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   token: false,
   userData: {},
-  departmentData:[],
-  staffData:[]
+  departmentData: [],
+  teamData: [],
+  staffData: [],
 };
 
 const userSlice = createSlice({
-  name: 'userdata',
+  name: "userdata",
   initialState,
   reducers: {
     login: (state, action) => {
       // state.token = action.payload.token;
       state.userData = action.payload;
-      sessionStorage.setItem('token', action.payload.token); 
+      sessionStorage.setItem("token", action.payload.token);
     },
     setUserData: (state, action) => {
       state.token = action.payload.token;
       state.userData = action.payload;
     },
-    addStaff:(state,action)=>{
-      state.staffData.push(action.payload)
+    addStaff: (state, action) => {
+      state.staffData.push(action.payload);
     },
-    showStaff:(state,action)=>{
-      state.staffData = action.payload
+    showStaff: (state, action) => {
+      state.staffData = action.payload;
     },
-    addDepartment: (state,action)=>{
-      state.departmentData.push(action.payload)
+    updateStaffData: (state, action) => {
+      state.staffData =state.staffData.map((staff)=> staff.id === action.payload.id ? {...staff, ...action.payload} : staff);
     },
-    showDepartment: (state, action)=>{
-      state.departmentData = action.payload
+    addTeam: (state, action) => {
+      state.teamData.push(action.payload);
+    },
+    showTeam: (state, action) => {
+      state.teamData = action.payload;
+    },
+    updateTeamData: (state, action) => {
+      state.teamData = state.teamData.map((team)=> team.id === action.payload.id ? {...team, ...action.payload} : team);
+    },
+    addDepartment: (state, action) => {
+      state.departmentData.push(action.payload);
+    },
+    showDepartment: (state, action) => {
+      state.departmentData = action.payload;
     },
     logout: (state) => {
       state.token = false;
       state.userData = null;
-      sessionStorage.removeItem('token'); 
+      sessionStorage.removeItem("token");
     },
     updatetoken: (state, action) => {
       state.token = action.payload.token;
-      sessionStorage.setItem('token', action.payload.token);
-    }
+      sessionStorage.setItem("token", action.payload.token);
+    },
   },
 });
 
-export const { login,showStaff ,addStaff, setUserData, addDepartment, showDepartment,updatetoken, logout } = userSlice.actions;
+export const {
+  login,
+  showStaff,
+  addStaff,
+  setUserData,
+  updateStaffData,
+  updateTeamData,
+  addDepartment,
+  showDepartment,
+  addTeam,
+  showTeam,
+  updatetoken,
+  logout,
+} = userSlice.actions;
 
 export default userSlice.reducer;

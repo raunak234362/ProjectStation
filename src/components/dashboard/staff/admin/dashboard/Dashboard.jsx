@@ -5,7 +5,9 @@ import { useState } from "react";
 
 const Dashboard = () => {
   const projects = useSelector((state) => state?.projectData.projectData);
-
+  const staffs = useSelector((state) => state?.userData?.staffData?.data);
+  const clients = useSelector((state) => state?.fabricatorData?.clientData);
+  console.log("clients", clients);
   const [selectedProject, setSelectedProject] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
@@ -50,15 +52,15 @@ const Dashboard = () => {
 
   const filteredProjects = sortedProjects.filter((project) => {
     return (
-      project.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
-      (statusFilter === "" || project.status === statusFilter) &&
-      (fabricatorFilter === "" || project.fabricator === fabricatorFilter)
+      project.name?.toLowerCase().includes(searchTerm.toLowerCase()) &&
+      (statusFilter === "" || project?.status === statusFilter) &&
+      (fabricatorFilter === "" || project?.fabricator?.fabName === fabricatorFilter)
     );
   });
 
   // Get unique fabricator names for the filter dropdown.
   const uniqueFabricators = [
-    ...new Set(projects.map((project) => project.fabricator)),
+    ...new Set(projects.map((project) => project.fabricator?.name)),
   ];
 
   const handleViewClick = async (fabricatorId) => {
@@ -93,19 +95,19 @@ const Dashboard = () => {
               <div className="font-bold text-base text-gray-800">
                 All Projects
               </div>
-              <div className="text-3xl font-bold">{projects.length}</div>
+              <div className="text-3xl font-bold">{projects?.length}</div>
             </div>
             <div className="flex flex-col justify-center items-center bg-white/50 rounded-lg p-3 shadow-lg">
               <div className="font-bold text-base text-gray-800">
-                All Fabricators
+                All Staff
               </div>
-              <div className="text-3xl font-bold">{completedProjectsCount}</div>
+              <div className="text-3xl font-bold">{staffs?.length}</div>
             </div>
             <div className="flex flex-col justify-center items-center bg-white/50 rounded-lg p-3 shadow-lg">
               <div className="font-bold text-base text-gray-800">
                 All Clients
               </div>
-              <div className="text-3xl font-bold">{completedProjectsCount}</div>
+              <div className="text-3xl font-bold">{clients?.length}</div>
             </div>
             <div className="flex flex-col justify-center items-center bg-white/50 rounded-lg p-3 shadow-lg">
               <div className="font-bold text-base text-gray-800">

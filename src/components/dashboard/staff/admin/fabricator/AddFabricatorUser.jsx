@@ -1,18 +1,19 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
-import { useForm } from 'react-hook-form'
-import { Input, CustomSelect, Button } from '../../../../index'
-import { useDispatch, useSelector } from 'react-redux'
-import { addClient } from '../../../../../store/fabricatorSlice'
+import { useForm } from "react-hook-form";
+import { Input, CustomSelect, Button } from "../../../../index";
+import { useDispatch, useSelector } from "react-redux";
+import { addClient } from "../../../../../store/fabricatorSlice";
 import {
   countries,
   getCountryFlagEmojiFromCountryCode,
-} from 'country-codes-flags-phone-codes'
-import Service from '../../../../../config/Service'
-import { useEffect, useState } from 'react'
-import { City, State } from 'country-state-city'
+} from "country-codes-flags-phone-codes";
+import Service from "../../../../../config/Service";
+import { useEffect, useState } from "react";
+import { City, State } from "country-state-city";
 
 const AddFabricatorUser = () => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const {
     register,
     handleSubmit,
@@ -20,61 +21,69 @@ const AddFabricatorUser = () => {
     watch,
     reset,
     formState: { errors },
-  } = useForm()
+  } = useForm();
 
   const fabricators = useSelector(
-    (state) => state?.fabricatorData?.fabricatorData,
-  )
-  const selectedFabricator = watch('fabricator')
-  const [branchOptions, setBranchOptions] = useState([])
+    (state) => state?.fabricatorData?.fabricatorData
+  );
+  const selectedFabricator = watch("fabricator");
+  const [branchOptions, setBranchOptions] = useState();
 
   useEffect(() => {
     if (selectedFabricator) {
-      const fabricator = fabricators.find(fab => fab.id === selectedFabricator)
+      const fabricator = fabricators.find(
+        (fab) => fab.id === selectedFabricator
+      );
+      console.log(fabricator?.headquaters);
       if (fabricator) {
+        const combinedBranches = [
+          ...(fabricator.headquaters ? [fabricator.headquaters] : []),
+          ...(fabricator.branches || []),
+        ];
+        console.log(combinedBranches);
         setBranchOptions(
-          fabricator?.branch?.map(branches => ({
-            label: branches.address,
-            value: branches.id,
+          combinedBranches.map((branch) => ({
+            label: branch.address,
+            value: branch.id,
           }))
-        )
+        );
       }
     } else {
-      setBranchOptions([]) 
+      setBranchOptions([]);
     }
-  }, [selectedFabricator, fabricators])
+  }, [selectedFabricator, fabricators]);
 
-  console.log(branchOptions)
+  console.log(branchOptions);
 
   const countryOptions = countries.map((country) => ({
     label: `${getCountryFlagEmojiFromCountryCode(country.code)} ${
       country.name
     } (${country.dialCode})`,
     value: country.dialCode,
-  }))
+  }));
 
-  const country = watch('country')
-  const state = watch('state')
+  const country = watch("country");
+  const state = watch("state");
   const [stateList, setStateList] = useState([
-    { label: 'Select State', value: '' },
-  ])
+    { label: "Select State", value: "" },
+  ]);
   const [cityList, setCityList] = useState([
-    { label: 'Select City', value: '' },
-  ])
+    { label: "Select City", value: "" },
+  ]);
 
   const countryList = {
-    'United States': 'US',
-    Canada: 'CA',
-    India: 'IN',
-  }
+    "United States": "US",
+    Canada: "CA",
+    India: "IN",
+  };
 
   useEffect(() => {
-    const stateListObject = {}
+    const stateListObject = {};
     State.getStatesOfCountry(countryList[country])?.forEach((state1) => {
-      stateListObject[state1.name] = state1.isoCode
-    })
-    setStateList(stateListObject)
-  }, [country])
+      stateListObject[state1.name] = state1.isoCode;
+    });
+    setStateList(stateListObject);
+  }, [country]);
 
   useEffect(() => {
     setCityList(
@@ -82,35 +91,27 @@ const AddFabricatorUser = () => {
         (city) => ({
           label: city?.name,
           value: city?.name,
-        }),
-      ) || [],
-    )
-  }, [state])
-
-
+        })
+      ) || []
+    );
+  }, [state]);
 
   const AddFabricatorUser = async (data) => {
     try {
-      const phoneNumber = `${data?.country_code}${data?.phone}`
+      const phoneNumber = `${data?.country_code}${data?.phone}`;
       const updatedData = {
-        id: new Date().getTime(),
         ...data,
         phone: phoneNumber,
-        fabricator: fabricators.find(fab => fab.id === data.fabricator),
-      }
-      console.log("Client Data----------",updatedData)
-      dispatch(addClient(updatedData))
-      // const clientUser = await Service.addClient(updatedData)
-      // if (clientUser.status === 201){
-      //   dispatch(addClient(clientUser.data))
-      //   reset()
-      // } else {
-      //   alert('Error in adding Client')
-      // }
+        // fabricator: fabricators.find((fab) => fab.id === data.fabricator),
+      };
+      const clientUser = await Service.addClient(updatedData);
+      dispatch(addClient(clientUser.data));
+      console.log("Client Data----------", updatedData);
+      // dispatch(addClient(updatedData));
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
 
   return (
     <div className="flex w-full justify-center text-black my-5">
@@ -126,24 +127,24 @@ const AddFabricatorUser = () => {
                 placeholder="Fabricator"
                 size="lg"
                 color="blue"
-                options={fabricators.map((fabricator) => ({
-                  label: fabricator.name,
+                options={fabricators?.map((fabricator) => ({
+                  label: fabricator.fabName,
                   value: fabricator.id,
                 }))}
-                {...register('fabricator', { required: true })}
+                {...register("fabricator", { required: true })}
                 onChange={setValue}
               />
               {errors.fabricator && <div>This field is required</div>}
             </div>
-           
+
             <div className="w-full my-2">
               <CustomSelect
-                label="Branch:"
-                placeholder="Branch"
+                label="Address:"
+                placeholder="Address"
                 size="lg"
                 color="blue"
                 options={branchOptions}
-                {...register('address')}
+                {...register("address")}
                 onChange={setValue}
               />
             </div>
@@ -158,7 +159,7 @@ const AddFabricatorUser = () => {
                 placeholder="Username"
                 size="lg"
                 color="blue"
-                {...register('username', { required: true })}
+                {...register("username", { required: true })}
               />
               {errors.username && <div>This field is required</div>}
             </div>
@@ -168,8 +169,8 @@ const AddFabricatorUser = () => {
                 placeholder="User Designation"
                 size="lg"
                 color="blue"
-                {...register('designation', {
-                  required: 'User designation is required',
+                {...register("designation", {
+                  required: "User designation is required",
                 })}
               />
               {errors.designation && <div>This field is required</div>}
@@ -180,7 +181,7 @@ const AddFabricatorUser = () => {
                 placeholder="First Name"
                 size="lg"
                 color="blue"
-                {...register('f_name', { required: true })}
+                {...register("f_name", { required: true })}
               />
               {errors.f_name && <div>This field is required</div>}
             </div>
@@ -190,7 +191,7 @@ const AddFabricatorUser = () => {
                 placeholder="Middle Name"
                 size="lg"
                 color="blue"
-                {...register('m_name')}
+                {...register("m_name")}
               />
             </div>
             <div className="w-full my-2">
@@ -199,7 +200,7 @@ const AddFabricatorUser = () => {
                 placeholder="Last Name"
                 size="lg"
                 color="blue"
-                {...register('l_name')}
+                {...register("l_name")}
               />
             </div>
           </div>
@@ -214,7 +215,7 @@ const AddFabricatorUser = () => {
                 placeholder="Email"
                 size="lg"
                 color="blue"
-                {...register('email')}
+                {...register("email")}
               />
             </div>
             <div className="w-full gap-2 my-2 flex md:flex-row flex-col items-center">
@@ -233,7 +234,7 @@ const AddFabricatorUser = () => {
                   placeholder="Contact Number"
                   size="lg"
                   color="blue"
-                  {...register('phone', { required: true })}
+                  {...register("phone", { required: true })}
                 />
                 {errors.phone && <div>This field is required</div>}
               </div>
@@ -243,7 +244,7 @@ const AddFabricatorUser = () => {
                   placeholder="Landline Number"
                   size="lg"
                   color="blue"
-                  {...register('landline')}
+                  {...register("landline")}
                 />
               </div>
               <div className="w-full">
@@ -252,7 +253,7 @@ const AddFabricatorUser = () => {
                   placeholder="Alternate Landline Number"
                   size="lg"
                   color="blue"
-                  {...register('alt_landline')}
+                  {...register("alt_landline")}
                 />
               </div>
             </div>
@@ -262,7 +263,7 @@ const AddFabricatorUser = () => {
                 placeholder="Alternate Number"
                 size="lg"
                 color="blue"
-                {...register('alt_phone')}
+                {...register("alt_phone")}
               />
             </div>
           </div>
@@ -277,7 +278,7 @@ const AddFabricatorUser = () => {
                 type="password"
                 size="lg"
                 color="blue"
-                {...register('password')}
+                {...register("password")}
               />
             </div>
             <div className="w-full my-2">
@@ -287,7 +288,7 @@ const AddFabricatorUser = () => {
                 placeholder="Confirm Password"
                 size="lg"
                 color="blue"
-                {...register('cnf_password')}
+                {...register("cnf_password")}
               />
             </div>
           </div>
@@ -300,7 +301,7 @@ const AddFabricatorUser = () => {
         </form>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default AddFabricatorUser
+export default AddFabricatorUser;

@@ -91,7 +91,7 @@ const GetProject = ({ projectId, onClose }) => {
         </div>
 
         <div className="p-5 h-[88%] overflow-y-auto rounded-lg shadow-lg">
-          <div className="bg-gray-100/50 rounded-lg shadow-md p-5">
+          <div className="bg-gray-100/50 rounded-lg shadow-md 6-----------p-5">
             <h2 className="text-lg font-semibold mb-4">Project Details</h2>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

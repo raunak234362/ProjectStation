@@ -72,8 +72,8 @@ const GetProject = ({ projectId, onClose }) => {
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-      <div className="bg-white h-[93%] md:p-5 rounded-lg shadow-lg w-11/12 ">
+    <div className="fixed inset-0 bg-black bg-opacity-85 flex justify-center items-center z-50">
+      <div className="bg-white h-fit md:p-5 rounded-lg shadow-lg w-6/12 ">
         <div className="flex flex-row justify-between">
           <Button className="bg-red-500" onClick={handleClose}>
             Close
@@ -90,27 +90,27 @@ const GetProject = ({ projectId, onClose }) => {
           </div>
         </div>
 
-        <div className="p-5 h-[88%] overflow-y-auto rounded-lg shadow-lg">
-          <div className="bg-gray-100/50 rounded-lg shadow-md 6-----------p-5">
+        <div className=" h-fit overflow-y-auto rounded-lg shadow-lg">
+          <div className="bg-gray-100/50 rounded-lg shadow-md p-5">
             <h2 className="text-lg font-semibold mb-4">Project Details</h2>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {[
+                { label: "Description", value: projectData?.description },
                 {
                   label: "Fabricator",
                   value: projectData?.fabricator?.fabName,
                 },
-                { label: "Description", value: projectData?.description },
+                { label: "Status", value: projectData?.status },
                 {
                   label: "Estimated Hours",
                   value: projectData?.estimatedHours,
                 },
-                { label: "Status", value: projectData?.status },
                 { label: "Stage", value: projectData?.stage },
                 { label: "Tool", value: projectData?.tools },
                 { label: "Start Date", value: projectData?.startDate },
-                { label: "End Date", value: projectData?.approvalDate },
                 { label: "Department", value: projectData?.department?.name },
+                { label: "End Date", value: projectData?.approvalDate },
                 {
                   label: "Department Manager",
                   value: projectData?.manager?.f_name,

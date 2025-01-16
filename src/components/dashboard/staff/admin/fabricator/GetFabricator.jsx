@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import Service from "../../../../../config/Service";
 import { Provider, useDispatch, useSelector } from "react-redux";
-import { AddBranch, Button } from "../../../../index";
+import { AddBranch, Button, EditFabricator } from "../../../../index";
 
 const GetFabricator = ({ fabricatorId, isOpen, onClose }) => {
   const [isEditing, setIsEditing] = useState(false);
@@ -11,6 +11,8 @@ const GetFabricator = ({ fabricatorId, isOpen, onClose }) => {
   const [selectedFabricator, setSelectedFabricator] = useState(null);
   const token = sessionStorage.getItem("token");
   const dispatch = useDispatch();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedEditFabricator, setSelectedEditFabricator] = useState(null);
   const [fabricator, setFabricator] = useState();
 
   const fabData = useSelector(
@@ -49,6 +51,15 @@ const GetFabricator = ({ fabricatorId, isOpen, onClose }) => {
     fetchFabricator();
   }, [fabricatorId]);
 
+  const handleEditClick = () => {
+    setIsModalOpen(true);
+    setSelectedEditFabricator(fabricator);
+  };
+  const handleModalClose = () => {
+    setIsModalOpen(false);
+    setSelectedEditFabricator(null);
+  };
+
   const handleAddBranch = async () => {
     setSelectedFabricator(fabricator.id);
     setIsBranchAdd(true);
@@ -65,12 +76,12 @@ const GetFabricator = ({ fabricatorId, isOpen, onClose }) => {
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-      <div className="bg-white h-[80%] md:p-5 p-2 rounded-lg shadow-lg w-11/12 ">
+      <div className="bg-white h-[80%] md:p-5 p-2 rounded-lg shadow-lg w-6/12 ">
         <div className="flex flex-row justify-between">
           <Button className="bg-red-500" onClick={handleClose}>
             Close
           </Button>
-          <Button>Edit</Button>
+          {/* <Button onClick={handleEditClick}>Edit</Button> */}
         </div>
         {/* header */}
         <div className="top-2 w-full flex justify-center z-10">
@@ -203,6 +214,12 @@ const GetFabricator = ({ fabricatorId, isOpen, onClose }) => {
           fabricatorId={selectedFabricator}
           isBranch={isBranchAdd}
           onBranchClose={handleAddBranchClose}
+        />
+      )}
+      {selectedEditFabricator && (
+        <EditFabricator
+          fabricator={selectedEditFabricator}
+          onClose={handleModalClose}
         />
       )}
     </div>

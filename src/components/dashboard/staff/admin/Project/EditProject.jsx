@@ -2,12 +2,11 @@
 /* eslint-disable react/prop-types */
 
 import AddFiles from "./AddFiles";
-import { Button } from "../../../../index";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import Service from "../../../../../config/Service";
 import { updateProjectData } from "../../../../../store/projectSlice";
-import { CustomSelect, Input } from "../../../../index";
+import { CustomSelect, Input,Button } from "../../../../index";
 import { useEffect, useState } from "react";
 const EditProject = ({ project, onClose }) => {
   const [teamOptions, setTeamOptions] = useState([]);

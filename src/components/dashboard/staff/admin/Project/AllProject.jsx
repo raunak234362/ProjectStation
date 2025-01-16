@@ -7,6 +7,7 @@ import { showProjects } from "../../../../../store/projectSlice.js";
 
 const AllProjects = () => {
   const projects = useSelector((state) => state?.projectData?.projectData);
+  const fabricators = useSelector((state) => state?.fabricatorData?.fabricatorData);
   const [selectedProject, setSelectedProject] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
@@ -181,7 +182,7 @@ const AllProjects = () => {
                     {project?.name}
                   </td>
                   <td className="border px-2 py-1">
-                    {project?.fabricator?.fabName}
+                    {fabricators?.find((fabricator) => fabricator?.id === project?.fabricator?.id)?.fabName}
                   </td>
                   <td className="border px-2 py-1">{project?.status}</td>
                   <td className="border px-2 py-1">{project?.startDate}</td>

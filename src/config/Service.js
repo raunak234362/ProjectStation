@@ -161,8 +161,9 @@ class Service {
   }
 
   // Fetch all fabricators -- updated
-  static async allFabricator(token) {
+  static async allFabricator() {
     try {
+      const token = sessionStorage.getItem("token");
       const response = await axios.get(`${BASE_URL}/fabricator/fabricator`, {
         headers: {
           "Content-Type": "Application/json",
@@ -177,9 +178,10 @@ class Service {
   }
 
   // Fetch Fabricator -- updated
-  static async getFabricator(token, id) {
+  static async getFabricator(id) {
     console.log("Service:---", id);
     try {
+      const token = sessionStorage.getItem("token");
       const response = await axios.get(
         `${BASE_URL}/fabricator/fabricator/${id}`,
         {
@@ -199,8 +201,9 @@ class Service {
   // Add Client user -- updated
   static async addClient(data) {
     try {
+      const token = sessionStorage.getItem("token");
       const clientData = { ...data };
-      console.log(data);
+      console.log("clientData----",clientData);
       const response = await axios.post(
         `${BASE_URL}/client/client/${data.fabricator}/addclient/`,
         clientData,
@@ -219,8 +222,9 @@ class Service {
   }
 
   // Fetch all clients -- updated
-  static async allClient(token) {
+  static async allClient() {
     try {
+      const token = sessionStorage.getItem("token");
       const response = await axios.get(
         `${BASE_URL}/client/client/getallclients`,
         {

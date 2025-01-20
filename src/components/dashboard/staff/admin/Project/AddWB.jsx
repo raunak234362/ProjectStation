@@ -1,7 +1,13 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from "react";
-import { Input, CustomSelect, Button, JobStudy, SelectedWBTask } from "../../../../index";
+import {
+  Input,
+  CustomSelect,
+  Button,
+  JobStudy,
+  SelectedWBTask,
+} from "../../../../index";
 import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
 
@@ -11,11 +17,13 @@ const AddWB = ({ projectId, onClose }) => {
   const [selectedTaskData, setSelectedTaskData] = useState(null); // Add state to store selected task data
   const [selectedTaskId, setSelectedTaskId] = useState(null); // State for selected task ID
   const projectData = useSelector((state) => state?.projectData.projectData);
-  const workBreakdown = useSelector((state) => state?.projectData.workBreakdown);
+  const workBreakdown = useSelector(
+    (state) => state?.projectData.workBreakdown
+  );
   const { register, handleSubmit, watch, setValue } = useForm();
 
   const selectedTask = watch("taskName");
-  console.log(selectedTask)
+  console.log(selectedTask);
   // Fetch project data based on projectId
   const fetchProject = async () => {
     const project = projectData.find((project) => project.id === projectId);
@@ -25,9 +33,11 @@ const AddWB = ({ projectId, onClose }) => {
   // Fetch work breakdown data based on projectId
   const fetchWorkBD = async () => {
     console.log(workBreakdown.find((wb) => wb.taskName === selectedTask));
-    const workBreakDown = workBreakdown.find((wb) => wb.taskName === selectedTask); // Fix: filter by projectId
+    const workBreakDown = workBreakdown.find(
+      (wb) => wb.taskName === selectedTask
+    ); // Fix: filter by projectId
     setWorkBD(workBreakDown);
-    console.log(workBD)
+    console.log(workBD);
   };
 
   // Initial fetch for project and work breakdown
@@ -49,7 +59,7 @@ const AddWB = ({ projectId, onClose }) => {
 
   // Handle opening the selected WB task by setting its ID
   const handleSelectedWB = (id) => {
-    console.log(id)
+    console.log(id);
     setSelectedTaskId(id); // Set the selected task ID
   };
 
@@ -86,9 +96,10 @@ const AddWB = ({ projectId, onClose }) => {
         <div className="h-[85%] overflow-y-auto">
           <JobStudy />
 
-          <div className="flex py-5 justify-center mt-5">
+          <div className="font-semibold mt-10">Work Breakdown Structure -</div>
+          <div className="flex py-5 justify-center">
             <form
-              className="overflow-x-auto mt-5 md:w-[80vw] w-[75vw] my-3"
+              className="overflow-x-auto md:w-[80vw] w-[75vw] my-3"
               onSubmit={handleSubmit(onSubmit)} // Correct form submission handler
             >
               <div className="my-5">
@@ -101,30 +112,46 @@ const AddWB = ({ projectId, onClose }) => {
                     { label: "Erection", value: "ERECTION" },
                   ]}
                   {...register("taskName", { required: true })}
-                  onChange={setValue} 
+                  onChange={setValue}
                 />
               </div>
               <div className="mt-5 bg-white h-[60vh] overflow-auto rounded-lg">
                 <table className="w-full mt-3 border-collapse border border-gray-600 text-center text-sm">
                   <thead className="bg-gray-200">
                     <tr>
-                      <th className="border border-gray-600 px-2 py-1">Sl.No</th>
-                      <th className="border border-gray-600 px-2 py-1">Description of WBS</th>
-                      <th className="border border-gray-600 px-2 py-1">Qty. (No.)</th>
-                      <th className="border border-gray-600 px-2 py-1">Execution Time (Hr)</th>
-                      <th className="border border-gray-600 px-2 py-1">Checking Time (Hr)</th>
-                      <th className="border border-gray-600 px-2 py-1">Actions</th>
+                      <th className="border border-gray-600 px-2 py-1">
+                        Sl.No
+                      </th>
+                      <th className="border border-gray-600 px-2 py-1">
+                        Description of WBS
+                      </th>
+                      <th className="border border-gray-600 px-2 py-1">
+                        Qty. (No.)
+                      </th>
+                      <th className="border border-gray-600 px-2 py-1">
+                        Execution Time (Hr)
+                      </th>
+                      <th className="border border-gray-600 px-2 py-1">
+                        Checking Time (Hr)
+                      </th>
+                      <th className="border border-gray-600 px-2 py-1">
+                        Actions
+                      </th>
                     </tr>
                   </thead>
 
                   <tbody>
                     {workBD?.task?.map((taskItem, index) => (
                       <tr key={index} className="bg-green-100">
-                        <td className="border border-gray-600 px-2 py-1">{index + 1}</td>
-                        <td className="border border-gray-600 px-2 py-1">{taskItem.name}</td>
-                        <td className="border border-gray-600 px-2 py-1"></td>
-                        <td className="border border-gray-600 px-2 py-1"></td>
-                        <td className="border border-gray-600 px-2 py-1"></td>
+                        <td className="border border-gray-600 px-2 py-1">
+                          {index + 1}
+                        </td>
+                        <td className="border border-gray-600 px-2 py-1">
+                          {taskItem?.name}
+                        </td>
+                        <td className="border border-gray-600 px-2 py-1">{taskItem?.qty}</td>
+                        <td className="border border-gray-600 px-2 py-1">{taskItem?.executionTime}</td>
+                        <td className="border border-gray-600 px-2 py-1">{taskItem?.checkingTime}</td>
                         <td className="border border-gray-600 px-2 py-1">
                           <Button onClick={() => handleSelectedWB(taskItem.id)}>
                             Open
@@ -140,7 +167,11 @@ const AddWB = ({ projectId, onClose }) => {
         </div>
 
         {selectedTaskId && (
-          <SelectedWBTask selectedTaskId={selectedTaskId} selectedTask={selectedTask} onClose={handleSelectedWBClose} />
+          <SelectedWBTask
+            selectedTaskId={selectedTaskId}
+            selectedTask={selectedTask}
+            onClose={handleSelectedWBClose}
+          />
         )}
       </div>
     </div>

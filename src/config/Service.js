@@ -118,7 +118,6 @@ class Service {
 
   // Add new fabricator -- updated
   static async addFabricator(fabricatorData) {
-    console.log("Successfully Added Fabricator: ", fabricatorData);
     try {
       const token = sessionStorage.getItem("token");
       const formData = { ...fabricatorData };
@@ -132,6 +131,7 @@ class Service {
           },
         }
       );
+      console.log("Successfully Added Fabricator: ", response.data);
       return response.data;
     } catch (error) {
       console.log("Error in adding Fabricator: ", error);
@@ -485,7 +485,7 @@ class Service {
     console.log("Service:---", data);
     try {
       const token = sessionStorage.getItem("token");
-      const response = await axios.patch(
+      const response = await axios.post(
         `${BASE_URL}/team/teams/${teamID}/addmember`,
         data,
         {

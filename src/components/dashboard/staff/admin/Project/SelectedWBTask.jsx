@@ -35,7 +35,8 @@ const SelectedWBTask = ({ onClose, selectedTask, selectedTaskId }) => {
 
   // Form submission handler
   const onSubmit = async (data) => {
-    console.log(data);
+    const selectetWB={...taskData, ...data}
+    console.log(selectetWB);
     // Dispatch form data to your store or API endpoint
     // dispatch(addRFI(data)) or similar
   };
@@ -56,7 +57,7 @@ const SelectedWBTask = ({ onClose, selectedTask, selectedTaskId }) => {
             <b>Selected Task:</b> {taskData?.name}
           </div>
         </div>
-        <div className="mt-5 bg-white h-[60vh] overflow-auto rounded-lg">
+        <div className="pt-10 bg-white h-[60vh] overflow-auto rounded-lg">
           <form
             className="gap-y-2 flex flex-col"
             onSubmit={handleSubmit(onSubmit)}

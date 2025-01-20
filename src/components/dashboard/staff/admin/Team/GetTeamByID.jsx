@@ -20,6 +20,7 @@ const GetTeamByID = ({ team, taskID, isOpen, onClose }) => {
   const [members, setMembers] = useState({});
   const [isSuccessOpen, setIsSuccessOpen] = useState(false);
   const [isFailedOpen, setIsFailedOpen] = useState(false);
+  const [segregatedMembers, setSegregatedMembers] = useState({});
   const {
     register,
     handleSubmit,
@@ -29,53 +30,85 @@ const GetTeamByID = ({ team, taskID, isOpen, onClose }) => {
     formState: { errors },
   } = useForm();
   const teamID = team.data.data.id;
-  console.log(teamID);
-
   const taskData = useSelector((state) =>
     state?.userData?.teamData?.data?.find((team) => team.id === teamID)
   );
 
-  const staffData = useSelector((state) => state?.userData?.staffData?.data);
-  console.log(taskData);
+  console.log(taskData?.members);
 
-  function segerateTeam(){
-    let teamMembers ={}
+  const staffData = useSelector((state) => state?.userData?.staffData?.data);
+
+  console.log(staffData);
+
+  // Add new state for job study
+  const [jobStudyRole, setJobStudyRole] = useState("");
+
+  function segerateTeam() {
+    let teamMembers = {};
   }
 
   function fetchStaff() {
     const uniqueMembers = new Set();
 
-    // const memberOptions = staffData?.members
-    //   ?.map((staff) => {
-    //     const name = staff?.f_name;
-    //     if (name) {
-    //     //   uniqueMembers.add(name);
-    //       return {
-    //         label: name,
-    //         value: staff?.id
-    //       };
-    //     }
-    //     return null;
-    //   })
-    //   .filter(Boolean) // Remove null values from the array
-    //   .sort((a, b) => a.label.localeCompare(b.label)); // Sort alphabetically
+    const memberOptions = staffData
+      ?.map((staff) => {
+        const name = staff?.f_name;
+        if (name) {
+          //   uniqueMembers.add(name);
+          return {
+            label: name,
+            value: staff?.id,
+          };
+        }
+        return null;
+      })
+      .filter(Boolean) // Remove null values from the array
+      .sort((a, b) => a.label.localeCompare(b.label)); // Sort alphabetically
 
-    // setMemberOptions(memberOptions);
-  };
+    setMemberOptions(memberOptions);
+  }
 
   useEffect(() => {
     fetchStaff();
   }, []);
 
-  const addMembers = async (data) => {
-    console.log(data)
-    try{
-        const response = await Service.addTeamMember(teamID, data);
-       return response();
-    }catch(error){
-        console.error(error);
+  useEffect(() => {
+    if (taskData?.members) {
+      const membersByRole = taskData.members.reduce((acc, member) => {
+        const role = member.role || 'MEMBER';
+        if (!acc[role]) {
+          acc[role] = [];
+        }
+        acc[role].push(member);
+        return acc;
+      }, {});
+      setSegregatedMembers(membersByRole);
     }
-  }
+  }, [taskData]);
+
+  useEffect(() => {
+    // Get job study from taskData if available
+    if (taskData?.job_study) {
+      setJobStudyRole(taskData.job_study);
+    }
+  }, [taskData]);
+
+  const addMembers = async (data) => {
+    try {
+      const response = await Service.addTeamMember(teamID, data);
+      if (response.status === 200 || response.status === 201) {
+        setIsSuccessOpen(true);
+        // Reset form after successful addition
+        reset();
+        // Optionally refresh the team data here if needed
+      } else {
+        setIsFailedOpen(true);
+      }
+    } catch (error) {
+      console.error('Error adding team member:', error);
+      setIsFailedOpen(true);
+    }
+  };
 
   if (!isOpen) return null;
 
@@ -93,6 +126,45 @@ const GetTeamByID = ({ team, taskID, isOpen, onClose }) => {
   const closeSuccessModal = () => {
     // onClose()
     setIsSuccessOpen(false);
+  };
+
+  const renderMembers = () => {
+    return Object.entries(segregatedMembers).map(([role, members]) => (
+      <div key={role} className="mb-3">
+        <strong className="text-gray-700">{role}:</strong>
+        <div className="ml-4">
+          {members.map((member) => (
+            <div key={member.id} className="text-gray-600">
+              {staffData?.find((staff) => staff?.id === member?.id)?.f_name} {staffData?.find((staff) => staff?.id === member?.id)?.l_name}
+            </div>
+          ))}
+        </div>
+      </div>
+    ));
+  };
+
+  // Function to get available roles based on job study
+  const getAvailableRoles = () => {
+    const baseRoles = [
+      { label: "GUEST", value: "GUEST" },
+      { label: "LEADER", value: "LEADER" },
+      { label: "MEMBER", value: "MEMBER" },
+      { label: "MANAGER", value: "MANAGER" },
+    ];
+
+    // Add specific role based on job study
+    switch (jobStudyRole) {
+      case "Modeling":
+        return [...baseRoles, { label: "MODELER", value: "MODELER" }];
+      case "Detailing":
+        return [...baseRoles, { label: "DETAILER", value: "DETAILER" }];
+      case "Erection":
+        return [...baseRoles, { label: "ERECTER", value: "ERECTER" }];
+      case "Checking":
+        return [...baseRoles, { label: "CHECKER", value: "CHECKER" }];
+      default:
+        return baseRoles;
+    }
   };
 
   return (
@@ -119,6 +191,10 @@ const GetTeamByID = ({ team, taskID, isOpen, onClose }) => {
                   <strong className="text-gray-700">Manager:</strong>{" "}
                   {taskData?.manager?.f_name} {taskData?.manager?.l_name}
                 </p>
+                <div className="mb-2">
+                  <strong className="text-gray-700">Team Members by Role:</strong>
+                  {renderMembers()}
+                </div>
               </div>
             </div>
             <div className=" bg-teal-100/50 p-5  overflow-y-auto rounded-lg my-1">
@@ -126,70 +202,73 @@ const GetTeamByID = ({ team, taskID, isOpen, onClose }) => {
                 Add Team Member:
               </strong>
               <div className="h-[50vh]">
-                  <form onSubmit={handleSubmit(addMembers)}>
-                    <div className="my-2">
-                      <CustomSelect
-                        label="Select Member: "
-                        name="employee"
-                        options={[{ label: "Select User", value: "" },...memberOptions]}
-                        {...register("employee")}
-                        onChange={setValue}
-                      />
-                    </div>
-                    <div className="my-2">
-                      <CustomSelect
-                        label="Select Role: "
-                        name="role"
-                        options={[
-                          { label: "GUEST", value: "GUEST" },
-                          { label: "LEADER", value: "LEADER" },
-                          { label: "MEMBER", value: "MEMBER" },
-                          { label: "MANAGER", value: "MANAGER" },
-                          { label: "MODELER", value: "MODELER" },
-                          { label: "CHECKER", value: "CHECKER" },
-                          { label: "DETAILER", value: "DETAILER" },
-                          { label: "ERECTER", value: "ERECTER" },
-                          { label: "ADMIN", value: "ADMIN" },
-                        ]}
-                        {...register("role")}
-                        onChange={setValue}
-                      />
-                    </div>
-                    {/* <div className="my-2">
+                <form onSubmit={handleSubmit(addMembers)}>
+                  <div className="my-2">
+                    <CustomSelect
+                      label="Select Member: "
+                      name="employee"
+                      options={[
+                        { label: "Select User", value: "" },
+                        ...memberOptions,
+                      ]}
+                      {...register("employee")}
+                      onChange={setValue}
+                    />
+                  </div>
+                  <div className="my-2">
+                    <CustomSelect
+                      label="Select Role: "
+                      name="role"
+                      options={[
+                        { label: "Select Role", value: "" },
+                        ...getAvailableRoles(),
+                      ]}
+                      {...register("role")}
+                      onChange={setValue}
+                      disabled={!watch("employee")} // Disable if no employee is selected
+                    />
+                  </div>
+                  {/* <div className="my-2">
                         <Button type="submit">Add Member</Button>
                     </div> */}
 
-                    <div className="flex justify-end mt-4">
-                      <Button type="submit">Add</Button>
-                      <Dialog open={isSuccessOpen} handler={setIsSuccessOpen}>
-                        <DialogHeader>User Added</DialogHeader>
-                        <DialogBody>The User is added successfully!</DialogBody>
-                        <DialogFooter>
-                          <Button
-                            variant="gradient"
-                            color="green"
-                            onClick={closeSuccessModal}
-                          >
-                            Close
-                          </Button>
-                        </DialogFooter>
-                      </Dialog>
-                      <Dialog open={isFailedOpen} handler={setIsFailedOpen}>
-                        <DialogHeader>User not Added</DialogHeader>
-                        <DialogBody>The User is not added!</DialogBody>
-                        <DialogFooter>
-                          <Button
-                            variant="gradient"
-                            color="red"
-                            onClick={closeFailedModal}
-                          >
-                            Close
-                          </Button>
-                        </DialogFooter>
-                      </Dialog>
-                    </div>
-                  </form>
-                </div>
+                  <div className="flex justify-end mt-4">
+                    <Button type="submit">Add</Button>
+                    <Dialog open={isSuccessOpen} handler={setIsSuccessOpen}>
+                      <DialogHeader>Success</DialogHeader>
+                      <DialogBody>Team member has been added successfully!</DialogBody>
+                      <DialogFooter>
+                        <Button
+                          variant="gradient"
+                          color="green"
+                          onClick={() => {
+                            closeSuccessModal();
+                            // Optionally refresh the page or data
+                            window.location.reload();
+                          }}
+                        >
+                          Close
+                        </Button>
+                      </DialogFooter>
+                    </Dialog>
+                    <Dialog open={isFailedOpen} handler={setIsFailedOpen}>
+                      <DialogHeader>Error</DialogHeader>
+                      <DialogBody>
+                        Failed to add team member. Please try again.
+                      </DialogBody>
+                      <DialogFooter>
+                        <Button
+                          variant="gradient"
+                          color="red"
+                          onClick={closeFailedModal}
+                        >
+                          Close
+                        </Button>
+                      </DialogFooter>
+                    </Dialog>
+                  </div>
+                </form>
+              </div>
             </div>
           </div>
         </div>

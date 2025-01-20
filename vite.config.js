@@ -6,11 +6,10 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'your_backend_url',
+        target: 'https://192.168.1.153:8000',
         changeOrigin: true,
-        secure: false,
-        rewrite: (path) => path.replace(/^\/api/, '')
-      }
-    }
-  }
+        secure: false, // For development only
+      },
+    },
+  },
 });

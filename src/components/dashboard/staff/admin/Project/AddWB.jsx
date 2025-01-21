@@ -81,7 +81,7 @@ const AddWB = ({ projectId, onClose }) => {
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-      <div className="bg-white h-[90%] md:p-5 p-2 rounded-lg shadow-lg md:w-5/6 w-4/5">
+      <div className="bg-white h-[90%] md:p-5 p-2 rounded-lg shadow-lg md:w-5/6 w-11/12">
         <div className="flex flex-row justify-between">
           <Button className="bg-red-500" onClick={handleClose}>
             Close
@@ -99,7 +99,7 @@ const AddWB = ({ projectId, onClose }) => {
           <div className="font-semibold mt-10">Work Breakdown Structure -</div>
           <div className="flex py-5 justify-center">
             <form
-              className="overflow-x-auto md:w-[80vw] w-[75vw] my-3"
+              className="overflow-x-auto md:w-[80vw] w-full my-3"
               onSubmit={handleSubmit(onSubmit)} // Correct form submission handler
             >
               <div className="my-5">

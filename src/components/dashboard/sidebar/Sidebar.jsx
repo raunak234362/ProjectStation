@@ -48,23 +48,24 @@ const Sidebar = () => {
 
   const userType = sessionStorage.getItem("userType");
   return (
-    <div className="flex flex-col justify-between md:h-[88vh] h-[90vh] w-64 bg-white/70 md:border-4 text-black md:rounded-xl rounded-lg">
-      <nav className="p-5">
-        <ul className="flex flex-col gap-5">
-          <li>
-            <NavLink
-              to="dashboard"
-              className={({ isActive }) =>
-                isActive
-                  ? "flex justify-center items-center text-white bg-teal-400 rounded-md w-full  delay-150"
-                  : "text-black hover:text-white hover:flex hover:justify-center hover:items-center hover:bg-teal-200  rounded-md"
-              }
-            >
-              <div>Dashboard</div>
-            </NavLink>
-          </li>
+    <div className=" md:h-[88vh] h-screen w-64 bg-white/70 md:border-4 text-black md:rounded-xl rounded-lg">
+      <div className="grid grid-cols-1 space-y-10 h-full">
+        <nav className="md:p-5 p-0">
+          <ul className="flex flex-col gap-5">
+            <li>
+              <NavLink
+                to="dashboard"
+                className={({ isActive }) =>
+                  isActive
+                    ? "flex justify-center items-center text-white bg-teal-400 rounded-md w-full  delay-150"
+                    : "text-black hover:text-white hover:flex hover:justify-center hover:items-center hover:bg-teal-200  rounded-md"
+                }
+              >
+                <div>Dashboard</div>
+              </NavLink>
+            </li>
 
-          {userType === "admin" ? (
+            {userType === "admin" ? (
               <li>
                 <NavLink
                   to="fabricator"
@@ -77,72 +78,71 @@ const Sidebar = () => {
                   <div>Fabricator</div>
                 </NavLink>
               </li>
-             
-          ) : null}
-          {userType === "admin" ? (
+            ) : null}
+            {userType === "admin" ? (
+              <li>
+                <NavLink
+                  to="vendor"
+                  className={({ isActive }) =>
+                    isActive
+                      ? "flex justify-center items-center text-white bg-teal-400 rounded-md w-full  delay-150"
+                      : "text-black hover:text-white hover:flex hover:justify-center hover:items-center hover:bg-teal-200  rounded-md"
+                  }
+                >
+                  <div>Vendor</div>
+                </NavLink>
+              </li>
+            ) : null}
+
             <li>
               <NavLink
-                to="vendor"
+                to="project"
                 className={({ isActive }) =>
                   isActive
                     ? "flex justify-center items-center text-white bg-teal-400 rounded-md w-full  delay-150"
                     : "text-black hover:text-white hover:flex hover:justify-center hover:items-center hover:bg-teal-200  rounded-md"
                 }
               >
-                <div>Vendor</div>
+                <div>Project</div>
               </NavLink>
             </li>
-          ) : null}
-          
-          <li>
-            <NavLink
-              to="project"
-              className={({ isActive }) =>
-                isActive
-                  ? "flex justify-center items-center text-white bg-teal-400 rounded-md w-full  delay-150"
-                  : "text-black hover:text-white hover:flex hover:justify-center hover:items-center hover:bg-teal-200  rounded-md"
-              }
-            >
-              <div>Project</div>
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              to="rfi"
-              className={({ isActive }) =>
-                isActive
-                  ? "flex justify-center items-center text-white bg-teal-400 rounded-md w-full  delay-150"
-                  : "text-black hover:text-white hover:flex hover:justify-center hover:items-center hover:bg-teal-200  rounded-md"
-              }
-            >
-              <div>RFI</div>
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              to="submittals"
-              className={({ isActive }) =>
-                isActive
-                  ? "flex justify-center items-center text-white bg-teal-400 rounded-md w-full  delay-150"
-                  : "text-black hover:text-white hover:flex hover:justify-center hover:items-center hover:bg-teal-200  rounded-md"
-              }
-            >
-              <div>Submittals</div>
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              to="change-order"
-              className={({ isActive }) =>
-                isActive
-                  ? "flex justify-center items-center text-white bg-teal-400 rounded-md w-full  delay-150"
-                  : "text-black hover:text-white hover:flex hover:justify-center hover:items-center hover:bg-teal-200  rounded-md"
-              }
-            >
-              <div>Change Order</div>
-            </NavLink>
-          </li>
-          {/* <li>
+            <li>
+              <NavLink
+                to="rfi"
+                className={({ isActive }) =>
+                  isActive
+                    ? "flex justify-center items-center text-white bg-teal-400 rounded-md w-full  delay-150"
+                    : "text-black hover:text-white hover:flex hover:justify-center hover:items-center hover:bg-teal-200  rounded-md"
+                }
+              >
+                <div>RFI</div>
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="submittals"
+                className={({ isActive }) =>
+                  isActive
+                    ? "flex justify-center items-center text-white bg-teal-400 rounded-md w-full  delay-150"
+                    : "text-black hover:text-white hover:flex hover:justify-center hover:items-center hover:bg-teal-200  rounded-md"
+                }
+              >
+                <div>Submittals</div>
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="change-order"
+                className={({ isActive }) =>
+                  isActive
+                    ? "flex justify-center items-center text-white bg-teal-400 rounded-md w-full  delay-150"
+                    : "text-black hover:text-white hover:flex hover:justify-center hover:items-center hover:bg-teal-200  rounded-md"
+                }
+              >
+                <div>Change Order</div>
+              </NavLink>
+            </li>
+            {/* <li>
             <NavLink
               to="update-program"
               className={({ isActive }) =>
@@ -154,39 +154,40 @@ const Sidebar = () => {
               <div>Update Progress</div>
             </NavLink>
           </li> */}
-          <li>
-            <NavLink
-              to="team"
-              className={({ isActive }) =>
-                isActive
-                  ? "flex justify-center items-center text-white bg-teal-400 rounded-md w-full delay-150"
-                  : "text-black hover:text-white hover:flex hover:justify-center hover:items-center hover:bg-teal-200  rounded-md"
-              }
-            >
-              <div>Manage Team</div>
-            </NavLink>
-          </li>
-          <li className="w-full">
-            <NavLink
-              to="profile"
-              className={({ isActive }) =>
-                isActive
-                  ? "flex justify-center items-center text-white bg-teal-400 rounded-md w-full  delay-150 transition-all ease-in-out"
-                  : "text-black hover:text-white hover:flex hover:justify-center hover:items-center hover:bg-teal-200  rounded-md"
-              }
-            >
-              <div>Profile</div>
-            </NavLink>
-          </li>
-          <li></li>
-        </ul>
-      </nav>
-      <div className="md:flex md:justify-right mb-5">
-        <Button className="bg-teal-400 mx-4 w-full" onClick={fetchLogout}>
-          Logout
-        </Button>
-        <div className="text-lg text-black md:hidden block">
-          {currentUser?.username}
+            <li>
+              <NavLink
+                to="team"
+                className={({ isActive }) =>
+                  isActive
+                    ? "flex justify-center items-center text-white bg-teal-400 rounded-md w-full delay-150"
+                    : "text-black hover:text-white hover:flex hover:justify-center hover:items-center hover:bg-teal-200  rounded-md"
+                }
+              >
+                <div>Manage Team</div>
+              </NavLink>
+            </li>
+            <li className="w-full">
+              <NavLink
+                to="profile"
+                className={({ isActive }) =>
+                  isActive
+                    ? "flex justify-center items-center text-white bg-teal-400 rounded-md w-full  delay-150 transition-all ease-in-out"
+                    : "text-black hover:text-white hover:flex hover:justify-center hover:items-center hover:bg-teal-200  rounded-md"
+                }
+              >
+                <div>Profile</div>
+              </NavLink>
+            </li>
+            <li></li>
+          </ul>
+        </nav>
+        <div className="md:flex md:justify-right mb-5">
+          <Button className="bg-teal-400 mx-auto w-full" onClick={fetchLogout}>
+            Logout
+          </Button>
+          <div className="text-lg text-black md:hidden block">
+            {currentUser?.username}
+          </div>
         </div>
       </div>
     </div>

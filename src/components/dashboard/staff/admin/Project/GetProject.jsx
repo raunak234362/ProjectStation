@@ -73,7 +73,7 @@ const GetProject = ({ projectId, onClose }) => {
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-85 flex justify-center items-center z-50">
-      <div className="bg-white h-fit md:p-5 rounded-lg shadow-lg w-6/12 ">
+      <div className="bg-white h-[80vh] overflow-y-auto md:p-5 rounded-lg shadow-lg w-11/12 md:w-6/12 ">
         <div className="flex flex-row justify-between">
           <Button className="bg-red-500" onClick={handleClose}>
             Close

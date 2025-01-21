@@ -79,14 +79,11 @@ const AddFabricator = () => {
     try {
       const response = await Service.addFabricator(data);
       console.log(response);
-      if (response.status === 201) {
-        dispatch(addFabricator(response.data));
-        reset();
-      } else {
-        alert("Error in adding Fabricator");
-      }
+      dispatch(addFabricator(response.data));
+      alert("Successfully Added Fabricator");
     } catch (error) {
       console.log(error);
+      alert("Error Adding Fabricator");
     }
   };
 

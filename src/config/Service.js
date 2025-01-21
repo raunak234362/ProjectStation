@@ -1,4 +1,5 @@
-import axios from "axios";
+
+import api from "./api";
 import { BASE_URL } from "./constant";
 const token = sessionStorage.getItem("token");
 class Service {
@@ -8,7 +9,7 @@ class Service {
   // Fetch the logged-in user - updated
   static async getCurrentUser(token) {
     try {
-      const response = await axios.post(`${BASE_URL}/auth/getuserbytoken`, {
+      const response = await api.post(`/api/auth/getuserbytoken`, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
@@ -25,8 +26,8 @@ class Service {
   static async addEmployee(updatedData) {
     try {
       const formData = { ...updatedData };
-      const response = await axios.post(
-        `${BASE_URL}/employee/employee`,
+      const response = await api.post(
+        `/api/employee/employee`,
         formData,
         {
           headers: {
@@ -45,8 +46,8 @@ class Service {
   // Change password-updated -- updated
   static async changePassword(token, data) {
     try {
-      const response = await axios.post(
-        `${BASE_URL}/auth/resetpassword/`,
+      const response = await api.post(
+        `/api/auth/resetpassword/`,
         data,
         {
           headers: {
@@ -65,7 +66,7 @@ class Service {
   // Fetch all employees (staff) -- updated
   static async allEmployee(token) {
     try {
-      const response = await axios.get(`${BASE_URL}/employee/employee`, {
+      const response = await api.get(`/API/employee/employee`, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
@@ -81,7 +82,7 @@ class Service {
   // Fetch all departments -- updated
   static async allDepartment(token) {
     try {
-      const response = await axios.get(`${BASE_URL}/department/department`, {
+      const response = await api.get(`/api/department/department`, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Token ${token}`,
@@ -99,8 +100,8 @@ class Service {
     try {
       const departmentData = { ...data };
 
-      const response = await axios.post(
-        `${BASE_URL}/department/department`,
+      const response = await api.post(
+        `/api/department/department`,
         departmentData,
         {
           headers: {
@@ -121,8 +122,8 @@ class Service {
     try {
       const token = sessionStorage.getItem("token");
       const formData = { ...fabricatorData };
-      const response = await axios.post(
-        `${BASE_URL}/fabricator/fabricator/`,
+      const response = await api.post(
+        `/api/fabricator/fabricator/`,
         formData,
         {
           headers: {
@@ -143,8 +144,8 @@ class Service {
   static async addFabricatorBranch(fabricatorBranchData, id) {
     try {
       const formData = { ...fabricatorBranchData };
-      const response = await axios.post(
-        `${BASE_URL}/fabricator/fabricator/${id}/addbranch/`,
+      const response = await api.post(
+        `/api/fabricator/fabricator/${id}/addbranch/`,
         formData,
         {
           headers: {
@@ -164,7 +165,7 @@ class Service {
   static async allFabricator() {
     try {
       const token = sessionStorage.getItem("token");
-      const response = await axios.get(`${BASE_URL}/fabricator/fabricator`, {
+      const response = await api.get(`/api/fabricator/fabricator`, {
         headers: {
           "Content-Type": "Application/json",
           Authorization: `Bearer ${token}`,
@@ -182,8 +183,8 @@ class Service {
     console.log("Service:---", id);
     try {
       const token = sessionStorage.getItem("token");
-      const response = await axios.get(
-        `${BASE_URL}/fabricator/fabricator/${id}`,
+      const response = await api.get(
+        `/api/fabricator/fabricator/${id}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -204,8 +205,8 @@ class Service {
       const token = sessionStorage.getItem("token");
       const clientData = { ...data };
       console.log("clientData----",clientData);
-      const response = await axios.post(
-        `${BASE_URL}/client/client/${data.fabricator}/addclient/`,
+      const response = await api.post(
+        `/api/client/client/${data.fabricator}/addclient/`,
         clientData,
         {
           headers: {
@@ -225,8 +226,8 @@ class Service {
   static async allClient() {
     try {
       const token = sessionStorage.getItem("token");
-      const response = await axios.get(
-        `${BASE_URL}/client/client/getallclients`,
+      const response = await api.get(
+        `/api/client/client/getallclients`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -251,7 +252,7 @@ class Service {
       });
       vendorData.append("role", "VENDOR");
       console.log(data);
-      const response = await axios.post(`${BASE_URL}/vendor/`, vendorData, {
+      const response = await api.post(`/api/vendor/`, vendorData, {
         headers: {
           "Content-Type": "multipart/form-data",
           Authorization: `Token ${sessionStorage.getItem("token")}`,
@@ -273,8 +274,8 @@ class Service {
       });
       vendorUserData.append("role", "VENDOR");
       console.log(data);
-      const response = await axios.post(
-        `${BASE_URL}/vendor/${data["vendor"]}/users/`,
+      const response = await api.post(
+        `/api/vendor/${data["vendor"]}/users/`,
         vendorUserData,
         {
           headers: {
@@ -293,7 +294,7 @@ class Service {
   // Fetch all vendor users
   static async allVendorUser(token) {
     try {
-      const response = await axios.get(`${BASE_URL}/user/vendor/`, {
+      const response = await api.get(`/api/user/vendor/`, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Token ${token}`,
@@ -308,7 +309,7 @@ class Service {
   // Fetch all Vendors
   static async allVendor(token) {
     try {
-      const response = await axios.get(`${BASE_URL}/vendor/`, {
+      const response = await api.get(`/api/vendor/`, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Token ${token}`,
@@ -326,8 +327,8 @@ class Service {
     const token = sessionStorage.getItem("token");
     try {
       const formData = { ...projectData };
-      const response = await axios.post(
-        `${BASE_URL}/project/projects`,
+      const response = await api.post(
+        `/api/project/projects`,
         formData,
         {
           headers: {
@@ -346,7 +347,7 @@ class Service {
   // Fetch all projects --updated
   static async allprojects(token) {
     try {
-      const response = await axios.get(`${BASE_URL}/project/projects`, {
+      const response = await api.get(`/api/project/projects`, {
         headers: {
           "Content-Type": "Application/json",
           Authorization: `Bearer ${token}`,
@@ -363,8 +364,8 @@ class Service {
   static async editProject(id, data) {
     console.log("Service:---", id);
     try {
-      const response = await axios.patch(
-        `${BASE_URL}/project/projects/${id}`,
+      const response = await api.patch(
+        `/api/project/projects/${id}`,
         data,
         {
           headers: {
@@ -389,8 +390,8 @@ class Service {
     // const formData = new FormData();
     // formData.append("files", data);
     try {
-      const response = await axios.post(
-        `${BASE_URL}/project/projects/${id}/add_file`,
+      const response = await api.post(
+        `/api/project/projects/${id}/add_file`,
         data,
         {
           headers: {
@@ -412,8 +413,8 @@ class Service {
     console.log("fileID----", fileID);
     const token = sessionStorage.getItem("token");
     try {
-      const response = await axios.get(
-        `${BASE_URL}/project/projects/viewfile/${projectID}/${fileID}`,
+      const response = await api.get(
+        `/api/project/projects/viewfile/${projectID}/${fileID}`,
         {
           headers: {
             "Content-Type": "Application/json",
@@ -432,7 +433,7 @@ class Service {
   static async addTeam(teamData) {
     try {
       const formData = { ...teamData };
-      const response = await axios.post(`${BASE_URL}/team/teams`, formData, {
+      const response = await api.post(`/api/team/teams`, formData, {
         headers: {
           "Content-Type": "Application/json",
           Authorization: `Bearer ${token}`,
@@ -449,7 +450,7 @@ class Service {
   static async allteams() {
     try {
       const token = sessionStorage.getItem("token");
-      const response = await axios.get(`${BASE_URL}/team/teams`, {
+      const response = await api.get(`/api/team/teams`, {
         headers: {
           "Content-Type": "Application/json",
           Authorization: `Bearer ${token}`,
@@ -466,7 +467,7 @@ class Service {
   static async getTeamById(teamId) {
     try {
       const token = sessionStorage.getItem("token");
-      const response = await axios.get(`${BASE_URL}/team/teams/${teamId}`, {
+      const response = await api.get(`/api/team/teams/${teamId}`, {
         headers: {
           "Content-Type": "Application/json",
           Authorization: `Bearer ${token}`,
@@ -485,8 +486,8 @@ class Service {
     console.log("Service:---", data);
     try {
       const token = sessionStorage.getItem("token");
-      const response = await axios.post(
-        `${BASE_URL}/team/teams/${teamID}/addmember`,
+      const response = await api.post(
+        `/api/team/teams/${teamID}/addmember`,
         data,
         {
           headers: {
@@ -502,11 +503,29 @@ class Service {
     }
   }
 
+
+  //RFI
+  static async addRFI(data){
+    try {
+      const token = sessionStorage.getItem("token");
+      const response = await api.post(`/api/RFI/rfi/addrfi`, data, {
+        headers: {
+          "Content-Type": "Application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      return response.data;
+    } catch (error) {
+      console.log("Error adding RFI:", error);
+      throw error;
+    }
+  }
+
   // Ping server
   // static async ping() {
   //   try {
   //     const response = await Promise.race([
-  //       axios.get(`${BASE_URL}/ping`, {
+  //       axios.get(`/API/ping`, {
   //         headers: {
   //           'Content-Type': 'application/json',
   //         }}),

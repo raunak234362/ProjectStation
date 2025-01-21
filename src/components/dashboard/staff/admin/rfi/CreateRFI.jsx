@@ -12,7 +12,7 @@ import {
 import { addRFI } from "../../../../../store/projectSlice";
 
 const CreateRFI = () => {
-  const projectData = useSelector((state) => state.projectData)
+  const projectData = useSelector((state) => state.projectData.projectData)
   const dispatch = useDispatch();
   console.log(projectData)
   const {

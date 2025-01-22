@@ -2,7 +2,9 @@
 import axios from 'axios';
 
 const instance = axios.create({
-  baseURL: 'https://106.51.141.125:5154',
+  // baseURL: 'https://106.51.141.125:5153',
+  // baseURL: 'http://192.168.1.153:5153',
+  baseURL: 'https://projectstationbe.onrender.com/',
   httpsAgent: {
     rejectUnauthorized: false
   }

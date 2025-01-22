@@ -25,14 +25,14 @@ const App = () => {
   const [isConnected, setIsConnected] = useState(false);
   const [result, setResult] = useState(true);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const result = await Service.ping();
-      if (result) setIsConnected(result);
-      else setResult(result);
-    };
-    fetchData();
-  }, []);
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const result = await Service.ping();
+  //     if (result) setIsConnected(result);
+  //     else setResult(result);
+  //   };
+  //   fetchData();
+  // }, []);
 
   useEffect(() => {
     console.log(token)

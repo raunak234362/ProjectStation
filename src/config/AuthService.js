@@ -1,4 +1,5 @@
 /* eslint-disable no-unused-vars */
+import api from "./api";
 import axios from 'axios'
 import { BASE_URL } from './constant'
 
@@ -11,7 +12,7 @@ class AuthService {
       formData.append('username', username.toUpperCase())
       formData.append('password', password)
        
-      const response = await axios.post(`${BASE_URL}/auth/login/`, formData, {
+      const response = await api.post(`/api/auth/login/`, formData, {
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
         },

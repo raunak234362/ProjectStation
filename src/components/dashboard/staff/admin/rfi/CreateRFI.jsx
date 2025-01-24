@@ -10,11 +10,12 @@ import {
   MultipleFileUpload,
 } from "../../../../index";
 import { addRFI } from "../../../../../store/projectSlice";
+import Service from "../../../../../config/Service";
 
 const CreateRFI = () => {
-  const projectData = useSelector((state) => state.projectData.projectData)
+  const projectData = useSelector((state) => state.projectData.projectData);
   const dispatch = useDispatch();
-  console.log(projectData)
+  console.log(projectData);
   const {
     register,
     setValue,
@@ -22,15 +23,25 @@ const CreateRFI = () => {
     formState: { errors },
   } = useForm();
   const [files, setFiles] = useState([]);
+  const [fileUpload, setFileUpload] = useState("");
+  const [fileName, setFileName] = useState(null);
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    console.log(file);
+    setFileUpload(file?.name);
+    setFileName(URL.createObjectURL(file));
+  };
 
   const onFilesChange = (updatedFiles) => {
     setFiles(updatedFiles);
   };
 
   const CreateRFI = async (data) => {
-    console.log(data);
-    dispatch(addRFI(data))
-    // console.log(addRFI(data))
+    console.log("data==========================", data);
+    const response = await Service.addRFI(data);
+    console.log("response==========================", response);
+    //console.log(addRFI(data))
   };
 
   return (
@@ -119,7 +130,12 @@ const CreateRFI = () => {
             Attach Files:
           </div>
           <div className="my-2 md:px-2 px-1">
-            <MultipleFileUpload {...register("file")} onFilesChange={onFilesChange} />
+            <Input
+              type="file"
+              accept=".pdf, image/* , .zip , .rar , .iso"
+              {...register("file")}
+              onFilesChange={onFilesChange}
+            />
           </div>
 
           <div className="my-5 w-full">

@@ -506,11 +506,12 @@ class Service {
 
   //RFI
   static async addRFI(data){
+    console.log("data==========================",data);
     try {
       const token = sessionStorage.getItem("token");
       const response = await api.post(`/api/RFI/rfi/addrfi`, data, {
         headers: {
-          "Content-Type": "Application/json",
+          "Content-Type": "Multipart/form-data",
           Authorization: `Bearer ${token}`,
         },
       });

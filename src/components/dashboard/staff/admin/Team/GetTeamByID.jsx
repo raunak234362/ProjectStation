@@ -34,11 +34,7 @@ const GetTeamByID = ({ team, taskID, isOpen, onClose }) => {
     state?.userData?.teamData?.data?.find((team) => team.id === teamID)
   );
 
-  console.log(taskData?.members);
-
   const staffData = useSelector((state) => state?.userData?.staffData?.data);
-
-  console.log(staffData);
 
   // Add new state for job study
   const [jobStudyRole, setJobStudyRole] = useState("");
@@ -48,7 +44,6 @@ const GetTeamByID = ({ team, taskID, isOpen, onClose }) => {
   }
 
   function fetchStaff() {
-    const uniqueMembers = new Set();
 
     const memberOptions = staffData
       ?.map((staff) => {
@@ -62,8 +57,8 @@ const GetTeamByID = ({ team, taskID, isOpen, onClose }) => {
         }
         return null;
       })
-      .filter(Boolean) // Remove null values from the array
-      .sort((a, b) => a.label.localeCompare(b.label)); // Sort alphabetically
+      .filter(Boolean) 
+      .sort((a, b) => a.label.localeCompare(b.label)); 
 
     setMemberOptions(memberOptions);
   }
@@ -75,7 +70,7 @@ const GetTeamByID = ({ team, taskID, isOpen, onClose }) => {
   useEffect(() => {
     if (taskData?.members) {
       const membersByRole = taskData.members.reduce((acc, member) => {
-        const role = member.role || 'MEMBER';
+        const role = member.role || "MEMBER";
         if (!acc[role]) {
           acc[role] = [];
         }
@@ -84,42 +79,28 @@ const GetTeamByID = ({ team, taskID, isOpen, onClose }) => {
       }, {});
       setSegregatedMembers(membersByRole);
     }
-  }, [taskData]);
-
-  useEffect(() => {
-    // Get job study from taskData if available
-    if (taskData?.job_study) {
-      setJobStudyRole(taskData.job_study);
-    }
-  }, [taskData]);
+  }, []);
 
   const addMembers = async (data) => {
     try {
       const response = await Service.addTeamMember(teamID, data);
-      if (response.status === 200 || response.status === 201) {
-        setIsSuccessOpen(true);
-        // Reset form after successful addition
-        reset();
-        // Optionally refresh the team data here if needed
-      } else {
-        setIsFailedOpen(true);
-      }
+      setIsSuccessOpen(true);
     } catch (error) {
-      console.error('Error adding team member:', error);
       setIsFailedOpen(true);
+      console.error("Error adding team member:", error);
     }
   };
 
   if (!isOpen) return null;
 
-  const handleEditClick = () => {
-    setIsModalOpen(true);
-    setSelectedTask(team);
-  };
-  const handleModalClose = () => {
-    setIsModalOpen(false);
-    setSelectedTask(null);
-  };
+  // const handleEditClick = () => {
+  //   setIsModalOpen(true);
+  //   setSelectedTask(team);
+  // };
+  // const handleModalClose = () => {
+  //   setIsModalOpen(false);
+  //   setSelectedTask(null);
+  // };
   const closeFailedModal = () => {
     setIsFailedOpen(false);
   };
@@ -135,7 +116,8 @@ const GetTeamByID = ({ team, taskID, isOpen, onClose }) => {
         <div className="ml-4">
           {members.map((member) => (
             <div key={member.id} className="text-gray-600">
-              {staffData?.find((staff) => staff?.id === member?.id)?.f_name} {staffData?.find((staff) => staff?.id === member?.id)?.l_name}
+              {staffData?.find((staff) => staff?.id === member?.id)?.f_name}{" "}
+              {staffData?.find((staff) => staff?.id === member?.id)?.l_name}
             </div>
           ))}
         </div>
@@ -147,13 +129,16 @@ const GetTeamByID = ({ team, taskID, isOpen, onClose }) => {
   const getAvailableRoles = () => {
     const baseRoles = [
       { label: "GUEST", value: "GUEST" },
-      { label: "LEADER", value: "LEADER" },
-      { label: "MEMBER", value: "MEMBER" },
-      { label: "MANAGER", value: "MANAGER" },
+      { label: "MODELER", value: "MODELLER" },
+      { label: "DETAILER", value: "DETAILER" },
+      { label: "ERECTION", value: "ERECTION" },
+      { label: "CHECKER", value: "CHECKER" },
     ];
 
     // Add specific role based on job study
     switch (jobStudyRole) {
+      case "Guest":
+        return [...baseRoles, { label: "GUEST", value: "GUEST" }];
       case "Modeling":
         return [...baseRoles, { label: "MODELER", value: "MODELER" }];
       case "Detailing":
@@ -192,7 +177,9 @@ const GetTeamByID = ({ team, taskID, isOpen, onClose }) => {
                   {taskData?.manager?.f_name} {taskData?.manager?.l_name}
                 </p>
                 <div className="mb-2">
-                  <strong className="text-gray-700">Team Members by Role:</strong>
+                  <strong className="text-gray-700">
+                    Team Members by Role:
+                  </strong>
                   {renderMembers()}
                 </div>
               </div>
@@ -236,7 +223,9 @@ const GetTeamByID = ({ team, taskID, isOpen, onClose }) => {
                     <Button type="submit">Add</Button>
                     <Dialog open={isSuccessOpen} handler={setIsSuccessOpen}>
                       <DialogHeader>Success</DialogHeader>
-                      <DialogBody>Team member has been added successfully!</DialogBody>
+                      <DialogBody>
+                        Team member has been added successfully!
+                      </DialogBody>
                       <DialogFooter>
                         <Button
                           variant="gradient"
@@ -244,7 +233,7 @@ const GetTeamByID = ({ team, taskID, isOpen, onClose }) => {
                           onClick={() => {
                             closeSuccessModal();
                             // Optionally refresh the page or data
-                            window.location.reload();
+                            
                           }}
                         >
                           Close

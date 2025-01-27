@@ -19,17 +19,17 @@ const Sidebar = () => {
     setCurrentUser(userData[0]);
   };
 
-  // const fetchLogout = async () => {
-  //   try {
-  //     // const response = await AuthService.logout(token);
-  //     sessionStorage.removeItem("userType");
-  //     sessionStorage.removeItem("token");
-  //     dispatch(logoutAction());
-  //     navigate("/");
-  //   } catch (error) {
-  //     console.error("Logout failed:", error);
-  //   }
-  // };
+  const fetchLogout = async () => {
+    try {
+      // const response = await AuthService.logout(token);
+      sessionStorage.removeItem("userType");
+      sessionStorage.removeItem("token");
+      dispatch(logoutAction());
+      navigate("/");
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
+  };
   // Sidebar.js
   // const fetchLogout = async () => {
   //   try {
@@ -182,14 +182,14 @@ const Sidebar = () => {
           </ul>
         </nav>
         <div className="md:flex md:bottom-0 mb-5">
-          {/* <div className="w-full mx-auto">
+          <div className="w-full mx-auto">
             <Button
               className="bg-teal-400 w-full"
               onClick={fetchLogout}
             >
               Logout
             </Button>
-          </div> */}
+          </div>
           <div className="text-lg text-black md:hidden block">
             {currentUser?.username}
           </div>

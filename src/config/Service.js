@@ -1,4 +1,3 @@
-
 import api from "./api";
 import { BASE_URL } from "./constant";
 const token = sessionStorage.getItem("token");
@@ -26,16 +25,12 @@ class Service {
   static async addEmployee(updatedData) {
     try {
       const formData = { ...updatedData };
-      const response = await api.post(
-        `/api/employee/employee`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "Application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const response = await api.post(`/api/employee/employee`, formData, {
+        headers: {
+          "Content-Type": "Application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
       return response.data;
     } catch (error) {
       console.log("Error adding staff:", error.response?.data || error);
@@ -46,16 +41,12 @@ class Service {
   // Change password-updated -- updated
   static async changePassword(token, data) {
     try {
-      const response = await api.post(
-        `/api/auth/resetpassword/`,
-        data,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Token ${token}`,
-          },
-        }
-      );
+      const response = await api.post(`/api/auth/resetpassword/`, data, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Token ${token}`,
+        },
+      });
       return response;
     } catch (error) {
       console.log("Error changing password:", error);
@@ -122,16 +113,12 @@ class Service {
     try {
       const token = sessionStorage.getItem("token");
       const formData = { ...fabricatorData };
-      const response = await api.post(
-        `/api/fabricator/fabricator/`,
-        formData,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "Application/json",
-          },
-        }
-      );
+      const response = await api.post(`/api/fabricator/fabricator/`, formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "Application/json",
+        },
+      });
       console.log("Successfully Added Fabricator: ", response.data);
       return response.data;
     } catch (error) {
@@ -183,15 +170,12 @@ class Service {
     console.log("Service:---", id);
     try {
       const token = sessionStorage.getItem("token");
-      const response = await api.get(
-        `/api/fabricator/fabricator/${id}`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Token ${token}`,
-          },
-        }
-      );
+      const response = await api.get(`/api/fabricator/fabricator/${id}`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Token ${token}`,
+        },
+      });
       return response.data;
     } catch (error) {
       console.log("Error fetching fabricators:", error);
@@ -204,7 +188,7 @@ class Service {
     try {
       const token = sessionStorage.getItem("token");
       const clientData = { ...data };
-      console.log("clientData----",clientData);
+      console.log("clientData----", clientData);
       const response = await api.post(
         `/api/client/client/${data.fabricator}/addclient/`,
         clientData,
@@ -226,15 +210,12 @@ class Service {
   static async allClient() {
     try {
       const token = sessionStorage.getItem("token");
-      const response = await api.get(
-        `/api/client/client/getallclients`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Token ${token}`,
-          },
-        }
-      );
+      const response = await api.get(`/api/client/client/getallclients`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Token ${token}`,
+        },
+      });
       return response.data.data;
     } catch (error) {
       console.log("Error fetching clients:", error);
@@ -327,16 +308,12 @@ class Service {
     const token = sessionStorage.getItem("token");
     try {
       const formData = { ...projectData };
-      const response = await api.post(
-        `/api/project/projects`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "Application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const response = await api.post(`/api/project/projects`, formData, {
+        headers: {
+          "Content-Type": "Application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
       return response?.data?.data;
     } catch (error) {
       console.log("Error adding project:", error);
@@ -364,16 +341,12 @@ class Service {
   static async editProject(id, data) {
     console.log("Service:---", id);
     try {
-      const response = await api.patch(
-        `/api/project/projects/${id}`,
-        data,
-        {
-          headers: {
-            "Content-Type": "Application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const response = await api.patch(`/api/project/projects/${id}`, data, {
+        headers: {
+          "Content-Type": "Application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
       return response.data;
     } catch (error) {
       console.log("Error editing project:", error);
@@ -484,11 +457,12 @@ class Service {
   static async addTeamMember(teamID, data) {
     console.log("Service:---", teamID);
     console.log("Service:---", data);
+    const formData = { ...data };
     try {
       const token = sessionStorage.getItem("token");
-      const response = await api.post(
+      const response = await api.patch(
         `/api/team/teams/${teamID}/addmember`,
-        data,
+        formData,
         {
           headers: {
             "Content-Type": "Application/json",
@@ -503,10 +477,9 @@ class Service {
     }
   }
 
-
   //RFI
-  static async addRFI(data){
-    console.log("data==========================",data);
+  static async addRFI(data) {
+    console.log("data==========================", data);
     try {
       const token = sessionStorage.getItem("token");
       const response = await api.post(`/api/RFI/rfi/addrfi`, data, {

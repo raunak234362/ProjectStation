@@ -2,29 +2,38 @@
 import axios from "axios";
 
 const instance = axios.create({
-  baseURL: 'https://106.51.141.125:5154',
-  // baseURL: "https://192.168.1.153:5154",
-  // baseURL: "http://192.168.1.153:5153",
-  // baseURL: 'https://projectstationbe.onrender.com/',
-  withCredentials: false, // Set to false to avoid CORS preflight
+  baseURL: 'https://106.51.141.125:5154', // API URL
+  // baseURL: 'https://192.168.1.153:5154', // API URL
+  // baseURL: 'https://106.51.141.125:5154', // API URL
+  withCredentials: false,
   headers: {
-    "Access-Control-Allow-Origin": "*",
-    "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
-  },
-  proxy: false,
-  httpsAgent: {
-    rejectUnauthorized: false,
+    "Content-Type": "application/json",
   },
 });
 
-// Add request interceptor to handle CORS
-instance.interceptors.request.use((config) => {
-  // Add token if it exists
-  const token = sessionStorage.getItem("token");
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
+// Add request interceptor to handle tokens
+instance.interceptors.request.use(
+  (config) => {
+    const token = sessionStorage.getItem("token");
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
+
+// Add response interceptor to handle errors
+instance.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response?.status === 401) {
+      console.error("Unauthorized access - redirecting to login.");
+      sessionStorage.removeItem("token");
+      window.location.href = "/login";
+    }
+    return Promise.reject(error);
   }
-  return config;
-});
+);
 
 export default instance;

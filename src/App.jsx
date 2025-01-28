@@ -24,7 +24,7 @@ const App = () => {
 
   const [isConnected, setIsConnected] = useState(false);
   const [result, setResult] = useState(true);
-
+  const userType = sessionStorage.getItem("userType");
   // useEffect(() => {
   //   const fetchData = async () => {
   //     const result = await Service.ping();
@@ -35,21 +35,23 @@ const App = () => {
   // }, []);
 
   useEffect(() => {
-    console.log(token)
+    console.log(token);
     const fetchUser = async () => {
       const user = await Service.getCurrentUser(token);
       dispatch(setUserData(user.data));
       try {
         const userData = await Service.allEmployee(token);
         dispatch(showStaff(userData));
-        const fabricator= await Service.allFabricator(token);
-        dispatch(loadFabricator(fabricator));
-        const client = await Service.allClient(token);
-        dispatch(showClient(client));
-        const project = await Service.allprojects(token);
+        const project = await Service?.allprojects(token);
         dispatch(showProjects(project?.data));
         const TeamData = await Service.allteams(token);
         dispatch(showTeam(TeamData));
+        if (userType === "admin" ||  userType === "manager") {
+          const fabricator = await Service?.allFabricator(token);
+          dispatch(loadFabricator(fabricator));
+          const client = await Service?.allClient(token);
+          dispatch(showClient(client));
+        }
       } catch (error) {
         console.log(error);
         navigate("/");
@@ -63,7 +65,7 @@ const App = () => {
     <Provider store={store}>
       <div className="flex flex-col w-screen h-screen overflow-hidden md:flex-row bg-gradient-to-r from-green-300/50 to-teal-300">
         {/* Sidebar */}
-{/* 
+        {/* 
         {!isConnected && (
           <>
             <div className="absolute top-0 left-0 z-50 w-screen h-screen bg-black bg-opacity-50">

@@ -356,12 +356,14 @@ class Service {
 
   // Fetch all Project File --updated
   static async addProjectFile(data, id) {
+    console.log("Data----------------",data);
     // const formData = new FormData();
     // for(let i = 0 ; i < data.length ; i++){
     //   formData.append("files", data[i]);
     // }
     // const formData = new FormData();
     // formData.append("files", data);
+    const token = sessionStorage.getItem("token");
     try {
       const response = await api.post(
         `/api/project/projects/${id}/add_file`,

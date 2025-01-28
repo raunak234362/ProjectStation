@@ -36,7 +36,6 @@ const GetTeamByID = ({ team, taskID, isOpen, onClose }) => {
 
   const staffData = useSelector((state) => state?.userData?.staffData?.data);
 
-  // Add new state for job study
   const [jobStudyRole, setJobStudyRole] = useState("");
 
   function segerateTeam() {

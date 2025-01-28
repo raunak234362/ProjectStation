@@ -22,17 +22,28 @@ const AddFiles = ({ projectId }) => {
 
   const onSubmit = async (data) => {
     const formData = new FormData();
-    // Append files to FormData
-    for (let i = 0; i < data.files.length; i++) {
-      formData.append("files", data.files[i]);
-    }
-    console.log(formData);
 
-    try {
-      const response = await Service.addProjectFile(formData, projectId);
-      console.log("Files uploaded successfully:", response);
-    } catch (error) {
-      console.error("Error uploading files:", error);
+    // Ensure data?.files is an array and has files
+    if (data?.files?.length) {
+      // Append files to FormData
+      for (let i = 0; i < data.files.length; i++) {
+        console.log("File data:", data.files[i]);
+        formData.append("files", data.files[i]);
+      }
+
+      // Log the formData content by iterating over its entries
+      for (let pair of formData.entries()) {
+        console.log(pair[0] + ": " + pair[1]);
+      }
+
+      try {
+        const response = await Service.addProjectFile(formData, projectId);
+        console.log("Files uploaded successfully:", response);
+      } catch (error) {
+        console.error("Error uploading files:", error);
+      }
+    } else {
+      console.error("No files to upload.");
     }
   };
 

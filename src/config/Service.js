@@ -213,7 +213,7 @@ class Service {
       const response = await api.get(`/api/client/client/getallclients`, {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Token ${token}`,
+          Authorization: `Bearer ${token}`,
         },
       });
       return response.data.data;
@@ -355,29 +355,22 @@ class Service {
   }
 
   // Fetch all Project File --updated
-  static async addProjectFile(data, id) {
-    console.log("Data----------------",data);
-    // const formData = new FormData();
-    // for(let i = 0 ; i < data.length ; i++){
-    //   formData.append("files", data[i]);
-    // }
-    // const formData = new FormData();
-    // formData.append("files", data);
+  static async addProjectFile(formData, id) {
     const token = sessionStorage.getItem("token");
     try {
       const response = await api.post(
         `/api/project/projects/${id}/add_file`,
-        data,
+        formData,
         {
           headers: {
-            "Content-Type": "Multipart/form-data",
+            "Content-Type": "multipart/form-data",
             Authorization: `Bearer ${token}`,
           },
         }
       );
       return response.data;
     } catch (error) {
-      console.log("Error fetching projects:", error);
+      console.log("Error uploading files:", error);
       throw error;
     }
   }

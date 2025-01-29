@@ -5,7 +5,7 @@ import Profile from "./admin/profile/Profile";
 
 //project
 import Project from "./admin/project/Project";
-
+import ClientAllProjects from "./admin/project/ClientAllProjects";
 //rfi
 import RFI from "./admin/rfi/RFI";
 
@@ -22,6 +22,7 @@ export {
     Dashboard,
     Profile,
     Project,
+    ClientAllProjects,
     RFI,
     Submittals,
     ChangeOrder,

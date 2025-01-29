@@ -19,14 +19,11 @@ const GetProject = ({ projectId, onClose }) => {
   );
   console.log("Project Data", projectData);
 
-
-  
-
   // const fetchFiles = async (data) => {
   //   console.log("Fetching files", data);
   //   try {
   //     const files = await Service.allProjectFile(projectId,data);
-      
+
   //     console.log("Files", files);
   //   } catch (error) {
   //     console.log("Error fetching files:", error);
@@ -61,7 +58,6 @@ const GetProject = ({ projectId, onClose }) => {
 
   // console.log("Project", project?.files(map((file) => file.path))
 
-
   const handleEditClick = () => {
     setIsModalOpen(true);
     setSelectedEditProject(projectData);
@@ -69,6 +65,11 @@ const GetProject = ({ projectId, onClose }) => {
   const handleModalClose = () => {
     setIsModalOpen(false);
     setSelectedEditProject(null);
+  };
+
+  const projectDetails = {
+    projectData: projectData, // Ensure correct property assignment
+    // Add other properties as needed
   };
 
   return (
@@ -136,16 +137,16 @@ const GetProject = ({ projectId, onClose }) => {
                   label: "Files",
                   value: Array.isArray(projectData?.files)
                     ? projectData?.files?.map((file, index) => (
-                        <a
-                          key={index}
-                          href={`${BASE_URL}/project/projects/viewfile/${projectId}/${file.id}`} // Use the file path with baseURL
-                          target="_blank" // Open in a new tab
-                          rel="noopener noreferrer"
-                          className="text-blue-500 hover:underline"
-                        >
-                          {file.originalName || `File ${index + 1}`}
-                        </a>
-                      ))
+                          <a
+                            key={index}
+                            href={`${BASE_URL}/project/projects/viewfile/${projectId}/${file.id}`} // Use the file path with baseURL
+                            target="_blank" // Open in a new tab
+                            rel="noopener noreferrer"
+                            className="px-5 py-2 text-teal-500 hover:underline"
+                          >
+                            {file.originalName || `File ${index + 1}`}
+                          </a>
+                    ))
                     : "Not available",
                 },
               ]?.map(({ label, value }) => (

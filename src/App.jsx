@@ -39,18 +39,25 @@ const App = () => {
     const fetchUser = async () => {
       const user = await Service.getCurrentUser(token);
       dispatch(setUserData(user.data));
+      console.log(user.data);
       try {
-        const userData = await Service.allEmployee(token);
-        dispatch(showStaff(userData));
-        const project = await Service?.allprojects(token);
-        dispatch(showProjects(project?.data));
-        const TeamData = await Service.allteams(token);
-        dispatch(showTeam(TeamData));
-        if (userType === "admin" ||  userType === "manager") {
-          const fabricator = await Service?.allFabricator(token);
-          dispatch(loadFabricator(fabricator));
-          const client = await Service?.allClient(token);
-          dispatch(showClient(client));
+        if (user.data.role === "CLIENT") {
+          console.log("Client Logged in------")
+          const project = await Service?.allprojects(token);
+          dispatch(showProjects(project?.data));
+        } else if (user.data.role === "STAFF") {
+          const userData = await Service.allEmployee(token);
+          dispatch(showStaff(userData));
+          const project = await Service?.allprojects(token);
+          dispatch(showProjects(project?.data));
+          const TeamData = await Service.allteams(token);
+          dispatch(showTeam(TeamData));
+          if (userType === "admin" || userType === "manager") {
+            const fabricator = await Service?.allFabricator(token);
+            dispatch(loadFabricator(fabricator));
+            const client = await Service?.allClient(token);
+            dispatch(showClient(client));
+          }
         }
       } catch (error) {
         console.log(error);

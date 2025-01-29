@@ -13,10 +13,62 @@ const initialState = {
         {
           id: 1,
           name: "Grid Placement",
+          qty:'',
+          execHr:'',
+          checkHr:'',
+          subTask:[
+            {
+              id: 1,
+              name: "Create 1st horizontal & vertical grid",
+              qty:'',
+              execTime:'3.0',
+              checkTime:'1.0',
+            },
+            {
+              id: 2,
+              name: "Create 1st horizontal & vertical grid",
+              qty:'',
+              execTime:'2.0',
+              checkTime:'0.7',
+            },
+            {
+              id: 3,
+              name: "Create 1st horizontal & vertical grid",
+              qty:'',
+              execTime:'4.0',
+              checkTime:'1.3',
+            },
+            {
+              id: 4,
+              name: "Create 1st horizontal & vertical grid",
+              qty:'',
+              execTime:'5.0',
+              checkTime:'1.7',
+            },
+          ]
         },
         {
           id: 2,
           name: "MP - Wall & Panel Placement",
+          qty:'',
+          execHr:'',
+          checkHr:'',
+          subTask:[
+            {
+              id: 1,
+              name:"Wall Placement",
+              qty:'',
+              execTime:'3.0',
+              checkTime:'1.0',
+            },
+            {
+              id: 2,
+              name:"Panel Placement",
+              qty:'',
+              execTime:'3.0',
+              checkTime:'1.0'
+            }
+          ]
         },
         {
           id: 3,

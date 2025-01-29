@@ -40,12 +40,14 @@ const SendCO = () => {
 
   // Handle file selection changes
   const onFilesChange = (updatedFiles) => {
+    console.log(updatedFiles)
     setFiles(updatedFiles);
   };
 
   // Form submission handler
   const onSubmit = async (data) => {
-    console.log(data);
+    const formData = {...data , files}
+    console.log(formData);
     // Dispatch form data to your store or API endpoint
     // dispatch(addRFI(data)) or similar
   };
@@ -294,6 +296,7 @@ const SendCO = () => {
               onFilesChange={onFilesChange}
               files={files}
               accept="image/*,application/pdf,.doc,.docx"
+              {...register("files")}
             />
           </div>
 

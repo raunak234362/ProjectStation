@@ -5,13 +5,17 @@ import Service from "../../../../../config/Service";
 import { Provider, useDispatch, useSelector } from "react-redux";
 import { AddFiles, AddWB, Button, EditProject } from "../../../../index";
 import { BASE_URL } from "../../../../../config/constant";
+import AllWorkBreakdown from "./wb/AllWorkBreakdown";
 
 const GetProject = ({ projectId, onClose }) => {
   const [project, setProject] = useState([]);
   const [selectedProject, setSelectedProject] = useState(null);
-  const [addWorkBreakdown, setAddWorkBreakdown] = useState(false);
-  const [editWorkBreakdown, setEditWorkBreakdown] = useState(false);
   const [selectedEditProject, setSelectedEditProject] = useState(null);
+  const [selectedProjectWB, setSelectedProjectWB] = useState(null);
+  const [addWorkBreakdown, setAddWorkBreakdown] = useState(false);
+  const [allWorkBreakdown, setAllWorkBreakdown] = useState(false);
+
+  const [editWorkBreakdown, setEditWorkBreakdown] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const projectData = useSelector((state) =>
@@ -47,9 +51,19 @@ const GetProject = ({ projectId, onClose }) => {
     setSelectedProject(projectData.id);
   };
 
+  const handleAllWorkBreakdown = () => {
+    setAllWorkBreakdown(true);
+    setSelectedProjectWB(projectData.id);
+  };
+
   const handleCloseAWB = async () => {
     setAddWorkBreakdown(false);
     setSelectedProject(null);
+  };
+
+  const handleCloseAllWB = async () => {
+    setAllWorkBreakdown(false);
+    setSelectedProjectWB(null);
   };
 
   const handleClose = async () => {
@@ -137,16 +151,16 @@ const GetProject = ({ projectId, onClose }) => {
                   label: "Files",
                   value: Array.isArray(projectData?.files)
                     ? projectData?.files?.map((file, index) => (
-                          <a
-                            key={index}
-                            href={`${BASE_URL}/project/projects/viewfile/${projectId}/${file.id}`} // Use the file path with baseURL
-                            target="_blank" // Open in a new tab
-                            rel="noopener noreferrer"
-                            className="px-5 py-2 text-teal-500 hover:underline"
-                          >
-                            {file.originalName || `File ${index + 1}`}
-                          </a>
-                    ))
+                        <a
+                          key={index}
+                          href={`${BASE_URL}/project/projects/viewfile/${projectId}/${file.id}`} // Use the file path with baseURL
+                          target="_blank" // Open in a new tab
+                          rel="noopener noreferrer"
+                          className="px-5 py-2 text-teal-500 hover:underline"
+                        >
+                          {file.originalName || `File ${index + 1}`}
+                        </a>
+                      ))
                     : "Not available",
                 },
               ]?.map(({ label, value }) => (
@@ -164,7 +178,9 @@ const GetProject = ({ projectId, onClose }) => {
               Project Work Breakdown:
             </h2>
             <div className="flex gap-4">
-              <Button>All Work Breakdown</Button>
+              <Button onClick={() => handleAllWorkBreakdown(project.id)}>
+                All Work Breakdown
+              </Button>
               <Button onClick={() => handleAddWorkBreakdown(project.id)}>
                 Add Work Breakdown
               </Button>
@@ -175,6 +191,10 @@ const GetProject = ({ projectId, onClose }) => {
       </div>
       {selectedProject && (
         <AddWB projectId={selectedProject} onClose={handleCloseAWB} />
+      )}
+
+      {selectedProjectWB && (
+        <AllWorkBreakdown projectId={selectedProjectWB} onClose={handleCloseAllWB} />
       )}
 
       {selectedEditProject && (

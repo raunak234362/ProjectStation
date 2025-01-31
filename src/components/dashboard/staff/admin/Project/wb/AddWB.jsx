@@ -7,7 +7,7 @@ import {
   Button,
   JobStudy,
   SelectedWBTask,
-} from "../../../../index";
+} from "../../../../../index";
 import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
 
@@ -94,7 +94,7 @@ const AddWB = ({ projectId, onClose }) => {
           </div>
         </div>
         <div className="h-[85%] overflow-y-auto">
-          <JobStudy />
+          <JobStudy projectId ={projectId}/>
 
           <div className="font-semibold mt-10">Work Breakdown Structure -</div>
           <div className="flex py-5 justify-center">

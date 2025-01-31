@@ -18,11 +18,11 @@ import GetProject from './dashboard/staff/admin/Project/GetProject'
 import AddFiles from './dashboard/staff/admin/Project/AddFiles'
 
 //Work Breakdown
-import WorkBreakdown from './dashboard/staff/admin/Project/WorkBreakdown'
-import AddWB from './dashboard/staff/admin/Project/AddWB'
-import EditWB from './dashboard/staff/admin/Project/EditWB'
-import JobStudy from './dashboard/staff/admin/Project/JobStudy'
-import SelectedWBTask from './dashboard/staff/admin/Project/SelectedWBTask'
+import WorkBreakdown from './dashboard/staff/admin/Project/wb/WorkBreakdown'
+import AddWB from './dashboard/staff/admin/Project/wb/AddWB'
+import EditWB from './dashboard/staff/admin/Project/wb/EditWB'
+import JobStudy from './dashboard/staff/admin/Project/wb/JobStudy'
+import SelectedWBTask from './dashboard/staff/admin/Project/wb/SelectedWBTask'
 
 
 //Fabricator

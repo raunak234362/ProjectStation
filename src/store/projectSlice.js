@@ -13,62 +13,74 @@ const initialState = {
         {
           id: 1,
           name: "Grid Placement",
-          qty:'',
-          execHr:'',
-          checkHr:'',
-          subTask:[
+          qty: "",
+          execHr: "",
+          checkHr: "",
+          subTasks: [
             {
               id: 1,
               name: "Create 1st horizontal & vertical grid",
-              qty:'',
-              execTime:'3.0',
-              checkTime:'1.0',
+              qty: "",
+              execTime: "3.0",
+              checkTime: "1.0",
+              execHr:"",
+              checkHr: "",
             },
             {
               id: 2,
               name: "Create 1st horizontal & vertical grid",
-              qty:'',
-              execTime:'2.0',
-              checkTime:'0.7',
+              qty: "",
+              execTime: "2.0",
+              checkTime: "0.7",
+              execHr:"",
+              checkHr:""
             },
             {
               id: 3,
               name: "Create 1st horizontal & vertical grid",
-              qty:'',
-              execTime:'4.0',
-              checkTime:'1.3',
+              qty: "",
+              execTime: "4.0",
+              checkTime: "1.3",
+              execHr:"",
+              checkHr:""
             },
             {
               id: 4,
               name: "Create 1st horizontal & vertical grid",
-              qty:'',
-              execTime:'5.0',
-              checkTime:'1.7',
+              qty: "",
+              execTime: "5.0",
+              checkTime: "1.7",
+              execHr:"",
+              checkHr:""
             },
-          ]
+          ],
         },
         {
           id: 2,
           name: "MP - Wall & Panel Placement",
-          qty:'',
-          execHr:'',
-          checkHr:'',
-          subTask:[
+          qty: "",
+          execHr: "",
+          checkHr: "",
+          subTasks: [
             {
               id: 1,
-              name:"Wall Placement",
-              qty:'',
-              execTime:'3.0',
-              checkTime:'1.0',
+              name: "Wall Placement",
+              qty: "",
+              execTime: "3.0",
+              checkTime: "1.0",
+              execHr:"",
+              checkHr:""
             },
             {
               id: 2,
-              name:"Panel Placement",
-              qty:'',
-              execTime:'3.0',
-              checkTime:'1.0'
-            }
-          ]
+              name: "Panel Placement",
+              qty: "",
+              execTime: "3.0",
+              checkTime: "1.0",
+              execHr:"",
+              checkHr:""
+            },
+          ],
         },
         {
           id: 3,
@@ -368,6 +380,14 @@ const projectSlice = createSlice({
     deleteProject: (state, action) => {
       state.projectData = state.projectData.filter(
         (project) => project.id !== action.payload
+      );
+    },
+    addWorkBreakdown: (state, action) => {
+      state.workBreakdown.push(action.payload);
+    },
+    updateWorkBreakdown: (state, action) => {
+      state.workBreakdown = state.workBreakdown.map((work) =>
+        work.id === action.payload.id ? { ...work, ...action.payload } : work
       );
     },
     addCO: (state, action) => {

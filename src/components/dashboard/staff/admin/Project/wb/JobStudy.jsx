@@ -1,17 +1,19 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 import React from "react";
-import { Input, CustomSelect, Button } from "../../../../index";
+import { Input, CustomSelect, Button } from "../../../../../index";
 import { useForm, Controller, useFieldArray } from "react-hook-form";
 import { useSelector } from "react-redux";
+import Service from "../../../../../../config/Service";
 
-const JobStudy = () => {
+const JobStudy = ({ projectId }) => {
   const { register, handleSubmit, watch, control, setValue } = useForm({
     defaultValues: {
       rows: [
-        { description: "Modeling", qty: 0, unitTime: 0, executionTime: 0 },
-        { description: "Detailing", qty: 0, unitTime: 0, executionTime: 0 },
-        { description: "Erection", qty: 0, unitTime: 0, executionTime: 0 },
-        { description: "Checking", qty: 0, unitTime: 0, executionTime: 0 },
+        { description: "Modeling", QtyNo: 0, unitTime: 0, execTime: 0 },
+        { description: "Detailing", QtyNo: 0, unitTime: 0, execTime: 0 },
+        { description: "Erection", QtyNo: 0, unitTime: 0, execTime: 0 },
+        { description: "Checking", QtyNo: 0, unitTime: 0, execTime: 0 },
       ],
     },
   });
@@ -40,9 +42,25 @@ const JobStudy = () => {
     },
   ];
 
-  const handleJobStudy = (data) => {
-    console.log("Form Data:", data);
+  const handleJobStudy = async (data) => {
+    // Convert string values to numbers
+    const jobData = data?.rows?.map((job) => ({
+      ...job,
+      projectId,
+      QtyNo: Number(job.QtyNo),
+      unitTime: Number(job.unitTime),
+      execTime: Number(job.execTime),
+    }));
+
+    console.log(jobData);
+    try {
+      const response = await Service.addJobStudy(jobData);
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
   };
+
   return (
     <div>
       <div>
@@ -50,10 +68,7 @@ const JobStudy = () => {
           Job Study
         </div>
 
-        <form
-          onSubmit={handleSubmit(handleJobStudy)}
-          className=" mt-5 my-3"
-        >
+        <form onSubmit={handleSubmit(handleJobStudy)} className="mt-5 my-3">
           <div className="md:w-[80vw] overflow-x-auto w-full">
             <table className="w-full border-collapse border border-gray-600 text-center text-sm">
               <thead className="bg-gray-200">
@@ -63,7 +78,7 @@ const JobStudy = () => {
                     Description of WBS
                   </th>
                   <th className="border border-gray-600 px-2 py-1">
-                    Qty. (No.)
+                    QtyNo. (No.)
                   </th>
                   <th className="border border-gray-600 px-2 py-1">
                     Unit Time
@@ -115,23 +130,23 @@ const JobStudy = () => {
 
                     <td className="border border-gray-600 px-2 py-1">
                       <Controller
-                        name={`rows.${index}.qty`}
+                        name={`rows.${index}.QtyNo`}
                         control={control}
                         render={({ field }) => (
                           <Input
                             {...field}
                             type="number"
                             min="0"
-                            placeholder="Qty"
+                            placeholder="QtyNo"
                             size="md"
                             onChange={(e) => {
                               field.onChange(e);
-                              const qty = e.target.value || 0;
+                              const QtyNo = e.target.value || 0;
                               const unitTime =
                                 watch(`rows.${index}.unitTime`) || 0;
                               setValue(
-                                `rows.${index}.executionTime`,
-                                ((qty * unitTime) / 60).toFixed(2)
+                                `rows.${index}.execTime`,
+                                ((QtyNo * unitTime) / 60).toFixed(2)
                               );
                             }}
                           />
@@ -153,10 +168,10 @@ const JobStudy = () => {
                             onChange={(e) => {
                               field.onChange(e);
                               const unitTime = e.target.value || 0;
-                              const qty = watch(`rows.${index}.qty`) || 0;
+                              const QtyNo = watch(`rows.${index}.QtyNo`) || 0;
                               setValue(
-                                `rows.${index}.executionTime`,
-                                ((qty * unitTime) / 60).toFixed(2)
+                                `rows.${index}.execTime`,
+                                ((QtyNo * unitTime) / 60).toFixed(2)
                               );
                             }}
                           />
@@ -165,7 +180,7 @@ const JobStudy = () => {
                     </td>
 
                     <td className="border border-gray-600 px-2 py-1">
-                      {watch(`rows.${index}.executionTime`)}
+                      {watch(`rows.${index}.execTime`) || 0}
                     </td>
                   </tr>
                 ))}

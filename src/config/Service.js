@@ -55,7 +55,8 @@ class Service {
   }
 
   // Fetch all employees (staff) -- updated
-  static async allEmployee(token) {
+  static async allEmployee() {
+    const token = sessionStorage.getItem("token");
     try {
       const response = await api.get(`/API/employee/employee`, {
         headers: {

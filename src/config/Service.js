@@ -426,10 +426,29 @@ class Service {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log(response.data.data)
+      console.log(response.data.data);
       return response.data.data;
     } catch (error) {
       console.log("Error fetching all job studies:", error);
+      throw error;
+    }
+  }
+
+  //Add WorkBreakdown
+  static async addWorkBreakdown(workBreakdownData) {
+    const formData = { ...workBreakdownData };
+    const token = sessionStorage.getItem("token");
+    try {
+      const response = await api.post(`/api/br/addTaskBreakDown`, formData, {
+        headers: {
+          "Content-Type": "Application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      console.log(response.data);
+      return response.data;
+    } catch (error) {
+      console.log("Error adding work breakdown:", error);
       throw error;
     }
   }
@@ -511,19 +530,59 @@ class Service {
 
   //RFI
   static async addRFI(data) {
-    console.log("data==========================", data);
+    const formData = { ...data };
+    console.log("data==========================", formData);
     try {
       const token = sessionStorage.getItem("token");
-      const response = await api.post(`/api/RFI/rfi/addrfi`, data, {
+      const response = await api.post(`/api/RFI/rfi/addrfi`, formData, {
         headers: {
-          "Content-Type": "Multipart/form-data",
           Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
         },
       });
       return response.data;
     } catch (error) {
       console.log("Error adding RFI:", error);
       throw error;
+    }
+  }
+
+  // Update Job Study
+  static async updateJobStudy(jobStudyId, data) {
+    const token = sessionStorage.getItem("token");
+    try {
+      const response = await api.patch(
+        `/api/br/updateJobStudy/${jobStudyId}`,
+        data,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      console.log("Error updating job study:", error);
+      throw error;
+    }
+  }
+
+  //Fetch workBreakdown Activity
+  static async fetchWorkBreakdownActivity(selectedTask) {
+    const token = sessionStorage.getItem("token");
+    try {
+      const response = await api.get(`/api/wbs/wbs/${selectedTask}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+      console.log(response.data)
+      return response.data.data;
+
+    } catch (error) {
+      console.log("Error fetching work breakdown activity:", error);
     }
   }
 

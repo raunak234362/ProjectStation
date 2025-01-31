@@ -13,14 +13,14 @@ const initialState = {
         {
           id: 1,
           name: "Grid Placement",
-          qty: "",
+          QtyNo: "",
           execHr: "",
           checkHr: "",
           subTasks: [
             {
               id: 1,
               name: "Create 1st horizontal & vertical grid",
-              qty: "",
+              QtyNo: "",
               execTime: "3.0",
               checkTime: "1.0",
               execHr:"",
@@ -29,7 +29,7 @@ const initialState = {
             {
               id: 2,
               name: "Create 1st horizontal & vertical grid",
-              qty: "",
+              QtyNo: "",
               execTime: "2.0",
               checkTime: "0.7",
               execHr:"",
@@ -38,7 +38,7 @@ const initialState = {
             {
               id: 3,
               name: "Create 1st horizontal & vertical grid",
-              qty: "",
+              QtyNo: "",
               execTime: "4.0",
               checkTime: "1.3",
               execHr:"",
@@ -47,7 +47,7 @@ const initialState = {
             {
               id: 4,
               name: "Create 1st horizontal & vertical grid",
-              qty: "",
+              QtyNo: "",
               execTime: "5.0",
               checkTime: "1.7",
               execHr:"",
@@ -58,14 +58,14 @@ const initialState = {
         {
           id: 2,
           name: "MP - Wall & Panel Placement",
-          qty: "",
+          QtyNo: "",
           execHr: "",
           checkHr: "",
           subTasks: [
             {
               id: 1,
               name: "Wall Placement",
-              qty: "",
+              QtyNo: "",
               execTime: "3.0",
               checkTime: "1.0",
               execHr:"",
@@ -74,7 +74,7 @@ const initialState = {
             {
               id: 2,
               name: "Panel Placement",
-              qty: "",
+              QtyNo: "",
               execTime: "3.0",
               checkTime: "1.0",
               execHr:"",

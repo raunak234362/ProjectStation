@@ -1,12 +1,12 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
-import React, { useEffect } from "react";
+import React from "react";
 import { useForm, Controller } from "react-hook-form";
 import { Input, Button } from "../../../../../index";
 import Service from "../../../../../../config/Service";
 
 const EditJobStudy = ({ jobStudy, onClose }) => {
-  const { handleSubmit, control, setValue } = useForm({
+  const { handleSubmit, control } = useForm({
     defaultValues: {
       description: jobStudy.description,
       QtyNo: jobStudy.QtyNo,
@@ -17,9 +17,14 @@ const EditJobStudy = ({ jobStudy, onClose }) => {
 
   const onSubmit = async (data) => {
     try {
-      const response = await Service.updateJobStudy(jobStudy.id, data);
+      const response = await Service.updateJobStudy(jobStudy.id, {
+        description: data.description,
+        QtyNo: Number(data.QtyNo),
+        unitTime: Number(data.unitTime),
+        execTime: Number(data.execTime),
+      });
       console.log("Updated Job Study:", response);
-      onClose(); // Close the edit modal or component
+      onClose();
     } catch (error) {
       console.error("Error updating job study:", error);
     }

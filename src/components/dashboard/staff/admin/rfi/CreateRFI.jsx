@@ -15,7 +15,7 @@ import Service from "../../../../../config/Service";
 const CreateRFI = () => {
   const projectData = useSelector((state) => state.projectData.projectData);
   const dispatch = useDispatch();
-  console.log(projectData);
+  // console.log(projectData);
   const {
     register,
     setValue,
@@ -26,20 +26,21 @@ const CreateRFI = () => {
   const [fileUpload, setFileUpload] = useState("");
   const [fileName, setFileName] = useState(null);
 
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    console.log(file);
-    setFileUpload(file?.name);
-    setFileName(URL.createObjectURL(file));
-  };
+  // const handleFileChange = (e) => {
+  //   const file = e.target.files[0];
+  //   console.log(file);
+  //   setFileUpload(file?.name);
+  //   setFileName(URL.createObjectURL(file));
+  // };
 
   const onFilesChange = (updatedFiles) => {
     setFiles(updatedFiles);
   };
 
   const CreateRFI = async (data) => {
-    console.log("data==========================", data);
-    const response = await Service.addRFI(data);
+    const formData = { ...data, files };
+    console.log("data==========================", formData);
+    const response = await Service.addRFI(formData);
     console.log("response==========================", response);
     //console.log(addRFI(data))
   };
@@ -130,11 +131,12 @@ const CreateRFI = () => {
             Attach Files:
           </div>
           <div className="my-2 md:px-2 px-1">
-            <Input
-              type="file"
-              accept=".pdf, image/* , .zip , .rar , .iso"
-              {...register("file")}
+          <MultipleFileUpload
+              label="Select Files"
               onFilesChange={onFilesChange}
+              files={files}
+              accept="image/*,application/pdf,.doc,.docx"
+              {...register("files")}
             />
           </div>
 

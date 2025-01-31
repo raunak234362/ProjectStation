@@ -10,34 +10,36 @@ import {
 } from "../../../../../index";
 import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
+import Service from "../../../../../../config/Service";
 
 const AddWB = ({ projectId, onClose }) => {
   const [project, setProject] = useState({});
-  const [workBD, setWorkBD] = useState(null);
-  const [selectedTaskData, setSelectedTaskData] = useState(null); // Add state to store selected task data
-  const [selectedTaskId, setSelectedTaskId] = useState(null); // State for selected task ID
+  const [selectedTaskData, setSelectedTaskData] = useState(null);
+  const [selectedTaskId, setSelectedTaskId] = useState(null);
+  const [selectedActivity, setSelectedActivity] = useState(null);
   const projectData = useSelector((state) => state?.projectData.projectData);
+  const [wbActivity, setWBActivity] = useState();
   const workBreakdown = useSelector(
     (state) => state?.projectData.workBreakdown
   );
   const { register, handleSubmit, watch, setValue } = useForm();
-
   const selectedTask = watch("taskName");
-  console.log(selectedTask);
-  // Fetch project data based on projectId
+
+  const fetchWBActivity = async () => {
+    if (selectedTask) {
+      const wbData = await Service.fetchWorkBreakdownActivity(selectedTask);
+      console.log(wbData);
+      setWBActivity(wbData);
+    }
+  };
+
+  useEffect(() => {
+    fetchWBActivity(); // Fetch work breakdown activity when selectedTask changes
+  }, [selectedTask]);
+
   const fetchProject = async () => {
     const project = projectData.find((project) => project.id === projectId);
     setProject(project || {});
-  };
-
-  // Fetch work breakdown data based on projectId
-  const fetchWorkBD = async () => {
-    console.log(workBreakdown.find((wb) => wb.taskName === selectedTask));
-    const workBreakDown = workBreakdown.find(
-      (wb) => wb.taskName === selectedTask
-    ); // Fix: filter by projectId
-    setWorkBD(workBreakDown);
-    console.log(workBD);
   };
 
   // Initial fetch for project and work breakdown
@@ -45,9 +47,6 @@ const AddWB = ({ projectId, onClose }) => {
     fetchProject();
   }, [projectId]);
 
-  useEffect(() => {
-    fetchWorkBD();
-  }, [selectedTask]);
 
   // Update selected task data when task changes
   useEffect(() => {
@@ -60,12 +59,13 @@ const AddWB = ({ projectId, onClose }) => {
   // Handle opening the selected WB task by setting its ID
   const handleSelectedWB = (id) => {
     console.log(id);
-    setSelectedTaskId(id); // Set the selected task ID
+    setSelectedTaskId(id);
+    setSelectedActivity(selectedTask);
   };
 
   // Handle closing the selected WB task
   const handleSelectedWBClose = () => {
-    setSelectedTaskId(null); // Close selected WB task
+    setSelectedTaskId(null);
   };
 
   // Close the modal
@@ -73,11 +73,11 @@ const AddWB = ({ projectId, onClose }) => {
     onClose(true);
   };
 
-  // Form submission logic
-  const onSubmit = (data) => {
-    console.log("Form Data", data);
-    // handle form submission logic here
-  };
+  // // Form submission logic
+  // const onSubmit = (data) => {
+  //   console.log("Form Data", data);
+  //   // handle form submission logic here
+  // };
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
@@ -94,14 +94,11 @@ const AddWB = ({ projectId, onClose }) => {
           </div>
         </div>
         <div className="h-[85%] overflow-y-auto">
-          <JobStudy projectId ={projectId}/>
+          <JobStudy projectId={projectId} />
 
           <div className="font-semibold mt-10">Work Breakdown Structure -</div>
           <div className="flex py-5 justify-center">
-            <form
-              className="overflow-x-auto md:w-[80vw] w-full my-3"
-              onSubmit={handleSubmit(onSubmit)} // Correct form submission handler
-            >
+            <div className="overflow-x-auto md:w-[80vw] w-full my-3">
               <div className="my-5">
                 <CustomSelect
                   label="WBS - Description"
@@ -141,7 +138,7 @@ const AddWB = ({ projectId, onClose }) => {
                   </thead>
 
                   <tbody>
-                    {workBD?.task?.map((taskItem, index) => (
+                    {wbActivity?.map((taskItem, index) => (
                       <tr key={index} className="bg-green-100">
                         <td className="border border-gray-600 px-2 py-1">
                           {index + 1}
@@ -149,9 +146,15 @@ const AddWB = ({ projectId, onClose }) => {
                         <td className="border border-gray-600 px-2 py-1">
                           {taskItem?.name}
                         </td>
-                        <td className="border border-gray-600 px-2 py-1">{taskItem?.qty}</td>
-                        <td className="border border-gray-600 px-2 py-1">{taskItem?.executionTime}</td>
-                        <td className="border border-gray-600 px-2 py-1">{taskItem?.checkingTime}</td>
+                        <td className="border border-gray-600 px-2 py-1">
+                          {taskItem?.qty}
+                        </td>
+                        <td className="border border-gray-600 px-2 py-1">
+                          {taskItem?.executionTime}
+                        </td>
+                        <td className="border border-gray-600 px-2 py-1">
+                          {taskItem?.checkingTime}
+                        </td>
                         <td className="border border-gray-600 px-2 py-1">
                           <Button onClick={() => handleSelectedWB(taskItem.id)}>
                             Open
@@ -162,14 +165,16 @@ const AddWB = ({ projectId, onClose }) => {
                   </tbody>
                 </table>
               </div>
-            </form>
+            </div>
           </div>
         </div>
 
         {selectedTaskId && (
           <SelectedWBTask
+            projectId={projectId}
             selectedTaskId={selectedTaskId}
             selectedTask={selectedTask}
+            selectedActivity={selectedActivity}
             onClose={handleSelectedWBClose}
           />
         )}

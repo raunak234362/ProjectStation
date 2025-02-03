@@ -1,5 +1,6 @@
 /* eslint-disable no-undef */
-import axios from "axios";
+import axios from 'axios';
+import https from 'https';
 
 const instance = axios.create({
   baseURL: 'https://106.51.141.125:5154',
@@ -14,9 +15,9 @@ const instance = axios.create({
     "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
   },
   proxy: false,
-  httpsAgent: {
-    rejectUnauthorized: false,
-  },
+  httpsAgent: new https.Agent({
+    rejectUnauthorized: false, // Disable SSL certificate validation
+  }),
 });
 
 // Add request interceptor to handle CORS

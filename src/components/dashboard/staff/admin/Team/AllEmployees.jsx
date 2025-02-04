@@ -61,11 +61,14 @@ const AllEmployees = () => {
         />
       </div>
 
-      <div className="mt-2 mx-3 bg-white overflow-x-auto">
+      <div className="mt-2 mx-3 bg-white overflow-auto">
         {/* Making the table scrollable horizontally on small screens */}
         <table className="h-fit w-full border-collapse text-center md:text-xl text-xs rounded-xl">
           <thead>
             <tr className="bg-teal-200/70">
+              <th className="px-5 py-2 cursor-pointer text-left" onClick={() => handleSort("username")}>
+                S.No
+              </th>
               <th className="px-5 py-2 cursor-pointer text-left" onClick={() => handleSort("username")}>
                 Username
               </th>
@@ -92,8 +95,9 @@ const AllEmployees = () => {
                 </td>
               </tr>
             ) : (
-              filteredStaff.map((staff) => (
+              filteredStaff.map((staff,index) => (
                 <tr key={staff.id} className="hover:bg-blue-gray-100 border">
+                  <td className="border px-5 py-2 text-left">{index+1}</td>
                   <td className="border px-5 py-2 text-left">{staff.username}</td>
                   <td className="border px-5 py-2 text-left">
                     {staff.f_name} {staff.m_name} {staff.l_name}

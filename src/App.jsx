@@ -42,7 +42,6 @@ const App = () => {
       console.log(user.data);
       try {
         if (user.data.role === "CLIENT") {
-          console.log("Client Logged in------")
           const project = await Service?.allprojects(token);
           dispatch(showProjects(project?.data));
         } else if (user.data.role === "STAFF") {

@@ -117,7 +117,7 @@ const AddWB = ({ projectId, onClose }) => {
                   <thead className="bg-gray-200">
                     <tr>
                       <th className="border border-gray-600 px-2 py-1">
-                        Sl.No
+                        S.No
                       </th>
                       <th className="border border-gray-600 px-2 py-1">
                         Description of WBS
@@ -156,7 +156,7 @@ const AddWB = ({ projectId, onClose }) => {
                           {taskItem?.checkingTime}
                         </td>
                         <td className="border border-gray-600 px-2 py-1">
-                          <Button onClick={() => handleSelectedWB(taskItem.id)}>
+                          <Button onClick={() => handleSelectedWB(taskItem?.id)}>
                             Open
                           </Button>
                         </td>

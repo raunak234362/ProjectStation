@@ -44,11 +44,11 @@ const departments = useSelector((state)=>state?.userData?.departmentData)
       <div className="my-5 grid grid-cols-2 md:grid-cols-3 gap-5">
         <div className="flex flex-col justify-center items-center bg-white/50 rounded-lg p-3 shadow-lg">
           <div className="font-bold text-lg md:text-xl text-gray-800">Total Team</div>
-          <div className="text-2xl md:text-3xl font-bold">50</div>
+          <div className="text-2xl md:text-3xl font-bold"></div>
         </div>
         <div className="flex flex-col justify-center items-center bg-white/50 rounded-lg p-3 shadow-lg">
           <div className="font-bold text-lg md:text-xl text-gray-800">Total No. of Users</div>
-          <div className="text-2xl md:text-3xl font-bold">30</div>
+          <div className="text-2xl md:text-3xl font-bold">{staffs?.length}</div>
         </div>
         <div className="flex flex-col justify-center items-center bg-white/50 rounded-lg p-3 shadow-lg">
           <div className="font-bold text-lg md:text-xl text-gray-800">Total No. of Clients</div>

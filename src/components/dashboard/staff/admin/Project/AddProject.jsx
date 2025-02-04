@@ -20,12 +20,14 @@ const AddProject = () => {
   const {
     register,
     setValue,
+    watch,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm();
 
   const onSubmit = async (data) => {
-    console.log(data);
+    console.log("DATA-----------------------",data);
     try {
       const response = await Service.addProject(data);
       dispatch(addProject(data));
@@ -33,13 +35,12 @@ const AddProject = () => {
     } catch (error) {
       console.log(error);
     }
-    console.log(addProject(data));
   };
 
   return (
     <div className="flex w-full justify-center text-black my-5">
       <div className="h-full w-full overflow-y-auto md:px-10 px-2 py-3">
-        <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(onSubmit)}>
           <div className="bg-teal-500/50 rounded-lg px-2 py-2 font-bold text-white">
             Fabricator Information:
           </div>
@@ -54,7 +55,9 @@ const AddProject = () => {
                   label: fabricator.fabName,
                   value: fabricator.id,
                 }))}
-                {...register("fabricator", { required: true })}
+                {...register("fabricator", {
+                  required: "Fabricator is required",
+                })}
                 onChange={setValue}
               />
               {errors.fabricator && <div>This field is required</div>}
@@ -198,7 +201,7 @@ const AddProject = () => {
                   label: team.name,
                   value: team.id,
                 }))}
-                {...register("team", { required: true })}
+                {...register("team")}
                 onChange={setValue}
               />
               {errors.fabricator && <div>This field is required</div>}
@@ -217,6 +220,7 @@ const AddProject = () => {
                   { label: "Select Tools", value: "" },
                   { label: "TEKLA", value: "TEKLA" },
                   { label: "SDS2", value: "SDS2" },
+                  { label: "PEMB", value: "PEMB" },
                 ]}
                 className="w-full"
                 {...register("tools")}
@@ -282,9 +286,7 @@ const AddProject = () => {
             </div>
           </div>
           <div className="my-5 w-full">
-            <Button type="submit">
-              Add Project
-            </Button>
+            <Button type="submit">Add Project</Button>
           </div>
         </form>
       </div>

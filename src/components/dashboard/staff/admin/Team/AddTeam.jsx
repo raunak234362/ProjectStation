@@ -53,7 +53,7 @@ const AddTeam = () => {
               <CustomSelect
                 label="Manager:"
                 color="blue"
-                options={userData?.filter(user => user.is_manager).map((user) => ({label: user.f_name, value: user.id}))}
+                options={userData?.filter(user => user.is_manager).map((user) => ({label: `${user?.f_name} ${user?.m_name} ${user?.l_name}`, value: user.id}))}
                 {...register("manager")}
                 onChange={setValue}
               />

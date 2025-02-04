@@ -332,6 +332,7 @@ class Service {
           Authorization: `Bearer ${token}`,
         },
       });
+      console.log("response.data", response.data);
       return response.data;
     } catch (error) {
       console.log("Error fetching projects:", error);
@@ -430,6 +431,26 @@ class Service {
       });
       console.log(response.data.data);
       return response.data.data;
+    } catch (error) {
+      console.log("Error fetching all job studies:", error);
+      throw error;
+    }
+  }
+
+
+  static async allSubTasks(projectId,wbActivityId) {
+    console.log("Service:---", projectId);
+    console.log("Service:---", wbActivityId);
+    const token = sessionStorage.getItem("token");
+    try {
+      const response = await api.get(`/api/st/st/${projectId}/${wbActivityId}`, {
+        headers: {
+          "Content-Type": "Application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      console.log(response.data?.data);
+      return response.data?.data;
     } catch (error) {
       console.log("Error fetching all job studies:", error);
       throw error;

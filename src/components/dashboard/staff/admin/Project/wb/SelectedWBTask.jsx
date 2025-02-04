@@ -14,7 +14,6 @@ const SelectedWBTask = ({
   projectId,
 }) => {
   console.log(selectedTask);
-
   const workBreakdown = useSelector(
     (state) => state?.projectData.workBreakdown
   );
@@ -28,10 +27,16 @@ const SelectedWBTask = ({
     setWorkBD(workBreakDown);
   };
 
+  const fetchSubTasks = async () => {
+    const subTasks = await Service.allSubTasks(projectId,selectedTaskId);
+    console.log(subTasks);
+  }
+
   const taskData = workBD?.task?.find((task) => task.id === selectedTaskId);
   const subTasks = taskData?.subTasks || []; // Get sub-tasks
 
   useEffect(() => {
+    fetchSubTasks();
     fetchWorkBD();
   }, []);
 

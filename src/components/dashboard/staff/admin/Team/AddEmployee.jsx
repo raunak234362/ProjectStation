@@ -51,6 +51,18 @@ const AddEmployee = () => {
     value: country.dialCode,
   }));
 
+  useEffect(() => {
+    if (watch("is_manager")) {
+      setValue("is_staff", false);
+    }
+  }, [watch("is_manager"), setValue]);
+
+  useEffect(() => {
+    if (watch("is_sales")) {
+      setValue("is_staff", false);
+    }
+  }, [watch("is_sales"), setValue]);
+
   const addStaff = async (data) => {
     console.log(data);
     if (data.password !== data.cnf_password) {
@@ -64,14 +76,11 @@ const AddEmployee = () => {
       phone: phoneNumber,
     };
     try {
-      console.log(updatedData);
       const empData = await Service.addEmployee(updatedData, token);
-      console.log(empData);
       if (empData.success) {
         alert(empData.message);
       }
       dispatch(setUserData(updatedData));
-      console.log(setUserData(updatedData));
     } catch (error) {
       console.error("Error adding employee:", error);
       alert(error.response.message);
@@ -184,19 +193,15 @@ const AddEmployee = () => {
                   label="Project Manager"
                   name="project_manager"
                   checked={watch("is_manager")}
-                  {...register("is_manager", {
-                    onChange: () => {
-                      setValue("is_manager", true); // Set is_manager to true when project manager is selected
-                      setValue("is_staff", false); // Set is_staff to false when project manager is selected
-                    },
-                  })}
+                  onChange={() => setValue("is_manager", !watch("is_manager"))}
                 />
               </div>
               <div className="">
                 <Toggle
                   label="Sales Employee"
                   name="sales"
-                  {...register("is_sales")}
+                  checked={watch("is_sales")}
+                  onChange={() => setValue("is_sales", !watch("is_sales"))}
                 />
               </div>
             </div>

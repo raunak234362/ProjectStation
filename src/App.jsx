@@ -48,8 +48,6 @@ const App = () => {
         } else if (user.data.role === "STAFF") {
           const userData = await Service.allEmployee(token);
           dispatch(showStaff(userData));
-          const project = await Service?.allprojects(token);
-          dispatch(showProjects(project?.data));
           const TeamData = await Service.allteams(token);
           dispatch(showTeam(TeamData));
           if (userType === "admin" || userType === "manager") {
@@ -66,7 +64,7 @@ const App = () => {
     };
 
     fetchUser();
-  }, [dispatch]);
+  }, []);
 
   return (
     <Provider store={store}>

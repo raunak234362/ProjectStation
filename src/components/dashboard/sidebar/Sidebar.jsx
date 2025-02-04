@@ -65,7 +65,7 @@ const Sidebar = () => {
               </NavLink>
             </li>
 
-            {userType === "admin" ? (
+            {userType !== "user" ? (
               <li>
                 <NavLink
                   to="fabricator"

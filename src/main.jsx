@@ -171,6 +171,10 @@ const router = createBrowserRouter([
     ],
   },
   {
+    path: "/department-manager",
+    element: <App />,
+  },
+  {
     path: "/client",
     element: <App />,
     children: [

@@ -89,6 +89,7 @@ class Service {
 
   // Add new department -- updated
   static async addDepartment(data) {
+    const token= sessionStorage.getItem("token");
     try {
       const departmentData = { ...data };
 

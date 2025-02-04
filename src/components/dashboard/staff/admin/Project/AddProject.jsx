@@ -7,12 +7,15 @@ import Service from "../../../../../config/Service";
 // import { Option } from '@material-tailwind/react'
 const AddProject = () => {
   const projectData = useSelector((state) => state.projectData?.projectData);
-  const fabricatorData = useSelector((state) => state.fabricatorData?.fabricatorData);
-  const departmentData = useSelector((state) => state.userData?.departmentData?.data);
+  const fabricatorData = useSelector(
+    (state) => state.fabricatorData?.fabricatorData
+  );
+  const departmentData = useSelector(
+    (state) => state.userData?.departmentData?.data
+  );
   const userData = useSelector((state) => state.userData?.staffData?.data);
-  console.log(userData);
-  const teams=useSelector((state)=>state?.userData?.teamData?.data)
-  console.log(teams)
+  // console.log(userData);
+  const teams = useSelector((state) => state?.userData?.teamData?.data);
   const dispatch = useDispatch();
   const {
     register,
@@ -21,14 +24,14 @@ const AddProject = () => {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = async(data) => {
-    console.log(data)
+  const onSubmit = async (data) => {
+    console.log(data);
     try {
       const response = await Service.addProject(data);
       dispatch(addProject(data));
       console.log(response);
     } catch (error) {
-        console.log(error);
+      console.log(error);
     }
     console.log(addProject(data));
   };
@@ -94,7 +97,6 @@ const AddProject = () => {
               />
               {errors.estimatedHours && <div>This field is required</div>}
             </div>
-          
           </div>
           <div className="bg-teal-500/50 rounded-lg px-2 py-2 font-bold text-white">
             Project Stage & Status:
@@ -152,7 +154,7 @@ const AddProject = () => {
             Department Information:
           </div>
           <div className="my-2 md:px-2 px-1">
-          <div className="w-full my-3">
+            <div className="w-full my-3">
               <CustomSelect
                 label="Department"
                 placeholder="Department"
@@ -173,7 +175,9 @@ const AddProject = () => {
                 placeholder="Manager"
                 size="lg"
                 color="blue"
-                options={userData?.filter(user => user.is_manager)?.map((user) => ({  label: user.f_name, value: user.id}))}  
+                options={userData
+                  ?.filter((user) => user.is_manager)
+                  ?.map((user) => ({ label: user.f_name, value: user.id }))}
                 {...register("manager", { required: true })}
                 onChange={setValue}
               />
@@ -184,13 +188,16 @@ const AddProject = () => {
             Team Information:
           </div>
           <div className="my-2 md:px-2 px-1">
-          <div className="w-full my-3">
+            <div className="w-full my-3">
               <CustomSelect
                 label="Team"
                 placeholder="Team"
                 size="lg"
                 color="blue"
-                options={teams?.map((team) => ({  label: team.name, value: team.id}))}  
+                options={teams?.map((team) => ({
+                  label: team.name,
+                  value: team.id,
+                }))}
                 {...register("team", { required: true })}
                 onChange={setValue}
               />
@@ -275,7 +282,7 @@ const AddProject = () => {
             </div>
           </div>
           <div className="my-5 w-full">
-            <Button type="submit" className="w-full">
+            <Button type="submit">
               Add Project
             </Button>
           </div>

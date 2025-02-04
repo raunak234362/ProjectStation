@@ -51,7 +51,7 @@ const Projects = () => {
         </div>
       </div>
       <div className="h-[85vh] overflow-y-auto">
-        {userTypes === "admin" && (
+        {userTypes !== "user" && (
           <div className="my-5 grid md:grid-cols-3 grid-cols-2 gap-5">
             <div className="flex flex-col justify-center items-center bg-white/50 rounded-lg p-3 shadow-lg">
               <div className="font-bold text-xl text-gray-800">
@@ -79,7 +79,7 @@ const Projects = () => {
           <div className="overflow-auto bg-teal-100 rounded-lg md:w-full w-[90vw]">
             <nav className="px-5 drop-shadow-md text-center">
               <ul className="flex items-center justify-evenly gap-10 py-1 text-center">
-                {userTypes === "admin" && (
+                {userTypes !== "user" && (
                   <li className="px-2">
                     <NavLink
                       to="add-project"

@@ -21,10 +21,13 @@ const AddEmployee = () => {
     handleSubmit,
     formState: { errors },
     setValue,
+    watch,
     clearErrors,
   } = useForm();
   const [showAlert, setShowalert] = useState(false);
-  const [departments, setDepartments] = useState(useSelector((state) => state?.userData?.departmentData?.dat));
+  const [departments, setDepartments] = useState(
+    useSelector((state) => state?.userData?.departmentData?.dat)
+  );
 
   useEffect(() => {
     (async () => {
@@ -65,13 +68,13 @@ const AddEmployee = () => {
       const empData = await Service.addEmployee(updatedData, token);
       console.log(empData);
       if (empData.success) {
-        alert(empData.message)
+        alert(empData.message);
       }
       dispatch(setUserData(updatedData));
       console.log(setUserData(updatedData));
     } catch (error) {
       console.error("Error adding employee:", error);
-      alert(error.response.message)
+      alert(error.response.message);
     }
   };
 
@@ -171,16 +174,29 @@ const AddEmployee = () => {
             <div className="grid px-5 bg-white border border-gray-400 rounded-lg md:grid-cols-2 md:w-full md:justify-center md:items-center">
               <div className="">
                 <Toggle
-                  label="Project Manager"
+                  label="Department Manager"
                   name="manager"
-                  {...register("manager")}
+                  {...register("is_manager")}
+                />
+              </div>
+              <div className="">
+                <Toggle
+                  label="Project Manager"
+                  name="project_manager"
+                  checked={watch("is_manager")}
+                  {...register("is_manager", {
+                    onChange: () => {
+                      setValue("is_manager", true); // Set is_manager to true when project manager is selected
+                      setValue("is_staff", false); // Set is_staff to false when project manager is selected
+                    },
+                  })}
                 />
               </div>
               <div className="">
                 <Toggle
                   label="Sales Employee"
                   name="sales"
-                  {...register("sales")}
+                  {...register("is_sales")}
                 />
               </div>
             </div>

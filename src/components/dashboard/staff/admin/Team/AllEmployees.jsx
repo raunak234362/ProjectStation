@@ -58,7 +58,7 @@ const AllEmployees = () => {
           onChange={handleSearch}
           placeholder="Search by name, email, or designation"
           className="border px-2 py-2 rounded mb-4 w-full md:w-1/3"
-        />
+        /> 
       </div>
 
       <div className="mt-2 mx-3 bg-white overflow-auto">

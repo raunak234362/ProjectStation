@@ -81,7 +81,7 @@ const GetFabricator = ({ fabricatorId, isOpen, onClose }) => {
           <Button className="bg-red-500" onClick={handleClose}>
             Close
           </Button>
-          {/* <Button onClick={handleEditClick}>Edit</Button> */}
+          <Button onClick={handleEditClick}>Edit</Button>
         </div>
         {/* header */}
         <div className="top-2 w-full flex justify-center z-10">
@@ -164,6 +164,7 @@ const GetFabricator = ({ fabricatorId, isOpen, onClose }) => {
                     </span>
                   </div>
                 ))}
+                
               </div>
             </div>
           

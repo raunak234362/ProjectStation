@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import Service from "../../../../../config/Service";
 import { Provider, useDispatch, useSelector } from "react-redux";
 import { AddBranch, Button, EditFabricator } from "../../../../index";
+import { BASE_URL } from "../../../../../config/constant";
 
 const GetFabricator = ({ fabricatorId, isOpen, onClose }) => {
   const [isEditing, setIsEditing] = useState(false);
@@ -15,9 +16,7 @@ const GetFabricator = ({ fabricatorId, isOpen, onClose }) => {
   const [selectedEditFabricator, setSelectedEditFabricator] = useState(null);
   const [fabricator, setFabricator] = useState();
 
-  const fabData = useSelector(
-    (state) => state.fabricatorData?.fabricatorData
-  );
+  const fabData = useSelector((state) => state.fabricatorData?.fabricatorData);
 
   const fetchFabricator = async () => {
     try {
@@ -130,9 +129,25 @@ const GetFabricator = ({ fabricatorId, isOpen, onClose }) => {
                 },
                 {
                   label: "Files",
+                  value: Array.isArray(fabricator?.files)
+                    ? fabricator?.files?.map((file, index) => (
+                        <a
+                          key={index}
+                          href={`${BASE_URL}/fabricator/fabricator/viewfile/${fabricatorId}/${file.id}`} // Use the file path with baseURL
+                          target="_blank" // Open in a new tab
+                          rel="noopener noreferrer"
+                          className="px-5 py-2 text-teal-500 hover:underline"
+                        >
+                          {file.originalName || `File ${index + 1}`}
+                        </a>
+                      ))
+                    : "Not available",
                 },
               ].map(({ label, value }) => (
-                <div key={label} className="flex flex-col text-wrap overflow-x-hidden w-full">
+                <div
+                  key={label}
+                  className="flex flex-col text-wrap overflow-x-hidden w-full"
+                >
                   <span className="font-medium text-gray-700">{label}:</span>
                   <span className="text-gray-600 text-wrap">
                     {value || "Not available"}
@@ -164,10 +179,9 @@ const GetFabricator = ({ fabricatorId, isOpen, onClose }) => {
                     </span>
                   </div>
                 ))}
-                
               </div>
             </div>
-          
+
             {/* Branch Details */}
             {fabricator?.branches?.length >= 0 && (
               <div className="mt-4">

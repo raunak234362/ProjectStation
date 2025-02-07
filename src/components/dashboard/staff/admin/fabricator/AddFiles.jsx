@@ -48,7 +48,7 @@ const AddFiles = ({ fabricatorID }) => {
         console.log(pair[0] + ": " + pair[1]);
       }
       try {
-        const response = await Service.addProjectFile(formData, fabricatorID);
+        const response = await Service.addFabricatorFile(formData, fabricatorID);
         dispatch(updateProjectData(response)); 
         toast.success("Files uploaded successfully");
         console.log("Files uploaded successfully:", response);

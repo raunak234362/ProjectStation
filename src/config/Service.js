@@ -89,7 +89,7 @@ class Service {
 
   // Add new department -- updated
   static async addDepartment(data) {
-    const token= sessionStorage.getItem("token");
+    const token = sessionStorage.getItem("token");
     try {
       const departmentData = { ...data };
 
@@ -185,6 +185,28 @@ class Service {
     }
   }
 
+  // Edit Fabricator by ID -- updated
+  static async editFabricator(id, data) {
+    const formData = { ...data };
+    const token = sessionStorage.getItem("token");
+    try {
+      const response = await api.patch(
+        `/api/fabricator/fabricator/${id}/updatefabricator`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "Application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      console.log("Error editing fabricator:", error);
+      throw error;
+    }
+  }
+
   // Add Client user -- updated
   static async addClient(data) {
     try {
@@ -207,6 +229,28 @@ class Service {
       throw error;
     }
   }
+
+  // Fetch all Project File --updated
+  static async addFabricatorFile(formData, id) {
+    const token = sessionStorage.getItem("token");
+    try {
+      const response = await api.post(
+        `/api/fabricator/fabricator/${id}/add_file`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      console.log("Error uploading files:", error);
+      throw error;
+    }
+  }
+
 
   // Fetch all clients -- updated
   static async allClient() {
@@ -437,18 +481,20 @@ class Service {
     }
   }
 
-
-  static async allSubTasks(projectId,wbActivityId) {
+  static async allSubTasks(projectId, wbActivityId) {
     console.log("Service:---", projectId);
     console.log("Service:---", wbActivityId);
     const token = sessionStorage.getItem("token");
     try {
-      const response = await api.get(`/api/st/st/${projectId}/${wbActivityId}`, {
-        headers: {
-          "Content-Type": "Application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await api.get(
+        `/api/st/st/${projectId}/${wbActivityId}`,
+        {
+          headers: {
+            "Content-Type": "Application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       console.log(response.data?.data);
       return response.data?.data;
     } catch (error) {
@@ -601,9 +647,8 @@ class Service {
           "Content-Type": "application/json",
         },
       });
-      console.log(response.data)
+      console.log(response.data);
       return response.data.data;
-
     } catch (error) {
       console.log("Error fetching work breakdown activity:", error);
     }

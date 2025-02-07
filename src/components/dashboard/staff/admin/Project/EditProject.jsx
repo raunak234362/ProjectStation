@@ -6,11 +6,18 @@ import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import Service from "../../../../../config/Service";
 import { updateProjectData } from "../../../../../store/projectSlice";
-import { CustomSelect, Input,Button } from "../../../../index";
+import {
+  CustomSelect,
+  Input,
+  Button,
+  MultipleFileUpload,
+} from "../../../../index";
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 const EditProject = ({ project, onClose }) => {
   const [teamOptions, setTeamOptions] = useState([]);
   const teams = useSelector((state) => state?.userData?.teamData?.data);
+  const [files, setFiles] = useState([]);
   console.log("Project", project);
   const dispatch = useDispatch();
   const {
@@ -30,6 +37,7 @@ const EditProject = ({ project, onClose }) => {
       status: project?.status || "",
       stage: project?.stage || "",
       manager: project?.manager?.id || "",
+      fileData: project?.files || "",
     },
   });
 
@@ -41,13 +49,20 @@ const EditProject = ({ project, onClose }) => {
     setTeamOptions(options);
   }, []);
 
+  const onFilesChange = (updatedFiles) => {
+    console.log(updatedFiles);
+    setFiles(updatedFiles);
+  };
+
   const onSubmit = async (data) => {
     console.log(data);
     try {
-      const updatedTask = await Service.editProject(project?.id, data);
-      dispatch(updateProjectData(updatedTask?.data));
-      console.log("Successfully Updated Task: ", updatedTask?.data);
+      const updatedProject = await Service.editProject(project?.id, data);
+      dispatch(updateProjectData(updatedProject?.data));
+      toast.success("Project updated successfully");
+      console.log("Successfully Updated Task: ", updatedProject?.data);
     } catch (error) {
+      toast.error("Error updating project");
       console.log(error);
     }
     onClose();
@@ -145,12 +160,21 @@ const EditProject = ({ project, onClose }) => {
               />
             </div>
 
+            {/* <div className="my-3">
+              <MultipleFileUpload
+                label="Select Files"
+                defaultValue={project?.fileData}
+                onFilesChange={onFilesChange}
+                files={files}
+                accept="image/*,application/pdf,.doc,.docx"
+                {...register("files")}
+              />
+            </div> */}
+
             <Button type="submit">Update Project</Button>
           </form>
         </div>
-        <AddFiles 
-        projectId={project?.id}
-        />
+        <AddFiles projectId={project?.id} />
       </div>
     </div>
   );

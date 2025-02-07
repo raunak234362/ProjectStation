@@ -6,9 +6,9 @@ import Service from "../../../../../config/Service";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
-import { updateFabricator } from "../../../../../store/fabricatorSlice";
+import { updateProjectData } from "../../../../../store/projectSlice";
 
-const AddFiles = ({ projectId }) => {
+const AddFiles = ({ fabricatorID }) => {
   const [fileData, setFileData] = useState([]);
   const dispatch = useDispatch();
   const {
@@ -48,8 +48,8 @@ const AddFiles = ({ projectId }) => {
         console.log(pair[0] + ": " + pair[1]);
       }
       try {
-        const response = await Service.addFabricatorFile(formData, projectId);
-        dispatch(updateFabricator(response)); 
+        const response = await Service.addProjectFile(formData, fabricatorID);
+        dispatch(updateProjectData(response)); 
         toast.success("Files uploaded successfully");
         console.log("Files uploaded successfully:", response);
       } catch (error) {

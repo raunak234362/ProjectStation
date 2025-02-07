@@ -109,7 +109,7 @@ const GetProject = ({ projectId, onClose }) => {
           <div className="bg-gray-100/50 rounded-lg shadow-md p-5">
             <h2 className="text-lg font-semibold mb-4">Project Details</h2>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 overflow-x-hidden overflow-y-hidden">
               {[
                 { label: "Description", value: projectData?.description },
                 {

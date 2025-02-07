@@ -87,7 +87,7 @@ const GetFabricator = ({ fabricatorId, isOpen, onClose }) => {
         <div className="top-2 w-full flex justify-center z-10">
           <div className="mt-2">
             <div className="bg-teal-400 text-white px-3 md:px-4 py-2 md:text-2xl font-bold rounded-lg shadow-md">
-              Fabricator: {fabricator?.name || "Unknown"}
+              Fabricator: {fabricator?.fabName || "Unknown"}
             </div>
           </div>
         </div>
@@ -132,9 +132,9 @@ const GetFabricator = ({ fabricatorId, isOpen, onClose }) => {
                   label: "Files",
                 },
               ].map(({ label, value }) => (
-                <div key={label} className="flex flex-col text-wrap">
+                <div key={label} className="flex flex-col text-wrap overflow-x-hidden w-full">
                   <span className="font-medium text-gray-700">{label}:</span>
-                  <span className="text-gray-600">
+                  <span className="text-gray-600 text-wrap">
                     {value || "Not available"}
                   </span>
                 </div>

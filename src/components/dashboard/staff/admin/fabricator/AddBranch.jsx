@@ -13,6 +13,7 @@ import { State, City } from "country-state-city";
 import { useForm } from "react-hook-form";
 import { addBranchToFabricator } from "../../../../../store/fabricatorSlice";
 import Service from "../../../../../config/Service";
+import { toast } from "react-toastify";
 
 const AddBranch = ({ fabricatorId, isBranch, onBranchClose }) => {
   console.log(fabricatorId);
@@ -70,9 +71,6 @@ const AddBranch = ({ fabricatorId, isBranch, onBranchClose }) => {
     );
   }, [state]);
 
-  const onFilesChange = (updatedFiles) => {
-    setFiles(updatedFiles);
-  };
 
   const fabData = useSelector(
     (state) => state.fabricatorData?.fabricatorData?.data
@@ -109,6 +107,7 @@ const AddBranch = ({ fabricatorId, isBranch, onBranchClose }) => {
   const onSubmit = async (data) => {
     try {
       const response = await Service.addFabricatorBranch(data, fabricatorId);
+      toast.success("Branch added successfully");
       console.log(response);
     } catch (error) {
       console.log(error);

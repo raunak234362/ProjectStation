@@ -2,11 +2,21 @@
 /* eslint-disable no-unused-vars */
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { CustomSelect, Input, Button } from "../../../../index";
+import {
+  CustomSelect,
+  Input,
+  Button,
+  MultipleFileUpload,
+} from "../../../../index";
+import Service from "../../../../../config/Service";
+import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
+import { updateFabricator } from "../../../../../store/fabricatorSlice";
+import AddFiles from "./AddFiles";
 
 const EditFabricator = ({ fabricator, onClose }) => {
-  console.log("fabricator", fabricator);
   const [files, setFiles] = useState([]);
+  const dispatch = useDispatch();
   const {
     register,
     handleSubmit,
@@ -16,24 +26,24 @@ const EditFabricator = ({ fabricator, onClose }) => {
   } = useForm({
     defaultValues: {
       fabName: fabricator?.fabName || "",
-      email: fabricator?.email || "",
-      phone: fabricator?.phone || "",
-      address: fabricator?.address || "",
+      website: fabricator?.website || "",
+      drive: fabricator?.drive || "",
     },
   });
 
-  const onFilesChange = (updatedFiles) => {
-    console.log(updatedFiles)
-    setFiles(updatedFiles);
-  };
-
 
   const onSubmit = async (data) => {
-    console.log(data);
+    try {
+     const response = await Service.editFabricator(fabricator?.id, data); 
+     toast.success("Fabricator updated successfully");
+     dispatch(updateFabricator(response));
+    } catch (error) {
+      toast.error("Error updating fabricator");
+    }
   };
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-      <div className="bg-white h-[93%] md:p-5 rounded-lg shadow-lg w-6/12 ">
+      <div className="bg-white h-[80%] md:p-5 rounded-lg shadow-lg w-6/12 ">
         <div className="flex justify-between my-5 bg-teal-200/50 p-2 rounded-lg">
           <h2 className="text-2xl font-bold">Edit Fabricator</h2>
           <button
@@ -55,22 +65,27 @@ const EditFabricator = ({ fabricator, onClose }) => {
             </div>
             <div className="my-2">
               <Input
-                label="Address:"
-                placeholder="Address"
-                defaultValue={fabricator?.address}
-                {...register("address")}
+                label="Drive:"
+                type="url"
+                placeholder="Drive"
+                defaultValue={fabricator?.drive}
+                {...register("drive")}
               />
             </div>
             <div className="my-2">
               <Input
-                label="Files:"
-                placeholder="Address"
-                defaultValue={fabricator?.address}
-                {...register("address")}
+                label="Website:"
+                type="url"
+                placeholder="Website"
+                defaultValue={fabricator?.website}
+                {...register("website")}
               />
             </div>
+            
+            <Button type="submit">Update</Button>
           </form>
         </div>
+        <AddFiles fabricatorID={fabricator?.id} />
       </div>
     </div>
   );

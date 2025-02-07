@@ -13,6 +13,7 @@ import {
 import { useEffect, useState } from "react";
 import { addFabricator } from "../../../../../store/fabricatorSlice";
 import Service from "../../../../../config/Service";
+import { toast } from "react-toastify";
 const AddFabricator = () => {
   const token = sessionStorage.getItem("token");
   const [files, setFiles] = useState([]);
@@ -80,10 +81,10 @@ const AddFabricator = () => {
       const response = await Service.addFabricator(data);
       console.log(response);
       dispatch(addFabricator(response.data));
-      alert("Successfully Added Fabricator");
+      toast.success("Fabricator Added Successfully");
     } catch (error) {
+      toast.error("Error Adding Fabricator");
       console.log(error);
-      alert("Error Adding Fabricator");
     }
   };
 

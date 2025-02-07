@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Input, CustomSelect, Button, Toggle } from "../../../../index";
 import { addProject } from "../../../../../store/projectSlice";
 import Service from "../../../../../config/Service";
+import { toast } from "react-toastify";
 // import { Option } from '@material-tailwind/react'
 const AddProject = () => {
   const projectData = useSelector((state) => state.projectData?.projectData);
@@ -31,8 +32,10 @@ const AddProject = () => {
     try {
       const response = await Service.addProject(data);
       dispatch(addProject(data));
+      toast.success("Project Added Successfully");
       console.log(response);
     } catch (error) {
+      toast.error("Error Adding Project");
       console.log(error);
     }
   };

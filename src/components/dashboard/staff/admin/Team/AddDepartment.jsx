@@ -49,7 +49,6 @@ const AddDepartment = () => {
     console.log(data);
     try {
       const departmentData = await Service.addDepartment(data);
-
       dispatch(addDepartment(departmentData.data));
       console.log("Department added successfully:", departmentData);
     } catch (error) {

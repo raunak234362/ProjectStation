@@ -18,6 +18,7 @@ const SelectedWBTask = ({
     (state) => state?.projectData.workBreakdown
   );
   const [workBD, setWorkBD] = useState("");
+  const [subTaskBD, setSubTaskBD] = useState("");
   const { handleSubmit, control, setValue, watch } = useForm();
 
   const fetchWorkBD = async () => {
@@ -29,6 +30,7 @@ const SelectedWBTask = ({
 
   const fetchSubTasks = async () => {
     const subTasks = await Service.allSubTasks(projectId,selectedTaskId);
+    setSubTaskBD(subTasks);
     console.log(subTasks);
   }
 

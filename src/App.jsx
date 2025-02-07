@@ -11,6 +11,7 @@ import Service from "./config/Service";
 import { setUserData, showStaff, showTeam } from "./store/userSlice";
 import { loadFabricator, showClient } from "./store/fabricatorSlice";
 import { showProjects } from "./store/projectSlice";
+import { ToastContainer } from "react-toastify";
 
 const App = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -109,6 +110,7 @@ const App = () => {
             </div>
           </div>
         </div>
+        <ToastContainer />
       </div>
     </Provider>
   );

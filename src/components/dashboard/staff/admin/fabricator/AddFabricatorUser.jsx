@@ -11,6 +11,7 @@ import {
 import Service from "../../../../../config/Service";
 import { useEffect, useState } from "react";
 import { City, State } from "country-state-city";
+import { toast } from "react-toastify";
 
 const AddFabricatorUser = () => {
   const dispatch = useDispatch();
@@ -106,9 +107,11 @@ const AddFabricatorUser = () => {
       };
       const clientUser = await Service.addClient(updatedData);
       dispatch(addClient(clientUser.data));
+      toast.success("Client added successfully");
       console.log("Client Data----------", updatedData);
       // dispatch(addClient(updatedData));
     } catch (error) {
+      toast.error("Error adding client");
       console.log(error);
     }
   };

@@ -598,17 +598,17 @@ class Service {
 
   //RFI
   static async addRFI(data) {
-    console.log(data)
+    console.log(data);
+    const formData = { ...data };
 
-    const formData = new FormData();
-    data.files.map(file => formData.append("files", file))
-    delete data.files
-    const newData = {...data, files :formData}
-    console.log("data==========================", newData);
-    console.log("data==========================", formData);
+    // data.files.map(file => formData.append("files", file))
+    // delete data.files
+    // const newData = {...data, files :formData}
+    // console.log("data==========================", newData);
+    // console.log("data==========================", formData);
     try {
       const token = sessionStorage.getItem("token");
-      const response = await api.post(`/api/rfi/rfi/addrfi`, newData, {
+      const response = await api.post(`/api/rfi/rfi/addrfi`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "multipart/form-data",

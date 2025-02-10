@@ -10,10 +10,7 @@ import { showDepartment } from "../../../../../store/userSlice";
 const Projects = () => {
   const dispatch = useDispatch();
   const token = sessionStorage.getItem("token");
-  const fetchAllProjects = async () => {
-    const projectData = await Service.allprojects(token);
-    dispatch(showProjects(projectData?.data));
-  };
+
   const fetchAllFabricator = async () => {
     const fabricatorData = await Service.allFabricator(token);
     dispatch(loadFabricator(fabricatorData));
@@ -25,7 +22,6 @@ const Projects = () => {
 
   useEffect(() => {
     fetchAllDepartment();
-    fetchAllProjects();
     fetchAllFabricator();
   }, []);
 

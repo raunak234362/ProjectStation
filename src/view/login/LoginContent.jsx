@@ -1,6 +1,5 @@
-import { useEffect, useState } from 'react'
+
 import { Login } from '../../components/index'
-import Service from '../../config/Service'
 
 const LoginContent = () => {
 

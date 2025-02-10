@@ -37,6 +37,8 @@ import AddBranch from './dashboard/staff/admin/fabricator/AddBranch'
 import EditFabricator from './dashboard/staff/admin/fabricator/EditFabricator'
 
 //Team
+import AllTeam from './dashboard/staff/admin/Team/AllTeam.jsx'
+import AddTeam from './dashboard/staff/admin/Team/AddTeam'
 import ManageTeam from './dashboard/staff/admin/Team/ManageTeam'
 import AddEmployee from './dashboard/staff/admin/Team/AddEmployee'
 import AllEmployees from './dashboard/staff/admin/Team/AllEmployees'
@@ -141,5 +143,7 @@ export {
   AllSentCO,
   AllReceivedCO,
   SendCO,
+  AllTeam,
+  AddTeam,
   ErrorBoundary,
 }

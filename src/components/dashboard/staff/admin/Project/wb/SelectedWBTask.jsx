@@ -18,7 +18,7 @@ const SelectedWBTask = ({
     (state) => state?.projectData.workBreakdown
   );
   const [workBD, setWorkBD] = useState("");
-  const [subTaskBD, setSubTaskBD] = useState("");
+  const [subTaskBD, setSubTaskBD] = useState([]);
   const { handleSubmit, control, setValue, watch } = useForm();
 
   const fetchWorkBD = async () => {
@@ -125,10 +125,10 @@ const SelectedWBTask = ({
                 </tr>
               </thead>
               <tbody>
-                {subTasks.map((subTask, index) => (
+                {subTaskBD.map((subTask, index) => (
                   <tr key={subTask.id}>
                     <td className="border border-gray-600 px-2 py-1">
-                      {subTask.name}
+                      {subTask.description}
                     </td>
                     <td className="border border-gray-600 px-2 py-1">
                       <Controller

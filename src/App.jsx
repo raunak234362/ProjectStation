@@ -34,6 +34,10 @@ const App = () => {
   //   };
   //   fetchData();
   // }, []);
+  const fetchAllProjects = async () => {
+    const projectData = await Service.allprojects(token);
+    dispatch(showProjects(projectData?.data));
+  };
 
   useEffect(() => {
     console.log(token);
@@ -42,27 +46,22 @@ const App = () => {
       dispatch(setUserData(user.data));
       console.log(user.data);
       try {
-        if (user.data.role === "CLIENT") {
-          const project = await Service?.allprojects(token);
-          dispatch(showProjects(project?.data));
-        } else if (user.data.role === "STAFF") {
-          const userData = await Service.allEmployee(token);
-          dispatch(showStaff(userData));
-          const TeamData = await Service.allteams(token);
-          dispatch(showTeam(TeamData));
-          if (userType === "admin" || userType === "manager") {
-            const fabricator = await Service?.allFabricator(token);
-            dispatch(loadFabricator(fabricator));
-            const client = await Service?.allClient(token);
-            dispatch(showClient(client));
-          }
+        const userData = await Service.allEmployee(token);
+        dispatch(showStaff(userData));
+        const TeamData = await Service.allteams(token);
+        dispatch(showTeam(TeamData));
+        if (userType === "admin" || userType === "manager") {
+          const fabricator = await Service?.allFabricator(token);
+          dispatch(loadFabricator(fabricator));
+          const client = await Service?.allClient(token);
+          dispatch(showClient(client));
         }
       } catch (error) {
         console.log(error);
         navigate("/");
       }
     };
-
+    fetchAllProjects();
     fetchUser();
   }, []);
 

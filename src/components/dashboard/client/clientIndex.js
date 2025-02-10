@@ -1,11 +1,9 @@
 import Dashboard from "./admin/dashboard/Dashboard";
 
-//profile
-import Profile from "./admin/profile/Profile";
-
 //project
 import Project from "./admin/project/Project";
 import ClientAllProjects from "./admin/project/ClientAllProjects";
+import RFQ from "./admin/project/RFQ";
 //rfi
 import RFI from "./admin/rfi/RFI";
 
@@ -19,12 +17,12 @@ import Team from "./admin/team/Team";
 import ChangeOrder from "./admin/co/ChangeOrder";
 
 export {
-    Dashboard,
-    Profile,
-    Project,
-    ClientAllProjects,
-    RFI,
-    Submittals,
-    ChangeOrder,
-    Team
+  Dashboard,
+  Project,
+  ClientAllProjects,
+  RFQ,
+  RFI,
+  Submittals,
+  ChangeOrder,
+  Team,
 };

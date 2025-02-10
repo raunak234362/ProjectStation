@@ -65,7 +65,7 @@ const Sidebar = () => {
               </NavLink>
             </li>
 
-            {userType !== "user" ? (
+            {userType !== "user" && userType !== "sales" && userType !== "client" && userType !== "vendor" ? (
               <li>
                 <NavLink
                   to="fabricator"
@@ -183,10 +183,7 @@ const Sidebar = () => {
         </nav>
         <div className="md:flex md:bottom-0 mb-5">
           <div className="w-full mx-auto">
-            <Button
-              className="bg-teal-400 w-full"
-              onClick={fetchLogout}
-            >
+            <Button className="bg-teal-400 w-full" onClick={fetchLogout}>
               Logout
             </Button>
           </div>

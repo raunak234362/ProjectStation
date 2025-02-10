@@ -14,82 +14,35 @@ import Service from "../../../../../config/Service";
 
 const CreateRFI = () => {
   const projectData = useSelector((state) => state.projectData.projectData);
-  const fabricatorData = useSelector(
-    (state) => state?.fabricatorData?.fabricatorData
-  );
-  const clientData = useSelector((state) => state?.fabricatorData?.clientData);
-  console.log(clientData);
   const dispatch = useDispatch();
   // console.log(projectData);
   const {
     register,
     setValue,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm();
   const [files, setFiles] = useState([]);
+  const [fileUpload, setFileUpload] = useState("");
+  const [fileName, setFileName] = useState(null);
 
-  const fabricatorID = watch("fabricator_id");
-  console.log("Selected Fabricator ID:", fabricatorID);
-
-  const selectedFabricator = fabricatorData?.find(
-    (fabricator) => fabricator.id === fabricatorID
-  );
-  const clientName = selectedFabricator
-    ? clientData?.find((client) => client.id === selectedFabricator.clientID)
-        ?.name
-    : "";
-  console.log("Client Name:", clientName);
+  // const handleFileChange = (e) => {
+  //   const file = e.target.files[0];
+  //   console.log(file);
+  //   setFileUpload(file?.name);
+  //   setFileName(URL.createObjectURL(file));
+  // };
 
   const onFilesChange = (updatedFiles) => {
     setFiles(updatedFiles);
   };
 
-  const fabricatorOptions = fabricatorData?.map((fabricator) => ({
-    label: fabricator.fabName,
-    value: fabricator.id,
-  }));
-
-  const filteredClients = clientData?.filter(
-    (client) => client.fabricatorId === fabricatorID
-  );
-  console.log("Filtered Clients:", filteredClients);
-  const clientOptions = filteredClients?.map((client) => ({
-    label: `${client.f_name} ${client.l_name}`,
-    value: client.id,
-  }));
-
-  const filteredProjects = projectData?.filter(
-    (project) => project.fabricatorID === fabricatorID
-  );
-  console.log("Filtered Projects:", filteredProjects);
-  const projectOptions = filteredProjects?.map((project) => ({
-    label: project.name,
-    value: project.id,
-  }));
-
   const CreateRFI = async (data) => {
-    const formData = new FormData();
-
-    // Append text fields
-    Object.keys(data).forEach((key) => {
-      formData.append(key, data[key]);
-    });
-
-    // Append files as a single array
-    if (files.length) {
-      formData.append("files", JSON.stringify(files));
-    }
-
-    console.log("Sending Data:", formData); // Debugging
-
-    try {
-      const response = await Service.addRFI(formData);
-      console.log("RFI created successfully:", response);
-    } catch (error) {
-      console.error("Error creating RFI:", error);
-    }
+    const formData = { ...data, files };
+    console.log("data==========================", formData);
+    const response = await Service.addRFI(formData);
+    console.log("response==========================", response);
+    //console.log(addRFI(data))
   };
 
   return (
@@ -108,9 +61,10 @@ const CreateRFI = () => {
                 name="fabricator"
                 options={[
                   { label: "Select Fabricator", value: "" },
-                  ...fabricatorOptions,
+                  { label: "Fabricator 1", value: "Fabricator 1" },
+                  { label: "Fabricator 2", value: "Fabricator 2" },
                 ]}
-                {...register("fabricator_id", { required: true })}
+                {...register("fabricator", { required: true })}
                 onChange={setValue}
               />
               {errors.fabricator && <div>This field is required</div>}
@@ -123,9 +77,10 @@ const CreateRFI = () => {
                 name="project"
                 options={[
                   { label: "Select Project", value: "" },
-                  ...projectOptions,
+                  { label: "Project 1", value: "Project 1" },
+                  { label: "Project 2", value: "Project 2" },
                 ]}
-                {...register("project_id", { required: true })}
+                {...register("project", { required: true })}
                 onChange={setValue}
               />
               {errors.project && <div>This field is required</div>}
@@ -137,10 +92,12 @@ const CreateRFI = () => {
                 size="lg"
                 color="blue"
                 options={[
-                  { label: "Select Fabricator", value: "" },
-                  ...clientOptions,
+                  { label: "Select Recipients", value: "" },
+                  { label: "abc@google.com - ABC", value: "abc@google.com" },
+                  { label: "bcd@google.com - BCD", value: "bcd@google.com" },
+                  { label: "bkd@google.com - BKD", value: "bkd@google.com" },
                 ]}
-                {...register("recipient_id", { required: true })}
+                {...register("recipients", { required: true })}
                 onChange={setValue}
               />
               {errors.recipients && <div>This field is required</div>}
@@ -156,7 +113,7 @@ const CreateRFI = () => {
                 placeholder="Subject/Remarks"
                 size="lg"
                 color="blue"
-                {...register("subject")}
+                {...register("remarks")}
               />
             </div>
             <div className="w-full my-3">
@@ -174,7 +131,7 @@ const CreateRFI = () => {
             Attach Files:
           </div>
           <div className="my-2 md:px-2 px-1">
-            <MultipleFileUpload
+          <MultipleFileUpload
               label="Select Files"
               onFilesChange={onFilesChange}
               files={files}

@@ -16,7 +16,7 @@ import AddProject from './dashboard/staff/admin/Project/AddProject'
 import EditProject from './dashboard/staff/admin/Project/EditProject'
 import GetProject from './dashboard/staff/admin/Project/GetProject'
 import AddFiles from './dashboard/staff/admin/Project/AddFiles'
-
+import ProjectDashboard from './dashboard/staff/admin/Project/ProjectDashboard'
 //Work Breakdown
 import WorkBreakdown from './dashboard/staff/admin/Project/wb/WorkBreakdown'
 import AddWB from './dashboard/staff/admin/Project/wb/AddWB'
@@ -117,6 +117,7 @@ export {
   GetClient,
   AddBranch,
   EditFabricator,
+  ProjectDashboard,
   ManageTeam,
   AddEmployee,
   AllEmployees,

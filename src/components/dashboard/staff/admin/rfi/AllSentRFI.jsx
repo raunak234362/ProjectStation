@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Button, GetSentRFI } from "../../../../index";
+import Service from "../../../../../config/Service";
 
 // Utility function to get nested values safely
 const getNestedValue = (obj, path) => {
@@ -10,11 +11,24 @@ const getNestedValue = (obj, path) => {
 };
 
 const AllSentRFI = () => {
-  const RFI = useSelector((state) => state?.projectData?.rfiData);
+const [sentRfi, setSentRfi] = useState([]);
+
+const fetchSentRfi = async () => {
+  try {
+    const response = await Service.allRFI();
+    setSentRfi(response);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+useEffect(() => {
+  fetchSentRfi();
+}, []);
 
   const [selectedRFI, setSelectedRFI] = useState(null);
   const [isModalOpen, setIsModalOpen]=useState(false)
-  const [filteredRFI, setFilteredRFI] = useState(RFI);
+  const [filteredRFI, setFilteredRFI] = useState(sentRfi);
   const [searchTerm, setSearchTerm] = useState("");
   const [filters, setFilters] = useState({
     fabricator: "",
@@ -24,8 +38,8 @@ const AllSentRFI = () => {
   const [sortConfig, setSortConfig] = useState({ key: "", direction: "asc" });
 
   useEffect(() => {
-    filterAndSort(RFI, searchTerm, filters);
-  }, [RFI, searchTerm, filters, sortConfig]);
+    filterAndSort(sentRfi, searchTerm, filters);
+  }, [sentRfi, searchTerm, filters, sortConfig]);
 
   const handleSearch = (e) => {
     const term = e.target.value;
@@ -138,7 +152,7 @@ const AllSentRFI = () => {
             className="px-2 py-1 rounded border border-gray-300"
           >
             <option value="">Filter by Fabricator</option>
-            {[...new Set(RFI.map((rfi) => rfi?.fabricator?.name))].map((name) => (
+            {[...new Set(sentRfi.map((rfi) => rfi?.fabricator?.name))].map((name) => (
               <option key={name} value={name}>
                 {name}
               </option>
@@ -151,7 +165,7 @@ const AllSentRFI = () => {
             className="px-2 py-1 rounded border border-gray-300"
           >
             <option value="">Filter by Project</option>
-            {[...new Set(RFI.map((rfi) => rfi?.fabricator?.project?.name || rfi?.project?.name))].map(
+            {[...new Set(sentRfi.map((rfi) => rfi?.fabricator?.project?.name || rfi?.project?.name))].map(
               (name) => (
                 <option key={name} value={name}>
                   {name}

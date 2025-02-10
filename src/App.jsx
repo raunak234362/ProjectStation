@@ -12,6 +12,7 @@ import { setUserData, showStaff, showTeam } from "./store/userSlice";
 import { loadFabricator, showClient } from "./store/fabricatorSlice";
 import { showProjects } from "./store/projectSlice";
 import { ToastContainer } from "react-toastify";
+import { showTask } from "./store/taskSlice";
 
 const App = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -38,6 +39,10 @@ const App = () => {
     const projectData = await Service.allprojects(token);
     dispatch(showProjects(projectData?.data));
   };
+  const fetchAllTasks = async () => {
+    const taskData = await Service.getAllTask(token);
+    dispatch(showTask(taskData));
+  };
 
   useEffect(() => {
     console.log(token);
@@ -55,12 +60,14 @@ const App = () => {
           dispatch(loadFabricator(fabricator));
           const client = await Service?.allClient(token);
           dispatch(showClient(client));
+
         }
       } catch (error) {
         console.log(error);
         navigate("/");
       }
     };
+    fetchAllTasks();
     fetchAllProjects();
     fetchUser();
   }, []);

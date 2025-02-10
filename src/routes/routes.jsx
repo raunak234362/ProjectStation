@@ -40,6 +40,7 @@ import {
   Dashboard,
   AllTeam,
   AddTeam,
+  ProjectDashboard,
 } from "../components/index.js";
 
 //For Client-Admin
@@ -94,6 +95,7 @@ const routes = [
         path: "project",
         element: <Projects />,
         children: [
+          {path:'projects',element:<ProjectDashboard/>},
           { path: "add-project", element: <AddProject /> },
           { path: "all-projects", element: <AllProject /> },
           { path: "edit-project", element: <EditProject /> },

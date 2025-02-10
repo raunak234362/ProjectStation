@@ -71,20 +71,24 @@ const CreateRFI = () => {
 
   const CreateRFI = async (data) => {
     const formData = new FormData();
-    let fileData = data?.files;
-    for (let i = 0; i < fileData?.length; i++) {
-      console.log("File data:", fileData[i]);
-      formData.append("files", fileData[i]);
-    }
-    for (let pair of formData.entries()) {
-      console.log(pair[0] + ": " + pair[1]);
-    }
 
-    const rfiData = { ...data, files: formData };
-    console.log("data==========================", rfiData);
-    const response = await Service.addRFI(rfiData);
-    // console.log("response==========================", response);
-    //console.log(addRFI(data))
+    // Append files
+    files?.map((file) => {
+      formData.append("files", file);
+      console.log("File:", formData?.append);
+    });
+
+    
+    
+    const rfiData = {...data, files: formData};
+    console.log("Sending Data:", rfiData); // Debugging
+
+    try {
+      const response = await Service.addRFI(rfiData);
+      console.log("RFI created successfully:", response);
+    } catch (error) {
+      console.error("Error creating RFI:", error);
+    }
   };
 
   return (

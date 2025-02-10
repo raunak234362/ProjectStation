@@ -78,6 +78,20 @@ const Projects = () => {
                 {userTypes !== "user" && (
                   <li className="px-2">
                     <NavLink
+                      to="projects"
+                      className={({ isActive }) =>
+                        isActive
+                          ? "bg-teal-300 drop-shadow-lg flex px-5 py-2 rounded-lg font-semibold"
+                          : "hover:bg-teal-200 rounded-lg flex px-5 py-2 hover:text-white"
+                      }
+                    >
+                      Projects
+                    </NavLink>
+                  </li>
+                )}
+                {userTypes !== "user" && (
+                  <li className="px-2">
+                    <NavLink
                       to="add-project"
                       className={({ isActive }) =>
                         isActive

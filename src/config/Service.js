@@ -64,7 +64,7 @@ class Service {
           Authorization: `Bearer ${token}`,
         },
       });
-      return response.data;
+      return response.data.data;
     } catch (error) {
       console.log("Error fetching employees:", error);
       throw error;
@@ -621,6 +621,23 @@ class Service {
     }
   }
 
+  static async allRFI() {
+    try {
+      const token = sessionStorage.getItem("token");
+      const response = await api.get(`/api/rfi/rfi/inbox`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/form-data",
+        },
+      });
+      console.log(response.data);
+      return response.data;
+    } catch (error) {
+      console.log("Error fetching RFI:", error);
+      throw error;
+    }
+  }
+
   // Update Job Study
   static async updateJobStudy(jobStudyId, data) {
     const token = sessionStorage.getItem("token");
@@ -656,6 +673,23 @@ class Service {
       return response.data.data;
     } catch (error) {
       console.log("Error fetching work breakdown activity:", error);
+    }
+  }
+
+  static async getAllTask() {
+    const token = sessionStorage.getItem("token");
+    try {
+      const response = await api.get(`/api/task/tasks/`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+      console.log(response.data.data);
+      return response?.data?.data;
+    } catch (error) {
+      console.log("Error in getting Task: ", error);
+      throw error;
     }
   }
 

@@ -10,7 +10,7 @@ const AllEmployees = () => {
   const [searchQuery, setSearchQuery] = useState("");
 
   const dispatch = useDispatch();
-  const staffs = useSelector((state) => state?.userData?.staffData?.data);
+  const staffs = useSelector((state) => state?.userData?.staffData);
 
   // Initialize the filtered staff list when 'staffs' changes
   useEffect(() => {

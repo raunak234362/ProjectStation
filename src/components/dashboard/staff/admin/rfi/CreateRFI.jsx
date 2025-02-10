@@ -46,6 +46,8 @@ const CreateRFI = () => {
     setFiles(updatedFiles);
   };
 
+  
+
   const fabricatorOptions = fabricatorData?.map((fabricator) => ({
     label: fabricator.fabName,
     value: fabricator.id,
@@ -69,27 +71,13 @@ const CreateRFI = () => {
     value: project.id,
   }));
 
+
   const CreateRFI = async (data) => {
-    const formData = new FormData();
-
-    // Append text fields
-    Object.keys(data).forEach((key) => {
-      formData.append(key, data[key]);
-    });
-
-    // Append files as a single array
-    if (files.length) {
-      formData.append("files", JSON.stringify(files));
-    }
-
-    console.log("Sending Data:", formData); // Debugging
-
-    try {
-      const response = await Service.addRFI(formData);
-      console.log("RFI created successfully:", response);
-    } catch (error) {
-      console.error("Error creating RFI:", error);
-    }
+    const rfiData = { ...data, files: files };
+    console.log("data==========================", rfiData);
+    const response = await Service.addRFI(rfiData);
+    // console.log("response==========================", response);
+    //console.log(addRFI(data))
   };
 
   return (

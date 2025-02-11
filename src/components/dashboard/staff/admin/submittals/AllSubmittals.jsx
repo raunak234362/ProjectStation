@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Button } from "../../../../index";
+import Service from "../../../../../config/Service";
 
 // Utility function to get nested values safely
 const getNestedValue = (obj, path) => {
@@ -10,17 +11,28 @@ const getNestedValue = (obj, path) => {
 };
 
 const AllSubmittals = () => {
-  const Submittals = useSelector((state) => state.projectData?.submittals);
-  //   console.log(Submittals);
+  const [submittals, setSubmittals] = useState([]);
   const [selectedSubmittals, setSelectedSubmittals] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [filteredSubmittals, setFilteredSubmittals] = useState(Submittals);
+  const [filteredSubmittals, setFilteredSubmittals] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [filters, setFilters] = useState({
     fabricator: "",
     project: "",
     status: "",
   });
+
+
+  const fetchSubmittals = async () => {
+    try {
+      const response = await Service.sentSubmittal()
+      setSubmittals(response.data);
+    } catch (error) {
+      console.error(error)
+    }
+
+  }
+
   const [sortConfig, setSortConfig] = useState({ key: "", direction: "asc" });
 
   const handleSearch = (e) => {
@@ -110,8 +122,9 @@ const AllSubmittals = () => {
   };
 
   useEffect(() => {
-    filterAndSort(Submittals, searchTerm, filters);
-  }, [Submittals, searchTerm, filters]);
+    fetchSubmittals()
+    filterAndSort(submittals, searchTerm, filters);
+  }, [searchTerm, filters]);
 
   return (
     <div className="bg-white/70 rounded-lg md:w-full w-[90vw]">
@@ -132,7 +145,7 @@ const AllSubmittals = () => {
             className="px-2 py-1 rounded border border-gray-300"
           >
             <option value="">Filter by Fabricator</option>
-            {[...new Set(Submittals?.map((sub) => sub?.fabricator?.name))].map(
+            {[...new Set(submittals?.map((sub) => sub?.fabricator?.name))].map(
               (name) => (
                 <option key={name} value={name}>
                   {name}
@@ -149,7 +162,7 @@ const AllSubmittals = () => {
             <option value="">Filter by Project</option>
             {[
               ...new Set(
-                Submittals?.map(
+                submittals?.map(
                   (sub) => sub?.fabricator?.project?.name || sub?.project?.name
                 )
               ),
@@ -194,14 +207,15 @@ const AllSubmittals = () => {
                 filteredSubmittals?.map((sub, index) => (
                   <tr key={sub?.id} className="hover:bg-blue-gray-100 border">
                     <td className="border px-2 py-1 text-left">
-                      {sub?.fabricator?.name}
+                      {sub?.fabricator?.fabName}
                     </td>
                     <td className="border px-2 py-1">
-                      {sub?.fabricator?.project?.name}
+                      {sub?.project?.name}
                     </td>
-                    <td className="border px-2 py-1">{sub?.remarks}</td>
-                    <td className="border px-2 py-1">{sub?.recipients}</td>
-                    <td className="border px-2 py-1">10-5-2024</td>
+                    <td className="border px-2 py-1">{sub?.subject}</td>
+                    <td className="border px-2 py-1">{sub?.recepients.email}</td>
+                    <td className="border px-2 py-1">{sub?.date}</td>
+                    <td className="border px-1 py-1">{sub.status}</td>
                     <Button onClick={() => handleViewClick(sub.id)}>
                       View
                     </Button>

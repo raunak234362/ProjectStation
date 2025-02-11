@@ -7,27 +7,27 @@ import Service from "../../../../../config/Service";
 
 // Utility function to get nested values safely
 const getNestedValue = (obj, path) => {
-  return path.split('.').reduce((acc, part) => acc && acc[part], obj);
+  return path.split(".").reduce((acc, part) => acc && acc[part], obj);
 };
 
 const AllSentRFI = () => {
-const [sentRfi, setSentRfi] = useState([]);
+  const [sentRfi, setSentRfi] = useState([]);
 
-const fetchSentRfi = async () => {
-  try {
-    const response = await Service.allRFI();
-    setSentRfi(response);
-  } catch (error) {
-    console.log(error);
-  }
-}
+  const fetchSentRfi = async () => {
+    try {
+      const response = await Service.sentRFI();
+      setSentRfi(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-useEffect(() => {
-  fetchSentRfi();
-}, []);
+  useEffect(() => {
+    fetchSentRfi();
+  }, []);
 
   const [selectedRFI, setSelectedRFI] = useState(null);
-  const [isModalOpen, setIsModalOpen]=useState(false)
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [filteredRFI, setFilteredRFI] = useState(sentRfi);
   const [searchTerm, setSearchTerm] = useState("");
   const [filters, setFilters] = useState({
@@ -67,7 +67,8 @@ useEffect(() => {
     if (filters.fabricator) {
       filteredData = filteredData.filter(
         (rfi) =>
-          rfi?.fabricator?.name.toLowerCase() === filters.fabricator.toLowerCase()
+          rfi?.fabricator?.name.toLowerCase() ===
+          filters.fabricator.toLowerCase()
       );
     }
     if (filters.project) {
@@ -119,19 +120,17 @@ useEffect(() => {
     setSortConfig({ key, direction });
   };
 
-  const handleViewClick = async(fabricatorId)=>{
-    
-    setSelectedRFI(fabricatorId)
-    setIsModalOpen(true)
-  }
-  
-  console.log(selectedRFI)
+  const handleViewClick = async (fabricatorId) => {
+    setSelectedRFI(fabricatorId);
+    setIsModalOpen(true);
+  };
 
-  const handleModalClose= async()=>{
-    setSelectedRFI(null)
-    setIsModalOpen(false)
-  }
+  console.log(selectedRFI);
 
+  const handleModalClose = async () => {
+    setSelectedRFI(null);
+    setIsModalOpen(false);
+  };
 
   return (
     <div className="bg-white/70 rounded-lg md:w-full w-[90vw]">
@@ -152,11 +151,13 @@ useEffect(() => {
             className="px-2 py-1 rounded border border-gray-300"
           >
             <option value="">Filter by Fabricator</option>
-            {[...new Set(sentRfi.map((rfi) => rfi?.fabricator?.name))].map((name) => (
-              <option key={name} value={name}>
-                {name}
-              </option>
-            ))}
+            {[...new Set(sentRfi.map((rfi) => rfi?.fabricator?.name))].map(
+              (name) => (
+                <option key={name} value={name}>
+                  {name}
+                </option>
+              )
+            )}
           </select>
           <select
             name="project"
@@ -165,13 +166,17 @@ useEffect(() => {
             className="px-2 py-1 rounded border border-gray-300"
           >
             <option value="">Filter by Project</option>
-            {[...new Set(sentRfi.map((rfi) => rfi?.fabricator?.project?.name || rfi?.project?.name))].map(
-              (name) => (
-                <option key={name} value={name}>
-                  {name}
-                </option>
-              )
-            )}
+            {[
+              ...new Set(
+                sentRfi.map(
+                  (rfi) => rfi?.fabricator?.project?.name || rfi?.project?.name
+                )
+              ),
+            ].map((name) => (
+              <option key={name} value={name}>
+                {name}
+              </option>
+            ))}
           </select>
           <select
             name="status"
@@ -224,17 +229,21 @@ useEffect(() => {
                 filteredRFI.map((rfi) => (
                   <tr key={rfi?.id} className="hover:bg-blue-gray-100 border">
                     <td className="border px-2 py-1 text-left">
-                      {rfi?.fabricator?.name || "N/A"}
+                      {rfi?.fabricator?.fabName || "N/A"}
                     </td>
                     <td className="border px-2 py-1">
-                      {rfi?.fabricator?.project?.name || rfi?.project?.name || "N/A"}
+                      {rfi?.project?.name ||
+                        rfi?.project?.name ||
+                        "N/A"}
                     </td>
-                    <td className="border px-2 py-1">{rfi?.remarks}</td>
-                    <td className="border px-2 py-1">{rfi?.email}</td>
+                    <td className="border px-2 py-1">{rfi?.subject}</td>
+                    <td className="border px-2 py-1">{rfi?.recepients?.email}</td>
                     <td className="border px-2 py-1">{rfi?.date}</td>
                     <td className="border px-2 py-1">{rfi?.status}</td>
                     <td className="border px-2 py-1">
-                    <Button onClick={() => handleViewClick(rfi.id)}>View</Button>
+                      <Button onClick={() => handleViewClick(rfi.id)}>
+                        View
+                      </Button>
                     </td>
                   </tr>
                 ))
@@ -244,9 +253,9 @@ useEffect(() => {
         </div>
         {selectedRFI && (
           <GetSentRFI
-          rfiId={selectedRFI}
-          isOpen={isModalOpen}
-          onClose={handleModalClose}
+            rfiId={selectedRFI}
+            isOpen={isModalOpen}
+            onClose={handleModalClose}
           />
         )}
       </div>

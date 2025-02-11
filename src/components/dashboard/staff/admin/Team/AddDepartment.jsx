@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { Input, CustomSelect, Button } from "../../../../index";
 import { useEffect, useState } from "react";
 import Service from "../../../../../config/Service";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addDepartment } from "../../../../../store/userSlice";
 
 const AddDepartment = () => {
@@ -18,30 +18,35 @@ const AddDepartment = () => {
   const [managerOptions, setManagerOptions] = useState([]);
   const token = sessionStorage.getItem("token");
   // Fetch managers when the component mounts
-  const fetchManagers = async () => {
-    try {
-      // Fetching the user data
-      const userData = await Service?.allEmployee(token);
-      console.log(userData);
-      const options = Array.isArray(userData?.data)
-        ? userData?.data
-            .filter((user) => user.is_manager === true)
-            .map((user) => {
-              return {
-                label: `${user.f_name} ${user.l_name}`,
-                value: user.id,
-              };
-            })
-        : [];
-      console.log(options);
-      setManagerOptions(options);
-    } catch (error) {
-      console.error("Failed to fetch employee data", error);
+  const staffs = useSelector((state) => state?.userData?.staffData);
+
+  const managerOption=staffs?.filter((user)=>user.is_manager)?.map((user)=>{
+    return{
+      label:`${user.f_name} ${user.l_name}`,
+      value:user.id
     }
-  };
+  })
+  // const fetchManagers = async () => {
+  //   try {
+  //     console.log(staffs);
+  //     const options = Array.isArray(staffs?.data)
+  //       ? staffs?.data
+  //           .filter((user) => user.is_manager)
+  //           .map((user) => {
+  //             return {
+  //               label: `${user.f_name} ${user.l_name}`,
+  //               value: user.id,
+  //             };
+  //           })
+  //       : [];
+  //     console.log(options);
+  //     setManagerOptions(options);
+  //   } catch (error) {
+  //     console.error("Failed to fetch employee data", error);
+  //   }
+  // };
 
   useEffect(() => {
-    fetchManagers();
   }, []);
 
   // Add department function
@@ -84,7 +89,7 @@ const AddDepartment = () => {
                 color="blue"
                 options={[
                   { label: "Select Manager", value: "" },
-                  ...managerOptions,
+                  ...managerOption,
                 ]}
                 {...register("manager")}
                 onChange={setValue}

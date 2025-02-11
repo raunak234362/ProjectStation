@@ -11,6 +11,7 @@ import {
 } from "../../../../index";
 import { addRFI } from "../../../../../store/projectSlice";
 import Service from "../../../../../config/Service";
+import { toast } from "react-toastify";
 
 const CreateRFI = () => {
   const projectData = useSelector((state) => state.projectData.projectData);
@@ -31,8 +32,9 @@ const CreateRFI = () => {
   const [files, setFiles] = useState([]);
 
   const fabricatorID = watch("fabricator_id");
+  const recipientID = watch("recipient_id");
   console.log("Selected Fabricator ID:", fabricatorID);
-
+  console.log("Selected Recipient ID:", recipientID);
   const selectedFabricator = fabricatorData?.find(
     (fabricator) => fabricator.id === fabricatorID
   );
@@ -78,15 +80,15 @@ const CreateRFI = () => {
       console.log("File:", formData?.append);
     });
 
-    
-    
-    const rfiData = {...data, files: formData};
+    const rfiData = { ...data, files, recepient_id: recipientID, fabricator_id:fabricatorID };
     console.log("Sending Data:", rfiData); // Debugging
 
     try {
       const response = await Service.addRFI(rfiData);
+      toast.success("RFI created successfully");
       console.log("RFI created successfully:", response);
     } catch (error) {
+      toast.error("Error creating RFI");
       console.error("Error creating RFI:", error);
     }
   };
@@ -136,7 +138,7 @@ const CreateRFI = () => {
                 size="lg"
                 color="blue"
                 options={[
-                  { label: "Select Fabricator", value: "" },
+                  { label: "Select Recipients", value: "" },
                   ...clientOptions,
                 ]}
                 {...register("recipient_id", { required: true })}

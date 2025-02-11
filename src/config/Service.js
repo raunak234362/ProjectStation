@@ -58,7 +58,7 @@ class Service {
   static async allEmployee() {
     const token = sessionStorage.getItem("token");
     try {
-      const response = await api.get(`/API/employee/employee`, {
+      const response = await api.get(`/api/employee/employee`, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
@@ -597,18 +597,28 @@ class Service {
   }
 
   //RFI
-  static async addRFI(data) {
-    console.log(data);
-    const formData = { ...data };
+  static async addRFI(rfiData) {
+    console.log(rfiData);
+    const data = new FormData();
 
-    // data.files.map(file => formData.append("files", file))
-    // delete data.files
-    // const newData = {...data, files :formData}
-    // console.log("data==========================", newData);
-    // console.log("data==========================", formData);
+    // Append files
+    for (let i = 0; i < rfiData?.files.length; i++) {
+      console.log("File:", rfiData?.files[i]);
+      data.append("files", rfiData?.files[i]);
+    }
+
+    // Append other fields
+    // Append other fields
+    data.append("fabricator_id", rfiData?.fabricator_id);
+    data.append("project_id", rfiData?.project_id);
+    data.append("recepient_id", rfiData?.recepient_id);
+    data.append("subject", rfiData?.subject);
+    data.append("description", rfiData?.description);
+
+    console.log("Data-------------",data)
     try {
       const token = sessionStorage.getItem("token");
-      const response = await api.post(`/api/rfi/rfi/addrfi`, formData, {
+      const response = await api.post(`/api/rfi/rfi/addrfi`, data, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "multipart/form-data",
@@ -621,7 +631,7 @@ class Service {
     }
   }
 
-  static async allRFI() {
+  static async inboxRFI() {
     try {
       const token = sessionStorage.getItem("token");
       const response = await api.get(`/api/rfi/rfi/inbox`, {
@@ -637,6 +647,95 @@ class Service {
       throw error;
     }
   }
+
+  static async sentRFI() {
+    try {
+      const token = sessionStorage.getItem("token");
+      const response = await api.get(`/api/rfi/rfi/sent`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/form-data",
+        },
+      });
+      console.log(response.data);
+      return response.data;
+    } catch (error) {
+      console.log("Error fetching RFI:", error);
+      throw error;
+    }
+  }
+
+  // Submittals
+  static async addSubmittal(submittals) {
+    console.log(submittals);
+    const data = new FormData();
+
+    // Append files
+    for (let i = 0; i < submittals?.files.length; i++) {
+      console.log("File:", submittals?.files[i]);
+      data.append("files", submittals?.files[i]);
+    }
+
+    // Append other fields
+    data.append("fabricator_id", submittals?.fabricator_id);
+    data.append("project_id", submittals?.project_id);
+    data.append("recepient_id", submittals?.recepient_id);
+    data.append("subject", submittals?.subject);
+    data.append("description", submittals?.description);
+
+    console.log("Data-------------",data)
+    try {
+      const token = sessionStorage.getItem("token");
+      const response = await api.post(`/api/submittals/submittals`, data, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      return response.data;
+    } catch (error) {
+      console.log("Error adding RFI:", error);
+      throw error;
+    }
+  }
+
+  // Fetch sent submittals
+  static async sentSubmittal() {
+    try {
+      const token = sessionStorage.getItem("token");
+      const response = await api.get(`/api/submittals/submittals/sent`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      return response.data;
+    } catch (error) {
+      console.log("Error adding RFI:", error);
+      throw error;
+    }
+  }
+
+
+// Fetch recivied Submittal
+  static async reciviedSubmittal() {
+    try {
+      const token = sessionStorage.getItem("token");
+      const response = await api.get(`/api/submittals/submittals/recieved`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      return response.data;
+    } catch (error) {
+      console.log("Error adding RFI:", error);
+      throw error;
+    }
+  }
+
+
+
 
   // Update Job Study
   static async updateJobStudy(jobStudyId, data) {

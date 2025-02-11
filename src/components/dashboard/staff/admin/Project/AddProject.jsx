@@ -14,9 +14,20 @@ const AddProject = () => {
   const departmentData = useSelector(
     (state) => state.userData?.departmentData?.data
   );
-  const userData = useSelector((state) => state.userData?.staffData?.data);
+
+
+  const userData = useSelector((state) => state.userData?.staffData);
   // console.log(userData);
   const teams = useSelector((state) => state?.userData?.teamData?.data);
+  
+  const managerOption=userData?.filter((user)=>user.is_manager)?.map((user)=>{
+    return{
+      label:`${user.f_name} ${user.l_name}`,
+      value:user.id
+    }
+  })
+
+
   const dispatch = useDispatch();
   const {
     register,
@@ -181,9 +192,10 @@ const AddProject = () => {
                 placeholder="Manager"
                 size="lg"
                 color="blue"
-                options={userData
-                  ?.filter((user) => user.is_manager)
-                  ?.map((user) => ({ label: user.f_name, value: user.id }))}
+                options={[
+                  { label: "Select Manager", value: "" },
+                  ...managerOption,
+                ]}
                 {...register("manager", { required: true })}
                 onChange={setValue}
               />

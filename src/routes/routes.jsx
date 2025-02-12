@@ -49,6 +49,7 @@ import {
   Project as ClientProject,
   ClientAllProjects,
   RFI as ClientRFI,
+  AllReceivedRFI as ClientAllReceivedRFI,
   Submittals as ClientSubmittals,
   ChangeOrder as ClientCO,
   Team as ClientTeam,
@@ -196,7 +197,7 @@ const routes = [
         children: [
           { path: "create-rfi", element: <CreateRFI /> },
           { path: "all-sent-rfi", element: <AllSentRFI /> },
-          { path: "all-received-rfi", element: <AllReceivedRFI /> },
+          { path: "all-received-rfi", element: <ClientAllReceivedRFI /> },
         ],
       },
       {

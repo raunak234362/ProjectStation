@@ -51,11 +51,11 @@ const App = () => {
       dispatch(setUserData(user.data));
       console.log(user.data);
       try {
-        const userData = await Service.allEmployee(token);
-        dispatch(showStaff(userData));
-        const TeamData = await Service.allteams(token);
-        dispatch(showTeam(TeamData));
         if (userType === "admin" || userType === "manager") {
+          const TeamData = await Service.allteams(token);
+          dispatch(showTeam(TeamData));
+          const userData = await Service.allEmployee(token);
+          dispatch(showStaff(userData));
           const fabricator = await Service?.allFabricator(token);
           dispatch(loadFabricator(fabricator));
           const client = await Service?.allClient(token);

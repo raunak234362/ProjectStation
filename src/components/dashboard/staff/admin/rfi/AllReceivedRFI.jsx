@@ -1,12 +1,28 @@
 /* eslint-disable no-unused-vars */
-import React from "react";
+import React, { useState,useEffect } from "react";
 import { useSelector } from "react-redux";
+import Service from "../../../../../config/Service";
 
 const AllReceivedRFI = () => {
+  const[RFI, setRFI] = useState([]);
 
-  const RFI = useSelector((state) => state?.projectData?.rfiData);
-  console.log(RFI);
 
+  const fetchREceivedRfi = async () => {
+    try{
+      const rfi = await Service.inboxRFI();
+      console.log(rfi);
+      if(rfi){
+        setRFI(rfi.data);
+      }else{
+        console.log("RFI not found");
+      }
+    }catch(error){
+      console.log(error);
+    }
+  }
+  useEffect(()=>{
+    fetchREceivedRfi();
+  },[])
   return (
     <div className="bg-white/70 rounded-lg md:w-full w-[90vw]">
       <div className="mt-5 h-auto p-4">
@@ -38,7 +54,7 @@ const AllReceivedRFI = () => {
                     key={project?.id}
                     className="hover:bg-blue-gray-100 border"
                   >
-                    {/* <td className="border px-2 py-1 text-left">
+                     <td className="border px-2 py-1 text-left">
                       {project?.fabricator || "N/A"}
                     </td>
                     <td className="border px-2 py-1 text-left">
@@ -58,8 +74,8 @@ const AllReceivedRFI = () => {
                     </td>
                     <td className="border px-2 py-1">
                       {project?.status || "Open"}
-                    </td> */}
-                    {/* <td className="border px-2 py-1">
+                    </td> 
+                     <td className="border px-2 py-1">
                       
                       <button className="bg-teal-300 px-2 py-1 rounded">
                         Forward
@@ -70,7 +86,7 @@ const AllReceivedRFI = () => {
                       <button className="bg-blue-300 px-2 py-1 rounded">
                         View
                       </button>
-                    </td> */}
+                    </td> 
                   </tr>
                 ))
               )}

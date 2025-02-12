@@ -1,11 +1,30 @@
 /* eslint-disable no-unused-vars */
 import React from "react";
 import { useSelector } from "react-redux";
+import { useState,useEffect } from "react";
+import Service from "../../../../../config/Service";
+
 
 const AllReceivedRFI = () => {
+  const[RFI, setRFI] = useState([]);
 
-  const RFI = useSelector((state) => state?.projectData?.rfiData);
-  console.log(RFI);
+
+  const fetchREceivedRfi = async () => {
+    try{
+      const rfi = await Service.inboxRFI();
+      console.log(rfi);
+      if(rfi){
+        setRFI(rfi.data);
+      }else{
+        console.log("RFI not found");
+      }
+    }catch(error){
+      console.log(error);
+    }
+  }
+  useEffect(()=>{
+    fetchREceivedRfi();
+  },[])
 
   return (
     <div className="bg-white/70 rounded-lg md:w-full w-[90vw]">
@@ -38,7 +57,7 @@ const AllReceivedRFI = () => {
                     key={project?.id}
                     className="hover:bg-blue-gray-100 border"
                   >
-                    {/* <td className="border px-2 py-1 text-left">
+                    {/*<td className="border px-2 py-1 text-left">
                       {project?.fabricator || "N/A"}
                     </td>
                     <td className="border px-2 py-1 text-left">

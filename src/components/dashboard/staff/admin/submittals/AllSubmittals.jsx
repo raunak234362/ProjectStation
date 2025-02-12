@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Button } from "../../../../index";
 import Service from "../../../../../config/Service";
+import GetSentSubmittals from "./GetSentSubmittals";
 
 // Utility function to get nested values safely
 const getNestedValue = (obj, path) => {
@@ -121,6 +122,11 @@ const AllSubmittals = () => {
     setIsModalOpen(true);
   };
 
+  const handleModalClose = async () => {
+    setSelectedSubmittals(null);
+    setIsModalOpen(false);
+  };
+
   useEffect(() => {
     fetchSubmittals()
     filterAndSort(submittals, searchTerm, filters);
@@ -225,6 +231,13 @@ const AllSubmittals = () => {
             </tbody>
           </table>
         </div>
+        {selectedSubmittals && (
+          <GetSentSubmittals
+          submittalId={selectedSubmittals}
+          isOpen={isModalOpen}
+          onClose={handleModalClose}
+          />
+        )}
       </div>
     </div>
   );

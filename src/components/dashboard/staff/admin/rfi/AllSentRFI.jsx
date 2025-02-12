@@ -16,7 +16,8 @@ const AllSentRFI = () => {
   const fetchSentRfi = async () => {
     try {
       const response = await Service.sentRFI();
-      setSentRfi(response.data);
+      setSentRfi(response?.data);
+      console.log(response?.data);
     } catch (error) {
       console.log(error);
     }
@@ -24,7 +25,7 @@ const AllSentRFI = () => {
 
   useEffect(() => {
     fetchSentRfi();
-  }, []);
+  }, [setSentRfi]);
 
   const [selectedRFI, setSelectedRFI] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -120,8 +121,8 @@ const AllSentRFI = () => {
     setSortConfig({ key, direction });
   };
 
-  const handleViewClick = async (fabricatorId) => {
-    setSelectedRFI(fabricatorId);
+  const handleViewClick = async (rfiId) => {
+    setSelectedRFI(rfiId);
     setIsModalOpen(true);
   };
 
@@ -151,7 +152,7 @@ const AllSentRFI = () => {
             className="px-2 py-1 rounded border border-gray-300"
           >
             <option value="">Filter by Fabricator</option>
-            {[...new Set(sentRfi.map((rfi) => rfi?.fabricator?.name))].map(
+            {[...new Set(sentRfi.map((rfi) => rfi?.fabricator?.fabName))].map(
               (name) => (
                 <option key={name} value={name}>
                   {name}

@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Button } from "../../../../index";
 import api from "../../../../../config/api";
-const GetSentRFI = ({ rfiId, isOpen, onClose }) => {
+const GetSentSubmittals = ({ submittalId, isOpen, onClose }) => {
   const [rfi, setRFI] = useState();
   const RFI = useSelector((state) => state?.projectData?.rfiData);
 
@@ -12,7 +12,7 @@ const GetSentRFI = ({ rfiId, isOpen, onClose }) => {
 
   const fetchRFI = async () => {
     try {
-      const rfi= await api.get(`/api/rfi/rfi/${rfiId}`)
+      const rfi= await api.get(`/api/submittals/submittals/${submittalId}`)
       console.log(rfi);
       if (rfi) {
         setRFI(rfi.data.data);
@@ -30,7 +30,7 @@ const GetSentRFI = ({ rfiId, isOpen, onClose }) => {
 
   useEffect(() => {
     fetchRFI();
-  }, [rfiId]);
+  }, [submittalId]);
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
@@ -107,4 +107,4 @@ const GetSentRFI = ({ rfiId, isOpen, onClose }) => {
   );
 };
 
-export default GetSentRFI;
+export default GetSentSubmittals;

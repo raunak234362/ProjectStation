@@ -18,10 +18,11 @@ const CreateRFI = () => {
   const fabricatorData = useSelector(
     (state) => state?.fabricatorData?.fabricatorData
   );
+  
   const clientData = useSelector((state) => state?.fabricatorData?.clientData);
   console.log(clientData);
   const dispatch = useDispatch();
-  // console.log(projectData);
+  console.log(projectData);
   const {
     register,
     setValue,

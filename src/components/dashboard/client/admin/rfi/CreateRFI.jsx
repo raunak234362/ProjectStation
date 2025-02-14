@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -11,20 +11,57 @@ import {
 } from "../../../../index";
 import { addRFI } from "../../../../../store/projectSlice";
 import Service from "../../../../../config/Service";
+import { toast } from "react-toastify";
 
-const CreateRFI = () => {
+ export const ClientCreateRFI = () => {
+  const[recipients, setRecipients] = useState([]);
+  useEffect(()=>{
+    const getRecipients = async()=>{
+      const response = await Service.getRecipients();
+      console.log(response);
+      setRecipients(response.data);
+    }
+    getRecipients();
+  },[])
+
+  const recepientsOptions = recipients
+  .filter(rec => rec.is_manager || rec.is_superuser) 
+  .map(rec => ({
+    label: rec.username,
+    value: rec.id,
+  })); 
+
+
+ console.log(recepientsOptions)
+
   const projectData = useSelector((state) => state.projectData.projectData);
-  const dispatch = useDispatch();
-  // console.log(projectData);
+  const fabricatorData = useSelector(
+      (state) => state?.fabricatorData?.fabricatorData
+    );
+  const clientData = useSelector((state) => state?.fabricatorData?.clientData);
+  console.log(projectData);
+
+  const projectOpttions = projectData.map((pro) => {
+    return {
+      label: pro.name,
+      value: pro.id,
+    }
+  })
+
   const {
     register,
     setValue,
     handleSubmit,
+    watch,
     formState: { errors },
   } = useForm();
   const [files, setFiles] = useState([]);
   const [fileUpload, setFileUpload] = useState("");
   const [fileName, setFileName] = useState(null);
+
+  const recipientID = watch("recipients");
+  const projectID = watch("project");
+
 
   // const handleFileChange = (e) => {
   //   const file = e.target.files[0];
@@ -38,11 +75,25 @@ const CreateRFI = () => {
   };
 
   const CreateRFI = async (data) => {
-    const formData = { ...data, files };
-    console.log("data==========================", formData);
-    const response = await Service.addRFI(formData);
-    console.log("response==========================", response);
-    //console.log(addRFI(data))
+    const formData = new FormData();
+
+    // Append files
+    files?.map((file) => {
+      formData.append("files", file);
+      console.log("File:", formData?.append);
+    });
+
+    const rfiData = { ...data, files, recipient_id: recipientID, project_id: projectID,};
+    console.log("Sending Data:", rfiData); // Debugging
+
+    try {
+      const response = await Service.addRFI(rfiData);
+      toast.success("RFI created successfully");
+      console.log("RFI created successfully:", response);
+    } catch (error) {
+      toast.error("Error creating RFI");
+      console.error("Error creating RFI:", error);
+    }
   };
 
   return (
@@ -50,10 +101,10 @@ const CreateRFI = () => {
       <div className="h-full w-full overflow-y-auto md:px-10 px-2 py-3">
         <form onSubmit={handleSubmit(CreateRFI)}>
           <div className="bg-teal-500/50 rounded-lg px-2 py-2 font-bold text-white">
-            Project Information:
+            Project Informationrtoin :
           </div>
           <div className="my-2 md:px-2 px-1">
-            <div className="w-full">
+             {/* <div className="w-full">
               <CustomSelect
                 label="Fabricator Name:"
                 color="blue"
@@ -68,18 +119,14 @@ const CreateRFI = () => {
                 onChange={setValue}
               />
               {errors.fabricator && <div>This field is required</div>}
-            </div>
+            </div>  */}
             <div className="w-full mt-3">
               <CustomSelect
                 label="Project Name:"
                 color="blue"
                 size="lg"
                 name="project"
-                options={[
-                  { label: "Select Project", value: "" },
-                  { label: "Project 1", value: "Project 1" },
-                  { label: "Project 2", value: "Project 2" },
-                ]}
+                options={projectOpttions}
                 {...register("project", { required: true })}
                 onChange={setValue}
               />
@@ -91,12 +138,7 @@ const CreateRFI = () => {
                 placeholder="Select Recipients"
                 size="lg"
                 color="blue"
-                options={[
-                  { label: "Select Recipients", value: "" },
-                  { label: "abc@google.com - ABC", value: "abc@google.com" },
-                  { label: "bcd@google.com - BCD", value: "bcd@google.com" },
-                  { label: "bkd@google.com - BKD", value: "bkd@google.com" },
-                ]}
+                options={recepientsOptions}
                 {...register("recipients", { required: true })}
                 onChange={setValue}
               />
@@ -113,7 +155,7 @@ const CreateRFI = () => {
                 placeholder="Subject/Remarks"
                 size="lg"
                 color="blue"
-                {...register("remarks")}
+                {...register("subject")}
               />
             </div>
             <div className="w-full my-3">
@@ -149,4 +191,3 @@ const CreateRFI = () => {
   );
 };
 
-export default CreateRFI;

@@ -8,10 +8,14 @@ import RFQ from "./admin/project/RFQ";
 import RFI from "./admin/rfi/RFI";
 import AllSentRFI from "../staff/admin/rfi/AllSentRFI";
 import AllReceivedRFI from "./admin/rfi/AllReceivedRFI";
-import CreateRFI from "../staff/admin/rfi/CreateRFI";
+import {ClientCreateRFI} from "../client/admin/rfi/CreateRFI";
 import GetSentRFI from "../staff/admin/rfi/GetSentRFI";
 //submittals
 import Submittals from "./admin/submittals/Submittals";
+import AllReceivedSubmittals from "./admin/submittals/AllReceivedSubmittals";
+import AllSubmittals from "./admin/submittals/AllSubmittals";
+import GetSentSubmittals from "./admin/submittals/GetSentSubmittals";
+import SendSubmittals from "./admin/submittals/SendSubmittals";
 
 //team
 import Team from "./admin/team/Team";
@@ -25,11 +29,15 @@ export {
   ClientAllProjects,
   AllSentRFI,
   AllReceivedRFI,
-  CreateRFI,
+  ClientCreateRFI,
   GetSentRFI,
   RFQ,
   RFI,
   Submittals,
   ChangeOrder,
   Team,
+  AllReceivedSubmittals,
+  AllSubmittals,
+  GetSentSubmittals,
+  SendSubmittals,
 };

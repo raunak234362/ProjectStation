@@ -52,33 +52,33 @@ const AllReceivedRFI = () => {
                   </td>
                 </tr>
               ) : (
-                RFI?.map((project) => (
+                RFI?.map((rfi) => (
                   <tr
-                    key={project?.id}
+                    key={rfi?.id}
                     className="hover:bg-blue-gray-100 border"
                   >
-                    {/*<td className="border px-2 py-1 text-left">
-                      {project?.fabricator || "N/A"}
+                    <td className="border px-2 py-1 text-left">
+                      {rfi?.fabricator.fabName || "N/A"}
                     </td>
                     <td className="border px-2 py-1 text-left">
-                      {project?.client?.name || "N/A"}
+                      {rfi?.recepients?.username || "N/A"}
                     </td>
                     <td className="border px-2 py-1">
-                      {project?.project || "N/A"}
+                      {rfi?.project.name || "N/A"}
                     </td>
                     <td className="border px-2 py-1">
-                      {project?.mail || "N/A"}
+                      {rfi?.recepients.email|| "N/A"}
                     </td>
                     <td className="border px-2 py-1">
-                      {project?.remarks || "No remarks"}
+                      {rfi?.subject || "No remarks"}
                     </td>
                     <td className="border px-2 py-1">
-                      {project?.date || "N/A"}
+                      {rfi?.date || "N/A"}
                     </td>
                     <td className="border px-2 py-1">
-                      {project?.status || "Open"}
-                    </td> */}
-                    {/* <td className="border px-2 py-1">
+                      {rfi?.status? "No Reply"  : "Replied"}
+                    </td> 
+                     <td className="border px-2 py-1">
                       
                       <button className="bg-teal-300 px-2 py-1 rounded">
                         Forward
@@ -89,7 +89,7 @@ const AllReceivedRFI = () => {
                       <button className="bg-blue-300 px-2 py-1 rounded">
                         View
                       </button>
-                    </td> */}
+                    </td> 
                   </tr>
                 ))
               )}

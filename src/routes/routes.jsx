@@ -49,11 +49,16 @@ import {
   Project as ClientProject,
   ClientAllProjects,
   RFI as ClientRFI,
+  ClientCreateRFI,
   AllReceivedRFI as ClientAllReceivedRFI,
-  Submittals as ClientSubmittals,
   ChangeOrder as ClientCO,
   Team as ClientTeam,
   RFQ,
+  Submittals as ClientSubmittals,
+  AllReceivedSubmittals as ClientAllReceivedSubmittals,
+  AllSubmittals as ClientAllSubmittals,
+  GetSentSubmittals as ClientGetSentSubmittals,
+  SendSubmittals as ClientSendSubmittals,
 } from "../components/dashboard/client/clientIndex.js";
 
 import LoginContent from "../view/login/LoginContent";
@@ -195,7 +200,7 @@ const routes = [
         path: "rfi",
         element: <RFI />,
         children: [
-          { path: "create-rfi", element: <CreateRFI /> },
+          { path: "create-rfi", element: <ClientCreateRFI /> },
           { path: "all-sent-rfi", element: <AllSentRFI /> },
           { path: "all-received-rfi", element: <ClientAllReceivedRFI /> },
         ],
@@ -203,6 +208,12 @@ const routes = [
       {
         path: "submittals",
         element: <ClientSubmittals />,
+        children: [
+          { path: "all-submittals", element: <ClientAllSubmittals /> },
+          {path:'send-submittals',element:<ClientSendSubmittals/>},
+          {path:'all-received-submittals',element:<ClientAllReceivedSubmittals/>},
+          {path:'get-sent-submittals',element:<ClientGetSentSubmittals/>},
+        ],
       },
       {
         path: "change-order",

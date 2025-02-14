@@ -21,6 +21,21 @@ class Service {
     }
   }
 
+
+   static async getRecipients() {
+    try {
+      const response = await api.get(`/api/employee/employee`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      return response.data;
+    } catch (error) {
+      console.log("Error fetching recipients:", error);
+      throw error;
+    }
+   }
   // Add a new employee (staff) -- updated
   static async addEmployee(updatedData) {
     try {
@@ -611,7 +626,7 @@ class Service {
     // Append other fields
     data.append("fabricator_id", rfiData?.fabricator_id);
     data.append("project_id", rfiData?.project_id);
-    data.append("recepient_id", rfiData?.recepient_id);
+    data.append("recipient_id", rfiData?.recipient_id);
     data.append("subject", rfiData?.subject);
     data.append("description", rfiData?.description);
 

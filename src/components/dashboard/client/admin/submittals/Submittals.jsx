@@ -52,7 +52,7 @@ const Submittals = () => {
                       : "hover:bg-teal-200 rounded-lg flex px-5 py-2 hover:text-white"
                   }
                 >
-                  All Submittals
+                  All Sent Submittals
                 </NavLink>
               </li>
               <li className="px-2">

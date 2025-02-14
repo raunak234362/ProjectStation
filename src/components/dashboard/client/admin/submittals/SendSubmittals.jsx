@@ -32,6 +32,7 @@ const SendSubmittals = () => {
     const getRecipients = async () => {
       try {
         const response = await Service.getRecipients();
+        console.log("---------------------",response);
         setRecipients(response.data);
       } catch (error) {
         console.error("Error fetching recipients:", error);
@@ -39,7 +40,9 @@ const SendSubmittals = () => {
     };
     getRecipients();
   }, []);
-
+  console.log("==================================",recipients)
+const recipientID = watch("recepient_id");
+console.log("==================================",recipientID)
   // Filter managers and superusers
   const recipientsOptions = recipients
     .filter((rec) => rec.is_manager || rec.is_superuser)
@@ -47,6 +50,8 @@ const SendSubmittals = () => {
       label: rec.username,
       value: rec.id,
     }));
+
+    console.log("==================================",recipientsOptions)
 
   const fabricatorID = watch("fabricator_id");
 
@@ -70,7 +75,7 @@ const SendSubmittals = () => {
     }));
 
   const projectOptions = projectData
-    ?.filter((project) => project.fabricatorID === fabricatorID)
+    ?.filter((project) => project.fabricatorId === fabricatorID)
     .map((project) => ({
       label: project.name,
       value: project.id,
@@ -81,6 +86,7 @@ const SendSubmittals = () => {
   };
 
   const CreateSubmittals = async (data) => {
+    console.log("Submittals------------",data)
     const formData = new FormData();
 
     files.forEach((file) => {
@@ -114,8 +120,8 @@ const SendSubmittals = () => {
                 size="lg"
                 name="project_id"
                 options={[{ label: "Select Project", value: "" }, ...projectOptions]}
-                onChange={(selected) => setValue("project_id", selected.value)}
                 {...register("project_id", { required: true })}
+                onChange={setValue}
               />
               {errors.project_id && <div className="text-red-500">This field is required</div>}
             </div>
@@ -126,8 +132,8 @@ const SendSubmittals = () => {
                 size="lg"
                 color="blue"
                 options={[{ label: "Select Recipient", value: "" }, ...recipientsOptions]}
-                onChange={(selected) => setValue("recipient_id", selected.value)}
-                {...register("recipient_id", { required: true })}
+                {...register("recepient_id", { required: true })}
+                onChange={setValue}
               />
               {errors.recipient_id && <div className="text-red-500">This field is required</div>}
             </div>

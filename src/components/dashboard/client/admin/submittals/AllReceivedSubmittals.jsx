@@ -1,7 +1,18 @@
 /* eslint-disable no-unused-vars */
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import Service from '../../../../../config/Service';
 
 const AllReceivedSubmittals = () => {
+
+  const [submittals, setSubmittals] = useState([]);
+
+  useEffect(() => {
+    (async() => {
+      const response = await Service.reciviedSubmittal();
+      setSubmittals(response.data);
+    })();
+  }, [])
+
   return (
     <div className='bg-white/70 rounded-lg md:w-full w-[90vw]'>
         <div className="mt-5 h-auto p-4">
@@ -20,25 +31,25 @@ const AllReceivedSubmittals = () => {
               </tr>
             </thead>
             <tbody>
-              {/* {RFI.length === 0 ? (
+              {submittals.length === 0 ? (
                    <tr className="bg-white">
                    <td colSpan="6" className="text-center">
                    No sent RFI Found
                    </td>
                  </tr>
-              ):( RFI?.map((project,index) => (
+              ):( submittals?.map((project,index) => (
                     <tr key={project.id} className='hover:bg-blue-gray-100 border'>
                       
-                      <td className='border px-2 py-1 text-left'>{project.fabricator}</td>
-                      <td className='border px-2 py-1'>{project.project}</td>
-                      <td className='border px-2 py-1'>{project.remarks}</td>
-                      <td className='border px-2 py-1'>{project.recipients}</td>
-                      <td className='border px-2 py-1'>10-5-2024</td>
+                      <td className='border px-2 py-1 text-left'>{project.fabricator.fabName}</td>
+                      <td className='border px-2 py-1'>{project.project.name}</td>
+                      <td className='border px-2 py-1'>{project.subject}</td>
+                      <td className='border px-2 py-1'>{project.sender.username}</td>
+                      <td className='border px-2 py-1'>{project.date}</td>
                       <td className='border px-2 py-1'>Open</td>
                       <td className='border px-2 py-1'>Button</td>
                     </tr>
                   ))
-              )} */}
+              )}
             </tbody>
           </table>
         </div>

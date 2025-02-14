@@ -10,7 +10,7 @@ const GetSentSubmittals = ({ submittalId, isOpen, onClose }) => {
 
   
 
-  const fetchRFI = async () => {
+  const fetchSubmittals = async () => {
     try {
       const rfi= await api.get(`/api/submittals/submittals/${submittalId}`)
       console.log(rfi);
@@ -29,7 +29,7 @@ const GetSentSubmittals = ({ submittalId, isOpen, onClose }) => {
   };
 
   useEffect(() => {
-    fetchRFI();
+    fetchSubmittals();
   }, [submittalId]);
 
   return (

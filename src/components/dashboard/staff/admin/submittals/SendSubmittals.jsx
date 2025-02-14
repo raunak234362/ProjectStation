@@ -140,7 +140,7 @@ const SendSubmittals = () => {
                   { label: "Select Fabricator", value: "" },
                   ...clientOptions,
                 ]}
-                {...register("recipient_id", { required: true })}
+                {...register("recepient_id", { required: true })}
                 onChange={setValue}
               />
               {errors.recipients && <div>This field is required</div>}

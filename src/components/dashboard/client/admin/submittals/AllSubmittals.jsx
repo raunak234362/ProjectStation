@@ -24,10 +24,12 @@ const AllSubmittals = () => {
   });
 
 
-  const fetchSubmittals = async () => {
+  const fetchSubmittals = async () => { 
     try {
       const response = await Service.sentSubmittal()
+      console.log(response.data)
       setSubmittals(response.data);
+      setFilteredSubmittals(response.data);
     } catch (error) {
       console.error(error)
     }
@@ -144,21 +146,7 @@ const AllSubmittals = () => {
             onChange={handleSearch}
             className="px-2 py-1 rounded border border-gray-300"
           />
-          <select
-            name="fabricator"
-            value={filters.fabricator}
-            onChange={handleFilterChange}
-            className="px-2 py-1 rounded border border-gray-300"
-          >
-            <option value="">Filter by Fabricator</option>
-            {[...new Set(submittals?.map((sub) => sub?.fabricator?.name))].map(
-              (name) => (
-                <option key={name} value={name}>
-                  {name}
-                </option>
-              )
-            )}
-          </select>
+        
           <select
             name="project"
             value={filters.project}
@@ -193,7 +181,6 @@ const AllSubmittals = () => {
           <table className="min-w-full border-collapse text-center text-sm md:text-lg rounded-xl">
             <thead>
               <tr className="bg-teal-200/70">
-                <th className="px-2 py-1 text-left">Fabricator Name</th>
                 <th className="px-2 py-1 text-left">Project Name</th>
                 <th className="px-2 py-1">Subject/Remarks</th>
                 <th className="px-2 py-1">Recipients</th>
@@ -221,7 +208,6 @@ const AllSubmittals = () => {
                     <td className="border px-2 py-1">{sub?.subject}</td>
                     <td className="border px-2 py-1">{sub?.recepients.email}</td>
                     <td className="border px-2 py-1">{sub?.date}</td>
-                    <td className="border px-1 py-1">{sub.status}</td>
                     <Button onClick={() => handleViewClick(sub.id)}>
                       View
                     </Button>

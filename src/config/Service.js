@@ -23,6 +23,7 @@ class Service {
 
 
    static async getRecipients() {
+    const token = sessionStorage.getItem("token");
     try {
       const response = await api.get(`/api/employee/employee`, {
         headers: {
@@ -30,6 +31,7 @@ class Service {
           Authorization: `Bearer ${token}`,
         },
       });
+      console.log("response.data",response.data)
       return response.data;
     } catch (error) {
       console.log("Error fetching recipients:", error);

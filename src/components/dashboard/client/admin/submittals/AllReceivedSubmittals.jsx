@@ -38,8 +38,7 @@ const AllReceivedSubmittals = () => {
                    </td>
                  </tr>
               ):( submittals?.map((project,index) => (
-                    <tr key={project.id} className='hover:bg-blue-gray-100 border'>
-                      
+                    <tr key={project.id} className='hover:bg-blue-gray-100 border'>                      
                       <td className='border px-2 py-1 text-left'>{project.fabricator.fabName}</td>
                       <td className='border px-2 py-1'>{project.project.name}</td>
                       <td className='border px-2 py-1'>{project.subject}</td>

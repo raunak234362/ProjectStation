@@ -61,6 +61,9 @@ import {
   SendSubmittals as ClientSendSubmittals,
 } from "../components/dashboard/client/clientIndex.js";
 
+//For Sales-Admin
+import { Dashboard as SalesDashboard } from "../components/dashboard/staff/sales/salesIndex.js";
+
 import LoginContent from "../view/login/LoginContent";
 import App from "../App.jsx";
 
@@ -101,7 +104,7 @@ const routes = [
         path: "project",
         element: <Projects />,
         children: [
-          {path:'projects',element:<ProjectDashboard/>},
+          { path: "projects", element: <ProjectDashboard /> },
           { path: "add-project", element: <AddProject /> },
           { path: "all-projects", element: <AllProject /> },
           { path: "edit-project", element: <EditProject /> },
@@ -210,9 +213,12 @@ const routes = [
         element: <ClientSubmittals />,
         children: [
           { path: "all-submittals", element: <ClientAllSubmittals /> },
-          {path:'send-submittals',element:<ClientSendSubmittals/>},
-          {path:'all-received-submittals',element:<ClientAllReceivedSubmittals/>},
-          {path:'get-sent-submittals',element:<ClientGetSentSubmittals/>},
+          { path: "send-submittals", element: <ClientSendSubmittals /> },
+          {
+            path: "all-received-submittals",
+            element: <ClientAllReceivedSubmittals />,
+          },
+          { path: "get-sent-submittals", element: <ClientGetSentSubmittals /> },
         ],
       },
       {
@@ -231,7 +237,7 @@ const routes = [
     children: [
       {
         path: "dashboard",
-        // element:<SalesDashboard/>
+        element: <SalesDashboard />,
       },
       {
         path: "profile",

@@ -12,7 +12,7 @@ const token = sessionStorage.getItem("token")
 const dispatch =useDispatch();
 
 const staffs = useSelector((state)=>state?.userData?.staffData?.data)
-const departments = useSelector((state)=>state?.userData?.departmentData)
+const departments = useSelector((state)=>state?.userData?.departmentData?.data)
 // console.log(departments) 
 // console.log(staffs)
 

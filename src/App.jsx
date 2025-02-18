@@ -8,7 +8,7 @@ import { Header, Sidebar } from "./components/index";
 import { Outlet, useNavigate } from "react-router-dom";
 import Service from "./config/Service";
 // import FrappeService from "./frappeConfig/FrappeService";
-import { setUserData, showStaff, showTeam } from "./store/userSlice";
+import { setUserData, showDepartment, showStaff, showTeam } from "./store/userSlice";
 import { loadFabricator, showClient } from "./store/fabricatorSlice";
 import { showProjects } from "./store/projectSlice";
 import { ToastContainer } from "react-toastify";
@@ -43,6 +43,7 @@ const App = () => {
     const taskData = await Service.getAllTask(token);
     dispatch(showTask(taskData));
   };
+  
 
   useEffect(() => {
     console.log(token);

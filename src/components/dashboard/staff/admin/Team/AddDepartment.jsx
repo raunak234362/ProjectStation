@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import Service from "../../../../../config/Service";
 import { useDispatch, useSelector } from "react-redux";
 import { addDepartment } from "../../../../../store/userSlice";
+import { toast } from "react-toastify";
 
 const AddDepartment = () => {
   const {
@@ -55,8 +56,10 @@ const AddDepartment = () => {
     try {
       const departmentData = await Service.addDepartment(data);
       dispatch(addDepartment(departmentData.data));
+      toast.success("Department added successfully");
       console.log("Department added successfully:", departmentData);
     } catch (error) {
+      toast.error("Failed to add department");
       console.log("Failed to add department", error);
     }
   };

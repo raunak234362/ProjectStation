@@ -2,7 +2,7 @@
 import { useForm } from "react-hook-form";
 import { Input, CustomSelect, Button, Toggle } from "../../../../index";
 import { useDispatch, useSelector } from "react-redux";
-import { setUserData } from "../../../../../store/userSlice";
+import { setUserData, showDepartment } from "../../../../../store/userSlice";
 import {
   countries,
   getCountryFlagEmojiFromCountryCode,
@@ -25,23 +25,24 @@ const AddEmployee = () => {
     clearErrors,
   } = useForm();
   const [showAlert, setShowalert] = useState(false);
-  const [departments, setDepartments] = useState(
-    useSelector((state) => state?.userData?.departmentData?.dat)
-  );
+  const [departments, setDepartments] = useState([]);
+  
+  const fetchAllDepartments = async () => {
+    const departmentData = await Service.allDepartment();
+    console.log(departmentData.data);
+    setDepartments(departmentData.data);
+    dispatch(showDepartment(departmentData));
+  };
+
+  console.log(departments);
+
+  const departmentOptions = departments?.map((department) => ({
+    label: department.name,
+    value: department.id,
+  }));
 
   useEffect(() => {
-    (async () => {
-      try {
-        const response = await axios.get(`${BASE_URL}/department/department`);
-        console.log(response.data?.data);
-        const department = response?.data?.data.map((item) => {
-          return { label: item.name, value: item };
-        });
-        setDepartments(department);
-      } catch (error) {
-        console.log(error.message);
-      }
-    })();
+    fetchAllDepartments();
   }, []);
 
   const countryOptions = countries.map((country) => ({
@@ -157,7 +158,7 @@ const AddEmployee = () => {
                 label="Department:"
                 color="blue"
                 name="department"
-                options={departments}
+                options={departmentOptions}
                 className="w-full"
                 {...register("department")}
                 onChange={setValue}

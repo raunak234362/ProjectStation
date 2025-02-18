@@ -36,7 +36,7 @@ const AddTeam = () => {
 
   return(
     <div className="flex justify-center w-full my-5 text-black">
-      <div className="w-full h-full px-2 py-3 overflow-y-auto md:px-10">
+      <div className="w-full h-[50vh] px-2 py-3 overflow-y-auto md:px-10">
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="px-2 py-2 font-bold text-white rounded-lg bg-teal-500/50">
             Department:

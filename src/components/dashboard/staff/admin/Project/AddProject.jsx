@@ -42,8 +42,8 @@ const AddProject = () => {
     console.log("DATA-----------------------",data);
     try {
       const response = await Service.addProject(data);
-      dispatch(addProject(data));
       toast.success("Project Added Successfully");
+      dispatch(addProject(response.data));
       console.log(response);
     } catch (error) {
       toast.error("Error Adding Project");

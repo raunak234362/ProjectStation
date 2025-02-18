@@ -5,7 +5,7 @@ import { useState } from "react";
 
 const Dashboard = () => {
   const projects = useSelector((state) => state?.projectData.projectData);
-  const staffs = useSelector((state) => state?.userData?.staffData?.data);
+  const staffs = useSelector((state) => state?.userData?.staffData);
   const clients = useSelector((state) => state?.fabricatorData?.clientData);
   console.log("clients", clients);
   const [selectedProject, setSelectedProject] = useState(null);

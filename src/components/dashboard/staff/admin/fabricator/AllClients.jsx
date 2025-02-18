@@ -1,17 +1,17 @@
 /* eslint-disable no-unused-vars */
-import { useState } from 'react'
-import { useSelector } from 'react-redux'
-import {Button, GetClient} from '../../../../index'
+import { useState } from "react";
+import { useSelector } from "react-redux";
+import { Button, GetClient } from "../../../../index";
 const AllClients = () => {
-  const clientData = useSelector((state) => state?.fabricatorData?.clientData)
+  const clientData = useSelector((state) => state?.fabricatorData?.clientData);
 
-  console.log(clientData)
+  console.log(clientData);
 
   // const [searchQuery, setSearchQuery] = useState('')
   // const [fabricatorFilter, setFabricatorFilter] = useState('All')
-  const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' })
-  const [selectedClient,setSelectedClient]=useState(false)
-  const [isModalOpen, setIsModalOpen]=useState(false)
+  const [sortConfig, setSortConfig] = useState({ key: null, direction: "asc" });
+  const [selectedClient, setSelectedClient] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   // Get unique fabricators for filter dropdown
   // const uniqueFabricators = [
   //   ...new Set(clientData?.map((client) => client?.fabricator?.name)),
@@ -55,18 +55,17 @@ const AllClients = () => {
   // const openClientWindow = (id) => {
   //   window.open(`/dashboard/client/${id}`, '_blank');
   // };
-  const handleViewClick = async(clientId)=>{
-    
-    setSelectedClient(clientId)
-    setIsModalOpen(true)
-  }
-  
-  console.log(selectedClient)
+  const handleViewClick = async (clientId) => {
+    setSelectedClient(clientId);
+    setIsModalOpen(true);
+  };
 
-  const handleModalClose= async()=>{
-    setSelectedClient(null)
-    setIsModalOpen(false)
-  }
+  console.log(selectedClient);
+
+  const handleModalClose = async () => {
+    setSelectedClient(null);
+    setIsModalOpen(false);
+  };
 
   return (
     <div className="bg-white md:w-full w-[90vw] my-4">
@@ -102,31 +101,49 @@ const AllClients = () => {
                 className="px-2 py-1 text-left cursor-pointer"
                 // onClick={() => handleSort('fabricator.name')}
               >
-                Fabricator {sortConfig.key === 'fabricator.name' && (sortConfig.direction === 'asc' ? '↑' : '↓')}
+                S.no{" "}
+                {sortConfig.key === "s.no" &&
+                  (sortConfig.direction === "asc" ? "↑" : "↓")}
+              </th>
+              <th
+                className="px-2 py-1 text-left cursor-pointer"
+                // onClick={() => handleSort('fabricator.name')}
+              >
+                Fabricator{" "}
+                {sortConfig.key === "fabricator.name" &&
+                  (sortConfig.direction === "asc" ? "↑" : "↓")}
               </th>
               <th
                 className="px-2 py-1 text-left cursor-pointer"
                 // onClick={() => handleSort('f_name')}
               >
-                Client Name {sortConfig.key === 'f_name' && (sortConfig.direction === 'asc' ? '↑' : '↓')}
+                Client Name{" "}
+                {sortConfig.key === "f_name" &&
+                  (sortConfig.direction === "asc" ? "↑" : "↓")}
               </th>
               <th
                 className="px-2 py-1 cursor-pointer"
                 // onClick={() => handleSort('fabricator.headquater.city')}
               >
-                City {sortConfig.key === 'fabricator.headquater.city' && (sortConfig.direction === 'asc' ? '↑' : '↓')}
+                City{" "}
+                {sortConfig.key === "fabricator.headquater.city" &&
+                  (sortConfig.direction === "asc" ? "↑" : "↓")}
               </th>
               <th
                 className="px-2 py-1 cursor-pointer"
                 // onClick={() => handleSort('fabricator.headquater.state')}
               >
-                State {sortConfig.key === 'fabricator.headquater.state' && (sortConfig.direction === 'asc' ? '↑' : '↓')}
+                State{" "}
+                {sortConfig.key === "fabricator.headquater.state" &&
+                  (sortConfig.direction === "asc" ? "↑" : "↓")}
               </th>
               <th
                 className="px-2 py-1 cursor-pointer"
                 // onClick={() => handleSort('fabricator.headquater.country')}
               >
-                Country {sortConfig.key === 'fabricator.headquater.country' && (sortConfig.direction === 'asc' ? '↑' : '↓')}
+                Country{" "}
+                {sortConfig.key === "fabricator.headquater.country" &&
+                  (sortConfig.direction === "asc" ? "↑" : "↓")}
               </th>
               <th className="px-2 py-1">Actions</th>
             </tr>
@@ -139,35 +156,38 @@ const AllClients = () => {
                 </td>
               </tr>
             ) : (
-              clientData?.map((client) => (
+              clientData?.map((client, index) => (
                 <tr key={client.id} className="hover:bg-blue-gray-100 border">
-                  <td className="border px-2 py-1 text-left">{client?.fabricator?.fabName}</td>
-                  <td className="border px-2 py-1 text-left">
+                  <td className="border px-2 py-1">{index + 1}</td>
+                  <td className="border px-2 py-1">
+                    {client?.fabricator?.fabName}
+                  </td>
+                  <td className="border px-2 py-1">
                     {client?.f_name} {client?.m_name} {client?.l_name}
                   </td>
                   <td className="border px-2 py-1">{client?.city}</td>
                   <td className="border px-2 py-1">{client?.state}</td>
                   <td className="border px-2 py-1">{client?.country}</td>
                   <td className="border px-2 py-1">
-                  <Button onClick={() => handleViewClick(client.id)}>View</Button>
+                    <Button onClick={() => handleViewClick(client.id)}>
+                      View
+                    </Button>
                   </td>
                 </tr>
               ))
             )}
           </tbody>
         </table>
-      {
-        selectedClient && (
+        {selectedClient && (
           <GetClient
-          clientId = {selectedClient}
-          isOpen={isModalOpen}
-          onClose={handleModalClose}
+            clientId={selectedClient}
+            isOpen={isModalOpen}
+            onClose={handleModalClose}
           />
-        )
-      }
+        )}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default AllClients
+export default AllClients;

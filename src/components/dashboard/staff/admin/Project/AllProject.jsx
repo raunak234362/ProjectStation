@@ -7,7 +7,9 @@ import { showProjects } from "../../../../../store/projectSlice.js";
 
 const AllProjects = () => {
   const projects = useSelector((state) => state?.projectData?.projectData);
-  const fabricators = useSelector((state) => state?.fabricatorData?.fabricatorData);
+  const fabricators = useSelector(
+    (state) => state?.fabricatorData?.fabricatorData
+  );
   const [selectedProject, setSelectedProject] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
@@ -129,6 +131,14 @@ const AllProjects = () => {
                 className="px-2 py-1 text-left cursor-pointer"
                 onClick={() => handleSort("name")}
               >
+                S.no{" "}
+                {sortConfig.key === "s.no" &&
+                  (sortConfig.direction === "ascending" ? "▲" : "▼")}
+              </th>
+              <th
+                className="px-2 py-1 text-left cursor-pointer"
+                onClick={() => handleSort("name")}
+              >
                 Project Name{" "}
                 {sortConfig.key === "name" &&
                   (sortConfig.direction === "ascending" ? "▲" : "▼")}
@@ -178,11 +188,15 @@ const AllProjects = () => {
             ) : (
               filteredProjects?.map((project, index) => (
                 <tr key={project.id} className="hover:bg-blue-gray-100 border">
-                  <td className="border px-2 py-1 text-left">
-                    {project?.name}
-                  </td>
+                  <td className="border px-2 py-1 ">{index + 1}</td>
+                  <td className="border px-2 py-1 ">{project?.name}</td>
                   <td className="border px-2 py-1">
-                    {fabricators?.find((fabricator) => fabricator?.id === project?.fabricator?.id)?.fabName}
+                    {
+                      fabricators?.find(
+                        (fabricator) =>
+                          fabricator?.id === project?.fabricator?.id
+                      )?.fabName
+                    }
                   </td>
                   <td className="border px-2 py-1">{project?.status}</td>
                   <td className="border px-2 py-1">{project?.startDate}</td>

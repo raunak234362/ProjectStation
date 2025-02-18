@@ -137,14 +137,16 @@ const AllSentRFI = () => {
     <div className="bg-white/70 rounded-lg md:w-full w-[90vw]">
       <div className="mt-5 h-auto p-4">
         {/* Search and Filter Options */}
-        <div className="flex flex-col md:flex-row gap-2 mb-4">
+        <div className="w-full mb-4">
           <input
             type="text"
             placeholder="Search by remarks or recipient"
             value={searchTerm}
             onChange={handleSearch}
-            className="px-2 py-1 rounded border border-gray-300"
+            className=" w-full px-2 py-1 rounded border border-gray-300"
           />
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
           <select
             name="fabricator"
             value={filters.fabricator}
@@ -233,14 +235,16 @@ const AllSentRFI = () => {
                       {rfi?.fabricator?.fabName || "N/A"}
                     </td>
                     <td className="border px-2 py-1">
-                      {rfi?.project?.name ||
-                        rfi?.project?.name ||
-                        "N/A"}
+                      {rfi?.project?.name || rfi?.project?.name || "N/A"}
                     </td>
                     <td className="border px-2 py-1">{rfi?.subject}</td>
-                    <td className="border px-2 py-1">{rfi?.recepients?.email}</td>
+                    <td className="border px-2 py-1">
+                      {rfi?.recepients?.email}
+                    </td>
                     <td className="border px-2 py-1">{rfi?.date}</td>
-                    <td className="border px-2 py-1">{rfi?.status? "No Reply"  : "Replied"}</td>
+                    <td className="border px-2 py-1">
+                      {rfi?.status ? "No Reply" : "Replied"}
+                    </td>
                     <td className="border px-2 py-1">
                       <Button onClick={() => handleViewClick(rfi.id)}>
                         View

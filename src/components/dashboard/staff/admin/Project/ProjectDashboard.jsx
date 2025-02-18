@@ -1,10 +1,8 @@
 /* eslint-disable no-unused-vars */
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { showProjects } from "../../../../../store/projectSlice.js";
 import { Bar, Pie, Line } from "react-chartjs-2";
 import "chart.js/auto";
-import { showTask } from "../../../../../store/taskSlice";
 
 const ProjectDashboard = () => {
   const dispatch = useDispatch();
@@ -16,7 +14,6 @@ const ProjectDashboard = () => {
   const [statusFilter, setStatusFilter] = useState("all");
   const [fabricatorFilter, setFabricatorFilter] = useState("all");
   const [selectedProject, setSelectedProject] = useState(null);
-  console.log(userData);
 
   useEffect(() => {
     let filtered = projectData;
@@ -27,7 +24,7 @@ const ProjectDashboard = () => {
 
     if (fabricatorFilter !== "all") {
       filtered = filtered.filter(
-        (project) => project?.fabricator === fabricatorFilter
+        (project) => project?.fabricator?.fabName === fabricatorFilter
       );
     }
 
@@ -40,14 +37,13 @@ const ProjectDashboard = () => {
     setFilteredProjects(filtered);
   }, [projectData, searchTerm, statusFilter, fabricatorFilter]);
 
-  useEffect(() => {}, [dispatch]);
+  useEffect(() => {
+    // Dispatch actions to fetch data if needed
+  }, []); // Removed dispatch from dependencies
 
-  const completedTasks =
-    taskData?.filter((task) => task?.status === "COMPLETED")?.length || 0;
-  const inProgressTasks =
-    taskData?.filter((task) => task?.status === "IN PROGRESS")?.length || 0;
-  const assignedTask =
-    taskData?.filter((task) => task?.status === "Assigned")?.length || 0;
+  const completedTasks = taskData?.filter((task) => task?.status === "COMPLETED")?.length || 0;
+  const inProgressTasks = taskData?.filter((task) => task?.status === "IN PROGRESS")?.length || 0;
+  const assignedTask = taskData?.filter((task) => task?.status === "Assigned")?.length || 0;
 
   const barData = {
     labels: projectData?.map((project) => project?.name) || [],
@@ -81,7 +77,7 @@ const ProjectDashboard = () => {
         backgroundColor: [
           "rgba(75, 192, 192, 0.6)",
           "rgba(153, 102, 255, 0.6)",
-          "rgba(65,102,255,0.6)",
+          "rgba(255, 159, 64, 0.6)",
         ],
       },
     ],
@@ -162,117 +158,97 @@ const ProjectDashboard = () => {
       ) || 0;
 
   return (
-    <div className="p-6 bg-gray-100 ">
-      <div className="flex gap-4 mb-4">
-        <input
-          type="text"
-          placeholder="Search projects..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          className="border p-2 rounded"
-        />
-
-        <select
-          value={statusFilter}
-          onChange={(e) => setStatusFilter(e.target.value)}
-          className="border p-2 rounded"
-        >
-          <option value="all">All Statuses</option>
-          <option value="active">Active</option>
-          <option value="completed">Completed</option>
-          <option value="pending">Pending</option>
-        </select>
-
-        <select
-          value={fabricatorFilter}
-          onChange={(e) => setFabricatorFilter(e.target.value)}
-          className="border p-2 rounded"
-        >
-          <option value="all">All Fabricators</option>
-          {Array.from(new Set(projectData?.map((p) => p.fabricator))).map(
-            (fabricator) => (
-              <option key={fabricator.id} value={fabricator.fabName}>
-                {fabricator.fabName}
+    <div className="p-6 bg-gray-100 min-h-screen">
+      <div className="max-w-7xl mx-auto">
+        <h1 className="text-4xl font-bold text-gray-800 mb-8 text-center">Project Dashboard</h1>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+          <input
+            type="text"
+            placeholder="Search projects..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="w-full p-2 border border-gray-300 rounded-md"
+          />
+          <select
+            value={statusFilter}
+            onChange={(e) => setStatusFilter(e.target.value)}
+            className="w-full p-2 border border-gray-300 rounded-md"
+          >
+            <option value="all">All Statuses</option>
+            <option value="active">Active</option>
+            <option value="completed">Completed</option>
+            <option value="pending">Pending</option>
+          </select>
+          <select
+            value={fabricatorFilter}
+            onChange={(e) => setFabricatorFilter(e.target.value)}
+            className="w-full p-2 border border-gray-300 rounded-md"
+          >
+            <option value="all">All Fabricators</option>
+            {Array.from(new Set(projectData?.map((p) => p.fabricator?.fabName))).map(
+              (fabricator) => (
+                <option key={fabricator} value={fabricator}>
+                  {fabricator}
+                </option>
+              )
+            )}
+          </select>
+          <select
+            value={selectedProject}
+            onChange={(e) => setSelectedProject(e.target.value)}
+            className="w-full p-2 border border-gray-300 rounded-md"
+          >
+            <option value="">Select Project</option>
+            {projectData?.map((project) => (
+              <option key={project.id} value={project.id}>
+                {project.name}
               </option>
-            )
-          )}
-        </select>
-
-        <select
-          value={selectedProject}
-          onChange={(e) => setSelectedProject(e.target.value)}
-          className="border p-2 rounded"
-        >
-          <option value="">Select Project</option>
-          {projectData?.map((project) => (
-            <option key={project.id} value={project.id}>
-              {project.name}
-            </option>
-          ))}
-        </select>
-      </div>
-      <div className=" mx-auto bg-white rounded-2xl shadow-lg p-8">
-        <h2 className="text-3xl font-semibold text-gray-800 text-center mb-6">
-          Project Dashboard
-        </h2>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {/* Bar Chart */}
-          <div className="bg-white p-4 shadow-md rounded-xl">
-            <h3 className="text-lg font-semibold text-gray-700 mb-2">
-              Tasks Overview (Bar Chart)
-            </h3>
-            <Bar data={barData} />
-          </div>
-
-          {/* Pie Chart */}
-          <div className="bg-white p-4 shadow-md rounded-xl">
-            <h3 className="text-lg font-semibold text-gray-700 mb-2">
-              Task Distribution (Pie Chart)
-            </h3>
-            <Pie data={pieData} />
-          </div>
-
-          {/* Line Chart */}
-          <div className="bg-white p-4 shadow-md rounded-xl">
-            <h3 className="text-lg font-semibold text-gray-700 mb-2">
-              Task Trends (Line Chart)
-            </h3>
-            <Line data={lineData} />
-          </div>
-
-          {/* User Contribution Bar Chart */}
-          {selectedProject && (
-            <div className="bg-white p-4 shadow-md rounded-xl">
-              <h3 className="text-lg font-semibold text-gray-700 mb-2">
-                User Contribution (Bar Chart)
-              </h3>
-              <Bar data={userContributionData} />
-            </div>
-          )}
+            ))}
+          </select>
         </div>
 
-        {/* Task Summary */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+          <div className="bg-white p-4 rounded-lg shadow-md">
+            <h3 className="text-lg font-semibold mb-2">Tasks Overview</h3>
+            <Bar data={barData} />
+          </div>
+          <div className="bg-white p-4 rounded-lg shadow-md">
+            <h3 className="text-lg font-semibold mb-2">Task Distribution</h3>
+            <Pie data={pieData} />
+          </div>
+          <div className="bg-white p-4 rounded-lg shadow-md">
+            <h3 className="text-lg font-semibold mb-2">Task Trends</h3>
+            <Line data={lineData} />
+          </div>
+        </div>
+
         {selectedProject && (
-          <div className="mt-8 bg-gray-50 p-6 rounded-xl shadow-md">
-            <h3 className="text-xl font-semibold text-gray-800">
-              Task Summary
-            </h3>
-            <div className="flex justify-between mt-3">
-              <p className="text-lg text-green-600 font-semibold">
-                ✅ Completed Tasks: {completedTasks}
-              </p>
-              <p className="text-lg text-orange-600 font-semibold">
-                ⏳ In Progress Tasks: {inProgressTasks}
-              </p>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div className="bg-white p-4 rounded-lg shadow-md">
+              <h3 className="text-lg font-semibold mb-2">User Contribution</h3>
+              <Bar data={userContributionData} />
             </div>
-            <div className="flex justify-between mt-3">
-              <p className="text-lg text-blue-600 font-semibold">
-                ⏱️ Total Assigned Hours: {totalAssignedHours}
-              </p>
-              <p className="text-lg text-red-600 font-semibold">
-                ⏱️ Total Hours Taken: {totalHoursTaken}
-              </p>
+            <div className="bg-white p-4 rounded-lg shadow-md">
+              <h3 className="text-lg font-semibold mb-2">Task Summary</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="bg-green-100 p-4 rounded-lg">
+                  <p className="text-lg text-green-800 font-semibold">Completed Tasks</p>
+                  <p className="text-3xl font-bold text-green-600">{completedTasks}</p>
+                </div>
+                <div className="bg-orange-100 p-4 rounded-lg">
+                  <p className="text-lg text-orange-800 font-semibold">In Progress Tasks</p>
+                  <p className="text-3xl font-bold text-orange-600">{inProgressTasks}</p>
+                </div>
+                <div className="bg-blue-100 p-4 rounded-lg">
+                  <p className="text-lg text-blue-800 font-semibold">Total Assigned Hours</p>
+                  <p className="text-3xl font-bold text-blue-600">{totalAssignedHours}</p>
+                </div>
+                <div className="bg-red-100 p-4 rounded-lg">
+                  <p className="text-lg text-red-800 font-semibold">Total Hours Taken</p>
+                  <p className="text-3xl font-bold text-red-600">{totalHoursTaken}</p>
+                </div>
+              </div>
             </div>
           </div>
         )}

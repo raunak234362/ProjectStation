@@ -151,7 +151,7 @@ const AllFabricator = () => {
           <table className="min-w-full border-collapse text-center text-sm md:text-lg rounded-xl">
             <thead>
               <tr className="bg-teal-200/70">
-                {["name", "city", "state", "country"].map((key) => (
+                {["s.no","name", "city", "state", "country"].map((key) => (
                   <th
                     key={key}
                     className="px-2 py-1 cursor-pointer"
@@ -173,9 +173,12 @@ const AllFabricator = () => {
                   </td>
                 </tr>
               ) : (
-                filteredFabricators?.map((fab) => (
+                filteredFabricators?.map((fab,index) => (
                   <tr key={fab.id} className="hover:bg-blue-gray-100 border">
-                    <td className="border px-2 py-1 text-left">
+                    <td className="border px-2 py-1">
+                      {index+1}
+                    </td>
+                    <td className="border px-2 py-1">
                       {fab.fabName}
                     </td>
                     <td className="border px-2 py-1">

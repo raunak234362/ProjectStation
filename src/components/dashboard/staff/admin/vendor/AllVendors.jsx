@@ -145,6 +145,14 @@ const AllVendors = () => {
                 className="px-2 py-1 text-left cursor-pointer"
                 onClick={() => handleSort("name")}
               >
+                S.no{" "}
+                {sortOrder.key === "s.no" &&
+                  (sortOrder.order === "asc" ? " " : " ")}
+              </th>
+              <th
+                className="px-2 py-1 text-left cursor-pointer"
+                onClick={() => handleSort("name")}
+              >
                 Vendor Name{" "}
                 {sortOrder.key === "name" &&
                   (sortOrder.order === "asc" ? " " : " ")}
@@ -184,9 +192,10 @@ const AllVendors = () => {
                 </td>
               </tr>
             ) : (
-              vendor.map((vendor) => (
+              vendor.map((vendor, index) => (
                 <tr key={vendor.id} className="hover:bg-blue-gray-100 border">
-                  <td className="border px-2 py-1 text-left">{vendor.name}</td>
+                  <td className="border px-2 py-1">{index + 1}</td>
+                  <td className="border px-2 py-1">{vendor.name}</td>
                   <td className="border px-2 py-1">{vendor.city}</td>
                   <td className="border px-2 py-1">{vendor.state}</td>
                   <td className="border px-2 py-1">{vendor.country}</td>

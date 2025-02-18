@@ -3,10 +3,10 @@ import Service from "../../../../../config/Service";
 import { Input, CustomSelect, Button } from "../../../../index";
 import { useDispatch, useSelector } from "react-redux";
 import { addTeam } from "../../../../../store/userSlice";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const AddTeam = () => {
-
-  const userData = useSelector((state) => state?.userData?.staffData?.data);
   const dispatch = useDispatch();
   const {
     register,
@@ -15,27 +15,34 @@ const AddTeam = () => {
     setValue,
   } = useForm();
 
+  const navigate = useNavigate();
+
   const onSubmit = async (data) => {
     try {
       const response = await Service.addTeam(data);
       console.log(response);
+      toast.success("Team added successfully");
       if (response.status === 200) {
         dispatch(addTeam(response?.data?.data));
       }
+      navigate("/admin/team/all-team");
     } catch (error) {
       console.log(error.message);
+      toast.error("Failed to add team");
     }
   };
 
+  const userData = useSelector(state => state.userData?.staffData)
+
   return(
-    <div className="flex w-full justify-center text-black my-5">
-      <div className="h-full w-full overflow-y-auto md:px-10 px-2 py-3">
+    <div className="flex justify-center w-full my-5 text-black">
+      <div className="w-full h-full px-2 py-3 overflow-y-auto md:px-10">
         <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="bg-teal-500/50 rounded-lg px-2 py-2 font-bold text-white">
+          <div className="px-2 py-2 font-bold text-white rounded-lg bg-teal-500/50">
             Department:
           </div>
 
-          <div className="my-2 md:px-2 px-1">
+          <div className="px-1 my-2 md:px-2">
             <div className="w-full">
               <Input
                 label="Team Name:"
@@ -63,7 +70,7 @@ const AddTeam = () => {
             </div>
           </div>
 
-          <div className="my-5 w-full">
+          <div className="w-full my-5">
             <Button type="submit" className="w-full">
               Add Department
             </Button>

@@ -55,8 +55,8 @@ const AddDepartment = () => {
     console.log(data);
     try {
       const departmentData = await Service.addDepartment(data);
-      dispatch(addDepartment(departmentData.data));
       toast.success("Department added successfully");
+      dispatch(addDepartment(departmentData.data));
       console.log("Department added successfully:", departmentData);
     } catch (error) {
       toast.error("Failed to add department");

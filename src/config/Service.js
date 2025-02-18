@@ -21,8 +21,7 @@ class Service {
     }
   }
 
-
-   static async getRecipients() {
+  static async getRecipients() {
     const token = sessionStorage.getItem("token");
     try {
       const response = await api.get(`/api/employee/employee`, {
@@ -31,13 +30,13 @@ class Service {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log("response.data",response.data)
+      console.log("response.data", response.data);
       return response.data;
     } catch (error) {
       console.log("Error fetching recipients:", error);
       throw error;
     }
-   }
+  }
   // Add a new employee (staff) -- updated
   static async addEmployee(updatedData) {
     try {
@@ -54,6 +53,41 @@ class Service {
       throw error;
     }
   }
+
+  //Edit Employee
+  static async editEmployee(employeeID,updatedData) {
+    try {
+      const formData = { ...updatedData };
+      const response = await api.patch(`/api/employee/employee/${employeeID}`, formData, {
+        headers: {
+          "Content-Type": "Application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      return response.data;
+    } catch (error) {
+      console.log("Error editing staff:", error.response?.data || error);
+      throw error;
+    }
+  }
+
+  static async editDepartment(departmentID, updatedData) {
+    try { 
+      const formData = { ...updatedData };
+      const response = await api.patch(`/api/department/department/${departmentID}`, formData, {
+        headers: {
+          "Content-Type": "Application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      return response.data;
+    }
+    catch (error) {
+      console.log("Error editing department:", error.response?.data || error);
+      throw error;
+      }
+  }
+  
 
   // Change password-updated -- updated
   static async changePassword(token, data) {
@@ -632,7 +666,7 @@ class Service {
     data.append("subject", rfiData?.subject);
     data.append("description", rfiData?.description);
 
-    console.log("Data-------------",data)
+    console.log("Data-------------", data);
     try {
       const token = sessionStorage.getItem("token");
       const response = await api.post(`/api/rfi/rfi/addrfi`, data, {
@@ -700,7 +734,7 @@ class Service {
     data.append("subject", submittals?.subject);
     data.append("description", submittals?.description);
 
-    console.log("Data-------------",data)
+    console.log("Data-------------", data);
     try {
       const token = sessionStorage.getItem("token");
       const response = await api.post(`/api/submittals/submittals`, data, {
@@ -734,8 +768,7 @@ class Service {
     }
   }
 
-
-// Fetch recivied Submittal
+  // Fetch recivied Submittal
   static async reciviedSubmittal() {
     try {
       const token = sessionStorage.getItem("token");
@@ -751,9 +784,6 @@ class Service {
       throw error;
     }
   }
-
-
-
 
   // Update Job Study
   static async updateJobStudy(jobStudyId, data) {

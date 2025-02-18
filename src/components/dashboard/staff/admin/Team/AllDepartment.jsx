@@ -1,16 +1,34 @@
 /* eslint-disable no-unused-vars */
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import GetDepartment from "./GetDepartment";
+import Button from "../../../../fields/Button";
 
 const AllDepartment = () => {
   const [filteredDepartments, setFilteredDepartments] = useState([]);
   const [sortConfig, setSortConfig] = useState({ key: null, direction: "asc" });
   const [searchQuery, setSearchQuery] = useState("");
 
-  const departments = useSelector((state) => state?.userData?.departmentData?.data);
-  
+  const departments = useSelector(
+    (state) => state?.userData?.departmentData?.data
+  );
+  const [selectedDepartment, setSelectedDepartment] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleViewClick = async (projectID) => {
+    console.log(projectID)
+    setSelectedDepartment(projectID);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setSelectedDepartment(null);
+  };
+
   // Initialize the filtered department list when 'departments' changes
   useEffect(() => {
+
     if (departments) {
       setFilteredDepartments(departments);
     }
@@ -105,9 +123,11 @@ const AllDepartment = () => {
                     {department?.manager?.f_name || "No Manager Assigned"}
                   </td>
                   <td className="border px-2 py-1">
-                    <button className="text-blue-500 hover:text-blue-700">
+                    <Button
+                      onClick={() => handleViewClick(department.id)}
+                    >
                       Action
-                    </button>
+                    </Button>
                   </td>
                 </tr>
               ))
@@ -115,6 +135,12 @@ const AllDepartment = () => {
           </tbody>
         </table>
       </div>
+      {selectedDepartment && (
+        <GetDepartment
+          departmentID={selectedDepartment}
+          onClose={handleCloseModal}
+        />
+      )}
     </div>
   );
 };

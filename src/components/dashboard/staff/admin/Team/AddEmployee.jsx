@@ -12,6 +12,7 @@ import Service from "../../../../../config/Service";
 import { useEffect } from "react";
 import axios from "axios";
 import { BASE_URL } from "../../../../../config/constant";
+import { toast } from "react-toastify";
 
 const AddEmployee = () => {
   const token = sessionStorage.getItem("token");
@@ -54,7 +55,7 @@ const AddEmployee = () => {
 
   useEffect(() => {
     if (watch("is_manager")) {
-      setValue("is_staff", false);
+      setValue("is_staff", true);
     }
   }, [watch("is_manager"), setValue]);
 
@@ -74,15 +75,16 @@ const AddEmployee = () => {
     const phoneNumber = `${data.country_code}${data.phone}`;
     const updatedData = {
       ...data,
+      emp_code: data.emp_code.toUpperCase(),
+      username: data.username.toUpperCase(),
       phone: phoneNumber,
     };
     try {
       const empData = await Service.addEmployee(updatedData, token);
-      if (empData.success) {
-        alert(empData.message);
-      }
-      dispatch(setUserData(updatedData));
+      toast.success("Employee added successfully");
+      dispatch(setUserData(empData.data));
     } catch (error) {
+      toast.error("Failed to add employee");
       console.error("Error adding employee:", error);
       alert(error.response.message);
     }

@@ -28,7 +28,9 @@ const userSlice = createSlice({
       state.staffData = action.payload;
     },
     updateStaffData: (state, action) => {
-      state.staffData =state.staffData.map((staff)=> staff.id === action.payload.id ? {...staff, ...action.payload} : staff);
+      state.staffData = state.staffData.map((staff) =>
+        staff.id === action.payload.id ? { ...staff, ...action.payload } : staff
+      );
     },
     addTeam: (state, action) => {
       state.teamData.push(action.payload);
@@ -37,9 +39,14 @@ const userSlice = createSlice({
       state.teamData = action.payload;
     },
     updateTeamData: (state, action) => {
-      state.teamData = state.teamData.map((team)=> team.id === action.payload.id ? {...team, ...action.payload} : team);
+      state.teamData = state.teamData.map((team) =>
+        team.id === action.payload.id ? { ...team, ...action.payload } : team
+      );
     },
     addDepartment: (state, action) => {
+      if (!Array.isArray(state.departmentData)) {
+        state.departmentData = [];
+      }
       state.departmentData.push(action.payload);
     },
     showDepartment: (state, action) => {

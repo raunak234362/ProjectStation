@@ -52,7 +52,6 @@ const AddDepartment = () => {
 
   // Add department function
   const onSubmit = async (data) => {
-    console.log(data);
     try {
       const departmentData = await Service.addDepartment(data);
       toast.success("Department added successfully");

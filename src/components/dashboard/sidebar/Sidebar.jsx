@@ -189,7 +189,6 @@ const Sidebar = () => {
                 <div>Profile</div>
               </NavLink>
             </li>
-            <li></li>
           </ul>
         </nav>
         <div className="md:flex md:bottom-0 mb-5">

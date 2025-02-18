@@ -65,7 +65,9 @@ const Sidebar = () => {
               </NavLink>
             </li>
 
-            {userType !== "user" && userType !== "sales" && userType !== "client" && userType !== "vendor" ? (
+            {userType !== "user" &&
+            userType !== "client" &&
+            userType !== "vendor" ? (
               <li>
                 <NavLink
                   to="fabricator"
@@ -154,18 +156,20 @@ const Sidebar = () => {
               <div>Update Progress</div>
             </NavLink>
           </li> */}
-            <li>
-              <NavLink
-                to="team"
-                className={({ isActive }) =>
-                  isActive
-                    ? "flex justify-center items-center text-white bg-teal-400 rounded-md w-full delay-150"
-                    : "text-black hover:text-white hover:flex hover:justify-center hover:items-center hover:bg-teal-200  rounded-md"
-                }
-              >
-                <div>Manage Team</div>
-              </NavLink>
-            </li>
+            {userType !== "sales" ? (
+              <li>
+                <NavLink
+                  to="team"
+                  className={({ isActive }) =>
+                    isActive
+                      ? "flex justify-center items-center text-white bg-teal-400 rounded-md w-full delay-150"
+                      : "text-black hover:text-white hover:flex hover:justify-center hover:items-center hover:bg-teal-200  rounded-md"
+                  }
+                >
+                  <div>Manage Team</div>
+                </NavLink>
+              </li>
+            ) : null}
             <li className="w-full">
               <NavLink
                 to="profile"

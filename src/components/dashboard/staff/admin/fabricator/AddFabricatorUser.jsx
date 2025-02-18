@@ -270,7 +270,7 @@ const AddFabricatorUser = () => {
               />
             </div>
           </div>
-          <div className="bg-teal-500/50 rounded-lg px-2 py-2 font-bold text-white">
+          {/* <div className="bg-teal-500/50 rounded-lg px-2 py-2 font-bold text-white">
             Security:
           </div>
           <div className="my-2 px-1 md:px-2">
@@ -294,7 +294,7 @@ const AddFabricatorUser = () => {
                 {...register("cnf_password")}
               />
             </div>
-          </div>
+          </div> */}
 
           <div className="my-5 w-full">
             <Button type="submit" className="w-full">

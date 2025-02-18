@@ -108,42 +108,49 @@ const Sidebar = () => {
                 <div>Project</div>
               </NavLink>
             </li>
-            <li>
-              <NavLink
-                to="rfi"
-                className={({ isActive }) =>
-                  isActive
-                    ? "flex justify-center items-center text-white bg-teal-400 rounded-md w-full  delay-150"
-                    : "text-black hover:text-white hover:flex hover:justify-center hover:items-center hover:bg-teal-200  rounded-md"
-                }
-              >
-                <div>RFI</div>
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                to="submittals"
-                className={({ isActive }) =>
-                  isActive
-                    ? "flex justify-center items-center text-white bg-teal-400 rounded-md w-full  delay-150"
-                    : "text-black hover:text-white hover:flex hover:justify-center hover:items-center hover:bg-teal-200  rounded-md"
-                }
-              >
-                <div>Submittals</div>
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                to="change-order"
-                className={({ isActive }) =>
-                  isActive
-                    ? "flex justify-center items-center text-white bg-teal-400 rounded-md w-full  delay-150"
-                    : "text-black hover:text-white hover:flex hover:justify-center hover:items-center hover:bg-teal-200  rounded-md"
-                }
-              >
-                <div>Change Order</div>
-              </NavLink>
-            </li>
+            {userType !== "user" ? (
+              <li>
+                <NavLink
+                  to="rfi"
+                  className={({ isActive }) =>
+                    isActive
+                      ? "flex justify-center items-center text-white bg-teal-400 rounded-md w-full  delay-150"
+                      : "text-black hover:text-white hover:flex hover:justify-center hover:items-center hover:bg-teal-200  rounded-md"
+                  }
+                >
+                  <div>RFI</div>
+                </NavLink>
+              </li>
+            ) : null}
+            {userType !== "user" ? (
+              <li>
+                <NavLink
+                  to="submittals"
+                  className={({ isActive }) =>
+                    isActive
+                      ? "flex justify-center items-center text-white bg-teal-400 rounded-md w-full  delay-150"
+                      : "text-black hover:text-white hover:flex hover:justify-center hover:items-center hover:bg-teal-200  rounded-md"
+                  }
+                >
+                  <div>Submittals</div>
+                </NavLink>
+              </li>
+            ) : null}
+
+            {userType !== "user" ? (
+              <li>
+                <NavLink
+                  to="change-order"
+                  className={({ isActive }) =>
+                    isActive
+                      ? "flex justify-center items-center text-white bg-teal-400 rounded-md w-full  delay-150"
+                      : "text-black hover:text-white hover:flex hover:justify-center hover:items-center hover:bg-teal-200  rounded-md"
+                  }
+                >
+                  <div>Change Order</div>
+                </NavLink>
+              </li>
+            ) : null}
             {/* <li>
             <NavLink
               to="update-program"
@@ -156,7 +163,7 @@ const Sidebar = () => {
               <div>Update Progress</div>
             </NavLink>
           </li> */}
-            {userType !== "sales" ? (
+            {userType !== "sales" && userType !== "user" ? (
               <li>
                 <NavLink
                   to="team"

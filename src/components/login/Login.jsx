@@ -39,8 +39,6 @@ const Login = () => {
             userType = 'admin';
           } else if (userData.data.is_sales) {
             userType = 'sales';
-          } else if (userData.data.is_staff && userData.data.is_manager) {
-            userType = 'department-manager';
           } else if (userData.data.is_manager) {
             userType = 'project-manager';
           }

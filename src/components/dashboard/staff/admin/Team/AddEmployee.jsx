@@ -27,7 +27,7 @@ const AddEmployee = () => {
   } = useForm();
   const [showAlert, setShowalert] = useState(false);
   const [departments, setDepartments] = useState([]);
-  
+
   const fetchAllDepartments = async () => {
     const departmentData = await Service.allDepartment();
     console.log(departmentData.data);
@@ -53,17 +53,6 @@ const AddEmployee = () => {
     value: country.dialCode,
   }));
 
-  useEffect(() => {
-    if (watch("is_manager")) {
-      setValue("is_staff", true);
-    }
-  }, [watch("is_manager"), setValue]);
-
-  useEffect(() => {
-    if (watch("is_sales")) {
-      setValue("is_staff", false);
-    }
-  }, [watch("is_sales"), setValue]);
 
   const addStaff = async (data) => {
     console.log(data);
@@ -166,45 +155,21 @@ const AddEmployee = () => {
                 onChange={setValue}
               />
             </div>
-            {/* <div className="mb-2">
-              <CustomSelect
-                label="Role:"
-                color="blue"
-                name="role"
-                options={[
-                  { label: "Select Role", value: "" },
-                  { label: "Staff", value: "STAFF" },
-                  { label: "Client", value: "CLIENT" },
-                  { label: "Vendor", value: "VENDOR" },
-                ]}
-                className="w-full"
-                {...register("role")}
-                onChange={setValue}
-              />
-              {errors.role && <div>This field is required</div>}
-            </div> */}
+
             <div className="grid px-5 bg-white border border-gray-400 rounded-lg md:grid-cols-2 md:w-full md:justify-center md:items-center">
               <div className="">
                 <Toggle
-                  label="Department Manager"
+                  label="Project Manager"
                   name="manager"
                   {...register("is_manager")}
                 />
               </div>
-              <div className="">
-                <Toggle
-                  label="Project Manager"
-                  name="project_manager"
-                  checked={watch("is_manager")}
-                  onChange={() => setValue("is_manager", !watch("is_manager"))}
-                />
-              </div>
+
               <div className="">
                 <Toggle
                   label="Sales Employee"
                   name="sales"
-                  checked={watch("is_sales")}
-                  onChange={() => setValue("is_sales", !watch("is_sales"))}
+                  {...register("is_sales")}
                 />
               </div>
             </div>

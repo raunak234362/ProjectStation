@@ -8,7 +8,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { MdLockReset } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { updatetoken as authLogin, setUserData } from "../../store/userSlice";
-import AuthService from '../../config/AuthService'
+import AuthService from "../../config/AuthService";
 // import AuthService from "../../frappeConfig/AuthService";
 import Service from "../../config/Service";
 import { useEffect } from "react";
@@ -28,43 +28,47 @@ const Login = () => {
     try {
       const user = await AuthService.login(data);
       console.log(user);
-      if ('token' in user) {
-        const token = user.token
+      if ("token" in user) {
+        const token = user.token;
         // sessionStorage.setItem('token', )
-        const userData = await Service.getCurrentUser(token)
-        console.log("UserData :", userData.data.role)
-        let userType = 'user'
-        if (userData.data.role === 'STAFF') {
+        const userData = await Service.getCurrentUser(token);
+        console.log("UserData :", userData.data.role);
+        let userType = "user";
+        if (userData.data.role === "STAFF") {
           if (userData.data.is_superuser) {
-            userType = 'admin';
+            userType = "admin";
           } else if (userData.data.is_sales) {
-            userType = 'sales';
+            userType = "sales";
+          } else if (userData.data.is_staff && userData.data.is_manager) {
+            userType = "department-manager";
           } else if (userData.data.is_manager) {
-            userType = 'project-manager';
+            userType = "project-manager";
           }
-        } else if (userData.data.role === 'CLIENT') {
-          userType = 'client';
-        } else if (userData.data.role === 'VENDOR') {
-          userType = 'vendor';
+        } else if (userData.data.role === "CLIENT") {
+          userType = "client";
+        } else if (userData.data.role === "VENDOR") {
+          userType = "vendor";
         }
 
-        sessionStorage.setItem('userType', userType)
-        dispatch(authLogin(user))
-        dispatch(setUserData(userData.data))
-        console.log(userData?.data?.is_firstLogin)
-        if (userData.data?.is_firstLogin) navigate('/change-password/')
-        else if(userType === 'admin') navigate('/admin/dashboard')
-        else if(userType === 'client') navigate('/client')
-        else if(userType === 'sales') navigate('/sales')
-        else if(userType === 'user') navigate('/admin/dashboard')
-        else if(userType === 'department-manager') navigate('/admin/dashboard')
-        else if(userType === 'project-manager') navigate('/project-manager/dashboard')
+        sessionStorage.setItem("userType", userType);
+        dispatch(authLogin(user));
+        dispatch(setUserData(userData.data));
+        console.log(userData?.data?.is_firstLogin);
+        if (userData.data?.is_firstLogin) navigate("/change-password/");
+        else if (userType === "admin") navigate("/admin/dashboard");
+        else if (userType === "client") navigate("/client");
+        else if (userType === "sales") navigate("/sales");
+        else if (userType === "user") navigate("/admin/dashboard");
+        else if (userType === "department-manager")
+          navigate("/admin/dashboard");
+        else if (userType === "project-manager")
+          navigate("/project-manager/dashboard");
         // else if(userType === 'project-manager-officer') navigate('/project-manager')
-        else if(userType === 'vendor') navigate('/vendor')
-        else navigate('/')
+        else if (userType === "vendor") navigate("/vendor");
+        else navigate("/");
       } else {
-        alert('Invalid Credentials Check')
-        navigate('/')
+        alert("Invalid Credentials Check");
+        navigate("/");
       }
     } catch (error) {
       console.log(error);

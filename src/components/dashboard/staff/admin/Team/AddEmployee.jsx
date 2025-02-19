@@ -53,7 +53,6 @@ const AddEmployee = () => {
     value: country.dialCode,
   }));
 
-
   const addStaff = async (data) => {
     console.log(data);
     if (data.password !== data.cnf_password) {
@@ -67,6 +66,9 @@ const AddEmployee = () => {
       emp_code: data.emp_code.toUpperCase(),
       username: data.username.toUpperCase(),
       phone: phoneNumber,
+      is_staff: true,
+      is_department_manager: data.is_manager && data.is_staff,
+      is_project_manager: data.is_manager && !data.is_staff,
     };
     try {
       const empData = await Service.addEmployee(updatedData, token);
@@ -170,6 +172,15 @@ const AddEmployee = () => {
                   label="Sales Employee"
                   name="sales"
                   {...register("is_sales")}
+                />
+              </div>
+
+              <div className="">
+                <Toggle
+                  label="Department Manager"
+                  name="department_manager"
+                  {...register("is_staff")}
+                  defaultChecked
                 />
               </div>
             </div>

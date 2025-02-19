@@ -108,6 +108,20 @@ const Sidebar = () => {
                 <div>Project</div>
               </NavLink>
             </li>
+            {userType === "client" || userType === "sales" ||userType === "admin" ||userType === "department-manager" ? (
+              <li>
+                <NavLink
+                  to="rfq"
+                  className={({ isActive }) =>
+                    isActive
+                      ? "flex justify-center items-center text-white bg-teal-400 rounded-md w-full  delay-150"
+                      : "text-black hover:text-white hover:flex hover:justify-center hover:items-center hover:bg-teal-200  rounded-md"
+                  }
+                >
+                  <div>RFQ</div>
+                </NavLink>
+              </li>
+            ) : null}
             {userType !== "user" ? (
               <li>
                 <NavLink

@@ -35,8 +35,6 @@ const AddEmployee = () => {
     dispatch(showDepartment(departmentData));
   };
 
-  console.log(departments);
-
   const departmentOptions = departments?.map((department) => ({
     label: department.name,
     value: department.id,
@@ -53,31 +51,98 @@ const AddEmployee = () => {
     value: country.dialCode,
   }));
 
+  const manager = watch("is_manager");
+  console.log(manager);
+
+  const departmentManager = watch("is_department_manager");
+  console.log(departmentManager);
+
   const addStaff = async (data) => {
-    console.log(data);
-    if (data.password !== data.cnf_password) {
-      setShowalert(true);
-      return;
-    }
-    clearErrors("cnf_password");
-    const phoneNumber = `${data.country_code}${data.phone}`;
-    const updatedData = {
-      ...data,
-      emp_code: data.emp_code.toUpperCase(),
-      username: data.username.toUpperCase(),
-      phone: phoneNumber,
-      is_staff: true,
-      is_department_manager: data.is_manager && data.is_staff,
-      is_project_manager: data.is_manager && !data.is_staff,
-    };
-    try {
-      const empData = await Service.addEmployee(updatedData, token);
-      toast.success("Employee added successfully");
-      dispatch(setUserData(empData.data));
-    } catch (error) {
-      toast.error("Failed to add employee");
-      console.error("Error adding employee:", error);
-      alert(error.response.message);
+    if (departmentManager) {
+      setValue("is_manager", true);
+      setValue("is_staff", true);
+      const is_manager = watch("is_manager");
+      const is_staff = watch("is_staff");
+      if (data.password !== data.cnf_password) {
+        setShowalert(true);
+        return;
+      }
+      clearErrors("cnf_password");
+      const phoneNumber = `${data.country_code}${data.phone}`;
+      const updatedData = {
+        ...data,
+        emp_code: data.emp_code.toUpperCase(),
+        username: data.username.toUpperCase(),
+        phone: phoneNumber,
+        is_manager: is_manager,
+        is_staff: is_staff,
+      };
+
+      try {
+        const empData = await Service.addEmployee(updatedData);
+        console.log("Employee Data-------", updatedData);
+        toast.success("Employee added successfully");
+        dispatch(setUserData(empData.data));
+      } catch (error) {
+        toast.error("Failed to add employee");
+        console.error("Error adding employee:", error);
+      }
+    } else if (manager) {
+      setValue("is_manager", true);
+      setValue("is_staff", false);
+      const is_manager = watch("is_manager");
+      const is_staff = watch("is_staff");
+      console.log(data);
+      if (data.password !== data.cnf_password) {
+        setShowalert(true);
+        return;
+      }
+      clearErrors("cnf_password");
+      const phoneNumber = `${data.country_code}${data.phone}`;
+      const updatedData = {
+        ...data,
+        emp_code: data.emp_code.toUpperCase(),
+        username: data.username.toUpperCase(),
+        phone: phoneNumber,
+        is_manager: is_manager,
+        is_staff: is_staff,
+      };
+
+      try {
+        const empData = await Service.addEmployee(updatedData);
+        console.log("Employee Data-------", updatedData);
+        toast.success("Employee added successfully");
+        dispatch(setUserData(empData.data));
+      } catch (error) {
+        toast.error("Failed to add employee");
+        console.error("Error adding employee:", error);
+      }
+    }else{
+      console.log(data);
+      if (data.password !== data.cnf_password) {
+        setShowalert(true);
+        return;
+      }
+      clearErrors("cnf_password");
+      const phoneNumber = `${data.country_code}${data.phone}`;
+      const updatedData = {
+        ...data,
+        emp_code: data.emp_code.toUpperCase(),
+        username: data.username.toUpperCase(),
+        phone: phoneNumber,
+        is_manager: false,
+        is_staff: true,
+      };
+
+      try {
+        const empData = await Service.addEmployee(updatedData);
+        console.log("Employee Data-------", updatedData);
+        toast.success("Employee added successfully");
+        dispatch(setUserData(empData.data));
+      } catch (error) {
+        toast.error("Failed to add employee");
+        console.error("Error adding employee:", error);
+      }
     }
   };
 
@@ -179,8 +244,7 @@ const AddEmployee = () => {
                 <Toggle
                   label="Department Manager"
                   name="department_manager"
-                  {...register("is_staff")}
-                  defaultChecked
+                  {...register("is_department_manager")}
                 />
               </div>
             </div>

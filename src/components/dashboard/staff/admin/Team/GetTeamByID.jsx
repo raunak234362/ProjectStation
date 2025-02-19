@@ -34,7 +34,7 @@ const GetTeamByID = ({ team, taskID, isOpen, onClose }) => {
     state?.userData?.teamData?.data?.find((team) => team.id === teamID)
   );
 
-  const staffData = useSelector((state) => state?.userData?.staffData?.data);
+  const staffData = useSelector((state) => state?.userData?.staffData);
 
   const [jobStudyRole, setJobStudyRole] = useState("");
 

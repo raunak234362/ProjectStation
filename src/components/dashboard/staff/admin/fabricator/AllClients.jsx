@@ -98,7 +98,7 @@ const AllClients = () => {
           <thead>
             <tr className="bg-teal-200/70">
               <th
-                className="px-2 py-1 text-left cursor-pointer"
+                className="px-2 py-1 cursor-pointer"
                 // onClick={() => handleSort('fabricator.name')}
               >
                 S.no{" "}
@@ -106,7 +106,7 @@ const AllClients = () => {
                   (sortConfig.direction === "asc" ? "↑" : "↓")}
               </th>
               <th
-                className="px-2 py-1 text-left cursor-pointer"
+                className="px-2 py-1 cursor-pointer"
                 // onClick={() => handleSort('fabricator.name')}
               >
                 Fabricator{" "}
@@ -114,7 +114,7 @@ const AllClients = () => {
                   (sortConfig.direction === "asc" ? "↑" : "↓")}
               </th>
               <th
-                className="px-2 py-1 text-left cursor-pointer"
+                className="px-2 py-1 cursor-pointer"
                 // onClick={() => handleSort('f_name')}
               >
                 Client Name{" "}

@@ -221,8 +221,8 @@ const AddFabricatorUser = () => {
                 {...register("email")}
               />
             </div>
-            <div className="w-full gap-2 my-2 flex md:flex-row flex-col items-center">
-              <div className="md:w-[10%] w-full">
+            <div className="w-full gap-2 my-2 grid grid-cols-2 items-center">
+              <div className="w-full">
                 <CustomSelect
                   label="Country Code:"
                   color="blue"
@@ -240,6 +240,15 @@ const AddFabricatorUser = () => {
                   {...register("phone", { required: true })}
                 />
                 {errors.phone && <div>This field is required</div>}
+              </div>
+              <div className="w-full my-2">
+                <Input
+                  label="Alternate Number:"
+                  placeholder="Alternate Number"
+                  size="lg"
+                  color="blue"
+                  {...register("alt_phone")}
+                />
               </div>
               <div className="w-full">
                 <Input
@@ -259,15 +268,6 @@ const AddFabricatorUser = () => {
                   {...register("alt_landline")}
                 />
               </div>
-            </div>
-            <div className="w-full my-2">
-              <Input
-                label="Alternate Number:"
-                placeholder="Alternate Number"
-                size="lg"
-                color="blue"
-                {...register("alt_phone")}
-              />
             </div>
           </div>
           {/* <div className="bg-teal-500/50 rounded-lg px-2 py-2 font-bold text-white">

@@ -24,7 +24,11 @@ import EditWB from './dashboard/staff/admin/Project/wb/EditWB'
 import JobStudy from './dashboard/staff/admin/Project/wb/JobStudy'
 import SelectedWBTask from './dashboard/staff/admin/Project/wb/SelectedWBTask'
 
-
+//RFQ
+import RFQ from './dashboard/staff/admin/rfq/RFQ'
+import AllRFQ from './dashboard/staff/admin/rfq/AllRFQ.jsx'
+import SendRFQ from './dashboard/staff/admin/rfq/SendRFQ.jsx'
+import ShowRFQResponse from './dashboard/staff/admin/rfq/ShowRFQResponse.jsx'
 //Fabricator
 import Fabricators from './dashboard/staff/admin/fabricator/Fabricators'
 import AddFabricator from './dashboard/staff/admin/fabricator/AddFabricator'
@@ -106,6 +110,10 @@ export {
   WorkBreakdown,
   EditWB,
   AddWB,
+  RFQ,
+  AllRFQ,
+  SendRFQ,
+  ShowRFQResponse,
   JobStudy,
   SelectedWBTask,
   Fabricators,

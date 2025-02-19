@@ -41,6 +41,7 @@ import {
   AllTeam,
   AddTeam,
   ProjectDashboard,
+  RFQ,
 } from "../components/index.js";
 
 //For Client-Admin
@@ -53,7 +54,7 @@ import {
   AllReceivedRFI as ClientAllReceivedRFI,
   ChangeOrder as ClientCO,
   Team as ClientTeam,
-  RFQ,
+  RFQ as ClientRFQ,
   Submittals as ClientSubmittals,
   AllReceivedSubmittals as ClientAllReceivedSubmittals,
   AllSubmittals as ClientAllSubmittals,
@@ -173,6 +174,11 @@ const routes = [
           { path: "all-sent-co", element: <AllSentCO /> },
         ],
       },
+      {
+        path:"rfq",
+        element:<RFQ/>,
+        children:[]
+      }
     ],
   },
   {
@@ -201,7 +207,7 @@ const routes = [
       },
       {
         path:"rfq",
-        element:<RFQ/>
+        element:<ClientRFQ/>
       },
       {
         path: "rfi",

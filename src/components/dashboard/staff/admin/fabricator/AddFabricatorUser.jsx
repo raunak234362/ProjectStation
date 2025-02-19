@@ -103,6 +103,7 @@ const AddFabricatorUser = () => {
       const updatedData = {
         ...data,
         phone: phoneNumber,
+        username: data.username.toUpperCase(),
         // fabricator: fabricators.find((fab) => fab.id === data.fabricator),
       };
       const clientUser = await Service.addClient(updatedData);

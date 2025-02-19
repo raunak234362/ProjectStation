@@ -59,6 +59,7 @@ import {
   AllSubmittals as ClientAllSubmittals,
   GetSentSubmittals as ClientGetSentSubmittals,
   SendSubmittals as ClientSendSubmittals,
+  Project,
 } from "../components/dashboard/client/clientIndex.js";
 
 //For Sales-Admin
@@ -195,9 +196,12 @@ const routes = [
         element: <ClientProject />,
         children: [
           { path: "all-projects", element: <ClientAllProjects /> },
-          { path: "rfq", element: <RFQ /> },
           // {path:'create-project',element:<CreateProject/>},
         ],
+      },
+      {
+        path:"rfq",
+        element:<RFQ/>
       },
       {
         path: "rfi",

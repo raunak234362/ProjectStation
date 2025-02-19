@@ -15,6 +15,8 @@ const ProjectDashboard = () => {
   const [fabricatorFilter, setFabricatorFilter] = useState("all");
   const [selectedProject, setSelectedProject] = useState(null);
 
+  console.log(projectData)
+
   useEffect(() => {
     let filtered = projectData;
 
@@ -43,14 +45,23 @@ const ProjectDashboard = () => {
 
   const completedTasks = taskData?.filter((task) => task?.status === "COMPLETED")?.length || 0;
   const inProgressTasks = taskData?.filter((task) => task?.status === "IN PROGRESS")?.length || 0;
-  const assignedTask = taskData?.filter((task) => task?.status === "Assigned")?.length || 0;
+  const assignedTask = taskData?.filter((task) => task?.status === "ASSINGED")?.length || 0;
+
+  const newProject = projectData.map((project) => {
+    return {
+      ...project,
+      tasks : taskData.filter((task) => task.project_id === project.id)
+    }
+  })
+
+  console.log(newProject)
 
   const barData = {
-    labels: projectData?.map((project) => project?.name) || [],
+    labels: newProject?.map((project) => project?.name) || [],
     datasets: [
       {
         label: "Tasks Completed",
-        data: projectData?.map(
+        data: newProject?.map(
           (project) =>
             project?.tasks?.filter((task) => task?.status === "COMPLETED")
               ?.length || 0

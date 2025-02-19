@@ -78,7 +78,7 @@ function Select({ options = [], label, name, className, onChange, placeholder, .
             searchRef.current?.focus()
           }, 100)
         }}
-        className={`flex items-center justify-between p-2.5 border rounded-md bg-white cursor-pointer ${
+        className={`flex items-center justify-between p-2 text-sm border border-gray-400 rounded-md bg-white cursor-pointer ${
           isOpen ? "border-blue-500 ring-2 ring-blue-100" : "border-gray-300"
         } ${className || ""}`}
       >
@@ -115,14 +115,14 @@ function Select({ options = [], label, name, className, onChange, placeholder, .
       </div>
 
       {isOpen && (
-        <div className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg max-h-60 overflow-auto">
+        <div className="absolute z-10 w-full mt-1 text-sm bg-white border border-gray-700 rounded-md shadow-lg max-h-60 overflow-auto">
           {filteredOptions.length > 0 ? (
             filteredOptions.map(
               (option) =>
                 option && (
                   <div
                     key={option.value}
-                    className="px-4 py-2 cursor-pointer hover:bg-gray-100"
+                    className="px-4 py-1 cursor-pointer hover:bg-gray-100"
                     onClick={() => handleSelect(option)}
                   >
                     {highlightMatch(option.label, searchTerm)}
@@ -130,7 +130,7 @@ function Select({ options = [], label, name, className, onChange, placeholder, .
                 )
             )
           ) : (
-            <div className="px-4 py-2 text-gray-500">No options found</div>
+            <div className="px-4 py-1 text-gray-500">No options found</div>
           )}
         </div>
       )}

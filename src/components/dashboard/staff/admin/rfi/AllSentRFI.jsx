@@ -12,11 +12,22 @@ const getNestedValue = (obj, path) => {
 
 const AllSentRFI = () => {
   const [sentRfi, setSentRfi] = useState([]);
+  const [filteredRFI, setFilteredRFI] = useState([]);
+  const [selectedRFI, setSelectedRFI] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filters, setFilters] = useState({
+    fabricator: "",
+    project: "",
+    status: "",
+  });
+  const [sortConfig, setSortConfig] = useState({ key: "", direction: "asc" });
 
   const fetchSentRfi = async () => {
     try {
       const response = await Service.sentRFI();
       setSentRfi(response?.data);
+      setFilteredRFI(response?.data); // Set filteredRFI initially to all RFIs
       console.log(response?.data);
     } catch (error) {
       console.log(error);
@@ -25,18 +36,7 @@ const AllSentRFI = () => {
 
   useEffect(() => {
     fetchSentRfi();
-  }, [setSentRfi]);
-
-  const [selectedRFI, setSelectedRFI] = useState(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [filteredRFI, setFilteredRFI] = useState(sentRfi);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [filters, setFilters] = useState({
-    fabricator: "",
-    project: "",
-    status: "",
-  });
-  const [sortConfig, setSortConfig] = useState({ key: "", direction: "asc" });
+  }, []);
 
   useEffect(() => {
     filterAndSort(sentRfi, searchTerm, filters);

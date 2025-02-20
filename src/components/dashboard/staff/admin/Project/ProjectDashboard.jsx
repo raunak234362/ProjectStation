@@ -3,23 +3,40 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Bar, Pie, Line } from "react-chartjs-2";
 import "chart.js/auto";
+import {
+  LayoutGrid,
+  ListFilter,
+  Search,
+  Building2,
+  ArrowUpDown,
+} from "lucide-react";
 
 const ProjectDashboard = () => {
   const dispatch = useDispatch();
   const projectData = useSelector((state) => state?.projectData?.projectData);
   const taskData = useSelector((state) => state.taskData.taskData);
   const userData = useSelector((state) => state.userData.staffData);
+
   const [filteredProjects, setFilteredProjects] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
   const [fabricatorFilter, setFabricatorFilter] = useState("all");
   const [selectedProject, setSelectedProject] = useState(null);
+  const [sortField, setSortField] = useState("name");
+  const [sortDirection, setSortDirection] = useState("asc");
 
-  console.log(projectData)
+    // Prepare project data with associated tasks
+    const projectsWithTasks = projectData.map((project) => ({
+      ...project,
+      tasks: taskData.filter((task) => task.project.id === project.id),
+    }));
+  
+
 
   useEffect(() => {
-    let filtered = projectData;
+    let filtered = [...projectData];
 
+    // Apply filters
     if (statusFilter !== "all") {
       filtered = filtered.filter((project) => project?.status === statusFilter);
     }
@@ -36,43 +53,88 @@ const ProjectDashboard = () => {
       );
     }
 
+    // Apply sorting
+    filtered.sort((a, b) => {
+      let aValue = a[sortField];
+      let bValue = b[sortField];
+
+      // Sort by fabricator name if applicable
+      if (sortField === "fabricator") {
+        aValue = a.fabricator?.fabName || "";
+        bValue = b.fabricator?.fabName || "";
+      }
+
+      // Ensure case-insensitive comparison
+      aValue = typeof aValue === "string" ? aValue.toLowerCase() : aValue;
+      bValue = typeof bValue === "string" ? bValue.toLowerCase() : bValue;
+
+      if (sortDirection === "asc") {
+        return aValue > bValue ? 1 : -1;
+      } else {
+        return aValue < bValue ? 1 : -1;
+      }
+    });
+
     setFilteredProjects(filtered);
-  }, [projectData, searchTerm, statusFilter, fabricatorFilter]);
+  }, [
+    searchTerm,
+    statusFilter,
+    fabricatorFilter,
+    sortField,
+    sortDirection,
+    projectData,
+    taskData,
+  ]);
 
-  useEffect(() => {
-    // Dispatch actions to fetch data if needed
-  }, []); // Removed dispatch from dependencies
+  // Calculate task statistics
+  const completedTasks =
+    taskData?.filter((task) => task?.status === "COMPLETED")?.length || 0;
+  const inProgressTasks =
+    taskData?.filter((task) => task?.status === "IN PROGRESS")?.length || 0;
+  const assignedTask =
+    taskData?.filter((task) => task?.status === "ASSINGED")?.length || 0;
+  const inReviewTask =
+    taskData?.filter((task) => task?.status === "IN REVIEW")?.length || 0;
 
-  const completedTasks = taskData?.filter((task) => task?.status === "COMPLETED")?.length || 0;
-  const inProgressTasks = taskData?.filter((task) => task?.status === "IN PROGRESS")?.length || 0;
-  const assignedTask = taskData?.filter((task) => task?.status === "ASSINGED")?.length || 0;
 
-  const newProject = projectData.map((project) => {
-    return {
-      ...project,
-      tasks : taskData.filter((task) => task.project_id === project.id)
-    }
-  })
+  console.log(projectsWithTasks);
 
-  console.log(newProject)
-
+  // Chart data
   const barData = {
-    labels: newProject?.map((project) => project?.name) || [],
+    labels: projectsWithTasks?.map((project) => project?.name) || [],
     datasets: [
       {
         label: "Tasks Completed",
-        data: newProject?.map(
+        data: projectsWithTasks?.map(
           (project) =>
             project?.tasks?.filter((task) => task?.status === "COMPLETED")
               ?.length || 0
         ),
-        backgroundColor: "rgba(75, 192, 192, 0.6)",
+        backgroundColor: "rgba(7, 179, 8, 0.8)",
+      },
+      {
+        label: "Tasks In Review",
+        data: projectsWithTasks?.map(
+          (project) =>
+            project?.tasks?.filter((task) => task?.status === "IN REVIEW")
+              ?.length || 0
+        ),
+        backgroundColor: "rgba(242, 255, 4, 0.9)",
       },
       {
         label: "Tasks In Progress",
-        data: projectData?.map(
+        data: projectsWithTasks?.map(
           (project) =>
             project?.tasks?.filter((task) => task?.status === "IN PROGRESS")
+              ?.length || 0
+        ),
+        backgroundColor: "rgba(0, 255, 252, 0.9)",
+      },
+      {
+        label: "Tasks Assigned",
+        data: projectsWithTasks?.map(
+          (project) =>
+            project?.tasks?.filter((task) => task?.status === "ASSINGED")
               ?.length || 0
         ),
         backgroundColor: "rgba(153, 102, 255, 0.6)",
@@ -81,37 +143,48 @@ const ProjectDashboard = () => {
   };
 
   const pieData = {
-    labels: ["Completed", "In Progress", "Assigned"],
+    labels: ["Completed", "In Progress", "Assigned", "In Review"],
     datasets: [
       {
-        data: [completedTasks, inProgressTasks, assignedTask],
+        data: [completedTasks, inProgressTasks, assignedTask, inReviewTask],
         backgroundColor: [
-          "rgba(75, 192, 192, 0.6)",
-          "rgba(153, 102, 255, 0.6)",
+          "rgba(7, 179, 8, 0.8)",
+          "rgba(0, 255, 252, 0.9)",
           "rgba(255, 159, 64, 0.6)",
+          "rgba(242, 255, 4, 0.9)",
         ],
       },
     ],
   };
 
   const lineData = {
-    labels: projectData?.map((project) => project?.name) || [],
+    labels: projectsWithTasks?.map((project) => project?.name) || [],
     datasets: [
       {
         label: "Tasks Completed",
-        data: projectData?.map(
+        data: projectsWithTasks?.map(
           (project) =>
-            project?.tasks?.filter((task) => task?.status === "completed")
+            project?.tasks?.filter((task) => task?.status === "COMPLETED")
               ?.length || 0
         ),
-        borderColor: "rgba(75, 192, 192, 0.6)",
+        borderColor: "rgba(7, 179, 8, 0.8)",
         fill: false,
       },
       {
         label: "Tasks In Progress",
-        data: projectData?.map(
+        data: projectsWithTasks?.map(
           (project) =>
-            project?.tasks?.filter((task) => task?.status === "in-progress")
+            project?.tasks?.filter((task) => task?.status === "IN PROGRESS")
+              ?.length || 0
+        ),
+        borderColor: "rgba(0, 255, 252, 0.9)",
+        fill: false,
+      },
+      {
+        label: "Tasks Assigned",
+        data: projectsWithTasks?.map(
+          (project) =>
+            project?.tasks?.filter((task) => task?.status === "ASSINGED")
               ?.length || 0
         ),
         borderColor: "rgba(153, 102, 255, 0.6)",
@@ -120,149 +193,211 @@ const ProjectDashboard = () => {
     ],
   };
 
-  const userContributionData = {
-    labels:
-      taskData
-        ?.filter((task) => task.project_id === selectedProject)
-        ?.map((task) => {
-          const user = userData?.find((user) => user.id === task.user_id);
-          return user ? `${user.f_name} ${user.l_name}` : "Unknown User";
-        }) || [],
-    datasets: [
-      {
-        label: "Tasks Completed",
-        data:
-          taskData
-            ?.filter((task) => task.project_id === selectedProject)
-            ?.map((task) => (task.status === "COMPLETED" ? 1 : 0)) || [],
-        backgroundColor: "rgba(75, 192, 192, 0.6)",
-      },
-      {
-        label: "Tasks Assigned",
-        data:
-          taskData
-            ?.filter((task) => task.project_id === selectedProject)
-            ?.map((task) => 1) || [],
-        backgroundColor: "rgba(153, 102, 255, 0.6)",
-      },
-      {
-        label: "Hours Taken",
-        data:
-          taskData
-            ?.filter((task) => task.project_id === selectedProject)
-            ?.map((task) => task.hours_taken || 0) || [],
-        backgroundColor: "rgba(255, 159, 64, 0.6)",
-      },
-    ],
-  };
-
-  const totalAssignedHours =
-    taskData
-      ?.filter((task) => task.project_id === selectedProject)
-      ?.reduce((total, task) => total + (task.duration || 0), 0) || 0;
-  const totalHoursTaken =
-    taskData
-      ?.filter((task) => task.project_id === selectedProject)
-      ?.reduce(
-        (total, task) => total + (task.workingHourTask?.duration || 0),
-        0
-      ) || 0;
-
   return (
-    <div className="p-6 bg-gray-100 min-h-screen">
-      <div className="max-w-7xl mx-auto">
-        <h1 className="text-4xl font-bold text-gray-800 mb-8 text-center">Project Dashboard</h1>
+    <div className="p-6 w-full bg-gray-100 min-h-screen">
+      <div className=" mx-auto">
         
+        {/* Charts Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+        <div className="bg-white p-6 rounded-lg shadow-md">
+          <h3 className="text-lg font-semibold mb-4">Task Overview</h3>
+          <Bar data={barData} />
+        </div>
+
+        <div className="bg-white p-6 rounded-lg shadow-md">
+          <h3 className="text-lg font-semibold mb-4">Task Distribution</h3>
+          <Pie data={pieData} />
+        </div>
+
+          <div className="bg-white p-6 rounded-lg shadow-md">
+            <h3 className="text-lg font-semibold mb-4">Task Trends</h3>
+            <Line
+              data={lineData}
+              options={{
+                responsive: true,
+                plugins: {
+                  legend: {
+                    position: "top",
+                  },
+                },
+                scales: {
+                  y: {
+                    beginAtZero: true,
+                  },
+                },
+              }}
+            />
+          </div>
+        </div>
+
+        {/* Enhanced Filters */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-          <input
-            type="text"
-            placeholder="Search projects..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full p-2 border border-gray-300 rounded-md"
-          />
-          <select
-            value={statusFilter}
-            onChange={(e) => setStatusFilter(e.target.value)}
-            className="w-full p-2 border border-gray-300 rounded-md"
-          >
-            <option value="all">All Statuses</option>
-            <option value="active">Active</option>
-            <option value="completed">Completed</option>
-            <option value="pending">Pending</option>
-          </select>
-          <select
-            value={fabricatorFilter}
-            onChange={(e) => setFabricatorFilter(e.target.value)}
-            className="w-full p-2 border border-gray-300 rounded-md"
-          >
-            <option value="all">All Fabricators</option>
-            {Array.from(new Set(projectData?.map((p) => p.fabricator?.fabName))).map(
-              (fabricator) => (
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+            <input
+              type="text"
+              placeholder="Search projects..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="w-full pl-10 p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            />
+          </div>
+
+          <div className="relative">
+            <ListFilter className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+            <select
+              value={statusFilter}
+              onChange={(e) => setStatusFilter(e.target.value)}
+              className="w-full pl-10 p-2 border border-gray-300 rounded-md appearance-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            >
+              <option value="all">All Statuses</option>
+              <option value="COMPLETED">Completed</option>
+              <option value="ASSINGED">Assigned</option>
+              <option value="IN PROGRESS">In Progress</option>
+              <option value="BREAK">In Break</option>
+              <option value="ON HOLD">On Hold</option>
+            </select>
+          </div>
+
+          <div className="relative">
+            <Building2 className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+            <select
+              value={fabricatorFilter}
+              onChange={(e) => setFabricatorFilter(e.target.value)}
+              className="w-full pl-10 p-2 border border-gray-300 rounded-md appearance-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            >
+              <option value="all">All Fabricators</option>
+              {Array.from(
+                new Set(projectData?.map((p) => p.fabricator?.fabName))
+              ).map((fabricator) => (
                 <option key={fabricator} value={fabricator}>
                   {fabricator}
                 </option>
-              )
-            )}
-          </select>
-          <select
-            value={selectedProject}
-            onChange={(e) => setSelectedProject(e.target.value)}
-            className="w-full p-2 border border-gray-300 rounded-md"
-          >
-            <option value="">Select Project</option>
-            {projectData?.map((project) => (
-              <option key={project.id} value={project.id}>
-                {project.name}
-              </option>
-            ))}
-          </select>
-        </div>
+              ))}
+            </select>
+          </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-          <div className="bg-white p-4 rounded-lg shadow-md">
-            <h3 className="text-lg font-semibold mb-2">Tasks Overview</h3>
-            <Bar data={barData} />
-          </div>
-          <div className="bg-white p-4 rounded-lg shadow-md">
-            <h3 className="text-lg font-semibold mb-2">Task Distribution</h3>
-            <Pie data={pieData} />
-          </div>
-          <div className="bg-white p-4 rounded-lg shadow-md">
-            <h3 className="text-lg font-semibold mb-2">Task Trends</h3>
-            <Line data={lineData} />
+          <div className="relative">
+            <ArrowUpDown className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+            <select
+              value={sortField}
+              onChange={(e) => setSortField(e.target.value)}
+              className="w-full pl-10 p-2 border border-gray-300 rounded-md appearance-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            >
+              <option value="name">Sort by Name</option>
+              <option value="status">Sort by Status</option>
+              <option value="fabricator">Sort by Fabricator</option>
+              <option value="startDate">Sort by Start Date</option>
+            </select>
           </div>
         </div>
 
-        {selectedProject && (
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <div className="bg-white p-4 rounded-lg shadow-md">
-              <h3 className="text-lg font-semibold mb-2">User Contribution</h3>
-              <Bar data={userContributionData} />
-            </div>
-            <div className="bg-white p-4 rounded-lg shadow-md">
-              <h3 className="text-lg font-semibold mb-2">Task Summary</h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="bg-green-100 p-4 rounded-lg">
-                  <p className="text-lg text-green-800 font-semibold">Completed Tasks</p>
-                  <p className="text-3xl font-bold text-green-600">{completedTasks}</p>
-                </div>
-                <div className="bg-orange-100 p-4 rounded-lg">
-                  <p className="text-lg text-orange-800 font-semibold">In Progress Tasks</p>
-                  <p className="text-3xl font-bold text-orange-600">{inProgressTasks}</p>
-                </div>
-                <div className="bg-blue-100 p-4 rounded-lg">
-                  <p className="text-lg text-blue-800 font-semibold">Total Assigned Hours</p>
-                  <p className="text-3xl font-bold text-blue-600">{totalAssignedHours}</p>
-                </div>
-                <div className="bg-red-100 p-4 rounded-lg">
-                  <p className="text-lg text-red-800 font-semibold">Total Hours Taken</p>
-                  <p className="text-3xl font-bold text-red-600">{totalHoursTaken}</p>
-                </div>
-              </div>
-            </div>
+        {/* Projects Table */}
+        <div className="bg-white rounded-lg shadow-md overflow-hidden">
+          <div className="p-6 border-b border-gray-200">
+            <h3 className="text-lg font-semibold">Project List</h3>
           </div>
-        )}
+          <div className="overflow-x-auto">
+          <table className="h-fit md:w-full w-[90vw] border-collapse text-center md:text-lg text-xs rounded-xl">
+              <thead>
+              <tr className="bg-teal-200/70">
+                  <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">
+                    Project Name
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium  uppercase tracking-wider">
+                    Fabricator
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium  uppercase tracking-wider">
+                    Submission Date
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium  uppercase tracking-wider">
+                    Status
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium  uppercase tracking-wider">
+                    Tasks
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium  uppercase tracking-wider">
+                    Progress
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium  uppercase tracking-wider">
+                    Action
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="bg-white divide-y divide-gray-200">
+                {filteredProjects.map((project) => {
+                  const projectTasks = taskData.filter(
+                    (task) => task.project.id === project.id
+                  );
+                  const completedTasksCount = projectTasks.filter(
+                    (task) => task.status === "COMPLETED"
+                  ).length;
+                  const progress = projectTasks.length
+                    ? Math.round(
+                        (completedTasksCount / projectTasks.length) * 100
+                      )
+                    : 0;
+
+                  return (
+                    <tr key={project.id}  className="hover:bg-blue-gray-100 border">
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="text-sm font-medium text-gray-900">
+                          {project.name}
+                        </div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="text-sm ">
+                          {project.fabricator?.fabName}
+                        </div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="text-sm ">
+                          {project?.endDate}
+                        </div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <span
+                          className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full
+                          ${
+                            project.status === "IN PROGRESS"
+                              ? "bg-green-100 text-green-800"
+                              : project.status === "COMPLETED"
+                              ? "bg-blue-100 text-blue-800"
+                              : "bg-yellow-100 text-yellow-800"
+                          }`}
+                        >
+                          {project.status}
+                        </span>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm ">
+                        {projectTasks.length} total
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="w-full bg-gray-200 rounded-full h-2.5">
+                          <div
+                            className="bg-blue-600 h-2.5 rounded-full"
+                            style={{ width: `${progress}%` }}
+                          ></div>
+                        </div>
+                        <span className="text-sm ">
+                          {progress}%
+                        </span>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <button
+                          onClick={() => setSelectedProject(project.id)}
+                          className="text-indigo-600 hover:text-indigo-900"
+                        >
+                          View
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
     </div>
   );

@@ -13,6 +13,9 @@ const getNestedValue = (obj, path) => {
 
 const AllSubmittals = () => {
   const [submittals, setSubmittals] = useState([]);
+  const fabricators = useSelector((state) => state.fabricatorData.fabricatorData);
+  const projects = useSelector((state) => state.projectData.projectData);
+  const staffs = useSelector((state) => state.userData.staffData);
   const [selectedSubmittals, setSelectedSubmittals] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [filteredSubmittals, setFilteredSubmittals] = useState([]);
@@ -23,6 +26,7 @@ const AllSubmittals = () => {
     status: "",
   });
 
+  console.log(submittals);
 
   const fetchSubmittals = async () => {
     try {
@@ -151,7 +155,7 @@ const AllSubmittals = () => {
             className="px-2 py-1 rounded border border-gray-300"
           >
             <option value="">Filter by Fabricator</option>
-            {[...new Set(submittals?.map((sub) => sub?.fabricator?.name))].map(
+            {[...new Set(submittals?.map((sub) => sub?.fabricator?.fabName))].map(
               (name) => (
                 <option key={name} value={name}>
                   {name}
@@ -169,7 +173,7 @@ const AllSubmittals = () => {
             {[
               ...new Set(
                 submittals?.map(
-                  (sub) => sub?.fabricator?.project?.name || sub?.project?.name
+                  (sub) => sub?.project?.name
                 )
               ),
             ].map((name) => (

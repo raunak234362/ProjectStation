@@ -61,7 +61,6 @@ const App = () => {
           dispatch(loadFabricator(fabricator));
           const client = await Service?.allClient(token);
           dispatch(showClient(client));
-
         }
       } catch (error) {
         console.log(error);

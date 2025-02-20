@@ -10,6 +10,8 @@ import {
   Building2,
   ArrowUpDown,
 } from "lucide-react";
+import ProjectStatus from "./ProjectStatus";
+import Button from "../../../../fields/Button";
 
 const ProjectDashboard = () => {
   const dispatch = useDispatch();
@@ -22,16 +24,15 @@ const ProjectDashboard = () => {
   const [statusFilter, setStatusFilter] = useState("all");
   const [fabricatorFilter, setFabricatorFilter] = useState("all");
   const [selectedProject, setSelectedProject] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [sortField, setSortField] = useState("name");
   const [sortDirection, setSortDirection] = useState("asc");
 
-    // Prepare project data with associated tasks
-    const projectsWithTasks = projectData.map((project) => ({
-      ...project,
-      tasks: taskData.filter((task) => task.project.id === project.id),
-    }));
-  
-
+  // Prepare project data with associated tasks
+  const projectsWithTasks = projectData.map((project) => ({
+    ...project,
+    tasks: taskData.filter((task) => task.project.id === project.id),
+  }));
 
   useEffect(() => {
     let filtered = [...projectData];
@@ -95,7 +96,6 @@ const ProjectDashboard = () => {
     taskData?.filter((task) => task?.status === "ASSINGED")?.length || 0;
   const inReviewTask =
     taskData?.filter((task) => task?.status === "IN REVIEW")?.length || 0;
-
 
   console.log(projectsWithTasks);
 
@@ -193,21 +193,30 @@ const ProjectDashboard = () => {
     ],
   };
 
+  const handleViewClick = (projectID) => {
+    setSelectedProject(projectID);
+    setIsModalOpen(true);
+  };
+
+  const handleModalClose = () => {
+    setSelectedProject(null);
+    setIsModalOpen(false);
+  };
+
   return (
     <div className="p-6 w-full bg-gray-100 min-h-screen">
       <div className=" mx-auto">
-        
         {/* Charts Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-        <div className="bg-white p-6 rounded-lg shadow-md">
-          <h3 className="text-lg font-semibold mb-4">Task Overview</h3>
-          <Bar data={barData} />
-        </div>
+          <div className="bg-white p-6 rounded-lg shadow-md">
+            <h3 className="text-lg font-semibold mb-4">Task Overview</h3>
+            <Bar data={barData} />
+          </div>
 
-        <div className="bg-white p-6 rounded-lg shadow-md">
-          <h3 className="text-lg font-semibold mb-4">Task Distribution</h3>
-          <Pie data={pieData} />
-        </div>
+          <div className="bg-white p-6 rounded-lg shadow-md">
+            <h3 className="text-lg font-semibold mb-4">Task Distribution</h3>
+            <Pie data={pieData} />
+          </div>
 
           <div className="bg-white p-6 rounded-lg shadow-md">
             <h3 className="text-lg font-semibold mb-4">Task Trends</h3>
@@ -298,9 +307,9 @@ const ProjectDashboard = () => {
             <h3 className="text-lg font-semibold">Project List</h3>
           </div>
           <div className="overflow-x-auto">
-          <table className="h-fit md:w-full w-[90vw] border-collapse text-center md:text-lg text-xs rounded-xl">
+            <table className="h-fit md:w-full w-[90vw] border-collapse text-center md:text-lg text-xs rounded-xl">
               <thead>
-              <tr className="bg-teal-200/70">
+                <tr className="bg-teal-200/70">
                   <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">
                     Project Name
                   </th>
@@ -339,7 +348,10 @@ const ProjectDashboard = () => {
                     : 0;
 
                   return (
-                    <tr key={project.id}  className="hover:bg-blue-gray-100 border">
+                    <tr
+                      key={project.id}
+                      className="hover:bg-blue-gray-100 border text-left"
+                    >
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="text-sm font-medium text-gray-900">
                           {project.name}
@@ -351,18 +363,18 @@ const ProjectDashboard = () => {
                         </div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm ">
-                          {project?.endDate}
-                        </div>
+                        <div className="text-sm ">{project?.endDate}</div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <span
                           className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full
                           ${
-                            project.status === "IN PROGRESS"
+                            project.status === "ACTIVE"
                               ? "bg-green-100 text-green-800"
                               : project.status === "COMPLETED"
                               ? "bg-blue-100 text-blue-800"
+                              : project.status === "ON HOLD"
+                              ? "bg-red-100 text-yellow-300"
                               : "bg-yellow-100 text-yellow-800"
                           }`}
                         >
@@ -379,17 +391,12 @@ const ProjectDashboard = () => {
                             style={{ width: `${progress}%` }}
                           ></div>
                         </div>
-                        <span className="text-sm ">
-                          {progress}%
-                        </span>
+                        <span className="text-sm ">{progress}%</span>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <button
-                          onClick={() => setSelectedProject(project.id)}
-                          className="text-indigo-600 hover:text-indigo-900"
-                        >
+                        <Button onClick={() => handleViewClick(project.id)}>
                           View
-                        </button>
+                        </Button>
                       </td>
                     </tr>
                   );
@@ -399,6 +406,13 @@ const ProjectDashboard = () => {
           </div>
         </div>
       </div>
+      {selectedProject && (
+        <ProjectStatus
+          projectId={selectedProject}
+          isOpen={isModalOpen}
+          onClose={handleModalClose}
+        />
+      )}
     </div>
   );
 };

@@ -7,6 +7,7 @@ import { Target, UsersRound } from "lucide-react";
 import { PiUsersThree } from "react-icons/pi";
 import { GiOrganigram } from "react-icons/gi";
 import { FaHourglassEnd } from "react-icons/fa";
+import { GrCircleInformation } from "react-icons/gr";
 
 const Dashboard = () => {
   const projects = useSelector((state) => state?.projectData.projectData);
@@ -182,17 +183,19 @@ const Dashboard = () => {
               </div>
             </div>
             <div className="flex flex-row justify-center items-center gap-5 bg-white rounded-lg p-3 shadow-lg">
-              <UsersRound className="text-3xl text-blue-700"/>
+              <UsersRound className="text-3xl text-blue-700" />
               <div className="flex flex-col justify-start items-start">
                 <div className="font-bold text-base text-blue-800">
                   All Staff
                 </div>
-                <div className="text-3xl font-bold text-blue-700">{staffs?.length}</div>
+                <div className="text-3xl font-bold text-blue-700">
+                  {staffs?.length}
+                </div>
               </div>
             </div>
-           
+
             <div className="flex flex-row justify-center items-center gap-5 bg-white rounded-lg p-3 shadow-lg">
-            <GiOrganigram className="text-3xl text-blue-700"/>
+              <GiOrganigram className="text-3xl text-blue-700" />
               <div className="flex flex-col justify-start items-start">
                 <div className="font-bold text-base text-blue-800">
                   All Vendor
@@ -214,7 +217,7 @@ const Dashboard = () => {
               </div>
             </div>
             <div className="flex flex-row justify-center items-center gap-5 bg-white rounded-lg p-3 shadow-lg">
-            <FaHourglassEnd className="text-2xl text-green-400"/>
+              <FaHourglassEnd className="text-2xl text-green-400" />
               <div className="flex flex-col justify-start items-start">
                 <div className="font-bold text-base text-green-600">
                   Submittals
@@ -226,9 +229,10 @@ const Dashboard = () => {
             </div>
 
             <div className="flex flex-row justify-center items-center gap-5 bg-white rounded-lg p-3 shadow-lg">
+              <GrCircleInformation className="text-3xl text-blue-700"/>
               <div className="flex flex-col justify-start items-start">
-                <div className="font-bold text-base text-gray-800">RFIs</div>
-                <div className="text-3xl font-bold">
+                <div className="font-bold text-base  text-blue-800">RFIs</div>
+                <div className="text-3xl font-bold text-blue-700">
                   {completedProjectsCount}
                 </div>
               </div>

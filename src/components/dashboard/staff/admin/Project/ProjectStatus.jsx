@@ -75,10 +75,10 @@ const ProjectStatus = ({ projectId, onClose }) => {
   const userContributions = userData
     .map((user) => {
       const userTasks = projectTasks.filter(
-        (task) => task.assignedTo === user.id
+        (task) => task.user?.id === user.id
       );
       return {
-        name: user.name,
+        name: user.f_name,
         hours: userTasks.reduce(
           (sum, task) => sum + parseDuration(task.takenHours),
           0
@@ -96,7 +96,9 @@ const ProjectStatus = ({ projectId, onClose }) => {
     const type = task.name.split(" ")[0]; // Assuming first word is the type
 
     return {
+      id: task.id,
       name: task.name,
+      username: task.user?.f_name,
       type,
       startDate,
       endDate,
@@ -124,7 +126,7 @@ const ProjectStatus = ({ projectId, onClose }) => {
   const totalDays = Math.ceil((maxDate - minDate) / (1000 * 60 * 60 * 24));
 
   const [hoveredTask, setHoveredTask] = useState(null);
-
+  console.log(hoveredTask);
   // Format date to display in a more readable way
   const formatDate = (date) => {
     return new Date(date).toLocaleDateString("en-US", {
@@ -314,19 +316,19 @@ const ProjectStatus = ({ projectId, onClose }) => {
                       className="flex items-center border-b"
                       style={{ height: `${rowHeight}px` }}
                     >
-                      <div className="w-48 flex-shrink-0 truncate px-2">
-                        {task.name}
+                      <div className="w-52 flex-shrink-0 truncate px-2">
+                        {task.username || ""}: {task.name}
                       </div>
                       <div className="flex-1 relative">
                         <div
-                          className={`absolute h-4 rounded ${
+                          className={`absolute z-0 h-4 rounded ${
                             typeColors[task.type] || "bg-gray-500"
                           } opacity-80 cursor-pointer
                           hover:opacity-100 transition-opacity duration-200`}
                           style={{
                             left: `${left}px`,
                             width: `${width}px`,
-                            top: "7px",
+                            top: "0px",
                           }}
                           onMouseEnter={() => setHoveredTask(task)}
                           onMouseLeave={() => setHoveredTask(null)}
@@ -337,28 +339,32 @@ const ProjectStatus = ({ projectId, onClose }) => {
                           />
 
                           {/* Hover tooltip */}
-                          {hoveredTask === task && (
-                            <div className="absolute z-50 bg-green-600 border border-gray-200 rounded-lg shadow-lg p-3 whitespace-nowrap">
-                              <p className="font-medium">{task.name}</p>
-                              <p className="text-sm text-gray-600">
-                                {formatDate(task.start_date)} -{" "}
-                                {formatDate(task.endDate)}
-                              </p>
-                              <p className="text-sm text-gray-600">
-                                Duration: {task.duration} days
-                              </p>
-                              <p className="text-sm text-gray-600">
-                                Progress: {task.progress}%
-                              </p>
-                            </div>
+                          {hoveredTask?.id === task.id && (
+                            <>
+                              <div className="h-fit fixed top-56 inset-0 flex justify-center items-center w-full  z-50">
+                                <div className=" h-fit w-fit bg-black bg-opacity-50 flex justify-center items-center">
+                                  <div className="bg-white h-fit p-5 rounded-lg shadow-lg w-fit ">
+                                    <p className="font-medium text-xl">{task.name}</p>
+                                    <p className="text-md text-gray-600">
+                                      {formatDate(task?.startDate)} -{" "}
+                                      {formatDate(task?.endDate)}
+                                    </p>
+                                    <p className="text-md text-gray-600">
+                                      Duration: {task.duration} days
+                                    </p>
+                                    <p className="text-md text-gray-600">
+                                      Progress: {task.progress}%
+                                    </p>
+                                  </div>
+                                </div>
+                              </div>
+                            </>
                           )}
                         </div>
                       </div>
                     </div>
                   );
                 })}
-
-              
               </div>
             </div>
           </div>

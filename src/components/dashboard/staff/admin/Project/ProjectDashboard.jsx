@@ -89,7 +89,7 @@ const ProjectDashboard = () => {
 
   // Calculate task statistics
   const completedTasks =
-    taskData?.filter((task) => task?.status === "COMPLETED")?.length || 0;
+    taskData?.filter((task) => task?.status === "COMPLETE")?.length || 0;
   const inProgressTasks =
     taskData?.filter((task) => task?.status === "IN PROGRESS")?.length || 0;
   const assignedTask =
@@ -107,7 +107,7 @@ const ProjectDashboard = () => {
         label: "Tasks Completed",
         data: projectsWithTasks?.map(
           (project) =>
-            project?.tasks?.filter((task) => task?.status === "COMPLETED")
+            project?.tasks?.filter((task) => task?.status === "COMPLETE")
               ?.length || 0
         ),
         backgroundColor: "rgba(7, 179, 8, 0.8)",
@@ -164,7 +164,7 @@ const ProjectDashboard = () => {
         label: "Tasks Completed",
         data: projectsWithTasks?.map(
           (project) =>
-            project?.tasks?.filter((task) => task?.status === "COMPLETED")
+            project?.tasks?.filter((task) => task?.status === "COMPLETE")
               ?.length || 0
         ),
         borderColor: "rgba(7, 179, 8, 0.8)",
@@ -339,7 +339,7 @@ const ProjectDashboard = () => {
                     (task) => task.project.id === project.id
                   );
                   const completedTasksCount = projectTasks.filter(
-                    (task) => task.status === "COMPLETED"
+                    (task) => task.status === "COMPLETE"
                   ).length;
                   const progress = projectTasks.length
                     ? Math.round(

@@ -10,13 +10,20 @@ const ProjectStatus = ({ projectId, onClose }) => {
   const taskData = useSelector((state) => state.taskData.taskData);
   const userData = useSelector((state) => state.userData.staffData);
 
-  const projectTasks = taskData.filter((task) => task.projectId === projectId);
+  const projectTasks = taskData.filter((task) => task.project_id === projectId);
+
+  const parseDuration = (duration) => {
+    if (!duration || typeof duration !== "string") return 0; // Handle non-string values
+    const [h, m, s] = duration.split(":").map(Number);
+    return h + m / 60 + s / 3600;
+  };
 
   const calculateHours = (type) => {
     const tasks = projectTasks.filter((task) => task.name.startsWith(type));
+    console.log(tasks?.workingHourTask?.duration);
     return {
-      assigned: tasks.reduce((sum, task) => sum + (task.assignedHours || 0), 0),
-      taken: tasks.reduce((sum, task) => sum + (task.takenHours || 0), 0),
+      assigned: tasks.reduce((sum, task) => sum + parseDuration(task.duration), 0),
+      taken: tasks.reduce((sum, task) => sum + (task?.workingHourTask?.reduce((innerSum, innerTask) => innerSum + parseDuration(innerTask.duration), 0) || 0), 0),
     };
   };
 
@@ -28,17 +35,28 @@ const ProjectStatus = ({ projectId, onClose }) => {
   };
 
   const totalAssignedHours = Object.values(taskTypes).reduce(
-    (sum, type) => sum + type.assigned,
+    (sum, type) => sum + type?.assigned,
     0
   );
 
+  const formatHours = (hours) => {
+    const h = Math.floor(hours);
+    const m = Math.round((hours - h) * 60);
+    return `${h}h ${m}m`;
+  };
+
   const userContributions = userData
     .map((user) => {
-      const userTasks = projectTasks.filter((task) => task.assignedTo === user.id);
+      const userTasks = projectTasks.filter(
+        (task) => task.assignedTo === user.id
+      );
       return {
         ...user,
         totalTasks: userTasks.length,
-        totalHours: userTasks.reduce((sum, task) => sum + (task.takenHours || 0), 0),
+        totalHours: userTasks.reduce(
+          (sum, task) => sum + parseDuration(task.takenHours),
+          0
+        ),
       };
     })
     .filter((user) => user.totalTasks > 0);
@@ -51,7 +69,10 @@ const ProjectStatus = ({ projectId, onClose }) => {
             <div className="bg-blue-600 text-white px-4 py-2 text-xl font-bold rounded-lg shadow-md">
               Project: {projectData?.name || "Unknown"}
             </div>
-            <button className="bg-red-600 text-white px-4 py-2 rounded-lg" onClick={onClose}>
+            <button
+              className="bg-red-600 text-white px-4 py-2 rounded-lg"
+              onClick={onClose}
+            >
               Close
             </button>
           </div>
@@ -61,8 +82,8 @@ const ProjectStatus = ({ projectId, onClose }) => {
               <h2 className="flex items-center gap-2 text-lg font-bold">
                 <Clock className="h-5 w-5" /> Hours Overview
               </h2>
-              <p>Estimated Hours: {projectData?.estimatedHours || 0}</p>
-              <p>Total Assigned Hours: {totalAssignedHours}</p>
+              <p>Estimated Hours: {formatHours(projectData?.estimatedHours || "0:00:00")}</p>
+              <p>Total Assigned Hours: {formatHours(totalAssignedHours)}</p>
             </div>
             <div className="border rounded-lg p-4">
               <h2 className="flex items-center gap-2 text-lg font-bold">
@@ -70,7 +91,9 @@ const ProjectStatus = ({ projectId, onClose }) => {
               </h2>
               <ul>
                 {userContributions.map((user) => (
-                  <li key={user.id}>{user.name}: {user.totalHours} hours</li>
+                  <li key={user.id}>
+                    {user.name}: {formatHours(user.totalHours)}
+                  </li>
                 ))}
               </ul>
             </div>
@@ -81,7 +104,9 @@ const ProjectStatus = ({ projectId, onClose }) => {
               <CheckCircle className="h-5 w-5" /> Task Type Breakdown
             </h2>
             {Object.entries(taskTypes).map(([type, hours]) => (
-              <p key={type}>{type}: {hours.taken}/{hours.assigned} hours</p>
+              <p key={type}>
+                {type}: {formatHours(hours.taken)} / {formatHours(hours.assigned)}
+              </p>
             ))}
           </div>
 
@@ -91,7 +116,7 @@ const ProjectStatus = ({ projectId, onClose }) => {
             </h2>
             <p>Total Tasks: {projectTasks.length}</p>
             <p>
-              Completed: {projectTasks.filter(task => task.status === 'completed').length}
+              Completed: {projectTasks.filter((task) => task.status === "completed").length}
             </p>
           </div>
         </div>

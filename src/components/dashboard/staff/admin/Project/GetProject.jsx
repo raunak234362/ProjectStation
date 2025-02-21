@@ -194,7 +194,10 @@ const GetProject = ({ projectId, onClose }) => {
       )}
 
       {selectedProjectWB && (
-        <AllWorkBreakdown projectId={selectedProjectWB} onClose={handleCloseAllWB} />
+        <AllWorkBreakdown
+          projectId={selectedProjectWB}
+          onClose={handleCloseAllWB}
+        />
       )}
 
       {selectedEditProject && (

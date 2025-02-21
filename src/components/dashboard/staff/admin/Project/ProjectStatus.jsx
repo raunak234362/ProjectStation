@@ -61,6 +61,8 @@ const ProjectStatus = ({ projectId, onClose }) => {
     ERECTION: calculateHours("ERECTION"),
   };
 
+  console.log(taskTypes)
+
   const totalAssignedHours = Object.values(taskTypes).reduce(
     (sum, type) => sum + type?.assigned,
     0
@@ -377,7 +379,7 @@ const ProjectStatus = ({ projectId, onClose }) => {
               </h2>
               {Object.entries(taskTypes).map(([type, hours]) => (
                 <p key={type}>
-                  {type}: {formatHours(hours.taken)} /{" "}
+                  {type}: {parseDuration(hours.taken)} /{" "}
                   {formatHours(hours.assigned)}
                 </p>
               ))}

@@ -11,6 +11,7 @@ import { GrCircleInformation } from "react-icons/gr";
 
 const Dashboard = () => {
   const projects = useSelector((state) => state?.projectData.projectData);
+  const fabricators = useSelector((state) => state?.fabricatorData?.fabricatorData);
   const staffs = useSelector((state) => state?.userData?.staffData);
   const clients = useSelector((state) => state?.fabricatorData?.clientData);
   const taskData = useSelector((state) => state?.taskData?.taskData);
@@ -283,11 +284,11 @@ const Dashboard = () => {
                 className="px-4 py-2 border rounded-md w-full md:w-1/4"
               >
                 <option value="">All Fabricators</option>
-                {uniqueFabricators.map((fabricator) => (
-                  <option key={fabricator} value={fabricator}>
-                    {fabricator}
-                  </option>
-                ))}
+                {fabricators?.map((fab) => (
+              <option key={fab.id} value={fab.fabName}>
+                {fab.fabName}
+              </option>
+            ))}
               </select>
             </div>
 

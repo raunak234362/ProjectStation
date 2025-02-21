@@ -36,6 +36,7 @@ const ProjectStatus = ({ projectId, onClose }) => {
 
   const calculateHours = (type) => {
     const tasks = projectTasks.filter((task) => task.name.startsWith(type));
+    console.log(tasks)
     return {
       assigned: tasks.reduce(
         (sum, task) => sum + parseDuration(task.duration),
@@ -44,9 +45,9 @@ const ProjectStatus = ({ projectId, onClose }) => {
       taken: tasks.reduce(
         (sum, task) =>
           sum +
-          (task?.workingHourTask?.reduce(
+        (task?.workingHourTask?.reduce(
             (innerSum, innerTask) =>
-              innerSum + parseDuration(innerTask.duration),
+              innerSum + (innerTask.duration),
             0
           ) || 0),
         0
@@ -61,7 +62,7 @@ const ProjectStatus = ({ projectId, onClose }) => {
     ERECTION: calculateHours("ERECTION"),
   };
 
-  console.log(taskTypes)
+  console.log(taskTypes);
 
   const totalAssignedHours = Object.values(taskTypes).reduce(
     (sum, type) => sum + type?.assigned,
@@ -73,6 +74,13 @@ const ProjectStatus = ({ projectId, onClose }) => {
     const m = Math.round((hours - h) * 60);
     return `${h}h ${m}m`;
   };
+
+const formatMinutesToHours = (minutes) => {
+  if(!minutes) return '0h 0m';
+  const h = Math.floor(minutes / 60);
+  const m = minutes % 60;
+  return `${h}h ${m}m`;
+}
 
   const userContributions = userData
     .map((user) => {
@@ -96,7 +104,27 @@ const ProjectStatus = ({ projectId, onClose }) => {
     const endDate = new Date(task.due_date);
     const duration = Math.ceil((endDate - startDate) / (1000 * 60 * 60 * 24));
     const type = task.name.split(" ")[0]; // Assuming first word is the type
-
+  
+    // Extract assigned and taken hours
+    const assignedHours = parseDuration(task.duration);
+    const takenHours =
+      task?.workingHourTask?.reduce(
+        (sum, innerTask) => sum + innerTask.duration,
+        0
+      ) || 0;
+  
+    // Calculate progress percentage
+    let progress = assignedHours
+      ? Math.min((takenHours / assignedHours) * 100, 100)
+      : 0;
+  
+    // Override progress based on status
+    if (task.status === "IN REVIEW") {
+      progress = 80;
+    } else if (task.status === "COMPLETED") {
+      progress = 100;
+    }
+  
     return {
       id: task.id,
       name: task.name,
@@ -105,14 +133,11 @@ const ProjectStatus = ({ projectId, onClose }) => {
       startDate,
       endDate,
       duration,
-      progress:
-        task.status === "COMPLETE"
-          ? 100
-          : task.status === "IN PROGRESS"
-          ? 50
-          : 0,
+      progress: Math.round(progress), // Ensure it's rounded
     };
   });
+  
+  
 
   const timelineWidth = 1000;
   const rowHeight = 40;
@@ -346,7 +371,9 @@ const ProjectStatus = ({ projectId, onClose }) => {
                               <div className="h-fit fixed top-56 inset-0 flex justify-center items-center w-full  z-50">
                                 <div className=" h-fit w-fit bg-black bg-opacity-50 flex justify-center items-center">
                                   <div className="bg-white h-fit p-5 rounded-lg shadow-lg w-fit ">
-                                    <p className="font-medium text-xl">{task.name}</p>
+                                    <p className="font-medium text-xl">
+                                      {task.name}
+                                    </p>
                                     <p className="text-md text-gray-600">
                                       {formatDate(task?.startDate)} -{" "}
                                       {formatDate(task?.endDate)}
@@ -379,7 +406,7 @@ const ProjectStatus = ({ projectId, onClose }) => {
               </h2>
               {Object.entries(taskTypes).map(([type, hours]) => (
                 <p key={type}>
-                  {type}: {parseDuration(hours.taken)} /{" "}
+                  {type}: {formatMinutesToHours(hours.taken)} /{" "}
                   {formatHours(hours.assigned)}
                 </p>
               ))}

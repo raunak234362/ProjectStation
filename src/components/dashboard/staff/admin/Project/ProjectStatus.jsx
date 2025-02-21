@@ -36,7 +36,7 @@ const ProjectStatus = ({ projectId, onClose }) => {
 
   const calculateHours = (type) => {
     const tasks = projectTasks.filter((task) => task.name.startsWith(type));
-    console.log(tasks)
+    console.log(tasks);
     return {
       assigned: tasks.reduce(
         (sum, task) => sum + parseDuration(task.duration),
@@ -45,9 +45,8 @@ const ProjectStatus = ({ projectId, onClose }) => {
       taken: tasks.reduce(
         (sum, task) =>
           sum +
-        (task?.workingHourTask?.reduce(
-            (innerSum, innerTask) =>
-              innerSum + (innerTask.duration),
+          (task?.workingHourTask?.reduce(
+            (innerSum, innerTask) => innerSum + innerTask.duration,
             0
           ) || 0),
         0
@@ -75,28 +74,26 @@ const ProjectStatus = ({ projectId, onClose }) => {
     return `${h}h ${m}m`;
   };
 
-const formatMinutesToHours = (minutes) => {
-  if(!minutes) return '0h 0m';
-  const h = Math.floor(minutes / 60);
-  const m = minutes % 60;
-  return `${h}h ${m}m`;
-}
+  const formatMinutesToHours = (minutes) => {
+    if (!minutes) return "0h 0m";
+    const h = Math.floor(minutes / 60);
+    const m = minutes % 60;
+    return `${h}h ${m}m`;
+  };
 
   const userContributions = userData
     .map((user) => {
-      const userTasks = projectTasks.filter(
+      const userTasks = projectTasks?.filter(
         (task) => task.user?.id === user.id
       );
+      console.log(userTasks)
       return {
         name: user.f_name,
-        hours: userTasks.reduce(
-          (sum, task) => sum + parseDuration(task.takenHours),
-          0
-        ),
+        taskCount: userTasks.length,
       };
     })
-    .filter((user) => user.hours > 0)
-    .sort((a, b) => b.hours - a.hours);
+    .filter((user) => user.taskCount > 0)
+    .sort((a, b) => b.taskCount - a.taskCount);
 
   // Prepare data for Gantt chart
   const ganttData = projectTasks.map((task) => {
@@ -104,7 +101,7 @@ const formatMinutesToHours = (minutes) => {
     const endDate = new Date(task.due_date);
     const duration = Math.ceil((endDate - startDate) / (1000 * 60 * 60 * 24));
     const type = task.name.split(" ")[0]; // Assuming first word is the type
-  
+
     // Extract assigned and taken hours
     const assignedHours = parseDuration(task.duration);
     const takenHours =
@@ -112,23 +109,23 @@ const formatMinutesToHours = (minutes) => {
         (sum, innerTask) => sum + innerTask.duration,
         0
       ) || 0;
-  
+
     // Calculate progress percentage
     let progress = assignedHours
       ? Math.min((takenHours / assignedHours) * 100, 100)
       : 0;
-  
+
     // Override progress based on status
     if (task.status === "IN REVIEW") {
       progress = 80;
     } else if (task.status === "COMPLETED") {
       progress = 100;
     }
-  
+
     return {
       id: task.id,
       name: task.name,
-      username: task.user?.f_name,
+      username: `${task.user?.f_name} ${task.user?.l_name}`,
       type,
       startDate,
       endDate,
@@ -136,8 +133,6 @@ const formatMinutesToHours = (minutes) => {
       progress: Math.round(progress), // Ensure it's rounded
     };
   });
-  
-  
 
   const timelineWidth = 1000;
   const rowHeight = 40;
@@ -203,6 +198,19 @@ const formatMinutesToHours = (minutes) => {
 
   const monthDivisions = getMonthDivisions();
 
+  const groupedTasks = ganttData.reduce((acc, task) => {
+    if (!acc[task.type]) acc[task.type] = [];
+    acc[task.type].push(task);
+    return acc;
+  }, {});
+
+  const typeColors = {
+    MODELING: "bg-blue-500",
+    DETAILING: "bg-green-500",
+    CHECKING: "bg-yellow-500",
+    ERECTION: "bg-purple-500",
+  };
+
   return (
     <div className="fixed inset-0 bg-black bg-opacity-85 flex justify-center items-center z-50">
       <div className="bg-white h-[90vh] overflow-y-auto p-5 rounded-lg shadow-lg w-11/12 md:w-10/12">
@@ -231,32 +239,32 @@ const formatMinutesToHours = (minutes) => {
                   <XAxis dataKey="name" />
                   <YAxis
                     label={{
-                      value: "Hours",
+                      value: "Tasks",
                       angle: -90,
                       position: "insideLeft",
                     }}
                   />
                   <Tooltip
-                    formatter={(value) => formatHours(value)}
+                    formatter={(value) => `${value} tasks`}
                     labelStyle={{ color: "black" }}
                   />
-                  <Bar dataKey="hours" fill="#3b82f6" />
+                  <Bar dataKey="taskCount" fill="#3b82f6" />
                 </BarChart>
               </ResponsiveContainer>
             </div>
           </div>
 
           {/* Gantt Chart */}
-          <div className="border rounded-lg p-4">
+          <div className="border rounded-lg p-4 mx-auto">
             <h2 className="flex items-center gap-2 text-lg font-bold mb-4">
               <Clock className="h-5 w-5" /> Project Timeline
             </h2>
-            <div className="overflow-x-auto">
+            <div className="overflow-x-auto w-full">
               <div
-                style={{ width: `${timelineWidth + 200}px` }}
+                style={{ width: `${timelineWidth + 300}px` }}
                 className="relative"
               >
-                {/* Enhanced Timeline header */}
+                {/* Timeline Header */}
                 <div className="flex border-b">
                   <div className="w-48 flex-shrink-0 font-bold">Task Name</div>
                   <div className="flex-1 relative">
@@ -282,118 +290,78 @@ const formatMinutesToHours = (minutes) => {
                         );
                       })}
                     </div>
-                    {/* Month divisions */}
-                    <div className="absolute left-0 right-0 -top-8 border-b">
-                      {monthDivisions.map((month, index) => (
-                        <div
-                          key={index}
-                          className="absolute border-l border-gray-300 h-8 text-sm font-medium"
-                          style={{
-                            left: `${month.left}px`,
-                            width: `${month.width}px`,
-                          }}
-                        >
-                          <span className="ml-2">{month.label}</span>
-                        </div>
-                      ))}
+                  </div>
+                </div>
+
+                {/* Render grouped tasks */}
+                {Object.keys(groupedTasks).map((type) => (
+                  <div key={type} className="mt-4 w-full">
+                    <div className="">
+                      <h3 className="text-lg font-bold p-2 bg-gray-200  rounded">
+                        {type}
+                      </h3>
                     </div>
-                    {/* Day markers */}
-                    {Array.from({ length: totalDays + 1 }).map((_, i) => {
-                      const date = new Date(minDate);
-                      date.setDate(date.getDate() + i);
+                    {groupedTasks[type].map((task, index) => {
+                      const { left, width } = getPositionAndWidth(
+                        task.startDate,
+                        task.endDate
+                      );
+
                       return (
                         <div
-                          key={i}
-                          className="absolute border-l border-gray-200 text-xs text-gray-500"
-                          style={{
-                            left: `${(i * timelineWidth) / totalDays}px`,
-                            height: "20px",
-                            top: "-20px",
-                          }}
+                          key={index}
+                          className="flex w-full items-center border-b"
+                          style={{ height: `${rowHeight}px` }}
                         >
-                          {date.getDate() === 1 && (
-                            <span className="ml-2">
-                              {date.toLocaleDateString("en-US", {
-                                day: "numeric",
-                              })}
-                            </span>
-                          )}
+                          <div className="w-52 flex-shrink-0 truncate px-2">
+                            {task.username || ""}
+                          </div>
+                          <div className="flex-1 relative">
+                            <div
+                              className={`absolute z-0 h-4 w-full rounded ${
+                                typeColors[task.type] || "bg-gray-500"
+                              } opacity-80 cursor-pointer hover:opacity-100 transition-opacity duration-200`}
+                              style={{
+                                left: `${left}px`,
+                                width: `${width}px`,
+                                top: "0px",
+                              }}
+                              onMouseEnter={() => setHoveredTask(task)}
+                              onMouseLeave={() => setHoveredTask(null)}
+                            >
+                              <div
+                                className="h-full bg-opacity-50 bg-green-300"
+                                style={{ width: `${task.progress}%` }}
+                              />
+
+                              {hoveredTask?.id === task.id && (
+                                <div className="h-fit fixed top-56 inset-0 flex justify-center items-center w-full z-50">
+                                  <div className="h-fit w-fit bg-black bg-opacity-50 flex justify-center items-center">
+                                    <div className="bg-white h-fit p-5 rounded-lg shadow-lg w-fit">
+                                      <p className="font-medium text-xl">
+                                        {task.name}
+                                      </p>
+                                      <p className="text-md text-gray-600">
+                                        {formatDate(task?.startDate)} -{" "}
+                                        {formatDate(task?.endDate)}
+                                      </p>
+                                      <p className="text-md text-gray-600">
+                                        Duration: {task.duration} days
+                                      </p>
+                                      <p className="text-md text-gray-600">
+                                        Progress: {task.progress}%
+                                      </p>
+                                    </div>
+                                  </div>
+                                </div>
+                              )}
+                            </div>
+                          </div>
                         </div>
                       );
                     })}
                   </div>
-                </div>
-
-                {/* Enhanced Gantt bars with hover effect */}
-                {ganttData.map((task, index) => {
-                  const { left, width } = getPositionAndWidth(
-                    task.startDate,
-                    task.endDate
-                  );
-                  const typeColors = {
-                    MODELING: "bg-blue-500",
-                    DETAILING: "bg-green-500",
-                    CHECKING: "bg-yellow-500",
-                    ERECTION: "bg-purple-500",
-                  };
-
-                  return (
-                    <div
-                      key={index}
-                      className="flex items-center border-b"
-                      style={{ height: `${rowHeight}px` }}
-                    >
-                      <div className="w-52 flex-shrink-0 truncate px-2">
-                        {task.username || ""}: {task.name}
-                      </div>
-                      <div className="flex-1 relative">
-                        <div
-                          className={`absolute z-0 h-4 rounded ${
-                            typeColors[task.type] || "bg-gray-500"
-                          } opacity-80 cursor-pointer
-                          hover:opacity-100 transition-opacity duration-200`}
-                          style={{
-                            left: `${left}px`,
-                            width: `${width}px`,
-                            top: "0px",
-                          }}
-                          onMouseEnter={() => setHoveredTask(task)}
-                          onMouseLeave={() => setHoveredTask(null)}
-                        >
-                          <div
-                            className="h-full bg-opacity-50 bg-green-300"
-                            style={{ width: `${task.progress}%` }}
-                          />
-
-                          {/* Hover tooltip */}
-                          {hoveredTask?.id === task.id && (
-                            <>
-                              <div className="h-fit fixed top-56 inset-0 flex justify-center items-center w-full  z-50">
-                                <div className=" h-fit w-fit bg-black bg-opacity-50 flex justify-center items-center">
-                                  <div className="bg-white h-fit p-5 rounded-lg shadow-lg w-fit ">
-                                    <p className="font-medium text-xl">
-                                      {task.name}
-                                    </p>
-                                    <p className="text-md text-gray-600">
-                                      {formatDate(task?.startDate)} -{" "}
-                                      {formatDate(task?.endDate)}
-                                    </p>
-                                    <p className="text-md text-gray-600">
-                                      Duration: {task.duration} days
-                                    </p>
-                                    <p className="text-md text-gray-600">
-                                      Progress: {task.progress}%
-                                    </p>
-                                  </div>
-                                </div>
-                              </div>
-                            </>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                  );
-                })}
+                ))}
               </div>
             </div>
           </div>

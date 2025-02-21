@@ -12,6 +12,7 @@ import {
   DialogFooter,
 } from "@material-tailwind/react";
 import Service from "../../../../../config/Service";
+import { toast } from "react-toastify";
 
 const GetTeamByID = ({ team, taskID, isOpen, onClose }) => {
   const [selectedTask, setSelectedTask] = useState(null);
@@ -46,7 +47,7 @@ const GetTeamByID = ({ team, taskID, isOpen, onClose }) => {
 
     const memberOptions = staffData
       ?.map((staff) => {
-        const name = staff?.f_name;
+        const name = `${staff?.f_name || ''} ${staff?.m_name || ''} ${staff?.l_name || ''}`.trim();
         if (name) {
           //   uniqueMembers.add(name);
           return {
@@ -83,9 +84,9 @@ const GetTeamByID = ({ team, taskID, isOpen, onClose }) => {
   const addMembers = async (data) => {
     try {
       const response = await Service.addTeamMember(teamID, data);
-      setIsSuccessOpen(true);
+      toast.success("Team member has been added successfully!");
     } catch (error) {
-      setIsFailedOpen(true);
+      toast.error("Failed to add team member");
       console.error("Error adding team member:", error);
     }
   };
@@ -214,47 +215,11 @@ const GetTeamByID = ({ team, taskID, isOpen, onClose }) => {
                       disabled={!watch("employee")} // Disable if no employee is selected
                     />
                   </div>
-                  {/* <div className="my-2">
+                  <div className="my-2">
                         <Button type="submit">Add Member</Button>
-                    </div> */}
+                    </div>
 
-                  <div className="flex justify-end mt-4">
-                    <Button type="submit">Add</Button>
-                    <Dialog open={isSuccessOpen} handler={setIsSuccessOpen}>
-                      <DialogHeader>Success</DialogHeader>
-                      <DialogBody>
-                        Team member has been added successfully!
-                      </DialogBody>
-                      <DialogFooter>
-                        <Button
-                          variant="gradient"
-                          color="green"
-                          onClick={() => {
-                            closeSuccessModal();
-                            // Optionally refresh the page or data
-                            
-                          }}
-                        >
-                          Close
-                        </Button>
-                      </DialogFooter>
-                    </Dialog>
-                    <Dialog open={isFailedOpen} handler={setIsFailedOpen}>
-                      <DialogHeader>Error</DialogHeader>
-                      <DialogBody>
-                        Failed to add team member. Please try again.
-                      </DialogBody>
-                      <DialogFooter>
-                        <Button
-                          variant="gradient"
-                          color="red"
-                          onClick={closeFailedModal}
-                        >
-                          Close
-                        </Button>
-                      </DialogFooter>
-                    </Dialog>
-                  </div>
+                  
                 </form>
               </div>
             </div>

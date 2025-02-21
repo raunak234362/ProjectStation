@@ -59,8 +59,8 @@ const AllSentRFI = () => {
     if (term) {
       filteredData = filteredData.filter(
         (rfi) =>
-          rfi.remarks.toLowerCase().includes(term.toLowerCase()) ||
-          rfi.email.toLowerCase().includes(term.toLowerCase())
+          rfi.subject.toLowerCase().includes(term.toLowerCase()) ||
+          rfi.recepients?.email.toLowerCase().includes(term.toLowerCase())
       );
     }
 
@@ -68,15 +68,13 @@ const AllSentRFI = () => {
     if (filters.fabricator) {
       filteredData = filteredData.filter(
         (rfi) =>
-          rfi?.fabricator?.name.toLowerCase() ===
+          rfi?.fabricator?.fabName.toLowerCase() ===
           filters.fabricator.toLowerCase()
       );
     }
     if (filters.project) {
       filteredData = filteredData.filter(
         (rfi) =>
-          rfi?.fabricator?.project?.name?.toLowerCase() ===
-            filters.project.toLowerCase() ||
           rfi?.project?.name?.toLowerCase() === filters.project.toLowerCase()
       );
     }
@@ -140,7 +138,7 @@ const AllSentRFI = () => {
         <div className="w-full mb-4">
           <input
             type="text"
-            placeholder="Search by remarks or recipient"
+            placeholder="Search by subject or recipient"
             value={searchTerm}
             onChange={handleSearch}
             className=" w-full px-2 py-1 rounded border border-gray-300"
@@ -171,9 +169,7 @@ const AllSentRFI = () => {
             <option value="">Filter by Project</option>
             {[
               ...new Set(
-                sentRfi.map(
-                  (rfi) => rfi?.fabricator?.project?.name || rfi?.project?.name
-                )
+                sentRfi.map((rfi) => rfi?.project?.name)
               ),
             ].map((name) => (
               <option key={name} value={name}>
@@ -199,13 +195,13 @@ const AllSentRFI = () => {
               <tr className="bg-teal-200/70">
                 <th
                   className="px-2 py-1 text-left cursor-pointer"
-                  onClick={() => handleSort("fabricator.name")}
+                  onClick={() => handleSort("fabricator.fabName")}
                 >
                   Fabricator Name
                 </th>
                 <th
                   className="px-2 py-1 text-left cursor-pointer"
-                  onClick={() => handleSort("fabricator.project.name")}
+                  onClick={() => handleSort("project.name")}
                 >
                   Project Name
                 </th>
@@ -235,7 +231,7 @@ const AllSentRFI = () => {
                       {rfi?.fabricator?.fabName || "N/A"}
                     </td>
                     <td className="border px-2 py-1">
-                      {rfi?.project?.name || rfi?.project?.name || "N/A"}
+                      {rfi?.project?.name || "N/A"}
                     </td>
                     <td className="border px-2 py-1">{rfi?.subject}</td>
                     <td className="border px-2 py-1">

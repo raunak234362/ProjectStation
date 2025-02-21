@@ -70,7 +70,7 @@ const Sidebar = () => {
             userType !== "vendor" ? (
               <li>
                 <NavLink
-                  to="fabricator"
+                  to="fabricator/all-fabricator"
                   className={({ isActive }) =>
                     isActive
                       ? "flex justify-center items-center text-white bg-teal-400 rounded-md w-full  delay-150"
@@ -84,7 +84,7 @@ const Sidebar = () => {
             {userType === "admin" ? (
               <li>
                 <NavLink
-                  to="vendor"
+                  to="vendor/all-vendors"
                   className={({ isActive }) =>
                     isActive
                       ? "flex justify-center items-center text-white bg-teal-400 rounded-md w-full  delay-150"
@@ -98,7 +98,7 @@ const Sidebar = () => {
 
             <li>
               <NavLink
-                to="project"
+                to="project/projects"
                 className={({ isActive }) =>
                   isActive
                     ? "flex justify-center items-center text-white bg-teal-400 rounded-md w-full  delay-150"
@@ -180,7 +180,7 @@ const Sidebar = () => {
             {userType !== "sales" && userType !== "user" ? (
               <li>
                 <NavLink
-                  to="team"
+                  to="team/all-employees"
                   className={({ isActive }) =>
                     isActive
                       ? "flex justify-center items-center text-white bg-teal-400 rounded-md w-full delay-150"

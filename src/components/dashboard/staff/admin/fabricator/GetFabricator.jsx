@@ -133,7 +133,7 @@ const GetFabricator = ({ fabricatorId, isOpen, onClose }) => {
                     ? fabricator?.files?.map((file, index) => (
                         <a
                           key={index}
-                          href={`${BASE_URL}/fabricator/fabricator/viewfile/${fabricatorId}/${file.id}`} // Use the file path with baseURL
+                          href={`${import.meta.env.VITE_BASE_URL}/api/fabricator/fabricator/viewfile/${fabricatorId}/${file.id}`} // Use the file path with baseURL
                           target="_blank" // Open in a new tab
                           rel="noopener noreferrer"
                           className="px-5 py-2 text-teal-500 hover:underline"

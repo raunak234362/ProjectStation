@@ -73,7 +73,6 @@ const GetProject = ({ projectId, onClose }) => {
     onClose(true);
   };
 
-  // console.log("Project", project?.files(map((file) => file.path))
 
   const handleEditClick = () => {
     setIsModalOpen(true);
@@ -84,16 +83,15 @@ const GetProject = ({ projectId, onClose }) => {
     setSelectedEditProject(null);
   };
 
+  const handleStatusView = (projectID) => {
+    setSelectedProjectStatus(projectID);
+    setIsStatusModalOpen(true);
+  };
 
-    const handleStatusView = (projectID) => {
-      setSelectedProjectStatus(projectID);
-      setIsStatusModalOpen(true);
-    }
-  
-    const handleStatusClose = () => {
-      setSelectedProjectStatus(null);
-      setIsStatusModalOpen(false);
-      }
+  const handleStatusClose = () => {
+    setSelectedProjectStatus(null);
+    setIsStatusModalOpen(false);
+  };
 
   const projectDetails = {
     projectData: projectData, // Ensure correct property assignment
@@ -102,103 +100,180 @@ const GetProject = ({ projectId, onClose }) => {
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-85 flex justify-center items-center z-50">
-      <div className="bg-white h-[80vh] overflow-y-auto p-5 md:p-5 rounded-lg shadow-lg w-11/12 md:w-6/12 ">
+      <div className="bg-white h-[80vh] p-5 md:p-5 rounded-lg shadow-lg w-11/12 md:w-6/12 ">
         <div className="flex flex-row justify-between">
           <Button className="bg-red-500" onClick={handleClose}>
             Close
           </Button>
           <Button onClick={handleEditClick}>Edit</Button>
         </div>
-
-        {/* header */}
-        <div className="top-2 w-full flex justify-center z-10">
-          <div className="mt-2">
-            <div className="bg-teal-400 text-white px-3 md:px-4 py-2 md:text-2xl font-bold rounded-lg shadow-md">
-              Project: {projectData?.name || "Unknown"}
+        <div className="h-[70vh] overflow-y-auto">
+          <div className="top-2 overflow-y-auto w-full flex justify-center z-10">
+            <div className="mt-2">
+              <div className="bg-teal-400 text-white px-3 md:px-4 py-2 md:text-2xl font-bold rounded-lg shadow-md">
+                Project: {projectData?.name || "Unknown"}
+              </div>
             </div>
           </div>
-        </div>
 
-        <div className=" h-fit overflow-y-auto rounded-lg shadow-lg">
-          <div className="bg-gray-100/50 rounded-lg shadow-md p-5">
-            <h2 className="text-lg font-semibold mb-4">Project Details</h2>
+          <div className=" h-fit overflow-y-auto rounded-lg shadow-lg">
+            <div className="bg-gray-100/50 rounded-lg shadow-md p-5">
+              <h2 className="text-lg font-semibold mb-4">Project Details</h2>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 overflow-x-hidden overflow-y-hidden">
-              {[
-                { label: "Description", value: projectData?.description },
-                {
-                  label: "Fabricator",
-                  value: projectData?.fabricator?.fabName,
-                },
-                { label: "Status", value: projectData?.status },
-                {
-                  label: "Estimated Hours",
-                  value: projectData?.estimatedHours,
-                },
-                { label: "Stage", value: projectData?.stage },
-                { label: "Tool", value: projectData?.tools },
-                { label: "Start Date", value: projectData?.startDate },
-                { label: "Department", value: projectData?.department?.name },
-                { label: "End Date", value: projectData?.approvalDate },
-                {
-                  label: "Department Manager",
-                  value: projectData?.manager?.f_name,
-                },
-                {
-                  label: "Project Manager",
-                  value: projectData?.manager?.f_name,
-                },
-                // {
-                //   label: "Files",
-                //   value: Array.isArray(projectData?.files)
-                //     ? projectData?.files.map((file, index) => (
-                //         <Button
-                //           key={index}
-                //           onClick={() => fetchFileAndOpen(file.id)} // Open file in a new tab
-                //         >
-                //           {file.originalName || `File ${index + 1}`}
-                //         </Button>
-                //       ))
-                //     : "Not available",
-                // },
-                {
-                  label: "Files",
-                  value: Array.isArray(projectData?.files)
-                    ? projectData?.files?.map((file, index) => (
-                        <a
-                          key={index}
-                          href={`${BASE_URL}/project/projects/viewfile/${projectId}/${file.id}`} // Use the file path with baseURL
-                          target="_blank" // Open in a new tab
-                          rel="noopener noreferrer"
-                          className="px-5 py-2 text-teal-500 hover:underline"
-                        >
-                          {file.originalName || `File ${index + 1}`}
-                        </a>
-                      ))
-                    : "Not available",
-                },
-              ]?.map(({ label, value }) => (
-                <div key={label} className="flex flex-col">
-                  <span className="font-medium text-gray-700">{label}:</span>
-                  <span className="text-gray-600">
-                    {value || "Not available"}
-                  </span>
-                </div>
-              ))}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 overflow-x-hidden overflow-y-hidden">
+                {[
+                  { label: "Description", value: projectData?.description },
+                  {
+                    label: "Fabricator",
+                    value: projectData?.fabricator?.fabName,
+                  },
+                  { label: "Status", value: projectData?.status },
+                  {
+                    label: "Estimated Hours",
+                    value: projectData?.estimatedHours,
+                  },
+                  { label: "Stage", value: projectData?.stage },
+                  { label: "Tool", value: projectData?.tools },
+                  { label: "Start Date", value: projectData?.startDate },
+                  { label: "Department", value: projectData?.department?.name },
+                  { label: "End Date", value: projectData?.approvalDate },
+                  {
+                    label: "Department Manager",
+                    value: projectData?.manager?.f_name,
+                  },
+                  {
+                    label: "Project Manager",
+                    value: projectData?.manager?.f_name,
+                  },
+                  // {
+                  //   label: "Files",
+                  //   value: Array.isArray(projectData?.files)
+                  //     ? projectData?.files.map((file, index) => (
+                  //         <Button
+                  //           key={index}
+                  //           onClick={() => fetchFileAndOpen(file.id)} // Open file in a new tab
+                  //         >
+                  //           {file.originalName || `File ${index + 1}`}
+                  //         </Button>
+                  //       ))
+                  //     : "Not available",
+                  // },
+                  {
+                    label: "Files",
+                    value: Array.isArray(projectData?.files)
+                      ? projectData?.files?.map((file, index) => (
+                          <a
+                            key={index}
+                            href={`${import.meta.env.VITE_BASE_URL}/api/project/projects/viewfile/${projectId}/${file.id}`} // Use the file path with baseURL
+                            target="_blank" // Open in a new tab
+                            rel="noopener noreferrer"
+                            className="px-5 py-2 text-teal-500 hover:underline"
+                          >
+                            {file.originalName || `File ${index + 1}`}
+                          </a>
+                        ))
+                      : "Not available",
+                  },
+                ]?.map(({ label, value }) => (
+                  <div key={label} className="flex flex-col">
+                    <span className="font-medium text-gray-700">{label}:</span>
+                    <span className="text-gray-600">
+                      {value || "Not available"}
+                    </span>
+                  </div>
+                ))}
+              </div>
+              <p>Project Status: <Button onClick={()=>handleStatusView(projectId)}>View</Button></p>
             </div>
-          </div>
-          <div className="bg-gray-100/50 rounded-lg shadow-md p-5">
-            <h2 className="text-lg font-semibold mb-4">
-              Project Work Breakdown:
-            </h2>
-            <div className="flex gap-4">
-              <Button onClick={() => handleAllWorkBreakdown(project.id)}>
-                All Work Breakdown
-              </Button>
-              <Button onClick={() => handleAddWorkBreakdown(project.id)}>
-                Add Work Breakdown
-              </Button>
-              <Button>Edit Work Breakdown</Button>
+            <div className="bg-gray-100/50 rounded-lg shadow-md p-5">
+              <h2 className="text-lg font-semibold mb-4">Fabricator Details</h2>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 overflow-x-hidden overflow-y-hidden">
+                {[
+                  {
+                    label: "Fabricator",
+                    value: projectData?.fabricator?.fabName,
+                  },
+                  { label: "Website", value: projectData?.fabricator?.website ? (
+                    <a
+                      href={projectData?.fabricator?.website}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-blue-500 text-wrap hover:underline"
+                    >
+                      {projectData?.fabricator?.website}
+                    </a>
+                  ) : (
+                    "Not available"
+                  ), },
+                  {
+                    label: "Drive",
+                    value: projectData?.fabricator?.drive ? (
+                      <a
+                        href={projectData?.fabricator.drive}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-blue-500 hover:underline"
+                      >
+                        {projectData?.fabricator.drive}
+                      </a>
+                    ) : (
+                      "Not available"
+                    ),
+                  },
+
+                  // {
+                  //   label: "Files",
+                  //   value: Array.isArray(projectData?.files)
+                  //     ? projectData?.files.map((file, index) => (
+                  //         <Button
+                  //           key={index}
+                  //           onClick={() => fetchFileAndOpen(file.id)} // Open file in a new tab
+                  //         >
+                  //           {file.originalName || `File ${index + 1}`}
+                  //         </Button>
+                  //       ))
+                  //     : "Not available",
+                  // },
+                  {
+                    label: "Files",
+                    value: Array.isArray(projectData?.fabricator?.files)
+                      ? projectData?.fabricator?.files?.map((file, index) => (
+                          <a
+                            key={index}
+                            href={`${import.meta.env.VITE_BASE_URL}/fabricator/fabricator/viewfile/${projectData?.fabricatorID}/${file.id}`} // Use the file path with baseURL
+                            target="_blank" // Open in a new tab
+                            rel="noopener noreferrer"
+                            className="px-5 py-2 text-teal-500 hover:underline"
+                          >
+                            {file.originalName || `File ${index + 1}`}
+                          </a>
+                        ))
+                      : "Not available",
+                  },
+                ]?.map(({ label, value }) => (
+                  <div key={label} className="flex flex-col">
+                    <span className="font-medium text-gray-700">{label}:</span>
+                    <span className="text-gray-600">
+                      {value || "Not available"}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="bg-gray-100/50 rounded-lg shadow-md p-5">
+              <h2 className="text-lg font-semibold mb-4">
+                Project Work Breakdown:
+              </h2>
+              <div className="flex gap-4">
+                <Button onClick={() => handleAllWorkBreakdown(project.id)}>
+                  All Work Breakdown
+                </Button>
+                <Button onClick={() => handleAddWorkBreakdown(project.id)}>
+                  Add Work Breakdown
+                </Button>
+                <Button>Edit Work Breakdown</Button>
+              </div>
             </div>
           </div>
         </div>
@@ -219,7 +294,10 @@ const GetProject = ({ projectId, onClose }) => {
       )}
 
       {selectedProjectStatus && (
-        <ProjectStatus projectID={selectedProjectStatus} onClose={handleStatusClose} />
+        <ProjectStatus
+          projectId={selectedProjectStatus}
+          onClose={handleStatusClose}
+        />
       )}
     </div>
   );

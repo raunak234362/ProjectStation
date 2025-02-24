@@ -64,8 +64,8 @@ const AllSubmittals = () => {
     if (filters.fabricator) {
       filteredData = filteredData.filter(
         (sub) =>
-          sub?.fabricator?.name?.toLowerCase() ===
-          filters.fabricator.toLowerCase()
+          sub?.fabricator?.fabName?.toLowerCase() ===
+          filters.fabricator.fabName.toLowerCase()
       );
     }
 
@@ -138,21 +138,21 @@ const AllSubmittals = () => {
 
   return (
     <div className="bg-white/70 rounded-lg md:w-full w-[90vw]">
-      <div className="mt-5 h-auto p-4">
+      <div className="h-auto p-4 mt-5">
         {/* Search and Filter Options */}
-        <div className="flex flex-col md:flex-row gap-2 mb-4">
+        <div className="flex flex-col gap-2 mb-4 md:flex-row">
           <input
             type="text"
             placeholder="Search by remarks or recipient"
             value={searchTerm}
             onChange={handleSearch}
-            className="px-2 py-1 rounded border border-gray-300"
+            className="px-2 py-1 border border-gray-300 rounded"
           />
           <select
             name="fabricator"
-            value={filters.fabricator}
+            value={filters.fabricator?.fabName}
             onChange={handleFilterChange}
-            className="px-2 py-1 rounded border border-gray-300"
+            className="px-2 py-1 border border-gray-300 rounded"
           >
             <option value="">Filter by Fabricator</option>
             {[...new Set(submittals?.map((sub) => sub?.fabricator?.fabName))].map(
@@ -167,7 +167,7 @@ const AllSubmittals = () => {
             name="project"
             value={filters.project}
             onChange={handleFilterChange}
-            className="px-2 py-1 rounded border border-gray-300"
+            className="px-2 py-1 border border-gray-300 rounded"
           >
             <option value="">Filter by Project</option>
             {[
@@ -186,7 +186,7 @@ const AllSubmittals = () => {
             name="status"
             value={filters.status}
             onChange={handleFilterChange}
-            className="px-2 py-1 rounded border border-gray-300"
+            className="px-2 py-1 border border-gray-300 rounded"
           >
             <option value="">Filter by Status</option>
             <option value="open">Open</option>
@@ -194,7 +194,7 @@ const AllSubmittals = () => {
           </select>
         </div>
         <div className="overflow-x-auto">
-          <table className="min-w-full border-collapse text-center text-sm md:text-lg rounded-xl">
+          <table className="min-w-full text-sm text-center border-collapse md:text-lg rounded-xl">
             <thead>
               <tr className="bg-teal-200/70">
                 <th className="px-2 py-1 text-left">Fabricator Name</th>
@@ -215,17 +215,17 @@ const AllSubmittals = () => {
                 </tr>
               ) : (
                 filteredSubmittals?.map((sub, index) => (
-                  <tr key={sub?.id} className="hover:bg-blue-gray-100 border">
-                    <td className="border px-2 py-1 text-left">
+                  <tr key={sub?.id} className="border hover:bg-blue-gray-100">
+                    <td className="px-2 py-1 text-left border">
                       {sub?.fabricator?.fabName}
                     </td>
-                    <td className="border px-2 py-1">
+                    <td className="px-2 py-1 border">
                       {sub?.project?.name}
                     </td>
-                    <td className="border px-2 py-1">{sub?.subject}</td>
-                    <td className="border px-2 py-1">{sub?.recepients.email}</td>
-                    <td className="border px-2 py-1">{sub?.date}</td>
-                    <td className="border px-1 py-1">{sub.status}</td>
+                    <td className="px-2 py-1 border">{sub?.subject}</td>
+                    <td className="px-2 py-1 border">{sub?.recepients.email}</td>
+                    <td className="px-2 py-1 border">{sub?.date}</td>
+                    <td className="px-1 py-1 border">{sub.status}</td>
                     <Button onClick={() => handleViewClick(sub.id)}>
                       View
                     </Button>

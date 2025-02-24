@@ -22,6 +22,7 @@ const AllProjects = () => {
   const [selectedProject, setSelectedProject] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+
   const token = sessionStorage.getItem("token");
   const dispatch = useDispatch();
 
@@ -86,6 +87,7 @@ const AllProjects = () => {
     setSelectedProject(projectID);
     setIsModalOpen(true);
   };
+
 
   const handleModalClose = () => {
     setSelectedProject(null);

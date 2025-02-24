@@ -16,6 +16,7 @@
     "cookie-storage": "^6.1.0",
     "country-codes-flags-phone-codes": "^1.1.1",
     "country-state-city": "^3.2.1",
+    "dotenv": "^16.4.7",
     "https": "^1.0.0",
     "lucide-react": "^0.475.0",
     "react": "^18.3.1",

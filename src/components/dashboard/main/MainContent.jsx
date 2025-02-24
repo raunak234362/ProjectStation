@@ -46,8 +46,8 @@ const MainContent = () => {
           <div>{userInfo?.f_name} {userInfo?.m_name} {userInfo?.l_name}</div>
         </div>
         <div className="flex flex-row w-full">
-          <div className="block mb-1 w-fit min-w-32 font-semibold">Role:</div>
-          <div>{userInfo?.role}</div>
+          <div className="block mb-1 w-fit min-w-32 font-semibold">Designation:</div>
+          <div>{sessionStorage.getItem('userType')?.toUpperCase()}</div>
         </div>
         <div className="flex flex-row w-full">
           <div className="block mb-1 w-fit min-w-32 font-semibold">Username:</div>

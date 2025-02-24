@@ -311,6 +311,9 @@ const ProjectDashboard = () => {
               <thead>
                 <tr className="bg-teal-200/70">
                   <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">
+                    S.no
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">
                     Project Name
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium  uppercase tracking-wider">
@@ -334,7 +337,7 @@ const ProjectDashboard = () => {
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
-                {filteredProjects.map((project) => {
+                {filteredProjects.map((project,index) => {
                   const projectTasks = taskData.filter(
                     (task) => task.project.id === project.id
                   );
@@ -352,6 +355,11 @@ const ProjectDashboard = () => {
                       key={project.id}
                       className="hover:bg-blue-gray-100 border text-left"
                     >
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="text-sm font-medium text-gray-900">
+                          {index+1}
+                        </div>
+                      </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="text-sm font-medium text-gray-900">
                           {project.name}

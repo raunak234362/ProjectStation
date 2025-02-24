@@ -245,12 +245,8 @@ const Dashboard = () => {
             <h3 className="text-lg font-semibold mb-4">Task Overview</h3>
             <Bar data={barData} />
           </div>
-          <div className="bg-white/70 rounded-lg md:w-full w-[90vw] p-4">
-            Vendor Project completion status
-            <img
-              src="https://www.tableau.com/sites/default/files/2021-06/DataGlossary_Icons_Pie%20Chart.jpg"
-              alt=""
-            />
+          <div className="bg-white rounded-lg md:w-full w-[90vw] p-4 text-center font-bold">
+            Notification Option Coming Soon
           </div>
         </div>
         {/* Project Table */}

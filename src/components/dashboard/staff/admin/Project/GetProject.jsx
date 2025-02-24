@@ -6,6 +6,7 @@ import { Provider, useDispatch, useSelector } from "react-redux";
 import { AddFiles, AddWB, Button, EditProject } from "../../../../index";
 import { BASE_URL } from "../../../../../config/constant";
 import AllWorkBreakdown from "./wb/AllWorkBreakdown";
+import ProjectStatus from "./ProjectStatus";
 
 const GetProject = ({ projectId, onClose }) => {
   const [project, setProject] = useState([]);
@@ -14,6 +15,8 @@ const GetProject = ({ projectId, onClose }) => {
   const [selectedProjectWB, setSelectedProjectWB] = useState(null);
   const [addWorkBreakdown, setAddWorkBreakdown] = useState(false);
   const [allWorkBreakdown, setAllWorkBreakdown] = useState(false);
+  const [selectedProjectStatus, setSelectedProjectStatus] = useState(null);
+  const [isStatusModalOpen, setIsStatusModalOpen] = useState(false);
 
   const [editWorkBreakdown, setEditWorkBreakdown] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -80,6 +83,17 @@ const GetProject = ({ projectId, onClose }) => {
     setIsModalOpen(false);
     setSelectedEditProject(null);
   };
+
+
+    const handleStatusView = (projectID) => {
+      setSelectedProjectStatus(projectID);
+      setIsStatusModalOpen(true);
+    }
+  
+    const handleStatusClose = () => {
+      setSelectedProjectStatus(null);
+      setIsStatusModalOpen(false);
+      }
 
   const projectDetails = {
     projectData: projectData, // Ensure correct property assignment
@@ -202,6 +216,10 @@ const GetProject = ({ projectId, onClose }) => {
 
       {selectedEditProject && (
         <EditProject project={selectedEditProject} onClose={handleModalClose} />
+      )}
+
+      {selectedProjectStatus && (
+        <ProjectStatus projectID={selectedProjectStatus} onClose={handleStatusClose} />
       )}
     </div>
   );

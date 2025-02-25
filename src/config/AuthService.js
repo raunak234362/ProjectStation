@@ -1,10 +1,10 @@
 /* eslint-disable no-unused-vars */
 import api from "./api";
 import axios from 'axios'
-import { BASE_URL } from './constant'
+
 
 class AuthService {
-  static BASE_URL = BASE_URL
+
 
   static async login({ username, password }) {
     try {

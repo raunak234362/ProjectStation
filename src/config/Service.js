@@ -55,7 +55,8 @@ class Service {
   }
 
   //Edit Employee
-  static async editEmployee(employeeID,updatedData) {
+  static async editEmployee(employeeID, updatedData) {
+       const token = sessionStorage.getItem("token");
     try {
       const formData = { ...updatedData };
       const response = await api.patch(`/api/employee/employee/${employeeID}`, formData, {
@@ -72,6 +73,7 @@ class Service {
   }
 
   static async editDepartment(departmentID, updatedData) {
+       const token = sessionStorage.getItem("token");
     try { 
       const formData = { ...updatedData };
       const response = await api.patch(`/api/department/department/${departmentID}`, formData, {
@@ -131,7 +133,7 @@ class Service {
           Authorization: `Token ${token}`,
         },
       });
-      return response.data;
+      return response.data.data;
     } catch (error) {
       console.log("Error fetching departments:", error);
       throw error;

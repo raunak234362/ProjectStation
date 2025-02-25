@@ -44,6 +44,11 @@ const App = () => {
     dispatch(showTask(taskData));
   };
   
+  const fetchAllDepartments = async () => {
+    const departmentData = await Service.allDepartment();
+    dispatch(showDepartment(departmentData?.data));
+  };
+
 
   useEffect(() => {
     console.log(token);

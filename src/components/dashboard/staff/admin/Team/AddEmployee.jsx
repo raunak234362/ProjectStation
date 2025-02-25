@@ -26,23 +26,12 @@ const AddEmployee = () => {
     clearErrors,
   } = useForm();
   const [showAlert, setShowalert] = useState(false);
-  const [departments, setDepartments] = useState([]);
-
-  const fetchAllDepartments = async () => {
-    const departmentData = await Service.allDepartment();
-    console.log(departmentData.data);
-    setDepartments(departmentData.data);
-    dispatch(showDepartment(departmentData));
-  };
-
+const departments=useSelector((state)=>state?.userData?.departmentData)
   const departmentOptions = departments?.map((department) => ({
     label: department.name,
     value: department.id,
   }));
 
-  useEffect(() => {
-    fetchAllDepartments();
-  }, []);
 
   const countryOptions = countries.map((country) => ({
     label: `${getCountryFlagEmojiFromCountryCode(country.code)} ${
@@ -148,7 +137,7 @@ const AddEmployee = () => {
 
   return (
     <div className="flex justify-center w-full text-black">
-      <div className="w-full h-full px-2 py-3 bg-white overflow-y-auto md:px-10">
+      <div className="w-full h-full px-2 py-3 overflow-y-auto bg-white md:px-10">
         <form onSubmit={handleSubmit(addStaff)}>
           <div className="px-2 py-2 font-bold text-white rounded-lg bg-teal-500/50">
             User Informations:

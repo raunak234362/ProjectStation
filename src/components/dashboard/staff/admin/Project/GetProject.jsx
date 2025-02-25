@@ -145,6 +145,14 @@ const GetProject = ({ projectId, onClose }) => {
                     label: "Project Manager",
                     value: projectData?.manager?.f_name,
                   },
+                  {
+                    label: "Misc Design",
+                    value: projectData?.miscDesign ? "Marked" : "Not required",
+                  },
+                  {
+                    label: "Connection Design",
+                    value: projectData?.connectionDesign ? "Marked" : "Not required",
+                  },
                   // {
                   //   label: "Files",
                   //   value: Array.isArray(projectData?.files)
@@ -183,7 +191,7 @@ const GetProject = ({ projectId, onClose }) => {
                   </div>
                 ))}
               </div>
-              <p>Project Status: <Button onClick={()=>handleStatusView(projectId)}>View</Button></p>
+              <p className="mt-3">Project Status: <Button onClick={()=>handleStatusView(projectId)}>View</Button></p>
             </div>
             <div className="bg-gray-100/50 rounded-lg shadow-md p-5">
               <h2 className="text-lg font-semibold mb-4">Fabricator Details</h2>

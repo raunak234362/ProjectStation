@@ -14,7 +14,7 @@ import {
 import Service from "../../../../../config/Service";
 import { toast } from "react-toastify";
 
-const GetTeamByID = ({ team, taskID, isOpen, onClose }) => {
+const GetTeamByID = ({ team, isOpen, onClose }) => {
   const [selectedTask, setSelectedTask] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [memberOptions, setMemberOptions] = useState([]);
@@ -30,11 +30,22 @@ const GetTeamByID = ({ team, taskID, isOpen, onClose }) => {
     reset,
     formState: { errors },
   } = useForm();
-  const teamID = team.data.data.id;
+
+
+  useEffect(() => {
+    const fetchTeamData = async () => {
+      const response = await Service.getTeamById(team);
+      setMembers(response?.data?.members);
+      console.log("Team Data", members);
+    };
+    fetchTeamData();
+  }, []);
+
   const taskData = useSelector((state) =>
-    state?.userData?.teamData?.data?.find((team) => team.id === teamID)
+    state?.userData?.teamData?.data?.find((team) => team.id === team)
   );
 
+  console.log("Task Data", taskData);
   const staffData = useSelector((state) => state?.userData?.staffData);
 
   const [jobStudyRole, setJobStudyRole] = useState("");
@@ -44,10 +55,11 @@ const GetTeamByID = ({ team, taskID, isOpen, onClose }) => {
   }
 
   function fetchStaff() {
-
     const memberOptions = staffData
       ?.map((staff) => {
-        const name = `${staff?.f_name || ''} ${staff?.m_name || ''} ${staff?.l_name || ''}`.trim();
+        const name = `${staff?.f_name || ""} ${staff?.m_name || ""} ${
+          staff?.l_name || ""
+        }`.trim();
         if (name) {
           //   uniqueMembers.add(name);
           return {
@@ -57,8 +69,8 @@ const GetTeamByID = ({ team, taskID, isOpen, onClose }) => {
         }
         return null;
       })
-      .filter(Boolean) 
-      .sort((a, b) => a.label.localeCompare(b.label)); 
+      .filter(Boolean)
+      .sort((a, b) => a.label.localeCompare(b.label));
 
     setMemberOptions(memberOptions);
   }
@@ -83,7 +95,7 @@ const GetTeamByID = ({ team, taskID, isOpen, onClose }) => {
 
   const addMembers = async (data) => {
     try {
-      const response = await Service.addTeamMember(teamID, data);
+      const response = await Service.addTeamMember(team, data);
       toast.success("Team member has been added successfully!");
     } catch (error) {
       toast.error("Failed to add team member");
@@ -216,10 +228,8 @@ const GetTeamByID = ({ team, taskID, isOpen, onClose }) => {
                     />
                   </div>
                   <div className="my-2">
-                        <Button type="submit">Add Member</Button>
-                    </div>
-
-                  
+                    <Button type="submit">Add Member</Button>
+                  </div>
                 </form>
               </div>
             </div>

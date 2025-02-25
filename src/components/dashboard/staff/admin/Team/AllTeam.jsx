@@ -13,7 +13,7 @@ const AllTeam = () => {
   const [sortConfig, setSortConfig] = useState({ key: null, direction: "asc" });
   const [searchQuery, setSearchQuery] = useState("");
 
-const teams=useSelector((state)=>state?.userData?.teamData?.data)
+  const teams = useSelector((state) => state?.userData?.teamData?.data);
   const dispatch = useDispatch();
   const fetchTeams = async () => {
     try {
@@ -46,8 +46,7 @@ const teams=useSelector((state)=>state?.userData?.teamData?.data)
 
   const handleViewClick = async (teamId) => {
     try {
-      const team = await Service.getTeamById(teamId);
-      setSelectedTeam(team);
+      setSelectedTeam(teamId);
       setIsModalOpen(true);
     } catch (error) {
       console.error("Error fetching team details:", error);
@@ -66,7 +65,7 @@ const teams=useSelector((state)=>state?.userData?.teamData?.data)
     const filtered = teams.filter(
       (team) =>
         team?.name?.toLowerCase().includes(value) ||
-      team?.code?.toLowerCase().includes(value)
+        team?.code?.toLowerCase().includes(value)
     );
     setFilteredTeams(filtered);
   };
@@ -120,23 +119,17 @@ const teams=useSelector((state)=>state?.userData?.teamData?.data)
                 </tr>
               ) : (
                 filteredTeams?.map((team, index) => (
-                  <tr
-                    key={team.id}
-                    className="hover:bg-blue-gray-100 border"
-                  >
+                  <tr key={team.id} className="hover:bg-blue-gray-100 border">
                     <td className="border px-5 py-2 text-left">{index + 1}</td>
-                    <td className="border px-5 py-2 text-left">
-                      {team?.name}
-                    </td>
+                    <td className="border px-5 py-2 text-left">{team?.name}</td>
                     <td className="border px-5 py-2 text-left">
                       {team?.manager?.f_name || "No Manager Assigned"}
                     </td>
-                    <td  className="border justify-center items-center flex px-2 py-1">
-                  
-                    <Button onClick={() => handleViewClick(team.id)}>
-                      View/Add
-                    </Button> 
-                </td>
+                    <td className="border justify-center items-center flex px-2 py-1">
+                      <Button onClick={() => handleViewClick(team.id)}>
+                        View/Add
+                      </Button>
+                    </td>
                   </tr>
                 ))
               )}
@@ -145,9 +138,9 @@ const teams=useSelector((state)=>state?.userData?.teamData?.data)
         </div>
         {selectedTeam && (
           <GetTeamByID
-          team={selectedTeam}
-          isOpen={isModalOpen}
-          onClose={handleCloseModal}
+            team={selectedTeam}
+            isOpen={isModalOpen}
+            onClose={handleCloseModal}
           />
         )}
       </div>

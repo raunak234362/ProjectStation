@@ -12,7 +12,7 @@ const AddProject = () => {
     (state) => state.fabricatorData?.fabricatorData
   );
   const departmentData = useSelector(
-    (state) => state.userData?.departmentData?.data
+    (state) => state.userData?.departmentData
   );
 
   const userData = useSelector((state) => state.userData?.staffData);
@@ -39,12 +39,11 @@ const AddProject = () => {
   } = useForm();
 
   const onSubmit = async (data) => {
-    console.log("DATA-----------------------", data);
     try {
       const response = await Service.addProject(data);
+      console.log(response?.project);
+      dispatch(addProject(response?.project));
       toast.success("Project Added Successfully");
-      dispatch(addProject(response.data));
-      console.log(response);
     } catch (error) {
       toast.error("Error Adding Project");
       console.log(error);

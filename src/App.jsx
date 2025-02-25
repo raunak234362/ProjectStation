@@ -46,8 +46,9 @@ const App = () => {
   
   const fetchAllDepartments = async () => {
     const departmentData = await Service.allDepartment();
-    dispatch(showDepartment(departmentData?.data));
+    dispatch(showDepartment(departmentData));
   };
+
 
 
   useEffect(() => {
@@ -76,7 +77,7 @@ const App = () => {
     fetchAllTasks();
     fetchAllProjects();
     fetchUser();
-  }, []);
+  }, [dispatch]);
 
   return (
     <Provider store={store}>

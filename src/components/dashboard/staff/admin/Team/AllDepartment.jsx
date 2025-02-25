@@ -9,14 +9,12 @@ const AllDepartment = () => {
   const [sortConfig, setSortConfig] = useState({ key: null, direction: "asc" });
   const [searchQuery, setSearchQuery] = useState("");
 
-  const departments = useSelector(
-    (state) => state?.userData?.departmentData?.data
-  );
+  const departments = useSelector((state) => state?.userData?.departmentData);
   const [selectedDepartment, setSelectedDepartment] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleViewClick = async (projectID) => {
-    console.log(projectID)
+    console.log(projectID);
     setSelectedDepartment(projectID);
     setIsModalOpen(true);
   };
@@ -28,7 +26,6 @@ const AllDepartment = () => {
 
   // Initialize the filtered department list when 'departments' changes
   useEffect(() => {
-
     if (departments) {
       setFilteredDepartments(departments);
     }
@@ -123,9 +120,7 @@ const AllDepartment = () => {
                     {department?.manager?.f_name || "No Manager Assigned"}
                   </td>
                   <td className="border px-2 py-1">
-                    <Button
-                      onClick={() => handleViewClick(department.id)}
-                    >
+                    <Button onClick={() => handleViewClick(department.id)}>
                       Action
                     </Button>
                   </td>

@@ -7,6 +7,7 @@ import Button from "../../../../fields/Button";
 import Service from "../../../../../config/Service";
 import { toast } from "react-toastify";
 import { CustomSelect } from "../../../..";
+import { updateStaffData } from "../../../../../store/userSlice";
 
 /* eslint-disable react/prop-types */
 const EditEmployee = ({ employee, onClose }) => {
@@ -39,6 +40,7 @@ const EditEmployee = ({ employee, onClose }) => {
     console.log(data);
     try {
         const response = await Service.editEmployee(employee?.id, data);
+        dispatch(updateStaffData(response.data));
         toast.success("Employee updated successfully");
         console.log("Employee updated successfully:", response);
         onClose();

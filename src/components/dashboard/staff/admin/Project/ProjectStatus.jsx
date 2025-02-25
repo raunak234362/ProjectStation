@@ -117,10 +117,15 @@ const ProjectStatus = ({ projectId, onClose }) => {
 
     // Override progress based on status
     if (task.status === "IN REVIEW") {
+      progress = 20;
+    } else if (task.status === "IN PROGRESS") {
       progress = 80;
     } else if (task.status === "COMPLETED") {
       progress = 100;
     }
+
+    // Highlight the line by red if time exceeded
+    const isTimeExceeded = takenHours > assignedHours;
 
     return {
       id: task.id,
@@ -308,6 +313,7 @@ const ProjectStatus = ({ projectId, onClose }) => {
                           task.startDate,
                           task.endDate
                         );
+                        const isTimeExceeded = task.takenHours > task.assignedHours;
 
                         return (
                           <div
@@ -315,9 +321,11 @@ const ProjectStatus = ({ projectId, onClose }) => {
                             className="flex w-full items-center border-b"
                             style={{ height: `${rowHeight}px` }}
                           >
-                            <div className="w-52 flex-shrink-0 truncate px-2">
-                              {task.username || ""}
-                            </div>
+                                className={`absolute z-0 h-4 w-full rounded ${
+                                  typeColors[task.type] || "bg-gray-500"
+                                } opacity-80 cursor-pointer hover:opacity-100 transition-opacity duration-200 ${
+                                  isTimeExceeded ? "bg-red-500" : ""
+                                }`}
                             <div className="flex-1 relative">
                               <div
                                 className={`absolute z-0 h-4 w-full rounded ${

@@ -11,12 +11,10 @@ const GetDepartment = ({ departmentID, onClose }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const departmentData = useSelector((state) =>
-    state?.userData?.departmentData.data.find(
+    state?.userData?.departmentData.find(
       (employee) => employee.id === departmentID
     )
   );
-
-  console.log(departmentData);
 
   const handleClose = async () => {
     onClose(true);

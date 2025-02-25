@@ -1,9 +1,7 @@
 import api from "./api";
-import { BASE_URL } from "./constant";
 const token = sessionStorage.getItem("token");
 class Service {
   // BASE_URL is stored as a constant
-  static BASE_URL = BASE_URL;
 
   // Fetch the logged-in user - updated
   static async getCurrentUser(token) {

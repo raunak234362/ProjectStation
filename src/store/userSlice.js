@@ -49,6 +49,13 @@ const userSlice = createSlice({
       }
       state.departmentData.push(action.payload);
     },
+    updateDepartmentData: (state, action) => {
+      state.departmentData = state.departmentData.map((department) =>
+        department.id === action.payload.id
+          ? { ...department, ...action.payload }
+          : department
+      );
+    },
     showDepartment: (state, action) => {
       state.departmentData = action.payload;
     },
@@ -76,6 +83,7 @@ export const {
   addTeam,
   showTeam,
   updatetoken,
+  updateDepartmentData,
   logout,
 } = userSlice.actions;
 

@@ -72,6 +72,7 @@ const App = () => {
         navigate("/");
       }
     };
+    fetchAllDepartments();
     fetchAllTasks();
     fetchAllProjects();
     fetchUser();

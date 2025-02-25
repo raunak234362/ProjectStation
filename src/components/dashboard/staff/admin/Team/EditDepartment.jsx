@@ -6,10 +6,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { Input, CustomSelect, Button } from "../../../../index";
 import Service from "../../../../../config/Service";
 import { toast } from "react-toastify";
-
+import { updateDepartmentData } from "../../../../../store/userSlice";
 const EditDepartment = ({ department, onClose, handleClose }) => {
   const dispatch = useDispatch();
-  console.log(department)
+  console.log(department);
   const staffs = useSelector((state) => state?.userData?.staffData);
   const {
     register,
@@ -35,10 +35,11 @@ const EditDepartment = ({ department, onClose, handleClose }) => {
   const onSubmit = async (data) => {
     console.log(data);
     try {
-      console.log(data)
+      console.log(data);
       const response = await Service.editDepartment(department?.id, data);
+      dispatch(updateDepartmentData(response.data));
       onClose();
-      handleClose()
+      handleClose();
       toast.success("Department updated successfully");
       console.log("Department updated successfully:", response);
     } catch (error) {

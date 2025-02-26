@@ -60,7 +60,7 @@ const App = () => {
       try {
         if (userType === "admin" || userType === "manager") {
           const TeamData = await Service.allteams(token);
-          dispatch(showTeam(TeamData));
+          dispatch(showTeam(TeamData?.data));
           const userData = await Service.allEmployee(token);
           dispatch(showStaff(userData));
           const fabricator = await Service?.allFabricator(token);

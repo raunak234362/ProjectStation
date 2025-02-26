@@ -11,8 +11,8 @@ const ManageTeam = () => {
 const token = sessionStorage.getItem("token")
 const dispatch =useDispatch();
 
-const staffs = useSelector((state)=>state?.userData?.staffData?.data)
-const departments = useSelector((state)=>state?.userData?.departmentData?.data)
+const staffs = useSelector((state)=>state?.userData?.staffData)
+const teams = useSelector((state)=>state?.userData?.teamData)
 // console.log(departments) 
 // console.log(staffs)
 
@@ -44,16 +44,13 @@ const departments = useSelector((state)=>state?.userData?.departmentData?.data)
       <div className="my-5 grid grid-cols-2 md:grid-cols-3 gap-5">
         <div className="flex flex-col justify-center items-center bg-white/50 rounded-lg p-3 shadow-lg">
           <div className="font-bold text-lg md:text-xl text-gray-800">Total Team</div>
-          <div className="text-2xl md:text-3xl font-bold"></div>
+          <div className="text-2xl md:text-3xl font-bold">{teams?.length}</div>
         </div>
         <div className="flex flex-col justify-center items-center bg-white/50 rounded-lg p-3 shadow-lg">
           <div className="font-bold text-lg md:text-xl text-gray-800">Total No. of Users</div>
           <div className="text-2xl md:text-3xl font-bold">{staffs?.length}</div>
         </div>
-        <div className="flex flex-col justify-center items-center bg-white/50 rounded-lg p-3 shadow-lg">
-          <div className="font-bold text-lg md:text-xl text-gray-800">Total No. of Clients</div>
-          <div className="text-2xl md:text-3xl font-bold">20</div>
-        </div>
+      
       </div>
 
      

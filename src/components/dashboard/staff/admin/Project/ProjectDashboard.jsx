@@ -208,14 +208,24 @@ const ProjectDashboard = () => {
       <div className=" mx-auto">
         {/* Charts Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-          <div className="bg-white p-6 rounded-lg shadow-md">
+          <div className="bg-white p-6 rounded-lg shadow-md w-full">
             <h3 className="text-lg font-semibold mb-4">Task Overview</h3>
-            <Bar data={barData} />
+            <div className="w-full h-[300px] md:h-[400px] lg:h-[500px]">
+              <Bar
+                data={barData}
+                options={{ responsive: true, maintainAspectRatio: false }}
+              />
+            </div>
           </div>
 
-          <div className="bg-white p-6 rounded-lg shadow-md">
+          <div className="bg-white p-6 rounded-lg shadow-md w-full">
             <h3 className="text-lg font-semibold mb-4">Task Distribution</h3>
-            <Pie data={pieData} />
+            <div className="w-full h-[300px] md:h-[400px] lg:h-[500px] overflow-x-auto">
+              <Pie
+                data={pieData}
+                options={{ responsive: true, maintainAspectRatio: true }}
+              />
+            </div>
           </div>
 
           <div className="bg-white p-6 rounded-lg shadow-md">
@@ -337,7 +347,7 @@ const ProjectDashboard = () => {
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
-                {filteredProjects.map((project,index) => {
+                {filteredProjects.map((project, index) => {
                   const projectTasks = taskData.filter(
                     (task) => task.project.id === project.id
                   );
@@ -357,7 +367,7 @@ const ProjectDashboard = () => {
                     >
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="text-sm font-medium text-gray-900">
-                          {index+1}
+                          {index + 1}
                         </div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">

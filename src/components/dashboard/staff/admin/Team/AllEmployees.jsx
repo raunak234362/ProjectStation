@@ -75,7 +75,7 @@ const AllEmployees = () => {
         />
       </div>
 
-      <div className="mt-2 mx-3 bg-white overflow-auto">
+      <div className="mt-2 mx-3 bg-white overflow-auto h-[55vh] overflow-y-auto">
         <table className="h-fit w-full border-collapse text-center md:text-xl text-xs rounded-xl">
           <thead>
             <tr className="bg-teal-200/70">

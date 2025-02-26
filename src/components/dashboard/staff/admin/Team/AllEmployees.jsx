@@ -88,6 +88,12 @@ const AllEmployees = () => {
               </th>
               <th
                 className="px-5 py-2 cursor-pointer text-left"
+                onClick={() => handleSort("username")}
+              >
+                Employee Code
+              </th>
+              <th
+                className="px-5 py-2 cursor-pointer text-left"
                 onClick={() => handleSort("f_name")}
               >
                 Employee Name
@@ -114,6 +120,9 @@ const AllEmployees = () => {
                   <td className="border px-5 py-2 text-left">{index + 1}</td>
                   <td className="border px-5 py-2 text-left">
                     {staff.username}
+                  </td>
+                  <td className="border px-5 py-2 text-left">
+                    {staff.emp_code}
                   </td>
                   <td className="border px-5 py-2 text-left">
                     {staff.f_name} {staff.m_name} {staff.l_name}

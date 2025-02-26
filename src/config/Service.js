@@ -616,7 +616,7 @@ class Service {
           Authorization: `Bearer ${token}`,
         },
       });
-      return response.data;
+      return response.data.data;
     } catch (error) {
       console.log("Error fetching team:", error);
       throw error;

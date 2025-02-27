@@ -24,8 +24,10 @@ const GetProject = ({ projectId, onClose }) => {
   const projectData = useSelector((state) =>
     state?.projectData.projectData.find((project) => project.id === projectId)
   );
-  console.log("Project Data", projectData);
-
+  const departmentData = useSelector(
+    (state) => state?.userData?.departmentData
+  );
+  const userData = useSelector((state) => state?.userData?.userData);
   // const fetchFiles = async (data) => {
   //   console.log("Fetching files", data);
   //   try {
@@ -72,7 +74,6 @@ const GetProject = ({ projectId, onClose }) => {
   const handleClose = async () => {
     onClose(true);
   };
-
 
   const handleEditClick = () => {
     setIsModalOpen(true);
@@ -136,15 +137,10 @@ const GetProject = ({ projectId, onClose }) => {
                   { label: "Tool", value: projectData?.tools },
                   { label: "Start Date", value: projectData?.startDate },
                   { label: "Department", value: projectData?.department?.name },
-                  { label: "Team", value: projectData?.team },
                   { label: "End Date", value: projectData?.approvalDate },
                   {
-                    label: "Department Manager",
-                    value: projectData?.manager?.f_name,
-                  },
-                  {
                     label: "Project Manager",
-                    value: projectData?.manager?.f_name,
+                    value: `${projectData?.manager?.f_name || ''} ${projectData?.manager?.m_name || ''} ${projectData?.manager?.l_name || ''}`,
                   },
                   {
                     label: "Misc Design",
@@ -152,7 +148,9 @@ const GetProject = ({ projectId, onClose }) => {
                   },
                   {
                     label: "Connection Design",
-                    value: projectData?.connectionDesign ? "Marked" : "Not required",
+                    value: projectData?.connectionDesign
+                      ? "Marked"
+                      : "Not required",
                   },
                   // {
                   //   label: "Files",
@@ -173,7 +171,11 @@ const GetProject = ({ projectId, onClose }) => {
                       ? projectData?.files?.map((file, index) => (
                           <a
                             key={index}
-                            href={`${import.meta.env.VITE_BASE_URL}/api/project/projects/viewfile/${projectId}/${file.id}`} // Use the file path with baseURL
+                            href={`${
+                              import.meta.env.VITE_BASE_URL
+                            }/api/project/projects/viewfile/${projectId}/${
+                              file.id
+                            }`} // Use the file path with baseURL
                             target="_blank" // Open in a new tab
                             rel="noopener noreferrer"
                             className="px-5 py-2 text-teal-500 hover:underline"
@@ -192,7 +194,12 @@ const GetProject = ({ projectId, onClose }) => {
                   </div>
                 ))}
               </div>
-              <p className="mt-3">Project Status: <Button onClick={()=>handleStatusView(projectId)}>View</Button></p>
+              <p className="mt-3">
+                Project Status:{" "}
+                <Button onClick={() => handleStatusView(projectId)}>
+                  View
+                </Button>
+              </p>
             </div>
             <div className="bg-gray-100/50 rounded-lg shadow-md p-5">
               <h2 className="text-lg font-semibold mb-4">Fabricator Details</h2>
@@ -203,18 +210,21 @@ const GetProject = ({ projectId, onClose }) => {
                     label: "Fabricator",
                     value: projectData?.fabricator?.fabName,
                   },
-                  { label: "Website", value: projectData?.fabricator?.website ? (
-                    <a
-                      href={projectData?.fabricator?.website}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-blue-500 text-wrap hover:underline"
-                    >
-                      {projectData?.fabricator?.website}
-                    </a>
-                  ) : (
-                    "Not available"
-                  ), },
+                  {
+                    label: "Website",
+                    value: projectData?.fabricator?.website ? (
+                      <a
+                        href={projectData?.fabricator?.website}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-blue-500 text-wrap hover:underline"
+                      >
+                        {projectData?.fabricator?.website}
+                      </a>
+                    ) : (
+                      "Not available"
+                    ),
+                  },
                   {
                     label: "Drive",
                     value: projectData?.fabricator?.drive ? (
@@ -250,7 +260,11 @@ const GetProject = ({ projectId, onClose }) => {
                       ? projectData?.fabricator?.files?.map((file, index) => (
                           <a
                             key={index}
-                            href={`${import.meta.env.VITE_BASE_URL}/fabricator/fabricator/viewfile/${projectData?.fabricatorID}/${file.id}`} // Use the file path with baseURL
+                            href={`${
+                              import.meta.env.VITE_BASE_URL
+                            }/fabricator/fabricator/viewfile/${
+                              projectData?.fabricatorID
+                            }/${file.id}`} // Use the file path with baseURL
                             target="_blank" // Open in a new tab
                             rel="noopener noreferrer"
                             className="px-5 py-2 text-teal-500 hover:underline"

@@ -16,7 +16,7 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 const EditProject = ({ project, onClose }) => {
   const [teamOptions, setTeamOptions] = useState([]);
-  const teams = useSelector((state) => state?.userData?.teamData?.data);
+  const teams = useSelector((state) => state?.userData?.teamData);
   const [files, setFiles] = useState([]);
   console.log("Project", project);
   const dispatch = useDispatch();
@@ -155,7 +155,7 @@ const EditProject = ({ project, onClose }) => {
                 name="team"
                 options={teamOptions}
                 className="w-full"
-                {...register("team")}
+                {...register("teamID")}
                 onChange={setValue}
               />
             </div>

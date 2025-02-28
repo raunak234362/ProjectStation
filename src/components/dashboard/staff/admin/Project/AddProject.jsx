@@ -17,7 +17,8 @@ const AddProject = () => {
 
   const userData = useSelector((state) => state.userData?.staffData);
   // console.log(userData);
-  const teams = useSelector((state) => state?.userData?.teamData?.data);
+  const teams = useSelector((state) => state?.userData?.teamData);
+  console.log(teams);
 
   const managerOption = userData
     ?.filter((user) => user.is_manager)

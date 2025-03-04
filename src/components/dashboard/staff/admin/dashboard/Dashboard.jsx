@@ -364,7 +364,7 @@ const Dashboard = () => {
         </div>
            
             {/* Projects Table */}
-        <div className="bg-white h-[35vh] rounded-lg shadow-md">
+        <div className="bg-white h-[35vh] overflow-y-auto rounded-lg shadow-md">
           <div className="p-6 border-b border-gray-200">
             <h3 className="text-lg font-semibold">Project List</h3>
           </div>
@@ -417,25 +417,25 @@ const Dashboard = () => {
                       key={project.id}
                       className="hover:bg-blue-gray-100 border text-left"
                     >
-                      <td className="px-6 py-4 whitespace-nowrap">
+                      <td className="px-6 py-3 whitespace-nowrap">
                         <div className="text-sm font-medium text-gray-900">
                           {index+1}
                         </div>
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
+                      <td className="px-6 py-3 whitespace-nowrap">
                         <div className="text-sm font-medium text-gray-900">
                           {project.name}
                         </div>
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
+                      <td className="px-6 py-3 whitespace-nowrap">
                         <div className="text-sm ">
                           {project.fabricator?.fabName}
                         </div>
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
+                      <td className="px-6 py-3 whitespace-nowrap">
                         <div className="text-sm ">{project?.endDate}</div>
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
+                      <td className="px-6 py-3 whitespace-nowrap">
                         <span
                           className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full
                           ${
@@ -451,10 +451,10 @@ const Dashboard = () => {
                           {project.status}
                         </span>
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm ">
+                      <td className="px-6 py-3 whitespace-nowrap text-sm ">
                         {projectTasks.length} total
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
+                      <td className="px-6 py-3 whitespace-nowrap">
                         <div className="w-full bg-gray-200 rounded-full h-2.5">
                           <div
                             className="bg-blue-600 h-2.5 rounded-full"
@@ -463,7 +463,7 @@ const Dashboard = () => {
                         </div>
                         <span className="text-sm ">{progress}%</span>
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
+                      <td className="px-6 py-3 whitespace-nowrap">
                         <Button onClick={() => handleViewClick(project.id)}>
                           View
                         </Button>

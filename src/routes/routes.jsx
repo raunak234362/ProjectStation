@@ -61,6 +61,7 @@ import {
   GetSentSubmittals as ClientGetSentSubmittals,
   SendSubmittals as ClientSendSubmittals,
   Project,
+  AddRFQ,
 } from "../components/dashboard/client/clientIndex.js";
 
 //For Sales-Admin
@@ -207,7 +208,10 @@ const routes = [
       },
       {
         path:"rfq",
-        element:<ClientRFQ/>
+        element:<ClientRFQ/>,
+        children:[
+          {path:'add-rfq',element:<AddRFQ/>},
+        ]
       },
       {
         path: "rfi",

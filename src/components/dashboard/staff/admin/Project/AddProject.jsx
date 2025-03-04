@@ -128,7 +128,7 @@ const AddProject = () => {
                   { label: "Select Status", value: "" },
                   { label: "ASSIGNED", value: "ASSIGNED" },
                   { label: "ACTIVE", value: "ACTIVE" },
-                  { label: "ONHOLD", value: "ON-HOLD" },
+                  { label: "ONHOLD", value: "ONHOLD" },
                   { label: "INACTIVE", value: "INACTIVE" },
                   { label: "DELAY", value: "DELAY" },
                   { label: "COMPLETE", value: "COMPLETE" },

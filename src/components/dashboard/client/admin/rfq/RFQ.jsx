@@ -62,7 +62,7 @@ const RFQ = () => {
               <ul className="flex items-center justify-evenly gap-10 py-1 text-center">
                 <li className="px-2">
                   <NavLink
-                    to="all-projects"
+                    to="all-rfq"
                     className={({ isActive }) =>
                       isActive
                         ? "bg-teal-300 drop-shadow-lg flex px-5 py-2 rounded-lg font-semibold"
@@ -74,7 +74,7 @@ const RFQ = () => {
                 </li>
                 <li className="px-2">
                   <NavLink
-                    to="all-projects"
+                    to="add-rfq"
                     className={({ isActive }) =>
                       isActive
                         ? "bg-teal-300 drop-shadow-lg flex px-5 py-2 rounded-lg font-semibold"

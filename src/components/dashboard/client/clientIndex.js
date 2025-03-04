@@ -3,7 +3,12 @@ import Dashboard from "./admin/dashboard/Dashboard";
 //project
 import Project from "./admin/project/Project";
 import ClientAllProjects from "./admin/project/ClientAllProjects";
+
+
+//rfq
 import RFQ from "./admin/rfq/RFQ";
+import AddRFQ from "./admin/rfq/AddRFQ";
+
 //rfi
 import RFI from "./admin/rfi/RFI";
 import AllSentRFI from "../staff/admin/rfi/AllSentRFI";
@@ -32,6 +37,7 @@ export {
   ClientCreateRFI,
   GetSentRFI,
   RFQ,
+  AddRFQ,
   RFI,
   Submittals,
   ChangeOrder,

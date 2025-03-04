@@ -3,6 +3,7 @@
 
 import { useSelector } from "react-redux"
 import { useState } from "react"
+import { Link } from "react-router-dom"
 
 const Dashboard = () => {
   const [activeTab, setActiveTab] = useState("overview")
@@ -299,16 +300,16 @@ const Dashboard = () => {
                   <div className="bg-green-50 rounded-lg p-4 border border-green-200">
                     <h4 className="font-medium text-green-800 mb-2">Quick Actions</h4>
                     <p className="text-sm text-gray-600 mb-3">Common tasks you might want to do</p>
-                    <div className="space-y-2">
-                      <button className="w-full bg-green-600 hover:bg-green-700 text-white py-2 px-3 rounded-md text-sm transition-colors">
-                        Create New RFI
-                      </button>
-                      <button className="w-full bg-white border border-green-600 text-green-600 hover:bg-green-50 py-2 px-3 rounded-md text-sm transition-colors">
+                    <div className="space-y-2 w-full flex flex-col text-center">
+                      <Link to="/client/rfq/add-rfq" className="w-full bg-white border border-green-600 text-green-600 hover:bg-green-50 py-2 px-3 rounded-md text-sm transition-colors">
+                        Create New RFQ
+                      </Link>
+                      <Link className="w-full bg-white border border-green-600 text-green-600 hover:bg-green-50 py-2 px-3 rounded-md text-sm transition-colors">
                         Submit Document
-                      </button>
-                      <button className="w-full bg-white border border-green-600 text-green-600 hover:bg-green-50 py-2 px-3 rounded-md text-sm transition-colors">
+                      </Link>
+                      <Link className="w-full bg-white border border-green-600 text-green-600 hover:bg-green-50 py-2 px-3 rounded-md text-sm transition-colors">
                         Request Change
-                      </button>
+                      </Link>
                     </div>
                   </div>
                 </div>

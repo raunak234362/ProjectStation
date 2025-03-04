@@ -52,9 +52,9 @@ const Dashboard = () => {
     .slice(0, 3)
 
   return (
-    <div className="w-full min-h-screen bg-gray-50">
+    <div className="w-full min-h-screen bg-gray-50 my-4 rounded-lg">
       {/* Dashboard Header */}
-      <div className="bg-gradient-to-r from-green-600 to-teal-600 p-6 shadow-lg">
+      <div className="bg-gradient-to-r from-teal-500 to-teal-700 p-6 shadow-lg rounded-lg">
         <div className="max-w-7xl mx-auto">
           <h1 className="text-3xl font-bold text-white mb-2">Client Dashboard</h1>
           <p className="text-green-100">Welcome back! Here's an overview of your projects and requests.</p>

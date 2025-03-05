@@ -43,6 +43,8 @@ const Login = () => {
             userType = "department-manager";
           } else if (userData.data.is_manager) {
             userType = "project-manager";
+          }else if (userData.data.is_hr) {
+            userType = "human-resource";
           }
         } else if (userData.data.role === "CLIENT") {
           userType = "client";
@@ -56,6 +58,7 @@ const Login = () => {
         console.log(userData?.data?.is_firstLogin);
         if (userData.data?.is_firstLogin) navigate("/change-password/");
         else if (userType === "admin") navigate("/admin/dashboard");
+        else if (userType === "human-resource") navigate("/admin/dashboard");
         else if (userType === "client") navigate("/client/dashboard");
         else if (userType === "sales") navigate("/sales");
         else if (userType === "user") navigate("/admin/dashboard");

@@ -52,22 +52,24 @@ const Sidebar = () => {
       <div className="grid grid-cols-1 space-y-10 h-full">
         <nav className="md:p-5 p-0">
           <ul className="flex flex-col gap-5">
-            <li>
-              <NavLink
-                to="dashboard"
-                className={({ isActive }) =>
-                  isActive
-                    ? "flex justify-center items-center text-white bg-teal-400 rounded-md w-full  delay-150"
-                    : "text-black hover:text-white hover:flex hover:justify-center hover:items-center hover:bg-teal-200  rounded-md"
-                }
-              >
-                <div>Dashboard</div>
-              </NavLink>
-            </li>
+            {userType !== "human-resource" ? (
+              <li>
+                <NavLink
+                  to="dashboard"
+                  className={({ isActive }) =>
+                    isActive
+                      ? "flex justify-center items-center text-white bg-teal-400 rounded-md w-full  delay-150"
+                      : "text-black hover:text-white hover:flex hover:justify-center hover:items-center hover:bg-teal-200  rounded-md"
+                  }
+                >
+                  <div>Dashboard</div>
+                </NavLink>
+              </li>
+            ) : null}
 
-            {userType !== "user" &&
-            userType !== "client" &&
-            userType !== "vendor" ? (
+            {userType === "user" ||
+            userType === "client" ||
+            userType === "vendor" ? (
               <li>
                 <NavLink
                   to="fabricator/all-fabricator"
@@ -95,20 +97,24 @@ const Sidebar = () => {
                 </NavLink>
               </li>
             ) : null}
-
-            <li>
-              <NavLink
-                to="project/projects"
-                className={({ isActive }) =>
-                  isActive
-                    ? "flex justify-center items-center text-white bg-teal-400 rounded-md w-full  delay-150"
-                    : "text-black hover:text-white hover:flex hover:justify-center hover:items-center hover:bg-teal-200  rounded-md"
-                }
-              >
-                <div>Project</div>
-              </NavLink>
-            </li>
-            {userType === "client" || userType === "sales" ||userType === "admin" ||userType === "department-manager" ? (
+            {userType !== "human-resource" ? (
+              <li>
+                <NavLink
+                  to="project/projects"
+                  className={({ isActive }) =>
+                    isActive
+                      ? "flex justify-center items-center text-white bg-teal-400 rounded-md w-full  delay-150"
+                      : "text-black hover:text-white hover:flex hover:justify-center hover:items-center hover:bg-teal-200  rounded-md"
+                  }
+                >
+                  <div>Project</div>
+                </NavLink>
+              </li>
+            ) : null}
+            {userType === "client" ||
+            userType === "sales" ||
+            userType === "admin" ||
+            userType === "department-manager" ? (
               <li>
                 <NavLink
                   to="rfq"
@@ -122,7 +128,7 @@ const Sidebar = () => {
                 </NavLink>
               </li>
             ) : null}
-            {userType !== "user" ? (
+            {userType !== "user" && userType !== "human-resource" ? (
               <li>
                 <NavLink
                   to="rfi"
@@ -136,7 +142,7 @@ const Sidebar = () => {
                 </NavLink>
               </li>
             ) : null}
-            {userType !== "user" ? (
+            {userType !== "user" && userType !== "human-resource" ? (
               <li>
                 <NavLink
                   to="submittals"
@@ -151,7 +157,7 @@ const Sidebar = () => {
               </li>
             ) : null}
 
-            {userType !== "user" ? (
+            {userType !== "user" && userType !== "human-resource" ? (
               <li>
                 <NavLink
                   to="change-order"
@@ -198,7 +204,7 @@ const Sidebar = () => {
                   isActive
                     ? "flex justify-center items-center text-white bg-teal-400 rounded-md w-full  delay-150 transition-all ease-in-out"
                     : "text-black hover:text-white hover:flex hover:justify-center hover:items-center hover:bg-teal-200  rounded-md"
-                } 
+                }
               >
                 <div>Profile</div>
               </NavLink>

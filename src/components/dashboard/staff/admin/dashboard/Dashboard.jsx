@@ -207,7 +207,7 @@ const Dashboard = () => {
   
   // Count the number of completed projects
   const completedProjectsCount = projects.filter(
-    (project) => project.status === "COMPLETED"
+    (project) => project.status === "COMPLETE"
   ).length;
 
   return (

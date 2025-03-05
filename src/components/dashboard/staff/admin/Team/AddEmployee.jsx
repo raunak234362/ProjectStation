@@ -236,6 +236,13 @@ const departments=useSelector((state)=>state?.userData?.departmentData)
                   {...register("is_department_manager")}
                 />
               </div>
+              <div className="">
+                <Toggle
+                  label="HR"
+                  name="hr"
+                  {...register("is_hr")}
+                />
+              </div>
             </div>
           </div>
           <div className="px-2 py-2 font-bold text-white rounded-lg bg-teal-500/50">

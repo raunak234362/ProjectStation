@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
@@ -62,6 +63,7 @@ const ProjectStatus = ({ projectId, onClose }) => {
     DC: calculateHours("DC"),
     ERECTION: calculateHours("ERECTION"),
     EC: calculateHours("EC"),
+    OTHER:calculateHours("OTHER"),
   }
 
   const totalAssignedHours = Object.values(taskTypes).reduce((sum, type) => sum + type?.assigned, 0)

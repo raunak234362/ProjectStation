@@ -67,9 +67,10 @@ const Sidebar = () => {
               </li>
             ) : null}
 
-            {userType === "user" ||
-            userType === "client" ||
-            userType === "vendor" ? (
+            {userType !== "user" ||
+            userType !== "client" ||
+            userType !== "vendor" ||
+            userType === "admin" ? (
               <li>
                 <NavLink
                   to="fabricator/all-fabricator"

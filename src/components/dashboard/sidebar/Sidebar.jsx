@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
 import { NavLink, useNavigate } from "react-router-dom";
 import LOGO from "../../../assets/logo.png";
@@ -70,6 +71,8 @@ const Sidebar = () => {
             {userType !== "user" ||
             userType !== "client" ||
             userType !== "vendor" ||
+            userType !== "human-resource" ||
+            
             userType === "admin" ? (
               <li>
                 <NavLink
@@ -98,7 +101,7 @@ const Sidebar = () => {
                 </NavLink>
               </li>
             ) : null}
-            {userType !== "human-resource" ? (
+            {userType === "human-resource" ? (
               <li>
                 <NavLink
                   to="project/projects"

@@ -101,7 +101,7 @@ const Sidebar = () => {
                 </NavLink>
               </li>
             ) : null}
-            {userType === "human-resource" ? (
+            {userType !== "human-resource" ? (
               <li>
                 <NavLink
                   to="project/projects"

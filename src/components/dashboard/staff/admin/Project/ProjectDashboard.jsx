@@ -88,9 +88,9 @@ const ProjectDashboard = () => {
 
   // Calculate task statistics
   const completedTasks = taskData?.filter((task) => task?.status === "COMPLETE")?.length || 0
-  const inProgressTasks = taskData?.filter((task) => task?.status === "IN PROGRESS")?.length || 0
-  const assignedTask = taskData?.filter((task) => task?.status === "ASSINGED")?.length || 0
-  const inReviewTask = taskData?.filter((task) => task?.status === "IN REVIEW")?.length || 0
+  const inProgressTasks = taskData?.filter((task) => task?.status === "IN_PROGRESS")?.length || 0
+  const assignedTask = taskData?.filter((task) => task?.status === "ASSIGNED")?.length || 0
+  const inReviewTask = taskData?.filter((task) => task?.status === "IN_REVIEW")?.length || 0
 
   // Chart data with improved colors
   const chartColors = {
@@ -126,7 +126,7 @@ const ProjectDashboard = () => {
           data: fabricators.map((fabName) => {
             const fabProjects = projectData.filter((p) => p.fabricator?.fabName === fabName)
             const fabProjectIds = fabProjects.map((p) => p.id)
-            return taskData.filter((task) => fabProjectIds.includes(task.project.id) && task.status === "IN REVIEW")
+            return taskData.filter((task) => fabProjectIds.includes(task.project.id) && task.status === "IN_REVIEW")
               .length
           }),
           backgroundColor: chartColors.inReview,
@@ -137,7 +137,7 @@ const ProjectDashboard = () => {
           data: fabricators.map((fabName) => {
             const fabProjects = projectData.filter((p) => p.fabricator?.fabName === fabName)
             const fabProjectIds = fabProjects.map((p) => p.id)
-            return taskData.filter((task) => fabProjectIds.includes(task.project.id) && task.status === "IN PROGRESS")
+            return taskData.filter((task) => fabProjectIds.includes(task.project.id) && task.status === "IN_PROGRESS")
               .length
           }),
           backgroundColor: chartColors.inProgress,
@@ -192,7 +192,7 @@ const ProjectDashboard = () => {
       {
         label: "Tasks In Progress",
         data: projectsWithTasks?.map(
-          (project) => project?.tasks?.filter((task) => task?.status === "IN PROGRESS")?.length || 0,
+          (project) => project?.tasks?.filter((task) => task?.status === "IN_PROGRESS")?.length || 0,
         ),
         borderColor: chartColors.inProgress,
         backgroundColor: "rgba(59, 130, 246, 0.1)",
@@ -206,7 +206,7 @@ const ProjectDashboard = () => {
       {
         label: "Tasks Assigned",
         data: projectsWithTasks?.map(
-          (project) => project?.tasks?.filter((task) => task?.status === "ASSINGED")?.length || 0,
+          (project) => project?.tasks?.filter((task) => task?.status === "ASSIGNED")?.length || 0,
         ),
         borderColor: chartColors.assigned,
         backgroundColor: "rgba(139, 92, 246, 0.1)",
@@ -517,11 +517,11 @@ const ProjectDashboard = () => {
                 className="w-full pl-9 sm:pl-10 p-2 sm:p-3 bg-gray-50 border border-gray-200 rounded-lg appearance-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors text-sm"
               >
                 <option value="all">All Statuses</option>
-                <option value="COMPLETED">Completed</option>
-                <option value="ASSINGED">Assigned</option>
-                <option value="IN PROGRESS">In Progress</option>
+                <option value="COMPLETE">Completed</option>
+                <option value="ASSIGNED">Assigned</option>
+                <option value="IN_PROGRESS">In Progress</option>
                 <option value="BREAK">In Break</option>
-                <option value="ON HOLD">On Hold</option>
+                <option value="ONHOLD">On Hold</option>
               </select>
               <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4 sm:w-5 sm:h-5 pointer-events-none" />
             </div>
@@ -613,7 +613,7 @@ const ProjectDashboard = () => {
                     StatusIcon = Loader2
                     statusColor = "text-blue-500"
                     statusBgColor = "bg-blue-50"
-                  } else if (project.status === "ON HOLD") {
+                  } else if (project.status === "ONHOLD") {
                     StatusIcon = PauseCircle
                     statusColor = "text-amber-500"
                     statusBgColor = "bg-amber-50"

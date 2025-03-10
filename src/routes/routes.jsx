@@ -77,20 +77,12 @@ const routes = [
   {
     path: "/",
     element: <LoginContent />,
-    // children: [{ index: true, element: <LoginContent /> }],
   },
   {
     path: "/change-password/",
     element: <ChangePassword />,
   },
-  // {
-  //   path:'dashboard/fabricator/:id',
-  //   element:<GetFabricator/>
-  // },
-  // {
-  //   path:'dashboard/client/:id',
-  //   element:<GetClient/>
-  // },
+  
   {
     path: "/admin",
     element: <App />,

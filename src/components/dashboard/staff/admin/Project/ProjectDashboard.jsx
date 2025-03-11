@@ -25,10 +25,10 @@ import ProjectStatus from "./ProjectStatus"
 
 const ProjectDashboard = () => {
   const dispatch = useDispatch()
+  const userType = sessionStorage.getItem("userType");
   const projectData = useSelector((state) => state?.projectData?.projectData)
   const taskData = useSelector((state) => state.taskData.taskData)
   const userData = useSelector((state) => state.userData.staffData)
-
   const [filteredProjects, setFilteredProjects] = useState([])
   const [searchTerm, setSearchTerm] = useState("")
   const [statusFilter, setStatusFilter] = useState("all")
@@ -38,13 +38,21 @@ const ProjectDashboard = () => {
   const [sortField, setSortField] = useState("name")
   const [sortDirection, setSortDirection] = useState("asc")
   const [activeChart, setActiveChart] = useState("bar")
-
+  const [departmentTask, setDepartmentTask] = useState([])
+  
+  useEffect(() => {
+    if (userType === "department-manager") {
+      const departmentTaskData = (taskData ?? []).flatMap((tasks) => tasks?.tasks);
+      setDepartmentTask(departmentTaskData);
+    }
+  }, [userType, taskData])
+  console.log("Project With Task----------------", departmentTask)
   // Prepare project data with associated tasks
   const projectsWithTasks = projectData.map((project) => ({
     ...project,
-    tasks: taskData.filter((task) => task.project.id === project.id),
+    tasks: (userType === "department-manager" ? departmentTask : taskData).filter((task) => task?.project_id === project.id),
   }))
-
+ 
   useEffect(() => {
     let filtered = [...projectData]
 
@@ -87,10 +95,12 @@ const ProjectDashboard = () => {
   }, [searchTerm, statusFilter, fabricatorFilter, sortField, sortDirection, projectData])
 
   // Calculate task statistics
-  const completedTasks = taskData?.filter((task) => task?.status === "COMPLETE")?.length || 0
-  const inProgressTasks = taskData?.filter((task) => task?.status === "IN_PROGRESS")?.length || 0
-  const assignedTask = taskData?.filter((task) => task?.status === "ASSIGNED")?.length || 0
-  const inReviewTask = taskData?.filter((task) => task?.status === "IN_REVIEW")?.length || 0
+  const tasksToUse = userType === "department-manager" ? departmentTask : taskData;
+  console.log("Task Data----------------", tasksToUse)
+  const completedTasks = tasksToUse?.filter((task) => task?.status === "COMPLETE")?.length || 0
+  const inProgressTasks = tasksToUse?.filter((task) => task?.status === "IN_PROGRESS")?.length || 0
+  const assignedTask = tasksToUse?.filter((task) => task?.status === "ASSIGNED")?.length || 0
+  const inReviewTask = tasksToUse?.filter((task) => task?.status === "IN_REVIEW")?.length || 0
 
   // Chart data with improved colors
   const chartColors = {
@@ -115,8 +125,7 @@ const ProjectDashboard = () => {
           data: fabricators.map((fabName) => {
             const fabProjects = projectData.filter((p) => p.fabricator?.fabName === fabName)
             const fabProjectIds = fabProjects.map((p) => p.id)
-            return taskData.filter((task) => fabProjectIds.includes(task.project.id) && task.status === "COMPLETE")
-              .length
+            return tasksToUse.filter((task) => fabProjectIds.includes(task?.project_id) && task.status === "COMPLETE").length
           }),
           backgroundColor: chartColors.completed,
           borderRadius: 6,
@@ -126,7 +135,7 @@ const ProjectDashboard = () => {
           data: fabricators.map((fabName) => {
             const fabProjects = projectData.filter((p) => p.fabricator?.fabName === fabName)
             const fabProjectIds = fabProjects.map((p) => p.id)
-            return taskData.filter((task) => fabProjectIds.includes(task.project.id) && task.status === "IN_REVIEW")
+            return tasksToUse.filter((task) => fabProjectIds.includes(task?.project_id) && task.status === "IN_REVIEW")
               .length
           }),
           backgroundColor: chartColors.inReview,
@@ -137,7 +146,7 @@ const ProjectDashboard = () => {
           data: fabricators.map((fabName) => {
             const fabProjects = projectData.filter((p) => p.fabricator?.fabName === fabName)
             const fabProjectIds = fabProjects.map((p) => p.id)
-            return taskData.filter((task) => fabProjectIds.includes(task.project.id) && task.status === "IN_PROGRESS")
+            return tasksToUse.filter((task) => fabProjectIds.includes(task?.project_id) && task.status === "IN_PROGRESS")
               .length
           }),
           backgroundColor: chartColors.inProgress,
@@ -148,9 +157,7 @@ const ProjectDashboard = () => {
           data: fabricators.map((fabName) => {
             const fabProjects = projectData.filter((p) => p.fabricator?.fabName === fabName)
             const fabProjectIds = fabProjects.map((p) => p.id)
-            return taskData.filter((task) => fabProjectIds.includes(task.project.id) && task.status === "ASSINGED")
-              .length
-          }),
+            return tasksToUse.filter((task) => fabProjectIds.includes(task?.project_id) && task.status === "ASSIGNED").length}),
           backgroundColor: chartColors.assigned,
           borderRadius: 6,
         },
@@ -598,7 +605,7 @@ const ProjectDashboard = () => {
               </thead>
               <tbody className="divide-y divide-gray-100">
                 {filteredProjects.map((project, index) => {
-                  const projectTasks = taskData.filter((task) => task.project.id === project.id)
+                  const projectTasks = tasksToUse.filter((task) => task?.project_id === project.id)
                   const completedTasksCount = projectTasks.filter((task) => task.status === "COMPLETE").length
                   const progress = projectTasks.length
                     ? Math.round((completedTasksCount / projectTasks.length) * 100)

@@ -127,6 +127,7 @@ const SelectedWBTask = ({
               <tbody>
                 {subTaskBD.map((subTask, index) => (
                   <tr key={subTask.id}>
+                    {console.log("========================",subTask)}
                     <td className="border border-gray-600 px-2 py-1">
                       {subTask.description}
                     </td>
@@ -143,9 +144,9 @@ const SelectedWBTask = ({
                             onChange={(e) => {
                               const QtyNo = parseFloat(e.target.value) || 0;
                               const execTime =
-                                parseFloat(subTask.execTime) || 0;
+                                parseFloat(subTask.execHr) || 0;
                               const checkTime =
-                                parseFloat(subTask.checkTime) || 0;
+                                parseFloat(subTask.checkHr) || 0;
 
                               // Calculate execution hours and checking hours
                               const execHr = (QtyNo * execTime).toFixed(2);

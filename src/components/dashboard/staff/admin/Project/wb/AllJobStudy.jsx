@@ -17,6 +17,7 @@ const AllJobStudy = ({ projectId }) => {
     };
     fetchJobStudy();
   }, [projectId]);
+  
 
   const handleOpenJobStudy = (jobStudyId) => {
     const job = jobStudy.find((j) => j.id === jobStudyId);

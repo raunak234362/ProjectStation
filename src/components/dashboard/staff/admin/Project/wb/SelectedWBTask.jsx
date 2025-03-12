@@ -19,7 +19,21 @@ const SelectedWBTask = ({
   );
   const [workBD, setWorkBD] = useState("");
   const [subTaskBD, setSubTaskBD] = useState([]);
+    const [selectedWBTask, setSelectedWBTask] = useState(null);
+    const [isModalOpen, setIsModalOpen] = useState(false);
   const { handleSubmit, control, setValue, watch } = useForm();
+
+  const handleViewClick = (projectID) => {
+    setSelectedWBTask(projectID);
+    setIsModalOpen(true);
+  };
+
+
+  const handleModalClose = () => {
+    setSelectedWBTask(null);
+    setIsModalOpen(false);
+  };
+
 
   const fetchWorkBD = async () => {
     const workBreakDown = workBreakdown.find(

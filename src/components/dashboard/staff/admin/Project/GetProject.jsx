@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import Service from "../../../../../config/Service";
 import { Provider, useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
 import { AddFiles, AddWB, Button, EditProject } from "../../../../index";
 import { BASE_URL } from "../../../../../config/constant";
 import AllWorkBreakdown from "./wb/AllWorkBreakdown";
@@ -84,6 +85,8 @@ const GetProject = ({ projectId, onClose }) => {
     setSelectedEditProject(null);
   };
 
+ 
+
   const handleStatusView = (projectID) => {
     setSelectedProjectStatus(projectID);
     setIsStatusModalOpen(true);
@@ -103,10 +106,10 @@ const GetProject = ({ projectId, onClose }) => {
     <div className="fixed inset-0 bg-black bg-opacity-85 flex justify-center items-center z-50">
       <div className="bg-white h-[80vh] p-5 md:p-5 rounded-lg shadow-lg w-11/12 md:w-6/12 ">
         <div className="flex flex-row justify-between">
+          <Button onClick={handleEditClick}>Edit</Button>
           <Button className="bg-red-500" onClick={handleClose}>
             Close
           </Button>
-          <Button onClick={handleEditClick}>Edit</Button>
         </div>
         <div className="h-[70vh] overflow-y-auto">
           <div className="top-2 overflow-y-auto w-full flex justify-center z-10">
@@ -170,20 +173,18 @@ const GetProject = ({ projectId, onClose }) => {
                     label: "Files",
                     value: Array.isArray(projectData?.files)
                       ? projectData?.files?.map((file, index) => (
-                          <a
-                            key={index}
-                            href={`${
-                              import.meta.env.VITE_BASE_URL
-                            }/api/project/projects/viewfile/${projectId}/${
-                              file.id
+                        <a
+                          key={index}
+                          href={`${import.meta.env.VITE_BASE_URL
+                            }/api/project/projects/viewfile/${projectId}/${file.id
                             }`} // Use the file path with baseURL
-                            target="_blank" // Open in a new tab
-                            rel="noopener noreferrer"
-                            className="px-5 py-2 text-teal-500 hover:underline"
-                          >
-                            {file.originalName || `File ${index + 1}`}
-                          </a>
-                        ))
+                          target="_blank" // Open in a new tab
+                          rel="noopener noreferrer"
+                          className="px-5 py-2 text-teal-500 hover:underline"
+                        >
+                          {file.originalName || `File ${index + 1}`}
+                        </a>
+                      ))
                       : "Not available",
                   },
                 ]?.map(({ label, value }) => (
@@ -259,20 +260,18 @@ const GetProject = ({ projectId, onClose }) => {
                     label: "Files",
                     value: Array.isArray(projectData?.fabricator?.files)
                       ? projectData?.fabricator?.files?.map((file, index) => (
-                          <a
-                            key={index}
-                            href={`${
-                              import.meta.env.VITE_BASE_URL
-                            }/fabricator/fabricator/viewfile/${
-                              projectData?.fabricatorID
+                        <a
+                          key={index}
+                          href={`${import.meta.env.VITE_BASE_URL
+                            }/fabricator/fabricator/viewfile/${projectData?.fabricatorID
                             }/${file.id}`} // Use the file path with baseURL
-                            target="_blank" // Open in a new tab
-                            rel="noopener noreferrer"
-                            className="px-5 py-2 text-teal-500 hover:underline"
-                          >
-                            {file.originalName || `File ${index + 1}`}
-                          </a>
-                        ))
+                          target="_blank" // Open in a new tab
+                          rel="noopener noreferrer"
+                          className="px-5 py-2 text-teal-500 hover:underline"
+                        >
+                          {file.originalName || `File ${index + 1}`}
+                        </a>
+                      ))
                       : "Not available",
                   },
                 ]?.map(({ label, value }) => (

@@ -451,6 +451,22 @@ class Service {
     }
   }
 
+  //delete project by ID -- updated
+  static async deleteProject(id) {
+    try {
+      const response = await api.delete(`/api/project/projects/${id}`, {
+        headers: {
+          "Content-Type": "Application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      return response.data;
+    } catch (error) {
+      console.log("Error deleting project:", error);
+      throw error;
+    }
+  }
+
   // Fetch all Project File --updated
   static async addProjectFile(formData, id) {
     const token = sessionStorage.getItem("token");

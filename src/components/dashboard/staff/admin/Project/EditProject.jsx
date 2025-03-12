@@ -68,6 +68,19 @@ const EditProject = ({ project, onClose }) => {
     onClose();
   };
 
+  const handleDelete = async () => {
+    try {
+      const response = await Service.deleteProject(project?.id);
+      console.log("Delete response", response);
+      toast.success("Project deleted successfully!");
+      onClose(true);
+      window.location.reload();
+    } catch (error) {
+      toast.error("Error deleting project!");
+      console.error("Error deleting project:", error);
+    }
+  }
+
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
       <div className="bg-white h-[93%] md:p-5 rounded-lg shadow-lg w-full md:w-6/12 ">
@@ -170,8 +183,15 @@ const EditProject = ({ project, onClose }) => {
                 {...register("files")}
               />
             </div> */}
-
-            <Button type="submit">Update Project</Button>
+            <div className="flex justify-between">
+              <div>
+                <Button type="submit">Update Project</Button>
+              </div>
+              <div>
+                <Button onClick={handleDelete} className="bg-red-500 text-white font-semibold">Delete Project</Button>
+              </div>
+              
+            </div>
           </form>
         </div>
         <AddFiles projectId={project?.id} />

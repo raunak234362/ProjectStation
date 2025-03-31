@@ -1,5 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import { useSelector } from "react-redux"
@@ -58,11 +56,11 @@ const ProjectStatus = ({ projectId, onClose }) => {
 
   const taskTypes = {
     MODELING: calculateHours("MODELING"),
-    MC: calculateHours("MC"),
+    MC: calculateHours("MODEL_CHECKING"),
     DETAILING: calculateHours("DETAILING"),
-    DC: calculateHours("DC"),
+    DC: calculateHours("DETAIL_CHECKING"),
     ERECTION: calculateHours("ERECTION"),
-    EC: calculateHours("EC"),
+    EC: calculateHours("ERECTION_CHECKING"),
     OTHERS: calculateHours("OTHERS"),
   }
 
@@ -596,6 +594,14 @@ const ProjectStatus = ({ projectId, onClose }) => {
               <div className="bg-white rounded-xl p-4 shadow-sm border">
                 <h3 className="text-sm font-medium text-gray-500 mb-1">Total Hours</h3>
                 <p className="text-3xl font-bold">{formatHours(totalAssignedHours)}</p>
+              </div>
+              <div className="bg-white rounded-xl p-4 shadow-sm border">
+                <h3 className="text-sm font-medium text-gray-500 mb-1">Assigned Hours</h3>
+                <p className="text-3xl font-bold">{formatHours(totalAssignedHours * 0.7)}</p>
+              </div>
+              <div className="bg-white rounded-xl p-4 shadow-sm border">
+                <h3 className="text-sm font-medium text-gray-500 mb-1">Fabrication Hours</h3>
+                <p className="text-3xl font-bold">{formatHours(totalAssignedHours * 0.3)}</p>
               </div>
             </div>
 

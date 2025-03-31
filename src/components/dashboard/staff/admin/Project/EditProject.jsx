@@ -20,6 +20,8 @@ const EditProject = ({ project, onClose }) => {
   const [files, setFiles] = useState([]);
   console.log("Project", project);
   const dispatch = useDispatch();
+  
+  const userData = useSelector(state => state.userData?.staffData)
   const {
     register,
     handleSubmit,
@@ -111,7 +113,18 @@ const EditProject = ({ project, onClose }) => {
                 {...register("description")}
               />
             </div>
-
+            <div className="my-2">
+              <CustomSelect
+                label="Manager:"
+                color="blue"
+                options={userData?.filter(user => user.is_manager).map((user) => ({ label: `${user?.f_name} ${user?.m_name} ${user?.l_name}`, value: user.id }))}
+                {...register("manager")}
+                onChange={setValue}
+              />
+              {errors.manager && (
+                <div className="text-red-500">This field is required</div>
+              )}
+            </div>
             <div>
               <Input
                 label="End Date"
@@ -190,7 +203,7 @@ const EditProject = ({ project, onClose }) => {
               <div>
                 <Button onClick={handleDelete} className="bg-red-500 text-white font-semibold">Delete Project</Button>
               </div>
-              
+
             </div>
           </form>
         </div>

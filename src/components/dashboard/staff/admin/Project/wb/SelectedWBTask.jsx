@@ -45,7 +45,7 @@ const SelectedWBTask = ({
   const fetchSubTasks = async () => {
     const subTasks = await Service.allSubTasks(projectId,selectedTaskId);
     setSubTaskBD(subTasks);
-    console.log(subTasks);
+    // console.log(subTasks);
   }
 
   const taskData = workBD?.task?.find((task) => task.id === selectedTaskId);
@@ -90,15 +90,13 @@ const SelectedWBTask = ({
     console.log(data);
     const workBreakdown = data?.subTasks?.map((workBD, index) => ({
       ...workBD,
-      description: subTasks[index]?.description,
-      unitTime: subTasks?.execTime,
-      CheckUnitTime: "",
+      // CheckUnitTime: "",
       projectId: projectId,
     }));
     // const selectedWB = { ...taskData, ...data, activity: selectedActivity };
     console.log(workBreakdown);
-    // const response = await Service.addWorkBreakdown(selectedWB)
-    // console.log(response)
+    const response = await Service.addWorkBreakdown(workBreakdown)
+    console.log(response)
     // Dispatch form data to your store or API endpoint
     // dispatch(addRFI(data)) or similar
   };
@@ -163,12 +161,14 @@ const SelectedWBTask = ({
                                 parseFloat(subTask.checkHr) || 0;
 
                               // Calculate execution hours and checking hours
-                              const execHr = (QtyNo * execTime).toFixed(2);
-                              const checkr = (QtyNo * checkTime).toFixed(2);
-
+                              const unitTime = (QtyNo * execTime).toFixed(2);
+                              const CheckUnitTime = (QtyNo * checkTime).toFixed(2);
+                              const description = subTask.description;
                               // Set calculated values back to the form
-                              setValue(`subTasks[${index}].execHr`, execHr);
-                              setValue(`subTasks[${index}].checkr`, checkr);
+                              
+                              setValue(`subTasks[${index}].description`, description);
+                              setValue(`subTasks[${index}].unitTime`, unitTime);
+                              setValue(`subTasks[${index}].CheckUnitTime`, CheckUnitTime);
                               field.onChange(e); // Update the qty field
                             }}
                           />
@@ -176,10 +176,10 @@ const SelectedWBTask = ({
                       />
                     </td>
                     <td className="border border-gray-600 px-2 py-1">
-                      {watch(`subTasks[${index}].execHr`) || 0}
+                      {watch(`subTasks[${index}].unitTime`) || 0}
                     </td>
                     <td className="border border-gray-600 px-2 py-1">
-                      {watch(`subTasks[${index}].checkr`) || 0}
+                      {watch(`subTasks[${index}].CheckUnitTime`) || 0}
                     </td>
                   </tr>
                 ))}

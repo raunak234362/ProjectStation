@@ -68,11 +68,10 @@ const Sidebar = () => {
               </li>
             ) : null}
 
-            {userType !== "user" ||
-            userType !== "client" ||
-            userType !== "vendor" ||
-            userType !== "human-resource" ||
-            
+            {userType !== "user" &&
+            userType !== "client" &&
+            userType !== "vendor" &&
+            userType !== "human-resource" &&
             userType === "admin" ? (
               <li>
                 <NavLink
@@ -187,7 +186,7 @@ const Sidebar = () => {
               <div>Update Progress</div>
             </NavLink>
           </li> */}
-            {userType !== "sales" && userType !== "user" ? (
+            {userType !== "sales" && userType !== "user" && userType !== "client" && userType ==="admin" ? (
               <li>
                 <NavLink
                   to="team/all-employees"

@@ -194,7 +194,7 @@ const routes = [
         path: "project",
         element: <ClientProject />,
         children: [
-          { path: "all-projects", element: <ClientAllProjects /> },
+          { path: "projects", element: <ClientAllProjects /> },
           // {path:'create-project',element:<CreateProject/>},
         ],
       },

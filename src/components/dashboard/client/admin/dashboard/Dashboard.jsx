@@ -31,8 +31,8 @@ const Dashboard = () => {
     (project) => project?.status === "Completed" || project?.status === "completed",
   ).length
 
-  const inProgressProjects = projects.filter(
-    (project) => project?.status === "In Progress" || project?.status === "in progress",
+  const activeProjects = projects.filter(
+    (project) => project?.status === "ACTIVE" || project?.status === "active",
   ).length
 
   const pendingRFIs = RFI.filter((rfi) => rfi?.status === "Open" || rfi?.status === "Pending").length
@@ -136,8 +136,8 @@ const Dashboard = () => {
 
               <div className="bg-white rounded-lg shadow-md overflow-hidden border-t-4 border-yellow-500 transform transition-transform hover:scale-105">
                 <div className="p-4">
-                  <p className="text-gray-500 text-sm">In Progress</p>
-                  <h2 className="text-2xl font-bold text-gray-800">{inProgressProjects}</h2>
+                  <p className="text-gray-500 text-sm">Active</p>
+                  <h2 className="text-2xl font-bold text-gray-800">{activeProjects}</h2>
                 </div>
               </div>
 
@@ -183,9 +183,9 @@ const Dashboard = () => {
                             </div>
                             <span
                               className={`px-2 py-1 text-xs rounded-full ${
-                                project.status === "Completed" || project.status === "completed"
+                                project.status === "COMPLETED" || project.status === "completed"
                                   ? "bg-green-100 text-green-800"
-                                  : project.status === "In Progress" || project.status === "in progress"
+                                  : project.status === "ACTIVE" || project.status === "active"
                                     ? "bg-blue-100 text-blue-800"
                                     : "bg-gray-100 text-gray-800"
                               }`}

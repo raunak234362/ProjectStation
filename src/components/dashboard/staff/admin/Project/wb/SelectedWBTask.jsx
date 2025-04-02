@@ -15,26 +15,13 @@ const SelectedWBTask = ({
   selectedActivity,
   projectId,
 }) => {
-  console.log(selectedTask);
   const workBreakdown = useSelector(
     (state) => state?.projectData.workBreakdown
   );
-  console.log(selectedActivity)
   const [workBD, setWorkBD] = useState("");
   const [subTaskBD, setSubTaskBD] = useState([]);
-  const [selectedWBTask, setSelectedWBTask] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { handleSubmit, control, setValue, watch } = useForm();
-
-  const handleViewClick = (projectID) => {
-    setSelectedWBTask(projectID);
-    setIsModalOpen(true);
-  };
-
-  const handleModalClose = () => {
-    setSelectedWBTask(null);
-    setIsModalOpen(false);
-  };
+  const { handleSubmit, control, setValue, watch, reset } = useForm();
 
   const fetchWorkBD = async () => {
     const workBreakDown = workBreakdown.find(
@@ -46,106 +33,56 @@ const SelectedWBTask = ({
   const fetchSubTasks = async () => {
     const subTasks = await Service.allSubTasks(projectId, selectedTaskId);
     setSubTaskBD(subTasks);
-    console.log(subTasks);
   };
 
-  const taskData = workBD?.task?.find((task) => task.id === selectedTaskId);
-  const subTasks = taskData?.subTasks || []; // Get sub-tasks
-  
-  const [click, setClick] = useState(false);
-  const handleClick = () => { 
-    setClick(!click);
-  }
   useEffect(() => {
     fetchSubTasks();
     fetchWorkBD();
   }, []);
 
-  // Calculate sums for qty, execHr, and checkHr
-  const calculateSums = () => {
-    const totalQty = subTasks.reduce(
-      (sum, subTask) => sum + (parseFloat(subTask.QtyNo) || 0),
-      0
-    );
-    const totalExecHours = subTasks.reduce(
-      (sum, subTask) =>
-        sum +
-        (parseFloat(subTask.execTime) * (parseFloat(subTask.QtyNo) || 0) || 0),
-      0
-    );
-    const totalCheckHours = subTasks.reduce(
-      (sum, subTask) =>
-        sum +
-        (parseFloat(subTask.checkTime) * (parseFloat(subTask.QtyNo) || 0) || 0),
-      0
-    );
-
-    // Set the calculated values to the main task
-    setValue("QtyNo", totalQty);
-    setValue("execHr", totalExecHours);
-    setValue("checkHr", totalCheckHours);
-  };
-
-  useEffect(() => {
-    calculateSums();
-  }, [subTasks]); // Recalculate when subTasks change
-
-  // Form submission handler
   const onSubmit = async (data) => {
-    console.log(data);
     try {
-      const workBreakdown = data?.subTasks?.map((workBD, index) => ({
+      const workBreakdown = data?.subTasks?.map((workBD) => ({
         ...workBD,
         wbsactivityID: selectedTaskId,
         projectID: projectId,
       }));
-      const response = await Service.addWorkBreakdown(projectId, selectedTaskId, workBreakdown)
-      console.log("SElected task response-------------",response)
+      await Service.addWorkBreakdown(projectId, selectedTaskId, workBreakdown);
       toast.success("Work breakdown data added successfully!");
+      fetchSubTasks(); // Refresh the list to prevent duplicates
+      reset(); // Reset form fields to avoid persisting old data
     } catch (error) {
-      toast.error("Error adding work breakdown data: ", error);
+      toast.error("Error adding work breakdown data");
     }
   };
 
-  const handleClose = () => {
-    onClose(true);
-  };
-
   return (
-     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
       <div className="w-full p-2 bg-white rounded-lg shadow-lg h-fit md:p-5 md:w-2/5">
         <div className="flex flex-row justify-between">
-          <Button className="bg-red-500" onClick={handleClose}>
+          <Button className="bg-red-500" onClick={() => onClose(true)}>
             Close
           </Button>
         </div>
         <div className="flex flex-row items-center justify-center">
           <div>
-            <b>Selected Task:</b> {taskData?.name}
+            <b>Selected Task:</b> {workBD?.task?.find((task) => task.id === selectedTaskId)?.name}
           </div>
         </div>
         <div className="pt-10 bg-white h-[60vh] overflow-auto rounded-lg">
-          <form
-            className="flex flex-col gap-y-2"
-            onSubmit={handleSubmit(onSubmit)}
-          >
+          <form className="flex flex-col gap-y-2" onSubmit={handleSubmit(onSubmit)}>
             <table className="w-full text-sm text-center border border-collapse border-gray-600">
               <thead className="bg-gray-200">
                 <tr>
                   <th className="px-2 py-1 border border-gray-600">Sub-Task</th>
                   <th className="px-2 py-1 border border-gray-600">Qty</th>
-                  <th className="px-2 py-1 border border-gray-600">
-                    Execution Hours
-                  </th>
-                  <th className="px-2 py-1 border border-gray-600">
-                    Checking Hours
-                  </th>
+                  <th className="px-2 py-1 border border-gray-600">Execution Hours</th>
+                  <th className="px-2 py-1 border border-gray-600">Checking Hours</th>
                 </tr>
               </thead>
               <tbody>
                 {subTaskBD.map((subTask, index) => (
                   <tr key={subTask.id}>
-                    {console.log("========================", subTask)}
                     <td className="px-2 py-1 border border-gray-600">
                       {subTask.description}
                     </td>
@@ -153,7 +90,7 @@ const SelectedWBTask = ({
                       <Controller
                         name={`subTasks[${index}].QtyNo`}
                         control={control}
-                        defaultValue={0}
+                        defaultValue={subTask.QtyNo || 0}
                         render={({ field }) => (
                           <Input
                             {...field}
@@ -161,31 +98,22 @@ const SelectedWBTask = ({
                             placeholder="QtyNo"
                             onChange={(e) => {
                               const QtyNo = parseFloat(e.target.value) || 0;
-                              const unitTime =
-                                parseFloat(subTask.unitTime) || 0;
-                              const CheckUnitTime =
-                                parseFloat(subTask.CheckUnitTime) || 0;
-
-                              // Calculate execution hours and checking hours
-                              const execHr = (QtyNo * unitTime).toFixed(2);
-                              const checkHr = (QtyNo * CheckUnitTime).toFixed(2);
-                              const description = subTask.description;
-                              // Set calculated values back to the form
-
-                              setValue(`subTasks[${index}].description`, description);
-                              setValue(`subTasks[${index}].execHr`, execHr);
-                              setValue(`subTasks[${index}].checkHr`, checkHr);
-                              field.onChange(e); // Update the qty field
+                              const unitTime = parseFloat(subTask.unitTime) || 0;
+                              const CheckUnitTime = parseFloat(subTask.CheckUnitTime) || 0;
+                              setValue(`subTasks[${index}].description`, subTask.description);
+                              setValue(`subTasks[${index}].execHr`, (QtyNo * unitTime).toFixed(2));
+                              setValue(`subTasks[${index}].checkHr`, (QtyNo * CheckUnitTime).toFixed(2));
+                              field.onChange(e);
                             }}
                           />
                         )}
                       />
                     </td>
                     <td className="px-2 py-1 border border-gray-600">
-                      {watch(`subTasks[${index}].execHr`) || 0}
+                      {watch(`subTasks[${index}].execHr`) || subTask.execHr || 0}
                     </td>
                     <td className="px-2 py-1 border border-gray-600">
-                      {watch(`subTasks[${index}].checkHr`) || 0}
+                      {watch(`subTasks[${index}].checkHr`) || subTask.checkHr || 0}
                     </td>
                   </tr>
                 ))}
@@ -194,22 +122,11 @@ const SelectedWBTask = ({
             <Button type="submit">Add</Button>
           </form>
         </div>
-        
         <div>
-          <Button onClick={()=>handleClick()}>
-            {/* <AddMoreSubtask /> */} Add More Subtask
-          </Button>
+          <Button onClick={() => setIsModalOpen(true)}>Add More Subtask</Button>
         </div>
       </div>
-      {click && (
-        <AddMoreSubtask
-        handleClose={handleClick}
-        // projectId={projectId}
-        // selectedTaskId={selectedTaskId}
-        // selectedTask={selectedTask}
-        // selectedActivity={selectedActivity}
-        />
-      )}
+      {isModalOpen && <AddMoreSubtask handleClose={() => setIsModalOpen(false)} />}
     </div>
   );
 };

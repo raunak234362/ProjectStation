@@ -5,6 +5,7 @@ import { Input, Button } from "../../../../../index";
 import { useForm, Controller } from "react-hook-form";
 import { useSelector } from "react-redux";
 import Service from "../../../../../../config/Service";
+import { toast } from "react-toastify";
 
 const SelectedWBTask = ({
   onClose,
@@ -17,10 +18,11 @@ const SelectedWBTask = ({
   const workBreakdown = useSelector(
     (state) => state?.projectData.workBreakdown
   );
+  console.log(selectedActivity)
   const [workBD, setWorkBD] = useState("");
   const [subTaskBD, setSubTaskBD] = useState([]);
-    const [selectedWBTask, setSelectedWBTask] = useState(null);
-    const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedWBTask, setSelectedWBTask] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const { handleSubmit, control, setValue, watch } = useForm();
 
   const handleViewClick = (projectID) => {
@@ -43,7 +45,7 @@ const SelectedWBTask = ({
   };
 
   const fetchSubTasks = async () => {
-    const subTasks = await Service.allSubTasks(projectId,selectedTaskId);
+    const subTasks = await Service.allSubTasks(projectId, selectedTaskId);
     setSubTaskBD(subTasks);
     // console.log(subTasks);
   }
@@ -59,19 +61,19 @@ const SelectedWBTask = ({
   // Calculate sums for qty, execHr, and checkHr
   const calculateSums = () => {
     const totalQty = subTasks.reduce(
-      (sum, subTask) => sum + (parseFloat(subTask.qty) || 0),
+      (sum, subTask) => sum + (parseFloat(subTask.QtyNo) || 0),
       0
     );
     const totalExecHours = subTasks.reduce(
       (sum, subTask) =>
         sum +
-        (parseFloat(subTask.execTime) * (parseFloat(subTask.qty) || 0) || 0),
+        (parseFloat(subTask.execTime) * (parseFloat(subTask.QtyNo) || 0) || 0),
       0
     );
     const totalCheckHours = subTasks.reduce(
       (sum, subTask) =>
         sum +
-        (parseFloat(subTask.checkTime) * (parseFloat(subTask.qty) || 0) || 0),
+        (parseFloat(subTask.checkTime) * (parseFloat(subTask.QtyNo) || 0) || 0),
       0
     );
 
@@ -88,17 +90,18 @@ const SelectedWBTask = ({
   // Form submission handler
   const onSubmit = async (data) => {
     console.log(data);
-    const workBreakdown = data?.subTasks?.map((workBD, index) => ({
-      ...workBD,
-      // CheckUnitTime: "",
-      projectId: projectId,
-    }));
-    // const selectedWB = { ...taskData, ...data, activity: selectedActivity };
-    console.log(workBreakdown);
-    const response = await Service.addWorkBreakdown(workBreakdown)
-    console.log(response)
-    // Dispatch form data to your store or API endpoint
-    // dispatch(addRFI(data)) or similar
+    try {
+      const workBreakdown = data?.subTasks?.map((workBD, index) => ({
+        ...workBD,
+        wbsactivityID: selectedTaskId,
+        projectID: projectId,
+      }));
+      const response = await Service.addWorkBreakdown(projectId, selectedTaskId, workBreakdown)
+      console.log(response)
+      toast.success("Work breakdown data added successfully!");
+    } catch (error) {
+      toast.error("Error adding work breakdown data: ", error);
+    }
   };
 
   const handleClose = () => {
@@ -139,7 +142,7 @@ const SelectedWBTask = ({
               <tbody>
                 {subTaskBD.map((subTask, index) => (
                   <tr key={subTask.id}>
-                    {console.log("========================",subTask)}
+                    {console.log("========================", subTask)}
                     <td className="border border-gray-600 px-2 py-1">
                       {subTask.description}
                     </td>
@@ -152,23 +155,23 @@ const SelectedWBTask = ({
                           <Input
                             {...field}
                             type="number"
-                            placeholder="Qty"
+                            placeholder="QtyNo"
                             onChange={(e) => {
                               const QtyNo = parseFloat(e.target.value) || 0;
-                              const execTime =
-                                parseFloat(subTask.execHr) || 0;
-                              const checkTime =
-                                parseFloat(subTask.checkHr) || 0;
+                              const unitTime =
+                                parseFloat(subTask.unitTime) || 0;
+                              const CheckUnitTime =
+                                parseFloat(subTask.CheckUnitTime) || 0;
 
                               // Calculate execution hours and checking hours
-                              const unitTime = (QtyNo * execTime).toFixed(2);
-                              const CheckUnitTime = (QtyNo * checkTime).toFixed(2);
+                              const execHr = (QtyNo * unitTime).toFixed(2);
+                              const checkHr = (QtyNo * CheckUnitTime).toFixed(2);
                               const description = subTask.description;
                               // Set calculated values back to the form
-                              
+
                               setValue(`subTasks[${index}].description`, description);
-                              setValue(`subTasks[${index}].unitTime`, unitTime);
-                              setValue(`subTasks[${index}].CheckUnitTime`, CheckUnitTime);
+                              setValue(`subTasks[${index}].execHr`, execHr);
+                              setValue(`subTasks[${index}].checkHr`, checkHr);
                               field.onChange(e); // Update the qty field
                             }}
                           />
@@ -176,10 +179,10 @@ const SelectedWBTask = ({
                       />
                     </td>
                     <td className="border border-gray-600 px-2 py-1">
-                      {watch(`subTasks[${index}].unitTime`) || 0}
+                      {watch(`subTasks[${index}].execHr`) || 0}
                     </td>
                     <td className="border border-gray-600 px-2 py-1">
-                      {watch(`subTasks[${index}].CheckUnitTime`) || 0}
+                      {watch(`subTasks[${index}].checkHr`) || 0}
                     </td>
                   </tr>
                 ))}

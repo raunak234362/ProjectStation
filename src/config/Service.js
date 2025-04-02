@@ -553,7 +553,7 @@ class Service {
     const token = sessionStorage.getItem("token");
     try {
       const response = await api.get(
-        `/api/st/st/${projectId}/${wbActivityId}`,
+        `/api/st/${projectId}/${wbActivityId}`,
         {
           headers: {
             "Content-Type": "Application/json",
@@ -570,11 +570,12 @@ class Service {
   }
 
   //Add WorkBreakdown
-  static async addWorkBreakdown(workBreakdownData) {
-    const formData = { ...workBreakdownData };
+  static async addWorkBreakdown(projectId,wbActivityId,workBreakdownData) {
+    const formData = {...workBreakdownData };
+    console.log( formData);
     const token = sessionStorage.getItem("token");
     try {
-      const response = await api.post(`/api/br/addTaskBreakDown`, formData, {
+      const response = await api.post(`/api/st/add/${projectId}/${wbActivityId}`, formData, {
         headers: {
           "Content-Type": "Application/json",
           Authorization: `Bearer ${token}`,

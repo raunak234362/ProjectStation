@@ -150,10 +150,10 @@ const AddWB = ({ projectId, onClose }) => {
                           {taskItem?.qty}
                         </td>
                         <td className="border border-gray-600 px-2 py-1">
-                          {taskItem?.executionTime}
+                          {taskItem?.totalExecHr}
                         </td>
                         <td className="border border-gray-600 px-2 py-1">
-                          {taskItem?.checkingTime}
+                          {taskItem?.totalCheckHr}
                         </td>
                         <td className="border border-gray-600 px-2 py-1">
                           <Button onClick={() => handleSelectedWB(taskItem?.id)}>

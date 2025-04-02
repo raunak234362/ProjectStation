@@ -7,15 +7,10 @@ import Service from "../../../../../../config/Service";
 import { Select } from "@material-tailwind/react";
 
 const JobStudy = ({ projectId }) => {
-  const [isJobStudySet, setIsJobStudySet] = useState(false); // To track if job study is already set
-  const { register, handleSubmit, watch, control, setValue, setError } = useForm({
+  const [isJobStudySet, setIsJobStudySet] = useState(false);
+  const { register, handleSubmit, watch, control, setValue, setError, reset } = useForm({
     defaultValues: {
-      rows: [
-        { description: "Modeling", QtyNo: 0, unitTime: 0, execTime: 0 },
-        { description: "Detailing", QtyNo: 0, unitTime: 0, execTime: 0 },
-        { description: "Erection", QtyNo: 0, unitTime: 0, execTime: 0 },
-        { description: "Checking", QtyNo: 0, unitTime: 0, execTime: 0 },
-      ],
+      rows: [],
     },
   });
 
@@ -27,23 +22,18 @@ const JobStudy = ({ projectId }) => {
   useEffect(() => {
     const fetchJobStudy = async () => {
       try {
-        const response = await Service.getJobStudy(projectId);
+        const response = await Service.allJobStudy(projectId);
         if (response?.length > 0) {
           setIsJobStudySet(true);
+          setValue("rows", response); // Update form fields with API data
         }
       } catch (error) {
         console.log("Error fetching job study data: ", error);
       }
     };
     fetchJobStudy();
-  }, [projectId]);
-
-  const baseOptions = [
-    { label: "Job Study - Modeling", value: "Modeling" },
-    { label: "Job Study - Detailing", value: "Detailing" },
-    { label: "Job Study - Erection", value: "Erection" },
-    { label: "Job Study - Checking", value: "Checking" },
-  ];
+  }, [projectId, setValue]); // Add setValue as a dependency
+  
 
   const handleJobStudy = async (data) => {
     if (isJobStudySet) return;
@@ -56,11 +46,10 @@ const JobStudy = ({ projectId }) => {
       execTime: Number(job.execTime),
     }));
 
-    console.log(jobData);
     try {
       const response = await Service.addJobStudy(jobData);
       console.log(response);
-      setIsJobStudySet(true); // Disable the form after successful submission
+      setIsJobStudySet(true);
     } catch (error) {
       console.log(error);
     }
@@ -100,16 +89,7 @@ const JobStudy = ({ projectId }) => {
                       name={`rows.${index}.description`}
                       control={control}
                       render={({ field }) => (
-                        <select
-                          {...field}
-                          disabled={isJobStudySet} // Disable if job study is set
-                        >
-                          {baseOptions.map((option) => (
-                            <option key={option.value} value={option.value}>
-                              {option.label}
-                            </option>
-                          ))}
-                        </select>
+                        <input {...field} disabled={isJobStudySet} />
                       )}
                     />
                   </td>
@@ -122,14 +102,10 @@ const JobStudy = ({ projectId }) => {
                           {...field}
                           type="number"
                           min="0"
-                          placeholder="QtyNo"
-                          size="md"
-                          disabled={isJobStudySet} // Disable if job study is set
+                          disabled={isJobStudySet}
                           onChange={(e) => {
                             field.onChange(e);
-                            const QtyNo = e.target.value || 0;
-                            const unitTime = watch(`rows.${index}.unitTime`) || 0;
-                            setValue(`rows.${index}.execTime`, ((QtyNo * unitTime) / 60).toFixed(2));
+                            setValue(`rows.${index}.execTime`, ((e.target.value * watch(`rows.${index}.unitTime`)) / 60).toFixed(2));
                           }}
                         />
                       )}
@@ -144,22 +120,16 @@ const JobStudy = ({ projectId }) => {
                           {...field}
                           type="number"
                           min="0"
-                          placeholder="Unit Time"
-                          size="md"
-                          disabled={isJobStudySet} // Disable if job study is set
+                          disabled={isJobStudySet}
                           onChange={(e) => {
                             field.onChange(e);
-                            const unitTime = e.target.value || 0;
-                            const QtyNo = watch(`rows.${index}.QtyNo`) || 0;
-                            setValue(`rows.${index}.execTime`, ((QtyNo * unitTime) / 60).toFixed(2));
+                            setValue(`rows.${index}.execTime`, ((watch(`rows.${index}.QtyNo`) * e.target.value) / 60).toFixed(2));
                           }}
                         />
                       )}
                     />
                   </td>
-                  <td className="border border-gray-600 px-2 py-1">
-                    {watch(`rows.${index}.execTime`) || 0}
-                  </td>
+                  <td className="border border-gray-600 px-2 py-1">{watch(`rows.${index}.execTime`) || 0}</td>
                 </tr>
               ))}
             </tbody>

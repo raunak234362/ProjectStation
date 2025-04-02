@@ -176,6 +176,7 @@ const Dashboard = () => {
                     <div className="space-y-4">
                       {recentProjects.map((project) => (
                         <div key={project.id} className="border-b border-gray-100 pb-4 last:border-0 last:pb-0">
+                          {console.log(project)}
                           <div className="flex justify-between items-start">
                             <div>
                               <h4 className="font-medium text-gray-800">{project.name}</h4>

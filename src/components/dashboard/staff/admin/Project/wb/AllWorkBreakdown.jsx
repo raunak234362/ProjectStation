@@ -32,6 +32,7 @@ const AllWorkBreakdown = ({ onClose, projectId }) => {
         <div className="h-[85%] overflow-y-auto">
             <AllJobStudy projectId={projectId}/>
         </div>
+        <div></div>
       </div>
     </div>
   );

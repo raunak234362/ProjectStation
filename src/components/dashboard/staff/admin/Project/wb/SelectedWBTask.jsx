@@ -97,7 +97,7 @@ const SelectedWBTask = ({
         projectID: projectId,
       }));
       const response = await Service.addWorkBreakdown(projectId, selectedTaskId, workBreakdown)
-      console.log(response)
+      console.log("SElected task response-------------",response)
       toast.success("Work breakdown data added successfully!");
     } catch (error) {
       toast.error("Error adding work breakdown data: ", error);

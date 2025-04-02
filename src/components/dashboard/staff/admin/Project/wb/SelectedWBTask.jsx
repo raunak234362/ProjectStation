@@ -185,7 +185,7 @@ const SelectedWBTask = ({
                       {watch(`subTasks[${index}].execHr`) || 0}
                     </td>
                     <td className="px-2 py-1 border border-gray-600">
-                      {watch(`subTasks[${index}].checkr`) || 0}
+                      {watch(`subTasks[${index}].checkHr`) || 0}
                     </td>
                   </tr>
                 ))}

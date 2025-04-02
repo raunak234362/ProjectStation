@@ -824,10 +824,10 @@ class Service {
   }
 
   //Fetch workBreakdown Activity
-  static async fetchWorkBreakdownActivity(selectedTask) {
+  static async fetchWorkBreakdownActivity(selectedTask,projectId) {
     const token = sessionStorage.getItem("token");
     try {
-      const response = await api.get(`/api/wbs/wbs/${selectedTask}`, {
+      const response = await api.get(`/api/wbs/wbs/${selectedTask}/${projectId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",

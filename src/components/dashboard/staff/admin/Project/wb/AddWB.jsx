@@ -27,7 +27,7 @@ const AddWB = ({ projectId, onClose }) => {
 
   const fetchWBActivity = async () => {
     if (selectedTask) {
-      const wbData = await Service.fetchWorkBreakdownActivity(selectedTask);
+      const wbData = await Service.fetchWorkBreakdownActivity(selectedTask, projectId);
       console.log(wbData);
       setWBActivity(wbData);
     }

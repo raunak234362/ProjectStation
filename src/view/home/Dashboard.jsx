@@ -1,11 +1,11 @@
-import { Outlet } from 'react-router-dom'
+import { Outlet } from "react-router-dom";
 
 const Dashboard = () => {
   return (
     <>
       <Outlet />
     </>
-  )
-}
+  );
+};
 
-export default Dashboard
+export default Dashboard;

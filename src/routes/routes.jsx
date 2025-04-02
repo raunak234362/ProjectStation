@@ -82,7 +82,7 @@ const routes = [
     path: "/change-password/",
     element: <ChangePassword />,
   },
-  
+
   {
     path: "/admin",
     element: <App />,
@@ -168,10 +168,10 @@ const routes = [
         ],
       },
       {
-        path:"rfq",
-        element:<RFQ/>,
-        children:[]
-      }
+        path: "rfq",
+        element: <RFQ />,
+        children: [],
+      },
     ],
   },
   {
@@ -199,11 +199,9 @@ const routes = [
         ],
       },
       {
-        path:"rfq",
-        element:<ClientRFQ/>,
-        children:[
-          {path:'add-rfq',element:<AddRFQ/>},
-        ]
+        path: "rfq",
+        element: <ClientRFQ />,
+        children: [{ path: "add-rfq", element: <AddRFQ /> }],
       },
       {
         path: "rfi",

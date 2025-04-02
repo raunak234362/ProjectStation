@@ -73,30 +73,30 @@ const AllTeam = () => {
   return (
     <div>
       <div className="bg-white/70 rounded-lg md:w-full w-[90vw]">
-        <div className="mt-5 p-4">
+        <div className="p-4 mt-5">
           {/* Search Bar */}
           <input
             type="text"
             value={searchQuery}
             onChange={handleSearch}
             placeholder="Search by department name or code"
-            className="border px-2 py-2 rounded mb-4 w-full md:w-1/3"
+            className="w-full px-2 py-2 mb-4 border rounded md:w-1/3"
           />
         </div>
 
-        <div className="mt-2 mx-3 bg-white overflow-x-auto">
+        <div className="mx-3 mt-2 overflow-x-auto bg-white">
           {/* Making the table scrollable horizontally on small screens */}
-          <table className="h-fit w-full border-collapse text-center md:text-xl text-xs rounded-xl">
+          <table className="w-full text-xs text-center border-collapse h-fit md:text-xl rounded-xl">
             <thead>
               <tr className="bg-teal-200/70">
                 <th
-                  className="px-5 py-2 cursor-pointer text-left"
+                  className="px-5 py-2 text-left cursor-pointer"
                   onClick={() => handleSort("name")}
                 >
                   S.no
                 </th>
                 <th
-                  className="px-5 py-2 cursor-pointer text-left"
+                  className="px-5 py-2 text-left cursor-pointer"
                   onClick={() => handleSort("name")}
                 >
                   Team Name
@@ -119,13 +119,14 @@ const AllTeam = () => {
                 </tr>
               ) : (
                 filteredTeams?.map((team, index) => (
-                  <tr key={team.id} className="hover:bg-blue-gray-100 border">
-                    <td className="border px-5 py-2 text-left">{index + 1}</td>
-                    <td className="border px-5 py-2 text-left">{team?.name}</td>
-                    <td className="border px-5 py-2 text-left">
+                  
+                  <tr key={team.id} className="border hover:bg-blue-gray-100">
+                    <td className="px-5 py-2 text-left border">{index + 1}</td>
+                    <td className="px-5 py-2 text-left border">{team?.name}</td>
+                    <td className="px-5 py-2 text-left border">
                       {team?.manager?.f_name || "No Manager Assigned"}
                     </td>
-                    <td className="border justify-center items-center flex px-2 py-1">
+                    <td className="flex items-center justify-center px-2 py-1 border">
                       <Button onClick={() => handleViewClick(team.id)}>
                         View/Add
                       </Button>

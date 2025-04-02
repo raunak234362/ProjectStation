@@ -25,15 +25,23 @@ const JobStudy = ({ projectId }) => {
         const response = await Service.allJobStudy(projectId);
         if (response?.length > 0) {
           setIsJobStudySet(true);
-          setValue("rows", response); // Update form fields with API data
+          setValue("rows", response);
+        } else {
+          reset({
+            rows: [
+              { description: "Modeling", QtyNo: 0, unitTime: 0, execTime: 0 },
+              { description: "Detailing", QtyNo: 0, unitTime: 0, execTime: 0 },
+              { description: "Erection", QtyNo: 0, unitTime: 0, execTime: 0 },
+              { description: "Checking", QtyNo: 0, unitTime: 0, execTime: 0 },
+            ],
+          });
         }
       } catch (error) {
         console.log("Error fetching job study data: ", error);
       }
     };
     fetchJobStudy();
-  }, [projectId, setValue]); // Add setValue as a dependency
-  
+  }, [projectId, reset]);
 
   const handleJobStudy = async (data) => {
     if (isJobStudySet) return;
@@ -57,34 +65,34 @@ const JobStudy = ({ projectId }) => {
 
   return (
     <div>
-      <div className="flex items-center justify-center font-bold">Job Study</div>
+      <div className="flex justify-center items-center font-bold">Job Study</div>
 
-      <form onSubmit={handleSubmit(handleJobStudy)} className="my-3 mt-5">
+      <form onSubmit={handleSubmit(handleJobStudy)} className="mt-5 my-3">
         <div className="md:w-[80vw] overflow-x-auto w-full">
-          <table className="w-full text-sm text-center border border-collapse border-gray-600">
+          <table className="w-full border-collapse border border-gray-600 text-center text-sm">
             <thead className="bg-gray-200">
               <tr>
-                <th className="px-2 py-1 border border-gray-600">Sl.No</th>
-                <th className="px-2 py-1 border border-gray-600">Description of WBS</th>
-                <th className="px-2 py-1 border border-gray-600">QtyNo. (No.)</th>
-                <th className="px-2 py-1 border border-gray-600">Unit Time</th>
-                <th className="px-2 py-1 border border-gray-600">Execution Time (Hr)</th>
+                <th className="border border-gray-600 px-2 py-1">Sl.No</th>
+                <th className="border border-gray-600 px-2 py-1">Description of WBS</th>
+                <th className="border border-gray-600 px-2 py-1">QtyNo. (No.)</th>
+                <th className="border border-gray-600 px-2 py-1">Unit Time</th>
+                <th className="border border-gray-600 px-2 py-1">Execution Time (Hr)</th>
               </tr>
             </thead>
 
             <tbody>
               <tr className="bg-green-100">
-                <td className="px-2 py-1 border border-gray-600"><b>JS</b></td>
-                <td className="px-2 py-1 border border-gray-600"><b>Job Study</b></td>
-                <td className="px-2 py-1 border border-gray-600"></td>
-                <td className="px-2 py-1 border border-gray-600"></td>
-                <td className="px-2 py-1 border border-gray-600"></td>
+                <td className="border border-gray-600 px-2 py-1"><b>JS</b></td>
+                <td className="border border-gray-600 px-2 py-1"><b>Job Study</b></td>
+                <td className="border border-gray-600 px-2 py-1"></td>
+                <td className="border border-gray-600 px-2 py-1"></td>
+                <td className="border border-gray-600 px-2 py-1"></td>
               </tr>
 
               {fields.map((field, index) => (
                 <tr key={field.id}>
-                  <td className="px-2 py-1 border border-gray-600">{index + 1}</td>
-                  <td className="px-2 py-1 border border-gray-600">
+                  <td className="border border-gray-600 px-2 py-1">{index + 1}</td>
+                  <td className="border border-gray-600 px-2 py-1">
                     <Controller
                       name={`rows.${index}.description`}
                       control={control}
@@ -93,7 +101,7 @@ const JobStudy = ({ projectId }) => {
                       )}
                     />
                   </td>
-                  <td className="px-2 py-1 border border-gray-600">
+                  <td className="border border-gray-600 px-2 py-1">
                     <Controller
                       name={`rows.${index}.QtyNo`}
                       control={control}
@@ -111,7 +119,7 @@ const JobStudy = ({ projectId }) => {
                       )}
                     />
                   </td>
-                  <td className="px-2 py-1 border border-gray-600">
+                  <td className="border border-gray-600 px-2 py-1">
                     <Controller
                       name={`rows.${index}.unitTime`}
                       control={control}
@@ -129,17 +137,15 @@ const JobStudy = ({ projectId }) => {
                       )}
                     />
                   </td>
-                  <td className="px-2 py-1 border border-gray-600">
-                    {watch(`rows.${index}.execTime`) || 0}
-                  </td>
+                  <td className="border border-gray-600 px-2 py-1">{watch(`rows.${index}.execTime`) || 0}</td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
 
-        <div className="flex justify-between w-full mt-4">
-          <Button type="submit" className="w-full text-white bg-blue-500" disabled={isJobStudySet}>
+        <div className="mt-4 flex w-full justify-between">
+          <Button type="submit" className="bg-blue-500 w-full text-white" disabled={isJobStudySet}>
             {isJobStudySet ? "Already Set" : "Submit"}
           </Button>
         </div>

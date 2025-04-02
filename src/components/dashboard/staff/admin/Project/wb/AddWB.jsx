@@ -145,13 +145,13 @@ const AddWB = ({ projectId, onClose }) => {
                           {taskItem?.name}
                         </td>
                         <td className="px-2 py-1 border border-gray-600">
-                          {taskItem?.qty}
+                          {taskItem?.totalQtyNo}
                         </td>
                         <td className="px-2 py-1 border border-gray-600">
-                          {taskItem?.executionTime}
+                          {taskItem?.totalExecHr}
                         </td>
                         <td className="px-2 py-1 border border-gray-600">
-                          {taskItem?.checkingTime}
+                          {taskItem?.totalCheckHr}
                         </td>
                         <td className="px-2 py-1 border border-gray-600">
                           <Button

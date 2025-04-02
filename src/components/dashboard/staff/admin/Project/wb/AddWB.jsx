@@ -80,7 +80,7 @@ const AddWB = ({ projectId, onClose }) => {
   // };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
       <div className="bg-white h-[90%] md:p-5 p-2 rounded-lg shadow-lg md:w-5/6 w-11/12">
         <div className="flex flex-row justify-between">
           <Button className="bg-red-500" onClick={handleClose}>
@@ -88,16 +88,16 @@ const AddWB = ({ projectId, onClose }) => {
           </Button>
         </div>
 
-        <div className="top-2 w-full flex justify-center z-10">
-          <div className="bg-teal-400 text-white px-3 md:px-4 py-2 md:text-2xl font-bold rounded-lg shadow-md">
+        <div className="z-10 flex justify-center w-full top-2">
+          <div className="px-3 py-2 font-bold text-white bg-teal-400 rounded-lg shadow-md md:px-4 md:text-2xl">
             Work-Break Down Structure
           </div>
         </div>
         <div className="h-[85%] overflow-y-auto">
           <JobStudy projectId={projectId} />
 
-          <div className="font-semibold mt-10">Work Breakdown Structure -</div>
-          <div className="flex py-5 justify-center">
+          <div className="mt-10 font-semibold">Work Breakdown Structure -</div>
+          <div className="flex justify-center py-5">
             <div className="overflow-x-auto md:w-[80vw] w-full my-3">
               <div className="my-5">
                 <CustomSelect
@@ -112,26 +112,24 @@ const AddWB = ({ projectId, onClose }) => {
                   onChange={setValue}
                 />
               </div>
-              <div className="mt-5 bg-white h-[60vh] overflow-auto rounded-lg">
-                <table className="w-full mt-3 border-collapse border border-gray-600 text-center text-sm">
+              <div className="mt-5 bg-whiall-projectste h-[60vh] overflow-auto rounded-lg">
+                <table className="w-full mt-3 text-sm text-center border border-collapse border-gray-600">
                   <thead className="bg-gray-200">
                     <tr>
-                      <th className="border border-gray-600 px-2 py-1">
-                        S.No
-                      </th>
-                      <th className="border border-gray-600 px-2 py-1">
+                      <th className="px-2 py-1 border border-gray-600">S.No</th>
+                      <th className="px-2 py-1 border border-gray-600">
                         Description of WBS
                       </th>
-                      <th className="border border-gray-600 px-2 py-1">
+                      <th className="px-2 py-1 border border-gray-600">
                         Qty. (No.)
                       </th>
-                      <th className="border border-gray-600 px-2 py-1">
+                      <th className="px-2 py-1 border border-gray-600">
                         Execution Time (Hr)
                       </th>
-                      <th className="border border-gray-600 px-2 py-1">
+                      <th className="px-2 py-1 border border-gray-600">
                         Checking Time (Hr)
                       </th>
-                      <th className="border border-gray-600 px-2 py-1">
+                      <th className="px-2 py-1 border border-gray-600">
                         Actions
                       </th>
                     </tr>
@@ -140,23 +138,25 @@ const AddWB = ({ projectId, onClose }) => {
                   <tbody>
                     {wbActivity?.map((taskItem, index) => (
                       <tr key={index} className="bg-green-100">
-                        <td className="border border-gray-600 px-2 py-1">
+                        <td className="px-2 py-1 border border-gray-600">
                           {index + 1}
                         </td>
-                        <td className="border border-gray-600 px-2 py-1">
+                        <td className="px-2 py-1 border border-gray-600">
                           {taskItem?.name}
                         </td>
-                        <td className="border border-gray-600 px-2 py-1">
+                        <td className="px-2 py-1 border border-gray-600">
                           {taskItem?.qty}
                         </td>
-                        <td className="border border-gray-600 px-2 py-1">
+                        <td className="px-2 py-1 border border-gray-600">
                           {taskItem?.executionTime}
                         </td>
-                        <td className="border border-gray-600 px-2 py-1">
+                        <td className="px-2 py-1 border border-gray-600">
                           {taskItem?.checkingTime}
                         </td>
-                        <td className="border border-gray-600 px-2 py-1">
-                          <Button onClick={() => handleSelectedWB(taskItem?.id)}>
+                        <td className="px-2 py-1 border border-gray-600">
+                          <Button
+                            onClick={() => handleSelectedWB(taskItem?.id)}
+                          >
                             Open
                           </Button>
                         </td>

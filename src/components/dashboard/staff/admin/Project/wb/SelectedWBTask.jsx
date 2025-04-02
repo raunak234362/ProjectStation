@@ -5,7 +5,7 @@ import { Input, Button } from "../../../../../index";
 import { useForm, Controller } from "react-hook-form";
 import { useSelector } from "react-redux";
 import Service from "../../../../../../config/Service";
-
+import AddMoreSubtask from "./AddMoreSubtask.jsx";
 const SelectedWBTask = ({
   onClose,
   selectedTask,
@@ -19,8 +19,8 @@ const SelectedWBTask = ({
   );
   const [workBD, setWorkBD] = useState("");
   const [subTaskBD, setSubTaskBD] = useState([]);
-    const [selectedWBTask, setSelectedWBTask] = useState(null);
-    const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedWBTask, setSelectedWBTask] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const { handleSubmit, control, setValue, watch } = useForm();
 
   const handleViewClick = (projectID) => {
@@ -28,12 +28,10 @@ const SelectedWBTask = ({
     setIsModalOpen(true);
   };
 
-
   const handleModalClose = () => {
     setSelectedWBTask(null);
     setIsModalOpen(false);
   };
-
 
   const fetchWorkBD = async () => {
     const workBreakDown = workBreakdown.find(
@@ -43,14 +41,18 @@ const SelectedWBTask = ({
   };
 
   const fetchSubTasks = async () => {
-    const subTasks = await Service.allSubTasks(projectId,selectedTaskId);
+    const subTasks = await Service.allSubTasks(projectId, selectedTaskId);
     setSubTaskBD(subTasks);
     console.log(subTasks);
-  }
+  };
 
   const taskData = workBD?.task?.find((task) => task.id === selectedTaskId);
   const subTasks = taskData?.subTasks || []; // Get sub-tasks
-
+  
+  const [click, setClick] = useState(false);
+  const handleClick = () => { 
+    setClick(!click);
+  }
   useEffect(() => {
     fetchSubTasks();
     fetchWorkBD();
@@ -108,32 +110,32 @@ const SelectedWBTask = ({
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-      <div className="bg-white h-fit md:p-5 p-2 rounded-lg shadow-lg md:w-2/5 w-full">
+     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+      <div className="w-full p-2 bg-white rounded-lg shadow-lg h-fit md:p-5 md:w-2/5">
         <div className="flex flex-row justify-between">
           <Button className="bg-red-500" onClick={handleClose}>
             Close
           </Button>
         </div>
-        <div className="flex flex-row justify-center items-center">
+        <div className="flex flex-row items-center justify-center">
           <div>
             <b>Selected Task:</b> {taskData?.name}
           </div>
         </div>
         <div className="pt-10 bg-white h-[60vh] overflow-auto rounded-lg">
           <form
-            className="gap-y-2 flex flex-col"
+            className="flex flex-col gap-y-2"
             onSubmit={handleSubmit(onSubmit)}
           >
-            <table className="w-full border-collapse border border-gray-600 text-center text-sm">
+            <table className="w-full text-sm text-center border border-collapse border-gray-600">
               <thead className="bg-gray-200">
                 <tr>
-                  <th className="border border-gray-600 px-2 py-1">Sub-Task</th>
-                  <th className="border border-gray-600 px-2 py-1">Qty</th>
-                  <th className="border border-gray-600 px-2 py-1">
+                  <th className="px-2 py-1 border border-gray-600">Sub-Task</th>
+                  <th className="px-2 py-1 border border-gray-600">Qty</th>
+                  <th className="px-2 py-1 border border-gray-600">
                     Execution Hours
                   </th>
-                  <th className="border border-gray-600 px-2 py-1">
+                  <th className="px-2 py-1 border border-gray-600">
                     Checking Hours
                   </th>
                 </tr>
@@ -141,11 +143,11 @@ const SelectedWBTask = ({
               <tbody>
                 {subTaskBD.map((subTask, index) => (
                   <tr key={subTask.id}>
-                    {console.log("========================",subTask)}
-                    <td className="border border-gray-600 px-2 py-1">
+                    {console.log("========================", subTask)}
+                    <td className="px-2 py-1 border border-gray-600">
                       {subTask.description}
                     </td>
-                    <td className="border border-gray-600 px-2 py-1">
+                    <td className="px-2 py-1 border border-gray-600">
                       <Controller
                         name={`subTasks[${index}].QtyNo`}
                         control={control}
@@ -157,8 +159,7 @@ const SelectedWBTask = ({
                             placeholder="Qty"
                             onChange={(e) => {
                               const QtyNo = parseFloat(e.target.value) || 0;
-                              const execTime =
-                                parseFloat(subTask.execHr) || 0;
+                              const execTime = parseFloat(subTask.execHr) || 0;
                               const checkTime =
                                 parseFloat(subTask.checkHr) || 0;
 
@@ -175,10 +176,10 @@ const SelectedWBTask = ({
                         )}
                       />
                     </td>
-                    <td className="border border-gray-600 px-2 py-1">
+                    <td className="px-2 py-1 border border-gray-600">
                       {watch(`subTasks[${index}].execHr`) || 0}
                     </td>
-                    <td className="border border-gray-600 px-2 py-1">
+                    <td className="px-2 py-1 border border-gray-600">
                       {watch(`subTasks[${index}].checkr`) || 0}
                     </td>
                   </tr>
@@ -188,10 +189,22 @@ const SelectedWBTask = ({
             <Button type="submit">Add</Button>
           </form>
         </div>
+        
         <div>
-          <Button>Add More Subtask</Button>
+          <Button onClick={()=>handleClick()}>
+            {/* <AddMoreSubtask /> */} Add More Subtask
+          </Button>
         </div>
       </div>
+      {click && (
+        <AddMoreSubtask
+        handleClose={handleClick}
+        // projectId={projectId}
+        // selectedTaskId={selectedTaskId}
+        // selectedTask={selectedTask}
+        // selectedActivity={selectedActivity}
+        />
+      )}
     </div>
   );
 };

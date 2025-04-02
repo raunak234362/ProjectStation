@@ -379,12 +379,12 @@ const ProjectStatus = ({ projectId, onClose }) => {
         }}
         className="hover:bg-gray-100"
       >
-        <div className="w-52 flex-shrink-0 truncate px-2 font-medium">
+        <div className="flex-shrink-0 px-2 font-medium truncate w-52">
           {task.username}
         </div>
-        <div className="flex-1 relative">
+        <div className="relative flex-1">
           <div
-            className="absolute z-0 h-6 rounded-md overflow-hidden cursor-pointer shadow-sm hover:shadow-md transition-shadow duration-200"
+            className="absolute z-0 h-6 overflow-hidden transition-shadow duration-200 rounded-md shadow-sm cursor-pointer hover:shadow-md"
             style={{
               left: `${left}px`,
               width: `${width}px`,
@@ -416,41 +416,41 @@ const ProjectStatus = ({ projectId, onClose }) => {
   }, [filteredGroupedTasks, expandedTypes])
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-85 flex justify-center items-center z-50">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-85">
       <div className="bg-white h-[90vh] overflow-y-auto p-4 md:p-6 rounded-lg shadow-lg w-11/12 md:w-10/12">
         {/* Header with improved styling */}
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 sticky top-0 bg-white z-10 pb-4 border-b">
-          <div className="flex flex-col md:flex-row md:items-center gap-3 mb-3 md:mb-0">
-            <div className="bg-gradient-to-r from-blue-600 to-blue-800 text-white px-4 py-2 md:px-5 md:py-3 text-lg md:text-xl font-bold rounded-lg shadow-md">
+        <div className="sticky top-0 z-10 flex flex-col items-start justify-between pb-4 mb-6 bg-white border-b md:flex-row md:items-center">
+          <div className="flex flex-col gap-3 mb-3 md:flex-row md:items-center md:mb-0">
+            <div className="px-4 py-2 text-lg font-bold text-white rounded-lg shadow-md bg-gradient-to-r from-blue-600 to-blue-800 md:px-5 md:py-3 md:text-xl">
               {projectData?.name || "Unknown Project"}
             </div>
-            <span className="text-gray-500 text-xs md:text-sm">
+            <span className="text-xs text-gray-500 md:text-sm">
               {formatDate(minDate)} - {formatDate(maxDate)}
             </span>
           </div>
           <div className="flex items-center gap-2">
             {/* <button
-              className="bg-gray-100 hover:bg-gray-200 text-gray-800 px-3 py-1 rounded-md text-sm font-medium transition-colors flex items-center gap-1"
+              className="flex items-center gap-1 px-3 py-1 text-sm font-medium text-gray-800 transition-colors bg-gray-100 rounded-md hover:bg-gray-200"
               onClick={() => setIsFilterOpen(!isFilterOpen)}
             >
-              <Filter className="h-4 w-4" />
-              Filters {isFilterOpen ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
+              <Filter className="w-4 h-4" />
+              Filters {isFilterOpen ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
             </button> */}
             <button
-              className="bg-gray-200 hover:bg-gray-300 text-gray-800 p-2 rounded-full transition-colors"
+              className="p-2 text-gray-800 transition-colors bg-gray-200 rounded-full hover:bg-gray-300"
               onClick={onClose}
               aria-label="Close"
             >
-              <X className="h-5 w-5" />
+              <X className="w-5 h-5" />
             </button>
           </div>
         </div>
 
         {/* Filter panel */}
         {isFilterOpen && (
-          <div className="bg-gray-50 p-4 rounded-lg mb-6 grid grid-cols-1 md:grid-cols-4 gap-4">
-            <div>
-              <label htmlFor="search" className="block text-sm font-medium text-gray-700 mb-1">
+          <div className="grid grid-cols-1 gap-4 p-4 mb-6 rounded-lg bg-gray-50 md:grid-cols-4">
+            <div> 
+              <label htmlFor="search" className="block mb-1 text-sm font-medium text-gray-700">
                 Search
               </label>
               <input
@@ -463,7 +463,7 @@ const ProjectStatus = ({ projectId, onClose }) => {
               />
             </div>
             <div>
-              <label htmlFor="status" className="block text-sm font-medium text-gray-700 mb-1">
+              <label htmlFor="status" className="block mb-1 text-sm font-medium text-gray-700">
                 Status
               </label>
               <select
@@ -479,7 +479,7 @@ const ProjectStatus = ({ projectId, onClose }) => {
               </select>
             </div>
             <div>
-              <label htmlFor="type" className="block text-sm font-medium text-gray-700 mb-1">
+              <label htmlFor="type" className="block mb-1 text-sm font-medium text-gray-700">
                 Task Type
               </label>
               <select
@@ -495,7 +495,7 @@ const ProjectStatus = ({ projectId, onClose }) => {
               </select>
             </div>
             <div>
-              <label htmlFor="view" className="block text-sm font-medium text-gray-700 mb-1">
+              <label htmlFor="view" className="block mb-1 text-sm font-medium text-gray-700">
                 Time Range
               </label>
               <div className="flex gap-2">
@@ -567,14 +567,14 @@ const ProjectStatus = ({ projectId, onClose }) => {
         {/* Overview Tab */}
         {activeTab === "overview" && (
           <>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-              <div className="bg-white rounded-xl p-4 shadow-sm border">
-                <h3 className="text-sm font-medium text-gray-500 mb-1">Total Tasks</h3>
+            <div className="grid grid-cols-1 gap-4 mb-6 md:grid-cols-2 lg:grid-cols-4">
+              <div className="p-4 bg-white border shadow-sm rounded-xl">
+                <h3 className="mb-1 text-sm font-medium text-gray-500">Total Tasks</h3>
                 <p className="text-3xl font-bold">{projectTasks.length}</p>
               </div>
               
-              <div className="bg-white rounded-xl p-4 shadow-sm border">
-                <h3 className="text-sm font-medium text-gray-500 mb-1">Completed</h3>
+              <div className="p-4 bg-white border shadow-sm rounded-xl">
+                <h3 className="mb-1 text-sm font-medium text-gray-500">Completed</h3>
                 <p className="text-3xl font-bold text-green-600">
                   {projectTasks.filter((task) => task.status === "COMPLETE").length}
                 </p>
@@ -588,56 +588,56 @@ const ProjectStatus = ({ projectId, onClose }) => {
                 </div>
               </div>
               
-              <div className="bg-white rounded-xl p-4 shadow-sm border">
-                <h3 className="text-sm font-medium text-gray-500 mb-1">Team Members</h3>
+              <div className="p-4 bg-white border shadow-sm rounded-xl">
+                <h3 className="mb-1 text-sm font-medium text-gray-500">Team Members</h3>
                 <p className="text-3xl font-bold">{userContributions.length}</p>
               </div>
               
-              <div className="bg-white rounded-xl p-4 shadow-sm border">
-                <h3 className="text-sm font-medium text-gray-500 mb-1">Total Hours</h3>
+              <div className="p-4 bg-white border shadow-sm rounded-xl">
+                <h3 className="mb-1 text-sm font-medium text-gray-500">Total Hours</h3>
                 <p className="text-3xl font-bold">{formatHours(totalAssignedHours)}</p>
               </div>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+            <div className="grid grid-cols-1 gap-6 mb-6 lg:grid-cols-3">
               {/* Project Overview Card */}
-              <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl p-5 shadow-sm border border-blue-100">
-                <h2 className="flex items-center gap-2 text-lg font-bold mb-4 text-blue-800">
-                  <AlertCircle className="h-5 w-5" /> Project Overview
+              <div className="p-5 border border-blue-100 shadow-sm bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl">
+                <h2 className="flex items-center gap-2 mb-4 text-lg font-bold text-blue-800">
+                  <AlertCircle className="w-5 h-5" /> Project Overview
                 </h2>
                 <div className="space-y-3">
-                  <div className="flex justify-between items-center">
+                  <div className="flex items-center justify-between">
                     <span className="text-gray-600">Total Tasks:</span>
-                    <span className="font-semibold text-lg">{projectTasks.length}</span>
+                    <span className="text-lg font-semibold">{projectTasks.length}</span>
                   </div>
-                  <div className="flex justify-between items-center">
+                  <div className="flex items-center justify-between">
                     <span className="text-gray-600">Completed:</span>
-                    <span className="font-semibold text-lg text-green-600">
+                    <span className="text-lg font-semibold text-green-600">
                       {projectTasks.filter((task) => task.status === "COMPLETE").length}
                     </span>
                   </div>
-                  <div className="flex justify-between items-center">
+                  <div className="flex items-center justify-between">
                     <span className="text-gray-600">In Review:</span>
-                    <span className="font-semibold text-lg text-blue-500">
+                    <span className="text-lg font-semibold text-blue-500">
                       {projectTasks.filter((task) => task.status === "IN_REVIEW").length}
                     </span>
                   </div>
-                  <div className="flex justify-between items-center">
+                  <div className="flex items-center justify-between">
                     <span className="text-gray-600">In Break:</span>
-                    <span className="font-semibold text-lg text-amber-500">
+                    <span className="text-lg font-semibold text-amber-500">
                       {projectTasks.filter((task) => task.status === "BREAK").length}
                     </span>
                   </div>
-                  <div className="flex justify-between items-center">
+                  <div className="flex items-center justify-between">
                     <span className="text-gray-600">In Progress:</span>
-                    <span className="font-semibold text-lg text-amber-500">
+                    <span className="text-lg font-semibold text-amber-500">
                       {projectTasks.filter((task) => task.status === "IN_PROGRESS").length}
                     </span>
                   </div>
                   
-                  <div className="flex justify-between items-center">
+                  <div className="flex items-center justify-between">
                     <span className="text-gray-600">Not Started:</span>
-                    <span className="font-semibold text-lg text-gray-500">
+                    <span className="text-lg font-semibold text-gray-500">
                       {projectTasks.filter((task) => task.status === "ASSIGNED").length}
                     </span>
                   </div>
@@ -645,9 +645,9 @@ const ProjectStatus = ({ projectId, onClose }) => {
               </div>
 
               {/* Status Distribution Pie Chart */}
-              <div className="bg-white rounded-xl p-5 shadow-sm border">
-                <h2 className="flex items-center gap-2 text-lg font-bold mb-4">
-                  <PieChart className="h-5 w-5" /> Task Status Distribution
+              <div className="p-5 bg-white border shadow-sm rounded-xl">
+                <h2 className="flex items-center gap-2 mb-4 text-lg font-bold">
+                  <PieChart className="w-5 h-5" /> Task Status Distribution
                 </h2>
                 <div className="h-[300px] text-sm">
                   <ResponsiveContainer width="100%" height="100%">
@@ -674,9 +674,9 @@ const ProjectStatus = ({ projectId, onClose }) => {
               </div>
 
               {/* Task Type Hours Comparison */}
-              <div className="bg-white rounded-xl p-5 shadow-sm border">
-                <h2 className="flex items-center gap-2 text-lg font-bold mb-4">
-                  <BarChart2 className="h-5 w-5" /> Hours by Task Type
+              <div className="p-5 bg-white border shadow-sm rounded-xl">
+                <h2 className="flex items-center gap-2 mb-4 text-lg font-bold">
+                  <BarChart2 className="w-5 h-5" /> Hours by Task Type
                 </h2>
                 <div className="h-[300px] w-full">
                   <ResponsiveContainer width="100%" height="100%">
@@ -696,9 +696,9 @@ const ProjectStatus = ({ projectId, onClose }) => {
               
 
             {/* User Contributions Chart with improved styling */}
-            <div className="bg-white rounded-xl p-5 shadow-sm border mb-6">
-              <h2 className="flex items-center gap-2 text-lg font-bold mb-4">
-                <Users className="h-5 w-5" /> Team Contributions
+            <div className="p-5 mb-6 bg-white border shadow-sm rounded-xl">
+              <h2 className="flex items-center gap-2 mb-4 text-lg font-bold">
+                <Users className="w-5 h-5" /> Team Contributions
               </h2>
               <div className="h-[250px]">
                 <ResponsiveContainer width="100%" height="100%">
@@ -733,9 +733,9 @@ const ProjectStatus = ({ projectId, onClose }) => {
 
         {/* Timeline Tab */}
         {activeTab === "timeline" && (
-       <div className="bg-white rounded-xl p-5 shadow-md border mb-6">
-       <h2 className="flex items-center gap-2 text-lg font-bold mb-4">
-         <Calendar className="h-5 w-5 text-gray-700" /> Project Timeline
+       <div className="p-5 mb-6 bg-white border shadow-md rounded-xl">
+       <h2 className="flex items-center gap-2 mb-4 text-lg font-bold">
+         <Calendar className="w-5 h-5 text-gray-700" /> Project Timeline
        </h2>
      
        {/* Task Legend */}
@@ -743,7 +743,7 @@ const ProjectStatus = ({ projectId, onClose }) => {
          {Object.entries(typeColors).map(([type, color]) => (
            <div key={type} className="flex items-center gap-2">
              <div className="w-4 h-4 rounded-md" style={{ backgroundColor: color }}></div>
-             <span className="text-sm text-gray-700 font-medium">{type}</span>
+             <span className="text-sm font-medium text-gray-700">{type}</span>
            </div>
          ))}
        </div>
@@ -753,18 +753,18 @@ const ProjectStatus = ({ projectId, onClose }) => {
          Showing <b>{filteredGanttData.length}</b> of <b>{ganttData.length}</b> tasks
        </div>
      
-       <div className="overflow-x-auto w-full">
+       <div className="w-full overflow-x-auto">
          <div style={{ width: `${timelineWidth + 300}px` }} className="relative">
      
            {/* Timeline Header */}
-           <div className="flex border-b sticky top-0 bg-white shadow-md z-10">
-             <div className="w-60 flex-shrink-0 font-bold p-3 bg-gray-50 text-gray-700">Task Name</div>
-             <div className="flex-1 relative">
+           <div className="sticky top-0 z-10 flex bg-white border-b shadow-md">
+             <div className="flex-shrink-0 p-3 font-bold text-gray-700 w-60 bg-gray-50">Task Name</div>
+             <div className="relative flex-1">
      
                {/* Month Divisions */}
-               <div className="h-10 border-b bg-gray-50 flex">
+               <div className="flex h-10 border-b bg-gray-50">
                  {monthDivisions.map((month, i) => (
-                   <div key={i} className="flex items-center justify-center text-gray-600 text-sm font-semibold border-l border-gray-300"
+                   <div key={i} className="flex items-center justify-center text-sm font-semibold text-gray-600 border-l border-gray-300"
                         style={{ width: `${timelineWidth / totalMonths}px` }}>
                      {month.label}
                    </div>
@@ -795,9 +795,9 @@ const ProjectStatus = ({ projectId, onClose }) => {
      
            {/* Today Indicator */}
            {minDate <= today && today <= maxDate && (
-             <div className="absolute top-10 bottom-0 border-l-2 border-red-500 z-20"
+             <div className="absolute bottom-0 z-20 border-l-2 border-red-500 top-10"
                   style={{ left: `${((today - minDate) / (1000 * 60 * 60 * 24)) * (timelineWidth / totalDays) + 130}px` }}>
-               <div className="bg-red-600 text-white text-xs px-2 py-1 rounded shadow-lg transform -translate-x-1/2">
+               <div className="px-2 py-1 text-xs text-white transform -translate-x-1/2 bg-red-600 rounded shadow-lg">
                  Today
                </div>
              </div>
@@ -806,8 +806,8 @@ const ProjectStatus = ({ projectId, onClose }) => {
            {/* Render Grouped Tasks */}
            {Object.keys(filteredGroupedTasks).length > 0 ? (
              Object.keys(filteredGroupedTasks).map((type) => (
-               <div key={type} className="mt-5 w-full">
-                 <div className="text-lg font-semibold p-3 bg-gray-100 rounded-md border-b-2 flex justify-between items-center cursor-pointer"
+               <div key={type} className="w-full mt-5">
+                 <div className="flex items-center justify-between p-3 text-lg font-semibold bg-gray-100 border-b-2 rounded-md cursor-pointer"
                       style={{ borderColor: typeColors[type] || "#ccc" }}
                       onClick={() => toggleTypeExpansion(type)}>
                    <div className="flex items-center gap-2">
@@ -815,9 +815,9 @@ const ProjectStatus = ({ projectId, onClose }) => {
                      <span className="text-sm text-gray-600">({filteredGroupedTasks[type].length} tasks)</span>
                    </div>
                    {expandedTypes[type] ? (
-                     <ChevronUp className="h-5 w-5 text-gray-500" />
+                     <ChevronUp className="w-5 h-5 text-gray-500" />
                    ) : (
-                     <ChevronDown className="h-5 w-5 text-gray-500" />
+                     <ChevronDown className="w-5 h-5 text-gray-500" />
                    )}
                  </div>
      
@@ -852,9 +852,9 @@ const ProjectStatus = ({ projectId, onClose }) => {
         {/* Team Tab */}
         {activeTab === "team" && (
           <>
-            <div className="bg-white rounded-xl p-5 shadow-sm border mb-6">
-              <h2 className="flex items-center gap-2 text-lg font-bold mb-4">
-                <Users className="h-5 w-5" /> Team Contributions
+            <div className="p-5 mb-6 bg-white border shadow-sm rounded-xl">
+              <h2 className="flex items-center gap-2 mb-4 text-lg font-bold">
+                <Users className="w-5 h-5" /> Team Contributions
               </h2>
               <div className="h-[300px]">
                 <ResponsiveContainer width="100%" height="100%">
@@ -883,13 +883,13 @@ const ProjectStatus = ({ projectId, onClose }) => {
             </div>
 
             {/* Team Members Grid */}
-            <div className="bg-white rounded-xl p-5 shadow-sm border">
-              <h2 className="text-lg font-bold mb-4">Team Members</h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+            <div className="p-5 bg-white border shadow-sm rounded-xl">
+              <h2 className="mb-4 text-lg font-bold">Team Members</h2>
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                 {userContributions.map((user, index) => (
                   <div key={index} className="flex items-center gap-3 p-3 border rounded-lg shadow-sm">
                     <div 
-                      className="w-10 h-10 rounded-full flex items-center justify-center text-white font-bold"
+                      className="flex items-center justify-center w-10 h-10 font-bold text-white rounded-full"
                       style={{ backgroundColor: COLORS[index % COLORS.length] }}
                     >
                       {user.name.charAt(0)}
@@ -909,9 +909,9 @@ const ProjectStatus = ({ projectId, onClose }) => {
 
         {/* Task details tooltip */}
         {hoveredTask && (
-          <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 pointer-events-none">
-            <div className="bg-white rounded-lg shadow-xl border p-4 max-w-md">
-              <h3 className="font-bold text-lg mb-2">{hoveredTask.name}</h3>
+          <div className="fixed z-50 transform -translate-x-1/2 -translate-y-1/2 pointer-events-none top-1/2 left-1/2">
+            <div className="max-w-md p-4 bg-white border rounded-lg shadow-xl">
+              <h3 className="mb-2 text-lg font-bold">{hoveredTask.name}</h3>
               <div className="grid grid-cols-2 gap-2 text-sm">
                 <div className="text-gray-600">Assigned to:</div>
                 <div className="font-medium">{hoveredTask.username || "Unassigned"}</div>
@@ -927,7 +927,7 @@ const ProjectStatus = ({ projectId, onClose }) => {
                 <div className="text-gray-600">Status:</div>
                 <div className="font-medium">
                   <span
-                    className="inline-block px-2 py-1 rounded-full text-xs"
+                    className="inline-block px-2 py-1 text-xs rounded-full"
                     style={{
                       backgroundColor: statusColors[hoveredTask.status] || "#ccc",
                       color: hoveredTask.status === "ASSIGNED" ? "#333" : "#fff",

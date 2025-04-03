@@ -58,16 +58,6 @@ const AddMoreSubtask = ({
     }
   };
 
-  // //to display data in selectedWB
-  // const [moreSubtask, setMoreSubtask] = useState(false);
-  // const fetchMoreSubtaks = async () => {
-  //    const moreSubtask = await Service.addOneSubTask();
-  //    setMoreSubtask(moreSubtask)
-  // }
-  // useEffect(() => {
-  //     fetchMoreSubtaks();
-  //   }, []);
-
   const handleAddSubtask = () => {
     console.log("Subtask added");
     //to display in the same table

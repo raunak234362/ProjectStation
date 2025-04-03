@@ -2,13 +2,22 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { Button } from "../../../../index";
+import { Button, Input, MultipleFileUpload } from "../../../../index";
 import Service from "../../../../../config/Service";
+import { useForm } from "react-hook-form";
 
 const GetSentRFI = ({ rfiId, isOpen, onClose }) => {
   const [rfi, setRFI] = useState();
   const RFI = useSelector((state) => state?.projectData?.rfiData);
+const {
+    register,
+    setValue,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm();
 
+  const [files, setFiles] = useState([]);
   const fetchReceivedRfi = async () => {
     try {
       const rfi = await Service.fetchRFIById(rfiId);
@@ -23,7 +32,6 @@ const GetSentRFI = ({ rfiId, isOpen, onClose }) => {
     }
   }
 
-  console.log(rfi);
 
   const fetchRFI = async () => {
     try {
@@ -41,6 +49,11 @@ const GetSentRFI = ({ rfiId, isOpen, onClose }) => {
   const handleClose = async () => {
     onClose(true);
   };
+
+  const onFilesChange = (updatedFiles) => {
+    setFiles(updatedFiles);
+  };
+
 
   useEffect(() => {
     fetchReceivedRfi();
@@ -61,22 +74,20 @@ const GetSentRFI = ({ rfiId, isOpen, onClose }) => {
         <div className="top-2 w-full flex justify-center z-10">
           <div className="mt-2">
             <div className="bg-teal-400 text-white px-3 md:px-4 py-2 md:text-2xl font-bold rounded-lg shadow-md">
-              Subject/Remarks: {rfi?.remarks || "Unknown"}
+              Subject/Remarks: {rfi?.subject || "Unknown"}
             </div>
           </div>
         </div>
 
         <div className="p-5 h-[88%] overflow-y-auto rounded-lg shadow-lg">
-
-
           <div className="bg-gray-100/50 mt-5 rounded-lg shadow-md p-5">
             <h2 className="text-lg font-semibold mb-4">RFI Information</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {[
                 { label: "Subject", value: rfi?.subject },
                 { label: "Description", value: rfi?.description },
-                { label: "Date", value: rfi?.date },
-                { label: "Status", value: rfi?.status === "seen" ? "Seen" : "Not Seen" },
+                { label: "Date", value: rfi?.date ? new Date(rfi?.date).toDateString() : "Not available" },
+                // { label: "Status", value: rfi?.status === "seen" ? "Seen" : "Not Seen" },
                 {
                   label: "Files",
                   value: Array.isArray(rfi?.files)
@@ -84,7 +95,7 @@ const GetSentRFI = ({ rfiId, isOpen, onClose }) => {
                       <a
                         key={index}
                         href={`${import.meta.env.VITE_BASE_URL
-                          }/RFI/rfi/${rfi.id}`} // Use the file path with baseURL
+                          }/api/RFI/rfi/${rfi.id}/${file.id}`} // Use the file path with baseURL
                         target="_blank" // Open in a new tab
                         rel="noopener noreferrer"
                         className="px-5 py-2 text-teal-500 hover:underline"
@@ -104,12 +115,54 @@ const GetSentRFI = ({ rfiId, isOpen, onClose }) => {
                 </div>
               ))}
             </div>
-
-
+          </div>
+          <div className="bg-gray-100/50 mt-5 rounded-lg shadow-md p-5">
+            <h2 className="text-lg font-semibold mb-4">Respond to RFI</h2>
+            <div className="bg-teal-500/50 rounded-lg px-2 py-2 font-bold text-white">
+            Details:
+          </div>
+          <div className="my-2 md:px-2 px-1">
+            <div className="w-full my-3">
+              <Input
+                label="Subject/Remarks:"
+                placeholder="Subject/Remarks"
+                size="lg"
+                color="blue"
+                {...register("subject")}
+              />
+            </div>
+            <div className="w-full my-3">
+              <Input
+                type="textarea"
+                label="Description:"
+                placeholder="Description"
+                size="lg"
+                color="blue"
+                {...register("description")}
+              />
+            </div>
+          </div>
+          <div className="bg-teal-500/50 rounded-lg px-2 py-2 font-bold text-white">
+            Attach Files:
+          </div>
+          <div className="my-2 md:px-2 px-1">
+            <MultipleFileUpload
+              label="Select Files"
+              onFilesChange={onFilesChange}
+              files={files}
+              accept="image/*,application/pdf,.doc,.docx"
+              {...register("files")}
+            />
           </div>
 
-
+          <div className="my-5 w-full">
+            <Button type="submit">Send Message</Button>
+          </div>
+          </div>
         </div>
+
+
+
       </div>
     </div>
   );

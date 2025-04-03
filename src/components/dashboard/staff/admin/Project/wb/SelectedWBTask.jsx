@@ -18,7 +18,6 @@ const SelectedWBTask = ({
   const workBreakdown = useSelector(
     (state) => state?.projectData.workBreakdown
   );
-  console.log(selectedActivity);
   const [workBD, setWorkBD] = useState("");
   const [subTaskBD, setSubTaskBD] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -36,38 +35,34 @@ const SelectedWBTask = ({
     setSubTaskBD(subTasks);
   };
 
-  const taskData = workBD?.task?.find((task) => task.id === selectedTaskId);
-  const subTasks = taskData?.subTasks || []; // Get sub-tasks
-
-  const [click, setClick] = useState(false);
-  const handleClick = () => {
-    setClick(!click);
-  };
   useEffect(() => {
     fetchSubTasks();
     fetchWorkBD();
   }, []);
 
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+
+  const isQtyZero = subTaskBD.some((subTask) => subTask.QtyNo === 0);
+
   const onSubmit = async (data) => {
+    console.log("Form data:", data);
     try {
       const workBreakdown = data?.subTasks?.map((workBD) => ({
         ...workBD,
         wbsactivityID: selectedTaskId,
         projectID: projectId,
       }));
-      const response = await Service.addWorkBreakdown(
-        projectId,
-        selectedTaskId,
-        workBreakdown
-      );
-      console.log("SElected task response-------------", response);
+      await Service.addWorkBreakdown(projectId, selectedTaskId, workBreakdown);
       toast.success("Work breakdown data added successfully!");
-      fetchSubTasks(); // Refresh the list to prevent duplicates
-      reset(); // Reset form fields to avoid persisting old data
+      fetchSubTasks(); // Refresh the list to show the saved data
+      setIsSubmitted(true); // Prevent further edits
+      reset(); // Reset form fields
     } catch (error) {
       toast.error("Error adding work breakdown data");
     }
   };
+
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
@@ -100,28 +95,36 @@ const SelectedWBTask = ({
                       {subTask.description}
                     </td>
                     <td className="px-2 py-1 border border-gray-600">
-                      <Controller
-                        name={`subTasks[${index}].QtyNo`}
-                        control={control}
-                        defaultValue={subTask.QtyNo || 0}
-                        render={({ field }) => (
-                          <Input
-                            {...field}
-                            type="number"
-                            placeholder="QtyNo"
-                            onChange={(e) => {
-                              const QtyNo = parseFloat(e.target.value) || 0;
-                              const unitTime = parseFloat(subTask.unitTime) || 0;
-                              const CheckUnitTime = parseFloat(subTask.CheckUnitTime) || 0;
-                              setValue(`subTasks[${index}].description`, subTask.description);
-                              setValue(`subTasks[${index}].execHr`, (QtyNo * unitTime).toFixed(2));
-                              setValue(`subTasks[${index}].checkHr`, (QtyNo * CheckUnitTime).toFixed(2));
-                              field.onChange(e);
-                            }}
-                          />
-                        )}
-                      />
+                      {subTask.QtyNo === 0 || isEditing ? (
+                        <Controller
+                          name={`subTasks[${index}].QtyNo`}
+                          control={control}
+                          defaultValue={subTask.QtyNo || 0}
+                          render={({ field }) => (
+                            <Input
+                              {...field}
+                              type="number"
+                              placeholder="QtyNo"
+                              disabled={!isEditing && subTask.QtyNo !== 0} // Disable unless editing
+                              onChange={(e) => {
+                                const QtyNo = parseFloat(e.target.value) || 0;
+                                const unitTime = parseFloat(subTask.unitTime) || 0;
+                                const CheckUnitTime = parseFloat(subTask.CheckUnitTime) || 0;
+                                setValue(`subTasks[${index}].id`, subTask.id);
+                                setValue(`subTasks[${index}].description`, subTask.description);
+                                setValue(`subTasks[${index}].execHr`, (QtyNo * unitTime).toFixed(2));
+                                setValue(`subTasks[${index}].checkHr`, (QtyNo * CheckUnitTime).toFixed(2));
+                                field.onChange(e);
+                              }}
+                            />
+                          )}
+                        />
+                      ) : (
+                        subTask.QtyNo
+                      )}
                     </td>
+
+
                     <td className="px-2 py-1 border border-gray-600">
                       {watch(`subTasks[${index}].execHr`) || subTask.execHr || 0}
                     </td>
@@ -132,25 +135,22 @@ const SelectedWBTask = ({
                 ))}
               </tbody>
             </table>
-            <Button type="submit">Add</Button>
+            {!isQtyZero ? (<Button className="bg-blue-gray-500" type="submit" disabled={!isQtyZero}>Added</Button>) : (<Button type="submit" disabled={!isQtyZero}>Add</Button>)}
           </form>
-        </div>
+          {
+            !isEditing ? (
+              <Button onClick={() => setIsEditing(true)}>Edit</Button>
+            ) : (
+              <Button type="submit" onClick={() => setIsEditing(false)}>Save</Button>
+            )}
 
+
+        </div>
         <div>
-          <Button onClick={() => handleClick()}>
-            Add More Subtask
-          </Button>
+          <Button onClick={() => setIsModalOpen(true)}>Add More Subtask</Button>
         </div>
       </div>
-      {click && (
-        <AddMoreSubtask
-          handleClose={handleClick}
-          // projectId={projectId}
-          // selectedTaskId={selectedTaskId}
-          // selectedTask={selectedTask}
-          // selectedActivity={selectedActivity}
-        />
-      )}
+      {isModalOpen && <AddMoreSubtask handleClose={() => setIsModalOpen(false)} />}
     </div>
   );
 };

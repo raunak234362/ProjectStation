@@ -19,7 +19,7 @@ const SelectedWBTask = ({
   const workBreakdown = useSelector(
     (state) => state?.projectData.workBreakdown
   );
-  console.log(selectedActivity)
+  console.log(selectedActivity);
   const [workBD, setWorkBD] = useState("");
   const [subTaskBD, setSubTaskBD] = useState([]);
   const [selectedWBTask, setSelectedWBTask] = useState(null);
@@ -51,11 +51,11 @@ const SelectedWBTask = ({
 
   const taskData = workBD?.task?.find((task) => task.id === selectedTaskId);
   const subTasks = taskData?.subTasks || []; // Get sub-tasks
-  
+
   const [click, setClick] = useState(false);
-  const handleClick = () => { 
+  const handleClick = () => {
     setClick(!click);
-  }
+  };
   useEffect(() => {
     fetchSubTasks();
     fetchWorkBD();
@@ -99,8 +99,12 @@ const SelectedWBTask = ({
         wbsactivityID: selectedTaskId,
         projectID: projectId,
       }));
-      const response = await Service.addWorkBreakdown(projectId, selectedTaskId, workBreakdown)
-      console.log("SElected task response-------------",response)
+      const response = await Service.addWorkBreakdown(
+        projectId,
+        selectedTaskId,
+        workBreakdown
+      );
+      console.log("SElected task response-------------", response);
       toast.success("Work breakdown data added successfully!");
     } catch (error) {
       toast.error("Error adding work breakdown data: ", error);
@@ -112,7 +116,7 @@ const SelectedWBTask = ({
   };
 
   return (
-     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
       <div className="w-full p-2 bg-white rounded-lg shadow-lg h-fit md:p-5 md:w-2/5">
         <div className="flex flex-row justify-between">
           <Button className="bg-red-500" onClick={handleClose}>
@@ -168,11 +172,16 @@ const SelectedWBTask = ({
 
                               // Calculate execution hours and checking hours
                               const execHr = (QtyNo * unitTime).toFixed(2);
-                              const checkHr = (QtyNo * CheckUnitTime).toFixed(2);
+                              const checkHr = (QtyNo * CheckUnitTime).toFixed(
+                                2
+                              );
                               const description = subTask.description;
                               // Set calculated values back to the form
 
-                              setValue(`subTasks[${index}].description`, description);
+                              setValue(
+                                `subTasks[${index}].description`,
+                                description
+                              );
                               setValue(`subTasks[${index}].execHr`, execHr);
                               setValue(`subTasks[${index}].checkHr`, checkHr);
                               field.onChange(e); // Update the qty field
@@ -194,20 +203,20 @@ const SelectedWBTask = ({
             <Button type="submit">Add</Button>
           </form>
         </div>
-        
+
         <div>
-          <Button onClick={()=>handleClick()}>
+          <Button onClick={() => handleClick()}>
             {/* <AddMoreSubtask /> */} Add More Subtask
           </Button>
         </div>
       </div>
       {click && (
         <AddMoreSubtask
-        handleClose={handleClick}
-        // projectId={projectId}
-        // selectedTaskId={selectedTaskId}
-        // selectedTask={selectedTask}
-        // selectedActivity={selectedActivity}
+          handleClose={handleClick}
+          // projectId={projectId}
+          // selectedTaskId={selectedTaskId}
+          // selectedTask={selectedTask}
+          // selectedActivity={selectedActivity}
         />
       )}
     </div>

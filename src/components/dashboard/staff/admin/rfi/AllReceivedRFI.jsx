@@ -8,11 +8,10 @@ const getNestedValue = (obj, path) => {
   return path.split(".").reduce((acc, part) => acc && acc[part], obj);
 };
 
-
 const AllReceivedRFI = () => {
   const [RFI, setRFI] = useState([]);
   const [filteredRFI, setFilteredRFI] = useState(RFI);
-   const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
   const [filters, setFilters] = useState({
     fabricator: "",
     project: "",
@@ -122,22 +121,22 @@ const AllReceivedRFI = () => {
 
   return (
     <div className="bg-white/70 rounded-lg md:w-full w-[90vw]">
-      <div className="mt-5 h-auto p-4">
+      <div className="h-auto p-4 mt-5">
         <div className="w-full mb-4">
           <input
             type="text"
             placeholder="Search by remarks or recipient"
             value={searchTerm}
             onChange={handleSearch}
-            className=" w-full px-2 py-1 rounded border border-gray-300"
+            className="w-full px-2 py-1 border border-gray-300 rounded "
           />
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+        <div className="grid grid-cols-1 gap-4 mb-4 md:grid-cols-3">
           <select
             name="fabricator"
             value={filters.fabricator}
             onChange={handleFilterChange}
-            className="px-2 py-1 rounded border border-gray-300"
+            className="px-2 py-1 border border-gray-300 rounded"
           >
             <option value="">Filter by Fabricator</option>
             {[...new Set(RFI.map((rfi) => rfi?.fabricator?.fabName))].map(
@@ -152,7 +151,7 @@ const AllReceivedRFI = () => {
             name="project"
             value={filters.project}
             onChange={handleFilterChange}
-            className="px-2 py-1 rounded border border-gray-300"
+            className="px-2 py-1 border border-gray-300 rounded"
           >
             <option value="">Filter by Project</option>
             {[
@@ -171,7 +170,7 @@ const AllReceivedRFI = () => {
             name="status"
             value={filters.status}
             onChange={handleFilterChange}
-            className="px-2 py-1 rounded border border-gray-300"
+            className="px-2 py-1 border border-gray-300 rounded"
           >
             <option value="">Filter by Status</option>
             <option value="open">Open</option>
@@ -179,7 +178,7 @@ const AllReceivedRFI = () => {
           </select>
         </div>
         <div className="overflow-x-auto">
-          <table className="min-w-full border-collapse text-center text-sm md:text-lg rounded-xl">
+          <table className="min-w-full text-sm text-center border-collapse md:text-lg rounded-xl">
             <thead>
               <tr className="bg-teal-200/70">
                 <th className="px-2 py-1">Fabricator Name</th>
@@ -202,33 +201,33 @@ const AllReceivedRFI = () => {
                 </tr>
               ) : (
                 RFI?.map((rfi) => (
-                  <tr key={rfi?.id} className="hover:bg-blue-gray-100 border">
-                    <td className="border px-2 py-1 text-left">
+                  <tr key={rfi?.id} className="border hover:bg-blue-gray-100">
+                    <td className="px-2 py-1 text-left border">
                       {rfi?.fabricator.fabName || "N/A"}
                     </td>
-                    <td className="border px-2 py-1 text-left">
+                    <td className="px-2 py-1 text-left border">
                       {rfi.recepients?.username || "N/A"}
                     </td>
-                    <td className="border px-2 py-1">
+                    <td className="px-2 py-1 border">
                       {rfi?.project.name || "N/A"}
                     </td>
-                    <td className="border px-2 py-1">
+                    <td className="px-2 py-1 border">
                       {rfi.recepients?.email || "N/A"}
                     </td>
-                    <td className="border px-2 py-1">
+                    <td className="px-2 py-1 border">
                       {rfi.subject || "No remarks"}
                     </td>
-                    <td className="border px-2 py-1">{rfi.date || "N/A"}</td>
-                    <td className="border px-2 py-1">
+                    <td className="px-2 py-1 border">{rfi.date || "N/A"}</td>
+                    <td className="px-2 py-1 border">
                       {rfi.status ? "No Reply" : "Replied"}
                     </td>
-                    <td className="border px-2 py-1">
-                      <button className="bg-teal-300 px-2 py-1 rounded">
+                    <td className="px-2 py-1 border">
+                      <button className="px-2 py-1 bg-teal-300 rounded">
                         Forward
                       </button>
                     </td>
-                    <td className="border px-2 py-1">
-                      <button className="bg-blue-300 px-2 py-1 rounded">
+                    <td className="px-2 py-1 border">
+                      <button className="px-2 py-1 bg-blue-300 rounded">
                         View
                       </button>
                     </td>

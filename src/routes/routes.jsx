@@ -42,6 +42,7 @@ import {
   AddTeam,
   ProjectDashboard,
   RFQ,
+  AllRFQ,
 } from "../components/index.js";
 
 //For Client-Admin
@@ -170,7 +171,10 @@ const routes = [
       {
         path: "rfq",
         element: <RFQ />,
-        children: [],
+        children: [
+          { path: "all-rfq", element: <AllRFQ /> },
+          { path: "add-rfq", element: <AddRFQ /> },
+        ],
       },
     ],
   },

@@ -4,12 +4,18 @@ import { useForm, Controller } from "react-hook-form";
 import Button from "../../../../../fields/Button";
 import { toast } from "react-toastify";
 import Service from "../../../../../../config/Service";
+import { parse } from "postcss";
 
-const AddMoreSubtask = ({ handleClose, selectedTaskId, projectId }) => {
+const AddMoreSubtask = ({
+  handleClose,
+  selectedTaskId,
+  projectId,
+  fetchSubTask,
+}) => {
   const { register, handleSubmit, control, setValue, watch, reset } = useForm();
   const [subtasks, setSubtask] = useState([]);
 
-  // const onSubmits = (data) => {
+  // const onSubmit = (data) => {
   //     console.log(data);
   //     const newSubtask = {
   //         id: subtasks.length + 1,
@@ -22,13 +28,16 @@ const AddMoreSubtask = ({ handleClose, selectedTaskId, projectId }) => {
   //     reset();
   // }
 
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
   const onSubmit = async (data) => {
     console.log("Form data:", data);
 
     try {
       const addMoreSubtask = {
         ...data,
-        QtyNo: "",
+        unitTime: parseFloat(data.unitTime),
+        CheckUnitTime: parseFloat(data.CheckUnitTime),
       };
       console.log(addMoreSubtask);
       await Service.addOneSubTask(projectId, selectedTaskId, addMoreSubtask);
@@ -36,11 +45,12 @@ const AddMoreSubtask = ({ handleClose, selectedTaskId, projectId }) => {
       const newSubtask = {
         id: subtasks.length + 1,
         description: data.description,
-        unitTime: data.unitTime,
-        CheckUnitTime: data.CheckUnitTime,
+        unitTime: parseFloat(data.unitTime),
+        CheckUnitTime: parseFloat(data.CheckUnitTime),
       };
+      fetchSubTask();
       setSubtask((prevSubtasks) => [...prevSubtasks, newSubtask]);
-      fetchSubTasks(); // Refresh the list to show the saved data
+      // fetchSubTasks(); // Refresh the list to show the saved data
       setIsSubmitted(true); // Prevent further edits
       reset(); // Reset form fields
     } catch (error) {
@@ -48,11 +58,30 @@ const AddMoreSubtask = ({ handleClose, selectedTaskId, projectId }) => {
     }
   };
 
+  // //to display data in selectedWB
+  // const [moreSubtask, setMoreSubtask] = useState(false);
+  // const fetchMoreSubtaks = async () => {
+  //    const moreSubtask = await Service.addOneSubTask();
+  //    setMoreSubtask(moreSubtask)
+  // }
+  // useEffect(() => {
+  //     fetchMoreSubtaks();
+  //   }, []);
+
   const handleAddSubtask = () => {
     console.log("Subtask added");
     //to display in the same table
   };
   const [index, setIndex] = useState(1);
+
+  const fetchSubTasks = async () => {
+    const subTasks = await Service.addOneSubTask(projectId, selectedTaskId);
+    setSubTaskBD(subTasks);
+    console.log(subTasks);
+  };
+  useEffect(() => {
+    fetchSubTasks();
+  }, []);
   useEffect(() => {
     setIndex(subtasks.length + 1);
   }, [subtasks]);
@@ -110,7 +139,7 @@ const AddMoreSubtask = ({ handleClose, selectedTaskId, projectId }) => {
                       defaultValue="0"
                       render={({ field }) => (
                         <input
-                          type="number"
+                          type="decimal"
                           placeholder="Enter execution hours"
                           {...register("unitTime")}
                         />
@@ -124,7 +153,7 @@ const AddMoreSubtask = ({ handleClose, selectedTaskId, projectId }) => {
                       defaultValue="0"
                       render={({ field }) => (
                         <input
-                          type="number"
+                          type="decimal"
                           placeholder="Enter checking hours"
                           {...register("CheckUnitTime")}
                         />
@@ -134,7 +163,7 @@ const AddMoreSubtask = ({ handleClose, selectedTaskId, projectId }) => {
                 </tr>
               </tbody>
             </table>
-            <Button type="submit" className="m-3" onClick={handleAddSubtask}>
+            <Button type="submit" className="m-3">
               Add Row
             </Button>
           </form>
@@ -164,7 +193,7 @@ const AddMoreSubtask = ({ handleClose, selectedTaskId, projectId }) => {
                     {subtask.unitTime}
                   </td>
                   <td className="px-2 py-1 border border-gray-600">
-                    {subtask.checkUnitTime}
+                    {subtask.CheckUnitTime}
                   </td>
                 </tr>
               ))}

@@ -612,7 +612,7 @@ class Service {
         }
       );
       console.log(response.data);
-      return response.data;
+      return response.data.data;
     } catch (error) {
       console.log("Error adding work breakdown:", error);
       throw error;

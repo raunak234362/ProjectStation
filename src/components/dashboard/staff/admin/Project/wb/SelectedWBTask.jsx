@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Input, Button } from "../../../../../index";
 import { useForm, Controller } from "react-hook-form";
 import { useSelector } from "react-redux";
@@ -22,7 +22,8 @@ const SelectedWBTask = ({
   const [subTaskBD, setSubTaskBD] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { handleSubmit, control, setValue, watch, reset } = useForm();
-
+  const prevDataRef = useRef(subTaskBD);
+  
   const fetchWorkBD = async () => {
     const workBreakDown = workBreakdown.find(
       (wb) => wb.taskName === selectedTask
@@ -183,7 +184,12 @@ const SelectedWBTask = ({
         </div>
       </div>
       {isModalOpen && (
-        <AddMoreSubtask handleClose={() => setIsModalOpen(false)} selectedTaskId={selectedTaskId} projectId={ projectId} />
+        <AddMoreSubtask
+          handleClose={() => setIsModalOpen(false)}
+          selectedTaskId={selectedTaskId}
+          projectId={projectId}
+          fetchSubTask={fetchSubTasks}
+        />
       )}
     </div>
   );

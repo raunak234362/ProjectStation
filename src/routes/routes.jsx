@@ -56,6 +56,7 @@ import {
   ChangeOrder as ClientCO,
   Team as ClientTeam,
   RFQ as ClientRFQ,
+  AllRFQ as ClientAllRFQ,
   Submittals as ClientSubmittals,
   AllReceivedSubmittals as ClientAllReceivedSubmittals,
   AllSubmittals as ClientAllSubmittals,
@@ -205,7 +206,10 @@ const routes = [
       {
         path: "rfq",
         element: <ClientRFQ />,
-        children: [{ path: "add-rfq", element: <AddRFQ /> }],
+        children: [
+          { path: "add-rfq", element: <AddRFQ /> },
+          { path: "all-rfq", element: <ClientAllRFQ /> },
+        ],
       },
       {
         path: "rfi",

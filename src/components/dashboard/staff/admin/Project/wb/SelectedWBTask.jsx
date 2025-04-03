@@ -138,7 +138,7 @@ const SelectedWBTask = ({
 
         <div>
           <Button onClick={() => handleClick()}>
-            {/* <AddMoreSubtask /> */} Add More Subtask
+            Add More Subtask
           </Button>
         </div>
       </div>

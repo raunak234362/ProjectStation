@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -9,20 +9,28 @@ import {
   Toggle,
   MultipleFileUpload,
 } from "../../../../index";
-import { addRFI } from "../../../../../store/projectSlice";
 import Service from "../../../../../config/Service";
 import { toast } from "react-toastify";
+import { showStaff } from "../../../../../store/userSlice";
 
 const AddRFQ = () => {
-  const projectData = useSelector((state) => state.projectData.projectData);
-  const fabricatorData = useSelector(
-    (state) => state?.fabricatorData?.fabricatorData
-  );
   
-  const clientData = useSelector((state) => state?.fabricatorData?.clientData);
-  console.log(clientData);
   const dispatch = useDispatch();
-  console.log(projectData);
+
+  const fetchAllStaff = async () => {
+    const staffData = await Service.allEmployee(token);
+    // const departmentData = await Service.allDepartment(token);
+    console.log(departmentData);
+    // dispatch(showDepartment(departmentData));
+    dispatch(showStaff(staffData));
+  };
+
+  useEffect(() => {
+    fetchAllStaff();
+  }, []);
+
+  const staffData = useSelector((state) => state?.userData?.staffData) || [];
+  
   const {
     register,
     setValue,
@@ -31,48 +39,24 @@ const AddRFQ = () => {
     formState: { errors },
   } = useForm();
   const [files, setFiles] = useState([]);
-
-  const fabricatorID = watch("fabricator_id");
+  
   const recipientID = watch("recipient_id");
-  console.log("Selected Fabricator ID:", fabricatorID);
-  console.log("Selected Recipient ID:", recipientID);
-  const selectedFabricator = fabricatorData?.find(
-    (fabricator) => fabricator.id === fabricatorID
-  );
-  const clientName = selectedFabricator
-    ? clientData?.find((client) => client.id === selectedFabricator.clientID)
-        ?.name
-    : "";
-  console.log("Client Name:", clientName);
-
+  
+  
+  const recipientOptions = staffData?.map((recipient) => ({
+    label: `${recipient.f_name} ${recipient.l_name}`,
+    value: recipient.id,
+  }));
+  
+  console.log("Selected Recipient ID:", recipientOptions);
+  
   const onFilesChange = (updatedFiles) => {
     setFiles(updatedFiles);
   };
 
-  const fabricatorOptions = fabricatorData?.map((fabricator) => ({
-    label: fabricator.fabName,
-    value: fabricator.id,
-  }));
 
-  const filteredClients = clientData?.filter(
-    (client) => client.fabricatorId === fabricatorID
-  );
-  console.log("Filtered Clients:", filteredClients);
-  const clientOptions = filteredClients?.map((client) => ({
-    label: `${client.f_name} ${client.l_name}`,
-    value: client.id,
-  }));
-
-  const filteredProjects = projectData?.filter(
-    (project) => project.fabricatorID === fabricatorID
-  );
-  console.log("Filtered Projects:", filteredProjects);
-  const projectOptions = filteredProjects?.map((project) => ({
-    label: project.name,
-    value: project.id,
-  }));
-
-  const CreateRFI = async (data) => {
+  const CreateRFQ = async (data) => {
+    console.log("Form Data:", data); // Debugging
     const formData = new FormData();
 
     // Append files
@@ -81,29 +65,29 @@ const AddRFQ = () => {
       console.log("File:", formData?.append);
     });
 
-    const rfiData = { ...data, files, recepient_id: recipientID, fabricator_id:fabricatorID };
-    console.log("Sending Data:", rfiData); // Debugging
+    const RFQData = { ...data, files, recepient_id: recipientID };
+    console.log("Sending Data:", RFQData); // Debugging
 
     try {
-      const response = await Service.addRFI(rfiData);
-      toast.success("RFI created successfully");
-      console.log("RFI created successfully:", response);
+      const response = await Service.addRFQ(RFQData);
+      toast.success("RFQ created successfully");
+      console.log("RFQ created successfully:", response);
     } catch (error) {
-      toast.error("Error creating RFI");
-      console.error("Error creating RFI:", error);
+      toast.error("Error creating RFQ");
+      console.error("Error creating RFQ:", error);
     }
   };
 
   return (
-    <div className="flex w-full justify-center text-black my-5">
-      <div className="h-full w-full overflow-y-auto md:px-10 px-2 py-3">
-        <form onSubmit={handleSubmit(CreateRFI)}>
-          <div className="bg-teal-500/50 rounded-lg px-2 py-2 font-bold text-white">
+    <div className="flex justify-center w-full my-5 text-black">
+      <div className="w-full h-full px-2 py-3 overflow-y-auto md:px-10">
+        <form onSubmit={handleSubmit(CreateRFQ)}>
+          <div className="px-2 py-2 font-bold text-white rounded-lg bg-teal-500/50">
             Project Information:
           </div>
-          <div className="my-2 md:px-2 px-1">
+          <div className="px-1 my-2 md:px-2">
             <div className="w-full mt-3">
-            <Input
+              <Input
                 label="Project Name:"
                 placeholder="Project Name:"
                 size="lg"
@@ -112,26 +96,12 @@ const AddRFQ = () => {
               />
               {errors.project && <div>This field is required</div>}
             </div>
-            <div className="w-full my-3">
-              <CustomSelect
-                label="Select Recipients:"
-                placeholder="Select Recipients"
-                size="lg"
-                color="blue"
-                options={[
-                  { label: "Select Recipients", value: "" },
-                  ...clientOptions,
-                ]}
-                {...register("recipient_id", { required: true })}
-                onChange={setValue}
-              />
-              {errors.recipients && <div>This field is required</div>}
-            </div>
+            
           </div>
-          <div className="bg-teal-500/50 rounded-lg px-2 py-2 font-bold text-white">
+          <div className="px-2 py-2 font-bold text-white rounded-lg bg-teal-500/50">
             Details:
           </div>
-          <div className="my-2 md:px-2 px-1">
+          <div className="px-1 my-2 md:px-2">
             <div className="w-full my-3">
               <Input
                 label="Subject/Remarks:"
@@ -152,10 +122,10 @@ const AddRFQ = () => {
               />
             </div>
           </div>
-          <div className="bg-teal-500/50 rounded-lg px-2 py-2 font-bold text-white">
+          <div className="px-2 py-2 font-bold text-white rounded-lg bg-teal-500/50">
             Attach Files:
           </div>
-          <div className="my-2 md:px-2 px-1">
+          <div className="px-1 my-2 md:px-2">
             <MultipleFileUpload
               label="Select Files"
               onFilesChange={onFilesChange}
@@ -165,7 +135,7 @@ const AddRFQ = () => {
             />
           </div>
 
-          <div className="my-5 w-full">
+          <div className="w-full my-5">
             <Button type="submit">Send Request</Button>
           </div>
         </form>

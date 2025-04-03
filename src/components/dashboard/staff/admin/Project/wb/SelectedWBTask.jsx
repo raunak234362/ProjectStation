@@ -18,6 +18,7 @@ const SelectedWBTask = ({
   const workBreakdown = useSelector(
     (state) => state?.projectData.workBreakdown
   );
+  console.log(selectedActivity);
   const [workBD, setWorkBD] = useState("");
   const [subTaskBD, setSubTaskBD] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -35,6 +36,13 @@ const SelectedWBTask = ({
     setSubTaskBD(subTasks);
   };
 
+  const taskData = workBD?.task?.find((task) => task.id === selectedTaskId);
+  const subTasks = taskData?.subTasks || []; // Get sub-tasks
+
+  const [click, setClick] = useState(false);
+  const handleClick = () => {
+    setClick(!click);
+  };
   useEffect(() => {
     fetchSubTasks();
     fetchWorkBD();
@@ -48,7 +56,12 @@ const SelectedWBTask = ({
         wbsactivityID: selectedTaskId,
         projectID: projectId,
       }));
-      await Service.addWorkBreakdown(projectId, selectedTaskId, workBreakdown);
+      const response = await Service.addWorkBreakdown(
+        projectId,
+        selectedTaskId,
+        workBreakdown
+      );
+      console.log("SElected task response-------------", response);
       toast.success("Work breakdown data added successfully!");
       fetchSubTasks(); // Refresh the list to prevent duplicates
       reset(); // Reset form fields to avoid persisting old data
@@ -124,11 +137,22 @@ const SelectedWBTask = ({
             <Button type="submit">Add</Button>
           </form>
         </div>
+
         <div>
-          <Button onClick={() => setIsModalOpen(true)}>Add More Subtask</Button>
+          <Button onClick={() => handleClick()}>
+            Add More Subtask
+          </Button>
         </div>
       </div>
-      {isModalOpen && <AddMoreSubtask handleClose={() => setIsModalOpen(false)} />}
+      {click && (
+        <AddMoreSubtask
+          handleClose={handleClick}
+          // projectId={projectId}
+          // selectedTaskId={selectedTaskId}
+          // selectedTask={selectedTask}
+          // selectedActivity={selectedActivity}
+        />
+      )}
     </div>
   );
 };

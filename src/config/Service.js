@@ -54,15 +54,19 @@ class Service {
 
   //Edit Employee
   static async editEmployee(employeeID, updatedData) {
-       const token = sessionStorage.getItem("token");
+    const token = sessionStorage.getItem("token");
     try {
       const formData = { ...updatedData };
-      const response = await api.patch(`/api/employee/employee/${employeeID}`, formData, {
-        headers: {
-          "Content-Type": "Application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await api.patch(
+        `/api/employee/employee/${employeeID}`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "Application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       return response.data;
     } catch (error) {
       console.log("Error editing staff:", error.response?.data || error);
@@ -71,23 +75,25 @@ class Service {
   }
 
   static async editDepartment(departmentID, updatedData) {
-       const token = sessionStorage.getItem("token");
-    try { 
+    const token = sessionStorage.getItem("token");
+    try {
       const formData = { ...updatedData };
-      const response = await api.patch(`/api/department/department/${departmentID}`, formData, {
-        headers: {
-          "Content-Type": "Application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await api.patch(
+        `/api/department/department/${departmentID}`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "Application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       return response.data;
-    }
-    catch (error) {
+    } catch (error) {
       console.log("Error editing department:", error.response?.data || error);
       throw error;
-      }
+    }
   }
-  
 
   // Change password-updated -- updated
   static async changePassword(token, data) {
@@ -552,15 +558,12 @@ class Service {
     console.log("Service:---", wbActivityId);
     const token = sessionStorage.getItem("token");
     try {
-      const response = await api.get(
-        `/api/st/${projectId}/${wbActivityId}`,
-        {
-          headers: {
-            "Content-Type": "Application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const response = await api.get(`/api/st/${projectId}/${wbActivityId}`, {
+        headers: {
+          "Content-Type": "Application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
       console.log(response.data?.data);
       return response.data?.data;
     } catch (error) {
@@ -570,17 +573,21 @@ class Service {
   }
 
   //Add WorkBreakdown
-  static async addWorkBreakdown(projectId,wbActivityId,workBreakdownData) {
-    const formData = {...workBreakdownData };
-    console.log( formData);
+  static async addWorkBreakdown(projectId, wbActivityId, workBreakdownData) {
+    const formData = { ...workBreakdownData };
+    console.log(formData);
     const token = sessionStorage.getItem("token");
     try {
-      const response = await api.post(`/api/st/add/${projectId}/${wbActivityId}`, formData, {
-        headers: {
-          "Content-Type": "Application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await api.post(
+        `/api/st/add/${projectId}/${wbActivityId}`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "Application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       console.log(response.data);
       return response.data;
     } catch (error) {
@@ -720,6 +727,58 @@ class Service {
     try {
       const token = sessionStorage.getItem("token");
       const response = await api.get(`/api/rfi/rfi/sent`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/form-data",
+        },
+      });
+      console.log(response.data);
+      return response.data;
+    } catch (error) {
+      console.log("Error fetching RFI:", error);
+      throw error;
+    }
+  }
+  //Inbox RFQ
+  static async inboxRFQ() {
+    try {
+      const token = sessionStorage.getItem("token");
+      const response = await api.get(`/api/rfi/rfi/inbox`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/form-data",
+        },
+      });
+      console.log(response.data);
+      return response.data;
+    } catch (error) {
+      console.log("Error fetching RFI:", error);
+      throw error;
+    }
+  }
+  //Sent RFQ
+  static async sentRFQ() {
+    try {
+      const token = sessionStorage.getItem("token");
+      const response = await api.get(`/api/rfi/rfi/inbox`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/form-data",
+        },
+      });
+      console.log(response.data);
+      return response.data;
+    } catch (error) {
+      console.log("Error fetching RFI:", error);
+      throw error;
+    }
+  }
+
+  //Add RFQ
+  static async addRFQ() {
+    try {
+      const token = sessionStorage.getItem("token");
+      const response = await api.get(`/api/RFQ/rfq/addrfq`, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/form-data",

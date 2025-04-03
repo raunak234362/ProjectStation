@@ -7,7 +7,6 @@ import { showProjects } from "../../../../../store/projectSlice.js";
 
 const ClientAllProjects = () => {
     const projects = useSelector((state) => state?.projectData?.projectData);
-    const fabricators = useSelector((state) => state?.fabricatorData?.fabricatorData);
     const [selectedProject, setSelectedProject] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [searchTerm, setSearchTerm] = useState("");
@@ -66,12 +65,7 @@ const ClientAllProjects = () => {
         (fabricatorFilter === "" || project?.fabricator === fabricatorFilter)
       );
     });
-  
-    // Get unique fabricator names for the filter dropdown.
-    const uniqueFabricators = [
-      ...new Set(projects.map((project) => project.fabricator)),
-    ];
-  
+
     const handleViewClick = async (projectID) => {
       setSelectedProject(projectID);
       setIsModalOpen(true);
@@ -85,18 +79,18 @@ const ClientAllProjects = () => {
     return (
       <div className="bg-white/70 rounded-lg md:w-full w-[90vw] p-4">
         {/* Search and Filter Section */}
-        <div className="flex flex-col md:flex-row gap-4 mb-4">
+        <div className="flex flex-col gap-4 mb-4 md:flex-row">
           <input
             type="text"
             placeholder="Search by project name..."
             value={searchTerm}
             onChange={handleSearch}
-            className="px-4 py-2 border rounded-md w-full md:w-1/4"
+            className="w-full px-4 py-2 border rounded-md md:w-1/4"
           />
           <select
             value={statusFilter}
             onChange={handleStatusFilter}
-            className="px-4 py-2 border rounded-md w-full md:w-1/4"
+            className="w-full px-4 py-2 border rounded-md md:w-1/4"
           >
             <option value="">All Status</option>
             <option value="ASSIGNED">ASSIGNED</option>
@@ -106,18 +100,7 @@ const ClientAllProjects = () => {
             <option value="DELAY">DELAY</option>
             <option value="COMPLETED">COMPLETED</option>
           </select>
-          <select
-            value={fabricatorFilter}
-            onChange={handleFabricatorFilter}
-            className="px-4 py-2 border rounded-md w-full md:w-1/4"
-          >
-            <option value="">All Fabricators</option>
-            {uniqueFabricators?.map((fabricator) => (
-              <option key={fabricator?.fabName} value={fabricator?.id}>
-                {fabricator?.fabName}
-              </option>
-            ))}
-          </select>
+         
         </div>
   
         {/* Project Table */}
@@ -133,14 +116,7 @@ const ClientAllProjects = () => {
                   {sortConfig.key === "name" &&
                     (sortConfig.direction === "ascending" ? "▲" : "▼")}
                 </th>
-                <th
-                  className="px-2 py-1 cursor-pointer"
-                  onClick={() => handleSort("fabricator")}
-                >
-                  Fabricator Name{" "}
-                  {sortConfig.key === "fabricator" &&
-                    (sortConfig.direction === "ascending" ? "▲" : "▼")}
-                </th>
+               
                 <th
                   className="px-2 py-1 cursor-pointer"
                   onClick={() => handleSort("status")}
@@ -177,17 +153,15 @@ const ClientAllProjects = () => {
                 </tr>
               ) : (
                 filteredProjects?.map((project, index) => (
-                  <tr key={project.id} className="hover:bg-blue-gray-100 border">
-                    <td className="border px-2 py-1 text-left">
+                  <tr key={project.id} className="border hover:bg-blue-gray-100">
+                    <td className="px-2 py-1 text-left border">
                       {project?.name}
                     </td>
-                    <td className="border px-2 py-1">
-                      {fabricators?.find((fabricator) => fabricator?.id === project?.fabricator?.id)?.fabName}
-                    </td>
-                    <td className="border px-2 py-1">{project?.status}</td>
-                    <td className="border px-2 py-1">{project?.startDate}</td>
-                    <td className="border px-2 py-1">{project?.approvalDate}</td>
-                    <td className="border px-2 py-1">
+                   
+                    <td className="px-2 py-1 border">{project?.status}</td>
+                    <td className="px-2 py-1 border">{project?.startDate}</td>
+                    <td className="px-2 py-1 border">{project?.approvalDate}</td>
+                    <td className="px-2 py-1 border">
                       <Button onClick={() => handleViewClick(project?.id)}>
                         View
                       </Button>

@@ -1,26 +1,76 @@
-import React from 'react'
-import { useState } from 'react';
+import React from "react";
+import { useState } from "react";
+import Button from "../../../../fields/Button";
+import ViewRFQ from "./ViewRFQ";
 
 function AllRFQ() {
+  const data = [
+    {
+      id: 1,
+      fabricatorName: "Fabricator 1",
+      clientName: "Client 1",
+      projectName: "Project 1",
+      mailID: "fabricator1@gmail.com",
+      subject: "Subject 1",
+      date: "2023-10-01",
+      status: "Open",
+      rfqStatus: "Pending",
+      action: "View",
+    },
+    {
+      id: 2,
+      fabricatorName: "Fabricator 2",
+      clientName: "Client 2",
+      projectName: "Project 2",
+      mailID: "fabricator2@gmail.com",
+      subject: "Subject 2",
+      date: "2023-10-01",
+      status: "Open",
+      rfqStatus: "Pending",
+      action: "View",
+    },
+  ];
+
   const [searchTerm, setSearchTerm] = useState("");
   const [filters, setFilters] = useState({
     fabricator: "",
     project: "",
     status: "",
   });
+
   const [RFQ, setRFQ] = useState();
 
   const handleSearch = (e) => {
     const term = e.target.value;
-    setSearchTerm(term);
     console.log(term);
-  }
-  
+    setSearchTerm(term);
+  };
+
+  const searchHandler = (searchTerm) => {
+    const searchedData = data.filter(
+      (data) =>
+        data.fabricatorName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        data.clientName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        data.projectName.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    
+  };
+
   const handleFilter = (e) => {
     const { name, value } = e.target;
     setFilters((prev) => ({ ...prev, [name]: value }));
-  }
-  
+  };
+
+  const [click, setClick] = useState(false);
+
+  const handleClick = (e, data) => {
+    setClick(!click);
+    console.log(data);
+  };
+  const handleViewClick = (data) => {
+    console.log(data);
+    setClick(!click);
+  };
   return (
     <>
       <div className="flex items-center justify-center w-full">
@@ -83,16 +133,37 @@ function AllRFQ() {
                 <th className="px-2 py-1">Subject/Remarks</th>
                 <th className="px-2 py-1">Date</th>
                 <th className="px-2 py-1">RFQ Status</th>
-                <th className="px-2 py-1">RFQ Forward</th>
                 <th className="px-2 py-1">Action</th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td colSpan="9" className="px-2 py-1 text-center">
-                  No RFQ Found
-                </td>
-              </tr>
+              {data.length === 0 ? (
+                <tr>
+                  <td colSpan="9" className="px-2 py-1 text-center">
+                    No RFQ Found
+                  </td>
+                </tr>
+              ) : (
+                data.map((data, index) => (
+                  <tr key={index} className="bg-white">
+                    <td className="px-2 py-1">{data.fabricatorName}</td>
+                    <td className="px-2 py-1">{data.clientName}</td>
+                    <td className="px-2 py-1">{data.projectName}</td>
+                    <td className="px-2 py-1">{data.mailID}</td>
+                    <td className="px-2 py-1">{data.subject}</td>
+                    <td className="px-2 py-1">{data.date}</td>
+                    <td className="px-2 py-1">{data.rfqStatus}</td>
+                    <td className="px-2 py-1">
+                      <div>
+                        <Button onClick={() => handleViewClick(data)}>
+                          View
+                        </Button>
+                      </div>
+                      {click && <ViewRFQ />}
+                    </td>
+                  </tr>
+                ))
+              )}
             </tbody>
           </table>
         </div>
@@ -101,4 +172,4 @@ function AllRFQ() {
   );
 }
 
-export default AllRFQ
+export default AllRFQ;

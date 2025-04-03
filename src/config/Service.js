@@ -596,6 +596,29 @@ class Service {
     }
   }
 
+  static async addOneSubTask(projectId, wbActivityId, workBreakdownData) {
+    const formData = { ...workBreakdownData };
+    console.log(formData);
+    const token = sessionStorage.getItem("token");
+    try {
+      const response = await api.post(
+        `/api/st/oneSubtask/${projectId}/${wbActivityId}`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "Application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log(response.data);
+      return response.data;
+    } catch (error) {
+      console.log("Error adding work breakdown:", error);
+      throw error;
+    }
+  }
+
   // Add Teams -- updated
   static async addTeam(teamData) {
     try {
@@ -883,15 +906,18 @@ class Service {
   }
 
   //Fetch workBreakdown Activity
-  static async fetchWorkBreakdownActivity(selectedTask,projectId) {
+  static async fetchWorkBreakdownActivity(selectedTask, projectId) {
     const token = sessionStorage.getItem("token");
     try {
-      const response = await api.get(`/api/wbs/wbs/${selectedTask}/${projectId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await api.get(
+        `/api/wbs/wbs/${selectedTask}/${projectId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
       console.log(response.data);
       return response.data.data;
     } catch (error) {

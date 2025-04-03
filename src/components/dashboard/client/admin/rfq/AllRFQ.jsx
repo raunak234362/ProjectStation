@@ -10,7 +10,6 @@ function AllRFQ() {
   });
   const [RFQ, setRFQ] = useState();
 
-
   const handleSearch = (e) => {
     const term = e.target.value;
     setSearchTerm(term);

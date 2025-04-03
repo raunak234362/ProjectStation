@@ -63,7 +63,6 @@ const SelectedWBTask = ({
     }
   };
 
-
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
       <div className="w-full p-2 bg-white rounded-lg shadow-lg h-fit md:p-5 md:w-2/5">
@@ -74,18 +73,26 @@ const SelectedWBTask = ({
         </div>
         <div className="flex flex-row items-center justify-center">
           <div>
-            <b>Selected Task:</b> {workBD?.task?.find((task) => task.id === selectedTaskId)?.name}
+            <b>Selected Task:</b>{" "}
+            {workBD?.task?.find((task) => task.id === selectedTaskId)?.name}
           </div>
         </div>
         <div className="pt-10 bg-white h-[60vh] overflow-auto rounded-lg">
-          <form className="flex flex-col gap-y-2" onSubmit={handleSubmit(onSubmit)}>
+          <form
+            className="flex flex-col gap-y-2"
+            onSubmit={handleSubmit(onSubmit)}
+          >
             <table className="w-full text-sm text-center border border-collapse border-gray-600">
               <thead className="bg-gray-200">
                 <tr>
                   <th className="px-2 py-1 border border-gray-600">Sub-Task</th>
                   <th className="px-2 py-1 border border-gray-600">Qty</th>
-                  <th className="px-2 py-1 border border-gray-600">Execution Hours</th>
-                  <th className="px-2 py-1 border border-gray-600">Checking Hours</th>
+                  <th className="px-2 py-1 border border-gray-600">
+                    Execution Hours
+                  </th>
+                  <th className="px-2 py-1 border border-gray-600">
+                    Checking Hours
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -108,12 +115,23 @@ const SelectedWBTask = ({
                               disabled={!isEditing && subTask.QtyNo !== 0} // Disable unless editing
                               onChange={(e) => {
                                 const QtyNo = parseFloat(e.target.value) || 0;
-                                const unitTime = parseFloat(subTask.unitTime) || 0;
-                                const CheckUnitTime = parseFloat(subTask.CheckUnitTime) || 0;
+                                const unitTime =
+                                  parseFloat(subTask.unitTime) || 0;
+                                const CheckUnitTime =
+                                  parseFloat(subTask.CheckUnitTime) || 0;
                                 setValue(`subTasks[${index}].id`, subTask.id);
-                                setValue(`subTasks[${index}].description`, subTask.description);
-                                setValue(`subTasks[${index}].execHr`, (QtyNo * unitTime).toFixed(2));
-                                setValue(`subTasks[${index}].checkHr`, (QtyNo * CheckUnitTime).toFixed(2));
+                                setValue(
+                                  `subTasks[${index}].description`,
+                                  subTask.description
+                                );
+                                setValue(
+                                  `subTasks[${index}].execHr`,
+                                  (QtyNo * unitTime).toFixed(2)
+                                );
+                                setValue(
+                                  `subTasks[${index}].checkHr`,
+                                  (QtyNo * CheckUnitTime).toFixed(2)
+                                );
                                 field.onChange(e);
                               }}
                             />
@@ -124,33 +142,49 @@ const SelectedWBTask = ({
                       )}
                     </td>
 
-
                     <td className="px-2 py-1 border border-gray-600">
-                      {watch(`subTasks[${index}].execHr`) || subTask.execHr || 0}
+                      {watch(`subTasks[${index}].execHr`) ||
+                        subTask.execHr ||
+                        0}
                     </td>
                     <td className="px-2 py-1 border border-gray-600">
-                      {watch(`subTasks[${index}].checkHr`) || subTask.checkHr || 0}
+                      {watch(`subTasks[${index}].checkHr`) ||
+                        subTask.checkHr ||
+                        0}
                     </td>
                   </tr>
                 ))}
               </tbody>
             </table>
-            {!isQtyZero ? (<Button className="bg-blue-gray-500" type="submit" disabled={!isQtyZero}>Added</Button>) : (<Button type="submit" disabled={!isQtyZero}>Add</Button>)}
-          </form>
-          {
-            !isEditing ? (
-              <Button onClick={() => setIsEditing(true)}>Edit</Button>
+            {!isQtyZero ? (
+              <Button
+                className="bg-blue-gray-500"
+                type="submit"
+                disabled={!isQtyZero}
+              >
+                Added
+              </Button>
             ) : (
-              <Button type="submit" onClick={() => setIsEditing(false)}>Save</Button>
+              <Button type="submit" disabled={!isQtyZero}>
+                Add
+              </Button>
             )}
-
-
+          </form>
+          {!isEditing ? (
+            <Button onClick={() => setIsEditing(true)}>Edit</Button>
+          ) : (
+            <Button type="submit" onClick={() => setIsEditing(false)}>
+              Save
+            </Button>
+          )}
         </div>
         <div>
           <Button onClick={() => setIsModalOpen(true)}>Add More Subtask</Button>
         </div>
       </div>
-      {isModalOpen && <AddMoreSubtask handleClose={() => setIsModalOpen(false)} />}
+      {isModalOpen && (
+        <AddMoreSubtask handleClose={() => setIsModalOpen(false)} selectedTaskId={selectedTaskId} projectId={ projectId} />
+      )}
     </div>
   );
 };

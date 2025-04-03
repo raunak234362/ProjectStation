@@ -1,35 +1,62 @@
-import React from 'react'
+import React from "react";
 import { useEffect, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
-import Button from '../../../../../fields/Button';
+import Button from "../../../../../fields/Button";
+import { toast } from "react-toastify";
+import Service from "../../../../../../config/Service";
 
+const AddMoreSubtask = ({ handleClose, selectedTaskId, projectId }) => {
+  const { register, handleSubmit, control, setValue, watch, reset } = useForm();
+  const [subtasks, setSubtask] = useState([]);
 
-const AddMoreSubtask = ({ handleClose}) => {
-    const { register, handleSubmit, control, setValue, watch, reset } = useForm();
-    const [subtasks, setSubtask] = useState([]);
+  // const onSubmits = (data) => {
+  //     console.log(data);
+  //     const newSubtask = {
+  //         id: subtasks.length + 1,
+  //         description: data.description,
+  //         executionHours: data.executionHours,
+  //         checkingHours: data.checkingHours,
+  //     };
+  //     setSubtask((prevSubtasks) => [...prevSubtasks, newSubtask]);
+  //     console.log(subtasks);
+  //     reset();
+  // }
 
-    const onSubmit = (data) => {
-        console.log(data);
-        const newSubtask = {
-            id: subtasks.length + 1,
-            description: data.description,
-            executionHours: data.executionHours,
-            checkingHours: data.checkingHours,
-        };
-        setSubtask((prevSubtasks) => [...prevSubtasks, newSubtask]);
-        console.log(subtasks);
-        reset();
+  const onSubmit = async (data) => {
+    console.log("Form data:", data);
+
+    try {
+      const addMoreSubtask = {
+        ...data,
+        QtyNo: "",
+      };
+      console.log(addMoreSubtask);
+      await Service.addOneSubTask(projectId, selectedTaskId, addMoreSubtask);
+      toast.success("Work breakdown data added successfully!");
+      const newSubtask = {
+        id: subtasks.length + 1,
+        description: data.description,
+        unitTime: data.unitTime,
+        CheckUnitTime: data.CheckUnitTime,
+      };
+      setSubtask((prevSubtasks) => [...prevSubtasks, newSubtask]);
+      fetchSubTasks(); // Refresh the list to show the saved data
+      setIsSubmitted(true); // Prevent further edits
+      reset(); // Reset form fields
+    } catch (error) {
+      toast.error("Error adding work breakdown data");
     }
+  };
 
-    const handleAddSubtask = () => { 
-        console.log("Subtask added");
-        //to display in the same table
-    }
-    const [index, setIndex] = useState(1);
-    useEffect(() => {
-        setIndex(subtasks.length + 1);
-    }, [subtasks]);
-    
+  const handleAddSubtask = () => {
+    console.log("Subtask added");
+    //to display in the same table
+  };
+  const [index, setIndex] = useState(1);
+  useEffect(() => {
+    setIndex(subtasks.length + 1);
+  }, [subtasks]);
+
   return (
     <>
       <div className="p-5 m-5 rounded-lg shadow-lg w-[40%] bg-white">
@@ -78,28 +105,28 @@ const AddMoreSubtask = ({ handleClose}) => {
                   </td>
                   <td className="px-2 py-1 border border-gray-600">
                     <Controller
-                      name="executionHours"
+                      name="unitTime"
                       control={control}
                       defaultValue="0"
                       render={({ field }) => (
                         <input
                           type="number"
                           placeholder="Enter execution hours"
-                          {...register("executionHours")}
+                          {...register("unitTime")}
                         />
                       )}
                     />
                   </td>
                   <td className="px-2 py-1 border border-gray-600">
                     <Controller
-                      name="checkingHours"
+                      name="CheckUnitTime"
                       control={control}
                       defaultValue="0"
                       render={({ field }) => (
                         <input
                           type="number"
                           placeholder="Enter checking hours"
-                          {...register("checkingHours")}
+                          {...register("CheckUnitTime")}
                         />
                       )}
                     />
@@ -134,10 +161,10 @@ const AddMoreSubtask = ({ handleClose}) => {
                     {subtask.description}
                   </td>
                   <td className="px-2 py-1 border border-gray-600">
-                    {subtask.executionHours}
+                    {subtask.unitTime}
                   </td>
                   <td className="px-2 py-1 border border-gray-600">
-                    {subtask.checkingHours}
+                    {subtask.checkUnitTime}
                   </td>
                 </tr>
               ))}
@@ -147,6 +174,6 @@ const AddMoreSubtask = ({ handleClose}) => {
       </div>
     </>
   );
-}
+};
 
-export default AddMoreSubtask
+export default AddMoreSubtask;

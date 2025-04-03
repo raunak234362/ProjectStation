@@ -762,6 +762,25 @@ class Service {
       throw error;
     }
   }
+
+  //Fetch RFI by ID
+  static async fetchRFIById(id) {
+    try {
+      const token = sessionStorage.getItem("token");
+      const response = await api.get(`/api/RFI/rfi/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/form-data",
+        },
+      });
+      console.log(response.data);
+      return response.data;
+    } catch (error) {
+      console.log("Error fetching RFI:", error);
+      throw error;
+    }
+  }
+
   //Inbox RFQ
   static async inboxRFQ() {
     try {

@@ -105,9 +105,9 @@ const AllSentRFI = () => {
     setSortConfig({ key, direction });
   };
 
-  const handleViewClick = async(fabricatorId)=>{
+  const handleViewClick = async(rfiID)=>{
     
-    setSelectedRFI(fabricatorId)
+    setSelectedRFI(rfiID)
     setIsModalOpen(true)
   }
   

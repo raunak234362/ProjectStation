@@ -1,30 +1,47 @@
 /* eslint-disable no-unused-vars */
 import React from "react";
 import { useSelector } from "react-redux";
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import Service from "../../../../../config/Service";
+import Button from "../../../../fields/Button";
+import GetSentRFI from "./GetSentRFI";
 
 
 const AllReceivedRFI = () => {
-  const[RFI, setRFI] = useState([]);
-
+  const [RFI, setRFI] = useState([]);
+  const [selectedRFI, setSelectedRFI] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false)
 
   const fetchREceivedRfi = async () => {
-    try{
+    try {
       const rfi = await Service.inboxRFI();
       console.log(rfi);
-      if(rfi){
+      if (rfi) {
         setRFI(rfi.data);
-      }else{
+      } else {
         console.log("RFI not found");
       }
-    }catch(error){
+    } catch (error) {
       console.log(error);
     }
   }
-  useEffect(()=>{
+  useEffect(() => {
     fetchREceivedRfi();
-  },[])
+  }, [])
+
+  const handleViewClick = async (fabricatorId) => {
+
+    setSelectedRFI(fabricatorId)
+    setIsModalOpen(true)
+  }
+
+  console.log(selectedRFI)
+
+  const handleModalClose = async () => {
+    setSelectedRFI(null)
+    setIsModalOpen(false)
+  }
+
 
   return (
     <div className="bg-white/70 rounded-lg md:w-full w-[90vw]">
@@ -67,7 +84,7 @@ const AllReceivedRFI = () => {
                       {rfi?.project.name || "N/A"}
                     </td>
                     <td className="border px-2 py-1">
-                      {rfi?.recepients.email|| "N/A"}
+                      {rfi?.recepients.email || "N/A"}
                     </td>
                     <td className="border px-2 py-1">
                       {rfi?.subject || "No remarks"}
@@ -76,26 +93,31 @@ const AllReceivedRFI = () => {
                       {rfi?.date || "N/A"}
                     </td>
                     <td className="border px-2 py-1">
-                      {rfi?.status? "No Reply"  : "Replied"}
-                    </td> 
-                     <td className="border px-2 py-1">
-                      
+                      {rfi?.status ? "No Reply" : "Replied"}
+                    </td>
+                    <td className="border px-2 py-1">
+
                       <button className="bg-teal-300 px-2 py-1 rounded">
                         Forward
                       </button>
                     </td>
                     <td className="border px-2 py-1">
-                      
-                      <button className="bg-blue-300 px-2 py-1 rounded">
-                        View
-                      </button>
-                    </td> 
+
+                      <Button onClick={() => handleViewClick(rfi.id)}>View</Button>
+                    </td>
                   </tr>
                 ))
               )}
             </tbody>
           </table>
         </div>
+        {selectedRFI && (
+          <GetSentRFI
+          rfiId={selectedRFI}
+          isOpen={isModalOpen}
+          onClose={handleModalClose}
+          />
+        )}
       </div>
     </div>
   );

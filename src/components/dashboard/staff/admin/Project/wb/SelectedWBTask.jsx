@@ -41,6 +41,7 @@ const SelectedWBTask = ({
   }, []);
 
   const onSubmit = async (data) => {
+    console.log("Form data:", data);
     try {
       const workBreakdown = data?.subTasks?.map((workBD) => ({
         ...workBD,
@@ -100,9 +101,10 @@ const SelectedWBTask = ({
                               const QtyNo = parseFloat(e.target.value) || 0;
                               const unitTime = parseFloat(subTask.unitTime) || 0;
                               const CheckUnitTime = parseFloat(subTask.CheckUnitTime) || 0;
-                              setValue(`subTasks[${index}].description`, subTask.description);
-                              setValue(`subTasks[${index}].execHr`, (QtyNo * unitTime).toFixed(2));
-                              setValue(`subTasks[${index}].checkHr`, (QtyNo * CheckUnitTime).toFixed(2));
+                              setValue(`subTasks[${index}].id`, subTask.id);
+                              setValue(`subTasks.description`, `subTask.description`);
+                              setValue(`subTasks.execHr`, (QtyNo * unitTime).toFixed(2) || `subTask.execHr`);
+                              setValue(`subTasks.checkHr`, (QtyNo * CheckUnitTime).toFixed(2) || `subTask.checkHr`);
                               field.onChange(e);
                             }}
                           />

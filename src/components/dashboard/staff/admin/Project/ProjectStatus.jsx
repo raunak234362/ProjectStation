@@ -423,7 +423,7 @@ const ProjectStatus = ({ projectId, onClose }) => {
               {projectData?.name || "Unknown Project"}
             </div>
             <span className="text-xs text-gray-500 md:text-sm">
-              {formatDate(minDate)} - {formatDate(maxDate)}
+              {formatDate(projectData?.startDate)} - {formatDate(projectData?.endDate)}
             </span>
           </div>
           <div className="flex items-center gap-2">

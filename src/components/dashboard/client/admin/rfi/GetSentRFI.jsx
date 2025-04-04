@@ -95,7 +95,7 @@ const {
                       <a
                         key={index}
                         href={`${import.meta.env.VITE_BASE_URL
-                          }/api/RFI/rfi/${rfi.id}/${file.id}`} // Use the file path with baseURL
+                          }/api/RFI/rfi/viewfile/${rfi.id}/${file.id}`} // Use the file path with baseURL
                         target="_blank" // Open in a new tab
                         rel="noopener noreferrer"
                         className="px-5 py-2 text-teal-500 hover:underline"

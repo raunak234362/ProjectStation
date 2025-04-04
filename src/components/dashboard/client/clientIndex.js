@@ -11,7 +11,7 @@ import AddRFQ from "./admin/rfq/AddRFQ";
 import AllRFQ from "./admin/rfq/AllRFQ";
 //rfi
 import RFI from "./admin/rfi/RFI";
-import AllSentRFI from "../staff/admin/rfi/AllSentRFI";
+import AllSentRFI from "./admin/rfi/AllSentRFI";
 import AllReceivedRFI from "./admin/rfi/AllReceivedRFI";
 import {ClientCreateRFI} from "../client/admin/rfi/CreateRFI";
 import GetSentRFI from "../staff/admin/rfi/GetSentRFI";

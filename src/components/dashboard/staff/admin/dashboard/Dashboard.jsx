@@ -88,9 +88,10 @@ const ProjectDashboard = () => {
 
   // Calculate task statistics
   const completedTasks = taskData?.filter((task) => task?.status === "COMPLETE")?.length || 0
-  const inProgressTasks = taskData?.filter((task) => task?.status === "IN PROGRESS")?.length || 0
-  const assignedTask = taskData?.filter((task) => task?.status === "ASSINGED")?.length || 0
-  const inReviewTask = taskData?.filter((task) => task?.status === "IN REVIEW")?.length || 0
+  const inProgressTasks = taskData?.filter((task) => task?.status === "IN_PROGRESS")?.length || 0
+  const assignedTask = taskData?.filter((task) => task?.status === "ASSIGNED")?.length || 0
+  const inReviewTask = taskData?.filter((task) => task?.status === "IN_REVIEW")?.length || 0
+  const inBreakTask = taskData?.filter((task) => task?.status === "BREAK")?.length || 0
 
   // Chart data with improved colors
   const chartColors = {
@@ -99,57 +100,50 @@ const ProjectDashboard = () => {
     assigned: "rgba(139, 92, 246, 0.8)", // purple
     inReview: "rgba(245, 158, 11, 0.8)", // amber
     onHold: "rgba(239, 68, 68, 0.8)", // red
+    inBreak:"rgba(156, 163, 175, 0.8)", // gray
   }
 
   // Group tasks by fabricator for the bar chart
-  const fabricatorTaskData = () => {
-    // Get unique fabricators
-    const fabricators = Array?.from(new Set(projectData.map((p) => p.fabricator?.fabName).filter(Boolean)))
+  const projectTaskData = () => {
+    // Get unique projects
+    const projects = projectData.map((p) => p.name)
 
-    // For each fabricator, count tasks by status
+    // For each project, count tasks by status
     return {
-      labels: fabricators,
+      labels: projects,
       datasets: [
         {
           label: "Tasks Completed",
-          data: fabricators.map((fabName) => {
-            const fabProjects = projectData.filter((p) => p.fabricator?.fabName === fabName)
-            const fabProjectIds = fabProjects?.map((p) => p.id)
-            return taskData?.filter((task) => fabProjectIds?.includes(task?.project?.id) && task?.status === "COMPLETE")
-              .length
+          data: projects.map((projectName) => {
+            const project = projectData.find((p) => p.name === projectName)
+            return taskData?.filter((task) => task?.project?.id === project?.id && task?.status === "COMPLETE").length
           }),
           backgroundColor: chartColors.completed,
           borderRadius: 6,
         },
         {
           label: "Tasks In Review",
-          data: fabricators.map((fabName) => {
-            const fabProjects = projectData?.filter((p) => p.fabricator?.fabName === fabName)
-            const fabProjectIds = fabProjects?.map((p) => p.id)
-            return taskData?.filter((task) => fabProjectIds?.includes(task?.project?.id) && task?.status === "IN_REVIEW")
-              .length
+          data: projects.map((projectName) => {
+            const project = projectData.find((p) => p.name === projectName)
+            return taskData?.filter((task) => task?.project?.id === project?.id && task?.status === "IN_REVIEW").length
           }),
           backgroundColor: chartColors.inReview,
           borderRadius: 6,
         },
         {
           label: "Tasks In Progress",
-          data: fabricators.map((fabName) => {
-            const fabProjects = projectData?.filter((p) => p.fabricator?.fabName === fabName)
-            const fabProjectIds = fabProjects?.map((p) => p.id)
-            return taskData?.filter((task) => fabProjectIds?.includes(task?.project?.id) && task?.status === "IN_PROGRESS")
-              .length
+          data: projects.map((projectName) => {
+            const project = projectData.find((p) => p.name === projectName)
+            return taskData?.filter((task) => task?.project?.id === project?.id && task?.status === "IN_PROGRESS").length
           }),
           backgroundColor: chartColors.inProgress,
           borderRadius: 6,
         },
         {
           label: "Tasks Assigned",
-          data: fabricators.map((fabName) => {
-            const fabProjects = projectData.filter((p) => p.fabricator?.fabName === fabName)
-            const fabProjectIds = fabProjects.map((p) => p.id)
-            return taskData?.filter((task) => fabProjectIds?.includes(task?.project?.id) && task?.status === "ASSIGNED")
-              .length
+          data: projects.map((projectName) => {
+            const project = projectData.find((p) => p.name === projectName)
+            return taskData?.filter((task) => task?.project?.id === project?.id && task?.status === "ASSIGNED").length
           }),
           backgroundColor: chartColors.assigned,
           borderRadius: 6,
@@ -158,14 +152,14 @@ const ProjectDashboard = () => {
     }
   }
 
-  const barData = fabricatorTaskData()
+  const barData = projectTaskData()
 
   const pieData = {
-    labels: ["Completed", "In Progress", "Assigned", "In Review"],
+    labels: ["Complete", "In Progress", "Assigned", "In Review", "In Break"],
     datasets: [
       {
-        data: [completedTasks, inProgressTasks, assignedTask, inReviewTask],
-        backgroundColor: [chartColors.completed, chartColors.inProgress, chartColors.assigned, chartColors.inReview],
+        data: [completedTasks, inProgressTasks, assignedTask, inReviewTask, inBreakTask],
+        backgroundColor: [chartColors.completed, chartColors.inProgress, chartColors.assigned, chartColors.inReview, chartColors.inBreak],
         borderWidth: 1,
         borderColor: "#ffffff",
       },
@@ -318,7 +312,7 @@ const ProjectDashboard = () => {
                 }`}
               >
                 <BarChart3 className="w-4 h-4" />
-                Fabricator Task Overview
+                Project Task Overview
               </button>
               <button
                 onClick={() => setActiveChart("pie")}
@@ -347,61 +341,64 @@ const ProjectDashboard = () => {
           <div className="p-4 sm:p-6">
             <div className="w-full" style={{ height: activeChart === "bar" ? `${getBarChartHeight()}px` : "400px" }}>
               {activeChart === "bar" && (
-                    <Bar
-                      data={barData}
-                      options={{
-                        indexAxis: "y", // This makes the bar chart horizontal
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: {
-                          legend: {
-                            position: "top",
-                            labels: {
-                              usePointStyle: true,
-                              boxWidth: 6,
-                              font: {
-                                size: 12,
-                              },
-                            },
-                          },
-                          tooltip: {
-                            backgroundColor: "rgba(0, 0, 0, 0.8)",
-                            padding: 12,
-                            titleFont: {
-                              size: 14,
-                            },
-                            bodyFont: {
-                              size: 13,
-                            },
-                            cornerRadius: 8,
-                          },
-                        },
-                        scales: {
-                          x: {
-                            beginAtZero: true,
-                            grid: {
-                              color: "rgba(0, 0, 0, 0.05)",
-                            },
-                            stacked: true,
-                          },
-                          y: {
-                            grid: {
-                              display: false,
-                            },
-                            stacked: true,
-                            ticks: {
-                              // Ensure fabricator names are fully visible
-                              callback: function (value) {
-                                const label = this.getLabelForValue(value)
-                                // Truncate long fabricator names on small screens
-                                const maxLength = window.innerWidth < 768 ? 15 : 25
-                                return label.length > maxLength ? label.substring(0, maxLength) + "..." : label
-                              },
+                <div className="w-full h-full">
+
+                  <Bar
+                    data={barData}
+                    options={{
+                      indexAxis: "y", // This makes the bar chart horizontal
+                      responsive: true,
+                      maintainAspectRatio: false,
+                      plugins: {
+                        legend: {
+                          position: "top",
+                          labels: {
+                            usePointStyle: true,
+                            boxWidth: 6,
+                            font: {
+                              size: 12,
                             },
                           },
                         },
-                      }}
-                    />
+                        tooltip: {
+                          backgroundColor: "rgba(0, 0, 0, 0.8)",
+                          padding: 12,
+                          titleFont: {
+                            size: 14,
+                          },
+                          bodyFont: {
+                            size: 13,
+                          },
+                          cornerRadius: 8,
+                        },
+                      },
+                      scales: {
+                        x: {
+                          beginAtZero: true,
+                          grid: {
+                            color: "rgba(0, 0, 0, 0.05)",
+                          },
+                          stacked: true,
+                        },
+                        y: {
+                          grid: {
+                            display: false,
+                          },
+                          stacked: true,
+                          ticks: {
+                            // Ensure fabricator names are fully visible
+                            callback: function (value) {
+                              const label = this.getLabelForValue(value)
+                              // Truncate long fabricator names on small screens
+                              const maxLength = window.innerWidth < 768 ? 15 : 25
+                              return label.length > maxLength ? label.substring(0, maxLength) + "..." : label
+                            },
+                          },
+                        },
+                      },
+                    }}
+                  />
+                </div>
                   )}
               {activeChart === "pie" && (
                 <Pie

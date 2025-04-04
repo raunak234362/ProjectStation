@@ -817,10 +817,27 @@ class Service {
   }
 
   //Add RFQ
-  static async addRFQ() {
+  static async addRFQ(RFQData) {
+    console.log(RFQData);
+    const data = new FormData();
+
+    // Append files
+    for (let i = 0; i < RFQData?.files.length; i++) {
+      console.log("File:", RFQData?.files[i]);
+      data.append("files", RFQData?.files[i]);
+    }
+
+    // Append other fields
+    // Append other fields
+    data.append("projectName", RFQData?.projectName);
+    data.append("recepient_id", RFQData?.recipient_id);
+    data.append("subject", RFQData?.subject);
+    data.append("description", RFQData?.description);
+
+    console.log("Data-------------", data);
     try {
       const token = sessionStorage.getItem("token");
-      const response = await api.get(`/api/RFQ/rfq/addrfq`, {
+      const response = await api.post(`/api/RFQ/rfq/addrfq`,data, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/form-data",

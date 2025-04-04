@@ -1,9 +1,10 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "../../../../fields/Button";
 import { useSelector } from "react-redux";
 import EditEmployee from "./EditEmployee";
+import Service from "../../../../../config/Service";
 
 const GetEmployee = ({ employeeID, onClose }) => {
   const [selectedEditEmployee, setSelectedEditEmployee] = useState(null);
@@ -14,6 +15,13 @@ const GetEmployee = ({ employeeID, onClose }) => {
   );
   const departments = useSelector((state)=>state?.userData?.departmentData)
 
+const fetchEmployeeStats = async () => {
+    const response = await Service.getUsersStats(employeeID);
+    console.log(response.data);
+    };
+    useEffect(() => {
+      fetchEmployeeStats();
+    }, []);
 
   const handleClose = async () => {
     onClose(true);

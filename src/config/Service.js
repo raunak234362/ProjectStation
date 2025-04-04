@@ -18,6 +18,20 @@ class Service {
       throw error;
     }
   }
+  static async getUsersStats(id) {
+    try {
+      const response = await api.get(`/api/employee/stats/${id}`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      return response.data;
+    } catch (error) {
+      console.log("Error finding Current user:", error);
+      throw error;
+    }
+  }
 
   static async getRecipients() {
     const token = sessionStorage.getItem("token");
@@ -783,7 +797,7 @@ class Service {
           "Content-Type": "application/form-data",
         },
       });
-      return response.data;
+      return response.data.data;
     } catch (error) {
       console.log("Error fetching RFI:", error);
       throw error;
@@ -800,7 +814,7 @@ class Service {
         },
       });
 
-      return response.data;
+      return response.data.data;
     } catch (error) {
       console.log("Error fetching RFI:", error);
       throw error;

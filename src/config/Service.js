@@ -606,6 +606,7 @@ class Service {
           },
         }
       );
+
       return response.data;
     } catch (error) {
       console.log("Error adding work breakdown:", error);
@@ -776,7 +777,7 @@ class Service {
   static async inboxRFQ() {
     try {
       const token = sessionStorage.getItem("token");
-      const response = await api.get(`/api/rfi/rfi/inbox`, {
+      const response = await api.get(`/api/RFQ/rfq/inbox`, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/form-data",
@@ -792,12 +793,13 @@ class Service {
   static async sentRFQ() {
     try {
       const token = sessionStorage.getItem("token");
-      const response = await api.get(`/api/rfi/rfi/inbox`, {
+      const response = await api.get(`/api/RFQ/rfq/sent`, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/form-data",
         },
       });
+
       return response.data;
     } catch (error) {
       console.log("Error fetching RFI:", error);
@@ -806,6 +808,7 @@ class Service {
   }
 
   //Add RFQ
+
   static async addRFQ(RFQData) {
     const data = new FormData();
 
@@ -817,6 +820,7 @@ class Service {
 
     // Append other fields
     // Append other fields
+
     data.append("projectName", RFQData?.projectName);
     data.append("recepient_id", RFQData?.recipient_id);
     data.append("subject", RFQData?.subject);

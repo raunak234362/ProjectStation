@@ -1,7 +1,10 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Button from "../../../../fields/Button";
 import ViewRFQ from "./ViewRFQ";
+import Service from "../../../../../config/Service";
+
+
+
 
 function AllRFQ() {
   const data = [
@@ -19,13 +22,25 @@ function AllRFQ() {
     },
     {
       id: 2,
-      fabricatorName: "Fabricator 2",
-      clientName: "Client 2",
-      projectName: "Project 2",
-      mailID: "fabricator2@gmail.com",
-      subject: "Subject 2",
+      fabricatorName: "xyz 2",
+      clientName: "xyz 2",
+      projectName: "xyz 2",
+      mailID: "xyz@gmail.com",
+      subject: "xyz 2",
       date: "2023-10-01",
       status: "Open",
+      rfqStatus: "Pending",
+      action: "View",
+    },
+    {
+      id: 3,
+      fabricatorName: "fab",
+      clientName: "fab 2",
+      projectName: "fab 2",
+      mailID: "fab@gmail.com",
+      subject: "fab 2",
+      date: "2023-10-11",
+      status: "closed",
       rfqStatus: "Pending",
       action: "View",
     },
@@ -38,22 +53,11 @@ function AllRFQ() {
     status: "",
   });
 
-  const [RFQ, setRFQ] = useState();
-
+  const [rfq, setRfq] = useState(data);
+  const [viewData, setViewData] = useState(null);
+const [click, setClick] = useState(false);
   const handleSearch = (e) => {
-    const term = e.target.value;
-    console.log(term);
-    setSearchTerm(term);
-  };
-
-  const searchHandler = (searchTerm) => {
-    const searchedData = data.filter(
-      (data) =>
-        data.fabricatorName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        data.clientName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        data.projectName.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-    
+    setSearchTerm(e.target.value);
   };
 
   const handleFilter = (e) => {
@@ -61,16 +65,56 @@ function AllRFQ() {
     setFilters((prev) => ({ ...prev, [name]: value }));
   };
 
-  const [click, setClick] = useState(false);
+  const fetchReceivedRFQ = async () => {
+    try {
+      const rfq = await Service.sentRFQ();
+      setRfq(rfq);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    fetchReceivedRFQ();
+  }, []);
 
-  const handleClick = (e, data) => {
-    setClick(!click);
-    console.log(data);
-  };
+  
+  useEffect(() => {
+    const filteredData = data.filter((item) => {
+      //search filter
+      const matchedSearchTerm =
+        item.fabricatorName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        item.clientName.toLowerCasnsole().includes(searchTerm.toLowerCase()) ||
+        item.projectName.toLowerCase().includes(searchTerm.toLowerCase());
+      //filter dropdown fabricator
+      const matchedFabricator =
+        !filters.fabricator ||
+        item.fabricatorName.toLowerCase() === filters.fabricator.toLowerCase();
+      //filter dropdown project
+      const matchedProject =
+        !filters.project ||
+        item.projectName.toLowerCase() === filters.project.toLowerCase();
+      //filter dropdown status
+      const matchedStatus =
+        !filters.status ||
+        item.status.toLowerCase() === filters.status.toLowerCase();
+
+      return (
+        matchedSearchTerm &&
+        matchedFabricator &&
+        matchedProject &&
+        matchedStatus
+      );
+    });
+
+    setRfq(filteredData);
+  }, [searchTerm, filters]);
+
+  
   const handleViewClick = (data) => {
-    console.log(data);
-    setClick(!click);
+    setViewData(data);
+    setClick(true);
   };
+  
   return (
     <>
       <div className="flex items-center justify-center w-full">
@@ -82,52 +126,43 @@ function AllRFQ() {
             onChange={handleSearch}
           />
           <div className="grid grid-cols-1 gap-4 mb-4 md:grid-cols-3">
-            <div
-              className="px-2 py-1 border border-gray-300 rounded"
-              onChange={handleFilter}
-            >
+            <div className="px-2 py-1 border border-gray-300 rounded">
               <select
                 name="fabricator"
                 onChange={handleFilter}
                 className="px-2 py-1 border border-gray-300 rounded"
               >
                 <option value="">Filter by Fabricator</option>
-                <option value="Fabricator 1">Fabricators</option>
+                <option value="Fabricator 1">Fabricator 1</option>
               </select>
             </div>
-            <div
-              className="px-2 py-1 border border-gray-300 rounded"
-              onChange={handleFilter}
-            >
+            <div className="px-2 py-1 border border-gray-300 rounded">
               <select
                 name="project"
                 onChange={handleFilter}
                 className="px-2 py-1 border border-gray-300 rounded"
               >
                 <option value="">Filter by Project</option>
-                <option value="Project 1">Projects</option>
+                <option value="Project 1">Project 1</option>
               </select>
             </div>
-            <div
-              className="px-2 py-1 border border-gray-300 rounded"
-              onChange={handleFilter}
-            >
+            <div className="px-2 py-1 border border-gray-300 rounded">
               <select
                 name="status"
                 onChange={handleFilter}
                 className="px-2 py-1 border border-gray-300 rounded"
               >
                 <option value="">Filter by Status</option>
-                <option value="open">Open</option>
-                <option value="closed">Closed</option>
+                <option value="Open">Open</option>
+                <option value="Closed">Closed</option>
               </select>
             </div>
           </div>
-          <table className="min-w-full text-sm text-center border-collapse md:text-lg rounded-xl">
+
+          <table className="min-w-full text-sm text-center border-collapse md:texport default AllRFQ;ext-lg rounded-xl">
             <thead>
               <tr className="bg-teal-200/70">
-                <th className="px-2 py-1">Fabricator Name</th>
-                <th className="px-2 py-1">Client Name</th>
+                
                 <th className="px-2 py-1">Project Name</th>
                 <th className="px-2 py-1">Mail ID</th>
                 <th className="px-2 py-1">Subject/Remarks</th>
@@ -137,29 +172,25 @@ function AllRFQ() {
               </tr>
             </thead>
             <tbody>
-              {data.length === 0 ? (
+              {rfq.length === 0 ? (
                 <tr>
-                  <td colSpan="9" className="px-2 py-1 text-center">
+                  <td colSpan="8" className="px-2 py-1 text-center">
                     No RFQ Found
                   </td>
                 </tr>
               ) : (
-                data.map((data, index) => (
-                  <tr key={index} className="bg-white">
-                    <td className="px-2 py-1">{data.fabricatorName}</td>
-                    <td className="px-2 py-1">{data.clientName}</td>
+                rfq.map((data) => (
+                  <tr key={data.id} className="bg-white">
                     <td className="px-2 py-1">{data.projectName}</td>
                     <td className="px-2 py-1">{data.mailID}</td>
                     <td className="px-2 py-1">{data.subject}</td>
                     <td className="px-2 py-1">{data.date}</td>
                     <td className="px-2 py-1">{data.rfqStatus}</td>
                     <td className="px-2 py-1">
-                      <div>
-                        <Button onClick={() => handleViewClick(data)}>
-                          View
-                        </Button>
-                      </div>
-                      {click && <ViewRFQ />}
+                      <Button onClick={() => handleViewClick(data)}>
+                        View
+                      </Button>
+                      {/* {click && <ViewRFQ />} */}
                     </td>
                   </tr>
                 ))
@@ -168,6 +199,8 @@ function AllRFQ() {
           </table>
         </div>
       </div>
+
+      {viewData && <ViewRFQ />}
     </>
   );
 }

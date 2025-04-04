@@ -140,7 +140,8 @@ const GetProject = ({ projectId, onClose }) => {
                   { label: "Tool", value: projectData?.tools },
                   { label: "Start Date", value: projectData?.startDate },
                   { label: "Department", value: projectData?.department?.name },
-                  { label: "End Date", value: projectData?.approvalDate },
+                  { label: "Approval Date", value: projectData?.approvalDate },
+                  { label: "End Date", value: projectData?.endDate },
                   { label: "Team Name", value: projectData?.team?.name },
                   {
                     label: "Project Manager",

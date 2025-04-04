@@ -27,7 +27,7 @@ import { toast } from "react-toastify";
   const recepientsOptions = recipients
   .filter(rec => rec.is_manager || rec.is_superuser) 
   .map(rec => ({
-    label: rec.username,
+    label: `${rec.f_name} ${rec.m_name} ${rec.l_name}`,
     value: rec.id,
   })); 
 

@@ -297,11 +297,11 @@ const AddProject = () => {
             <div className="w-full">
               <Input
                 type="date"
-                label="End Date:"
-                placeholder="End Date"
+                label="Approval Date:"
+                placeholder="Approval Date"
                 size="lg"
                 color="blue"
-                {...register("end_date", { required: true })}
+                {...register("approvalDate", { required: true })}
               />
               {errors.end_date && <div>This field is required</div>}
             </div>

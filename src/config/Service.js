@@ -766,7 +766,7 @@ class Service {
   static async inboxRFQ() {
     try {
       const token = sessionStorage.getItem("token");
-      const response = await api.get(`/api/rfi/rfi/inbox`, {
+      const response = await api.get(`/api/RFQ/rfq/inbox`, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/form-data",
@@ -783,14 +783,14 @@ class Service {
   static async sentRFQ() {
     try {
       const token = sessionStorage.getItem("token");
-      const response = await api.get(`/api/rfi/rfi/inbox`, {
+      const response = await api.get(`/api/RFQ/rfq/inbox`, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/form-data",
         },
       });
       console.log(response.data);
-      return response.data;
+      return response.data.data;
     } catch (error) {
       console.log("Error fetching RFI:", error);
       throw error;
@@ -798,10 +798,24 @@ class Service {
   }
 
   //Add RFQ
-  static async addRFQ() {
+  static async addRFQ(rfqData) {
+    console.log(rfqData);
+    const data = new FormData();
+
+    // Append files
+    for (let i = 0; i < rfqData?.files.length; i++) {
+      console.log("File:", rfqData?.files[i]);
+      data.append("files", rfqData?.files[i]);
+    }
+
+    // Append other fields
+    // Append other fields
+    data.append("projectName", rfqData?.subject);
+    data.append("subject", rfqData?.subject);
+    data.append("description", rfqData?.description);
     try {
       const token = sessionStorage.getItem("token");
-      const response = await api.get(`/api/RFQ/rfq/addrfq`, {
+      const response = await api.post(`/api/RFQ/rfq/addrfq`,data, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/form-data",

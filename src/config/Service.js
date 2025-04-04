@@ -28,7 +28,7 @@ class Service {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log("response.data", response.data);
+
       return response.data;
     } catch (error) {
       console.log("Error fetching recipients:", error);
@@ -178,7 +178,7 @@ class Service {
           "Content-Type": "Application/json",
         },
       });
-      console.log("Successfully Added Fabricator: ", response.data);
+
       return response.data;
     } catch (error) {
       console.log("Error in adding Fabricator: ", error);
@@ -432,7 +432,6 @@ class Service {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log("response.data", response.data);
       return response.data;
     } catch (error) {
       console.log("Error fetching projects:", error);
@@ -527,7 +526,6 @@ class Service {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log(response.data);
       return response.data;
     } catch (error) {
       console.log("Error adding job study:", error);
@@ -545,7 +543,6 @@ class Service {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log(response.data.data);
       return response.data.data;
     } catch (error) {
       console.log("Error fetching all job studies:", error);
@@ -564,7 +561,6 @@ class Service {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log(response.data?.data);
       return response.data?.data;
     } catch (error) {
       console.log("Error fetching all job studies:", error);
@@ -588,7 +584,6 @@ class Service {
           },
         }
       );
-      console.log(response.data);
       return response.data;
     } catch (error) {
       console.log("Error adding work breakdown:", error);
@@ -611,7 +606,6 @@ class Service {
           },
         }
       );
-      console.log(response.data);
       return response.data;
     } catch (error) {
       console.log("Error adding work breakdown:", error);
@@ -738,7 +732,6 @@ class Service {
           "Content-Type": "application/form-data",
         },
       });
-      console.log(response.data);
       return response.data;
     } catch (error) {
       console.log("Error fetching RFI:", error);
@@ -755,7 +748,6 @@ class Service {
           "Content-Type": "application/form-data",
         },
       });
-      console.log(response.data);
       return response.data;
     } catch (error) {
       console.log("Error fetching RFI:", error);
@@ -773,7 +765,6 @@ class Service {
           "Content-Type": "application/form-data",
         },
       });
-      console.log(response.data);
       return response.data;
     } catch (error) {
       console.log("Error fetching RFI:", error);
@@ -791,7 +782,6 @@ class Service {
           "Content-Type": "application/form-data",
         },
       });
-      console.log(response.data);
       return response.data;
     } catch (error) {
       console.log("Error fetching RFI:", error);
@@ -808,7 +798,6 @@ class Service {
           "Content-Type": "application/form-data",
         },
       });
-      console.log(response.data);
       return response.data;
     } catch (error) {
       console.log("Error fetching RFI:", error);
@@ -818,7 +807,6 @@ class Service {
 
   //Add RFQ
   static async addRFQ(RFQData) {
-    console.log(RFQData);
     const data = new FormData();
 
     // Append files
@@ -833,17 +821,14 @@ class Service {
     data.append("recepient_id", RFQData?.recipient_id);
     data.append("subject", RFQData?.subject);
     data.append("description", RFQData?.description);
-
-    console.log("Data-------------", data);
     try {
       const token = sessionStorage.getItem("token");
-      const response = await api.post(`/api/RFQ/rfq/addrfq`,data, {
+      const response = await api.post(`/api/RFQ/rfq/addrfq`, data, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/form-data",
         },
       });
-      console.log(response.data);
       return response.data;
     } catch (error) {
       console.log("Error fetching RFI:", error);
@@ -853,7 +838,6 @@ class Service {
 
   // Submittals
   static async addSubmittal(submittals) {
-    console.log(submittals);
     const data = new FormData();
 
     // Append files
@@ -869,7 +853,6 @@ class Service {
     data.append("subject", submittals?.subject);
     data.append("description", submittals?.description);
 
-    console.log("Data-------------", data);
     try {
       const token = sessionStorage.getItem("token");
       const response = await api.post(`/api/submittals/submittals`, data, {
@@ -895,7 +878,6 @@ class Service {
           "Content-Type": "multipart/form-data",
         },
       });
-      console.log(response.data);
       return response.data;
     } catch (error) {
       console.log("Error adding RFI:", error);
@@ -954,7 +936,6 @@ class Service {
           },
         }
       );
-      console.log(response.data);
       return response.data.data;
     } catch (error) {
       console.log("Error fetching work breakdown activity:", error);
@@ -970,7 +951,6 @@ class Service {
           "Content-Type": "application/json",
         },
       });
-      console.log(response.data.data);
       return response?.data?.data;
     } catch (error) {
       console.log("Error in getting Task: ", error);

@@ -67,8 +67,8 @@ const [click, setClick] = useState(false);
 
   const fetchReceivedRFQ = async () => {
     try {
-      const info = await Service.sentRFQ();
-      console.log(info);
+      const rfq = await Service.sentRFQ();
+      setRfq(rfq);
     } catch (error) {
       console.log(error);
     }
@@ -159,13 +159,10 @@ const [click, setClick] = useState(false);
             </div>
           </div>
 
-          <table
-            className="min-w-full text-sm text-center border-collapse md:texport default AllRFQ;ext-lg rounded-xl"
-          >
+          <table className="min-w-full text-sm text-center border-collapse md:texport default AllRFQ;ext-lg rounded-xl">
             <thead>
               <tr className="bg-teal-200/70">
-                <th className="px-2 py-1">Fabricator Name</th>
-                <th className="px-2 py-1">Client Name</th>
+                
                 <th className="px-2 py-1">Project Name</th>
                 <th className="px-2 py-1">Mail ID</th>
                 <th className="px-2 py-1">Subject/Remarks</th>
@@ -182,10 +179,8 @@ const [click, setClick] = useState(false);
                   </td>
                 </tr>
               ) : (
-                data.map((data) => (
+                rfq.map((data) => (
                   <tr key={data.id} className="bg-white">
-                    <td className="px-2 py-1">{data.fabricatorName}</td>
-                    <td className="px-2 py-1">{data.clientName}</td>
                     <td className="px-2 py-1">{data.projectName}</td>
                     <td className="px-2 py-1">{data.mailID}</td>
                     <td className="px-2 py-1">{data.subject}</td>

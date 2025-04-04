@@ -783,7 +783,7 @@ class Service {
   static async sentRFQ() {
     try {
       const token = sessionStorage.getItem("token");
-      const response = await api.get(`/api/RFQ/rfq/inbox`, {
+      const response = await api.get(`/api/RFQ/rfq/sent`, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/form-data",

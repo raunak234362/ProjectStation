@@ -8,12 +8,20 @@ import {
   MultipleFileUpload,
 } from "../../../../index"; // Assuming these components are imported from your own library
 import { useForm, Controller, useFieldArray } from "react-hook-form";
+import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
+import Service from "../../../../../config/Service";
 
 const SendCO = () => {
   const [files, setFiles] = useState([]);
   const [totalHours, setTotalHours] = useState(0);
   const [totalCost, setTotalCost] = useState(0);
+  const projectData = useSelector((state) => state.projectData.projectData);
+  const fabricatorData = useSelector(
+    (state) => state?.fabricatorData?.fabricatorData
+  );
 
+  const clientData = useSelector((state) => state?.fabricatorData?.clientData);
   const {
     register,
     setValue,
@@ -31,6 +39,48 @@ const SendCO = () => {
   // Watch the rows field to calculate totals
   const rows = watch("rows") || [];
 
+
+  const fabricatorID = watch("fabricator_id");
+  const recipientID = watch("recipient_id");
+  console.log("Selected Fabricator ID:", fabricatorID);
+  console.log("Selected Recipient ID:", recipientID);
+  const selectedFabricator = fabricatorData?.find(
+    (fabricator) => fabricator.id === fabricatorID
+  );
+  const clientName = selectedFabricator
+    ? clientData?.find((client) => client.id === selectedFabricator.clientID)
+      ?.name
+    : "";
+  console.log("Client Name:", clientName);
+
+  const onFilesChange = (updatedFiles) => {
+    setFiles(updatedFiles);
+  };
+
+  const fabricatorOptions = fabricatorData?.map((fabricator) => ({
+    label: fabricator.fabName,
+    value: fabricator.id,
+  }));
+
+  const filteredClients = clientData?.filter(
+    (client) => client.fabricatorId === fabricatorID
+  );
+  console.log("Filtered Clients:", filteredClients);
+  const clientOptions = filteredClients?.map((client) => ({
+    label: `${client.f_name} ${client.l_name}`,
+    value: client.id,
+  }));
+
+  const filteredProjects = projectData?.filter(
+    (project) => project.fabricatorID === fabricatorID
+  );
+  console.log("Filtered Projects:", filteredProjects);
+  const projectOptions = filteredProjects?.map((project) => ({
+    label: project.name,
+    value: project.id,
+  }));
+
+
   useEffect(() => {
     const hoursSum = rows.reduce((sum, row) => sum + (parseFloat(row.hours) || 0), 0);
     const costSum = rows.reduce((sum, row) => sum + (parseFloat(row.cost) || 0), 0);
@@ -38,18 +88,29 @@ const SendCO = () => {
     setTotalCost(costSum);
   }, [rows]);
 
-  // Handle file selection changes
-  const onFilesChange = (updatedFiles) => {
-    console.log(updatedFiles)
-    setFiles(updatedFiles);
-  };
+
 
   // Form submission handler
   const onSubmit = async (data) => {
-    const formData = {...data , files}
-    console.log(formData);
-    // Dispatch form data to your store or API endpoint
-    // dispatch(addRFI(data)) or similar
+    const formData = new FormData();
+
+    // Append files
+    files?.map((file) => {
+      formData.append("files", file);
+      console.log("File:", formData?.append);
+    });
+
+    const coData = { ...data,changeOrder:parseInt(data?.changeOrder) , files, recepient_id: recipientID, fabricator_id:fabricatorID };
+    console.log("Sending Data:", coData); // Debugging
+
+    try {
+      const response = await Service.addCO(coData);
+      toast.success("CO created successfully");
+      console.log("CO created successfully:", response);
+    } catch (error) {
+      toast.error("Error creating CO");
+      console.error("Error creating CO:", error);
+    }
   };
 
   const addRow = () => {
@@ -71,21 +132,35 @@ const SendCO = () => {
           <div className="my-2 md:px-2 px-1">
             <div className="w-full">
               <CustomSelect
-                label="Select CO# Project:"
+                label="Fabricator Name:"
                 color="blue"
                 size="lg"
                 name="fabricator"
                 options={[
-                  { label: "Select CO# Project", value: "" },
-                  { label: "Project-1 | Add column", value: "Fabricator 1" },
-                  { label: "Project-2 | Add column", value: "Fabricator 2" },
+                  { label: "Select Fabricator", value: "" },
+                  ...fabricatorOptions,
                 ]}
-                {...register("project", { required: true })}
+                {...register("fabricator_id", { required: true })}
                 onChange={setValue}
               />
-              {errors.fabricator && <div className="text-red-500">This field is required</div>}
+              {errors.fabricator && <div>This field is required</div>}
             </div>
-            <div className="w-full mt-2">
+            <div className="w-full mt-3">
+              <CustomSelect
+                label="Project Name:"
+                color="blue"
+                size="lg"
+                name="project"
+                options={[
+                  { label: "Select Project", value: "" },
+                  ...projectOptions,
+                ]}
+                {...register("project_id", { required: true })}
+                onChange={setValue}
+              />
+              {errors.project && <div>This field is required</div>}
+            </div>
+            <div className="w-full my-3">
               <CustomSelect
                 label="Select Recipients:"
                 placeholder="Select Recipients"
@@ -93,14 +168,12 @@ const SendCO = () => {
                 color="blue"
                 options={[
                   { label: "Select Recipients", value: "" },
-                  { label: "abc@google.com - ABC", value: "abc@google.com" },
-                  { label: "bcd@google.com - BCD", value: "bcd@google.com" },
-                  { label: "bkd@google.com - BKD", value: "bkd@google.com" },
+                  ...clientOptions,
                 ]}
-                {...register("recipients", { required: true })}
+                {...register("recipient_id", { required: true })}
                 onChange={setValue}
               />
-              {errors.recipients && <div className="text-red-500">This field is required</div>}
+              {errors.recipients && <div>This field is required</div>}
             </div>
           </div>
 
@@ -115,7 +188,7 @@ const SendCO = () => {
                 placeholder="Subject/Remarks"
                 size="lg"
                 color="blue"
-                {...register("remarks")}
+                {...register("remark", { required: true })}
               />
             </div>
             <div className="w-full">
@@ -126,7 +199,10 @@ const SendCO = () => {
                 size="lg"
                 color="blue"
                 min="0"
-                {...register("changeOrder", { required: true })}
+                {...register("changeOrder", {
+                  required: true,
+                  valueAsNumber: true, // Ensures the value is treated as a number
+                })}
               />
               {errors.changeOrder && <div className="text-red-500">This field is required</div>}
             </div>

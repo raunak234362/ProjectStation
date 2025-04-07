@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/prop-types */
 import React from "react";
 import { useEffect, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
@@ -66,7 +68,7 @@ const AddMoreSubtask = ({
 
   const fetchSubTasks = async () => {
     const subTasks = await Service.addOneSubTask(projectId, selectedTaskId);
-    setSubTaskBD(subTasks);
+    // fwefwf(subTasks);
     console.log(subTasks);
   };
   useEffect(() => {

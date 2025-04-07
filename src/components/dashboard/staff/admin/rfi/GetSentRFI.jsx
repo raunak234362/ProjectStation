@@ -85,7 +85,24 @@ const GetSentRFI = ({ rfiId, isOpen, onClose }) => {
                 { label: "Description", value: rfi?.description },
                 { label: "Date", value: rfi?.date },
                 { label: "Status", value: rfi?.status?"No Reply":"Replied" },
-                { label: "Files", value: rfi?.file },
+                {
+                  label: "Files",
+                  value: Array.isArray(rfi?.files)
+                    ? rfi?.files?.map((file, index) => (
+                      <a
+                        key={index}
+                        href={`${import.meta.env.VITE_BASE_URL
+                          }/api/RFI/rfi/viewfile/${rfiId}/${file.id
+                          }`} // Use the file path with baseURL
+                        target="_blank" // Open in a new tab
+                        rel="noopener noreferrer"
+                        className="px-5 py-2 text-teal-500 hover:underline"
+                      >
+                        {file.originalName || `File ${index + 1}`}
+                      </a>
+                    ))
+                    : "Not available",
+                },
                 
               ].map(({ label, value }) => (
                 <div key={label} className="flex flex-col">

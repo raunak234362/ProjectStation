@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+/* eslint-disable no-unused-vars */
+import { useState, useEffect } from "react";
 import Button from "../../../../fields/Button";
 import ViewRFQ from "./ViewRFQ";
 import Service from "../../../../../config/Service";
@@ -150,6 +151,7 @@ function AllRFQ() {
                   </td>
                 </tr>
               ) : (
+
                 rfq?.map((data) => (
                   <tr key={data.id} className="bg-white">
                     <td className="px-2 py-1">{data?.projectName}</td>

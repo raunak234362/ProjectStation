@@ -2,19 +2,20 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import { Button, GetSentRFI } from "../../../../index";
+import { Button } from "../../../../index";
+import Service from "../../../../../config/Service";
+import GetSentRFI from "./GetSentRFI";
 
 // Utility function to get nested values safely
 const getNestedValue = (obj, path) => {
-  return path.split('.').reduce((acc, part) => acc && acc[part], obj);
+  return path.split(".").reduce((acc, part) => acc && acc[part], obj);
 };
 
 const AllSentRFI = () => {
-  const RFI = useSelector((state) => state?.projectData?.rfiData);
-
+  const [sentRfi, setSentRfi] = useState([]);
+  const [filteredRFI, setFilteredRFI] = useState([]);
   const [selectedRFI, setSelectedRFI] = useState(null);
-  const [isModalOpen, setIsModalOpen]=useState(false)
-  const [filteredRFI, setFilteredRFI] = useState(RFI);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [filters, setFilters] = useState({
     fabricator: "",
@@ -23,9 +24,24 @@ const AllSentRFI = () => {
   });
   const [sortConfig, setSortConfig] = useState({ key: "", direction: "asc" });
 
+  const fetchSentRfi = async () => {
+    try {
+      const response = await Service.sentRFI();
+      setSentRfi(response?.data);
+      setFilteredRFI(response?.data); // Set filteredRFI initially to all RFIs
+      console.log(response?.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
-    filterAndSort(RFI, searchTerm, filters);
-  }, [RFI, searchTerm, filters, sortConfig]);
+    fetchSentRfi();
+  }, []);
+
+  useEffect(() => {
+    filterAndSort(sentRfi, searchTerm, filters);
+  }, [sentRfi, searchTerm, filters, sortConfig]);
 
   const handleSearch = (e) => {
     const term = e.target.value;
@@ -44,8 +60,8 @@ const AllSentRFI = () => {
     if (term) {
       filteredData = filteredData.filter(
         (rfi) =>
-          rfi.remarks.toLowerCase().includes(term.toLowerCase()) ||
-          rfi.email.toLowerCase().includes(term.toLowerCase())
+          rfi.subject.toLowerCase().includes(term.toLowerCase()) ||
+          rfi.recepients?.email.toLowerCase().includes(term.toLowerCase())
       );
     }
 
@@ -53,14 +69,13 @@ const AllSentRFI = () => {
     if (filters.fabricator) {
       filteredData = filteredData.filter(
         (rfi) =>
-          rfi?.fabricator?.name.toLowerCase() === filters.fabricator.toLowerCase()
+          rfi?.fabricator?.fabName.toLowerCase() ===
+          filters.fabricator.toLowerCase()
       );
     }
     if (filters.project) {
       filteredData = filteredData.filter(
         (rfi) =>
-          rfi?.fabricator?.project?.name?.toLowerCase() ===
-            filters.project.toLowerCase() ||
           rfi?.project?.name?.toLowerCase() === filters.project.toLowerCase()
       );
     }
@@ -105,32 +120,32 @@ const AllSentRFI = () => {
     setSortConfig({ key, direction });
   };
 
-  const handleViewClick = async(rfiID)=>{
-    
-    setSelectedRFI(rfiID)
-    setIsModalOpen(true)
-  }
-  
-  console.log(selectedRFI)
+  const handleViewClick = async (rfiId) => {
+    setSelectedRFI(rfiId);
+    setIsModalOpen(true);
+  };
 
-  const handleModalClose= async()=>{
-    setSelectedRFI(null)
-    setIsModalOpen(false)
-  }
+  console.log(selectedRFI);
 
+  const handleModalClose = async () => {
+    setSelectedRFI(null);
+    setIsModalOpen(false);
+  };
 
   return (
     <div className="bg-white/70 rounded-lg md:w-full w-[90vw]">
       <div className="mt-5 h-auto p-4">
         {/* Search and Filter Options */}
-        <div className="flex flex-col md:flex-row gap-2 mb-4">
+        <div className="w-full mb-4">
           <input
             type="text"
-            placeholder="Search by remarks or recipient"
+            placeholder="Search by subject or recipient"
             value={searchTerm}
             onChange={handleSearch}
-            className="px-2 py-1 rounded border border-gray-300"
+            className=" w-full px-2 py-1 rounded border border-gray-300"
           />
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
           <select
             name="fabricator"
             value={filters.fabricator}
@@ -138,11 +153,13 @@ const AllSentRFI = () => {
             className="px-2 py-1 rounded border border-gray-300"
           >
             <option value="">Filter by Fabricator</option>
-            {[...new Set(RFI.map((rfi) => rfi?.fabricator?.name))].map((name) => (
-              <option key={name} value={name}>
-                {name}
-              </option>
-            ))}
+            {[...new Set(sentRfi.map((rfi) => rfi?.fabricator?.fabName))].map(
+              (name) => (
+                <option key={name} value={name}>
+                  {name}
+                </option>
+              )
+            )}
           </select>
           <select
             name="project"
@@ -151,13 +168,15 @@ const AllSentRFI = () => {
             className="px-2 py-1 rounded border border-gray-300"
           >
             <option value="">Filter by Project</option>
-            {[...new Set(RFI.map((rfi) => rfi?.fabricator?.project?.name || rfi?.project?.name))].map(
-              (name) => (
-                <option key={name} value={name}>
-                  {name}
-                </option>
-              )
-            )}
+            {[
+              ...new Set(
+                sentRfi.map((rfi) => rfi?.project?.name)
+              ),
+            ].map((name) => (
+              <option key={name} value={name}>
+                {name}
+              </option>
+            ))}
           </select>
           <select
             name="status"
@@ -177,13 +196,13 @@ const AllSentRFI = () => {
               <tr className="bg-teal-200/70">
                 <th
                   className="px-2 py-1 text-left cursor-pointer"
-                  onClick={() => handleSort("fabricator.name")}
+                  onClick={() => handleSort("fabricator.fabName")}
                 >
                   Fabricator Name
                 </th>
                 <th
                   className="px-2 py-1 text-left cursor-pointer"
-                  onClick={() => handleSort("fabricator.project.name")}
+                  onClick={() => handleSort("project.name")}
                 >
                   Project Name
                 </th>
@@ -210,17 +229,23 @@ const AllSentRFI = () => {
                 filteredRFI.map((rfi) => (
                   <tr key={rfi?.id} className="hover:bg-blue-gray-100 border">
                     <td className="border px-2 py-1 text-left">
-                      {rfi?.fabricator?.name || "N/A"}
+                      {rfi?.fabricator?.fabName || "N/A"}
                     </td>
                     <td className="border px-2 py-1">
-                      {rfi?.fabricator?.project?.name || rfi?.project?.name || "N/A"}
+                      {rfi?.project?.name || "N/A"}
                     </td>
-                    <td className="border px-2 py-1">{rfi?.remarks}</td>
-                    <td className="border px-2 py-1">{rfi?.email}</td>
+                    <td className="border px-2 py-1">{rfi?.subject}</td>
+                    <td className="border px-2 py-1">
+                      {rfi?.recepients?.email}
+                    </td>
                     <td className="border px-2 py-1">{rfi?.date}</td>
-                    <td className="border px-2 py-1">{rfi?.status}</td>
                     <td className="border px-2 py-1">
-                    <Button onClick={() => handleViewClick(rfi.id)}>View</Button>
+                      {rfi?.status ? "No Reply" : "Replied"}
+                    </td>
+                    <td className="border px-2 py-1">
+                      <Button onClick={() => handleViewClick(rfi.id)}>
+                        View
+                      </Button>
                     </td>
                   </tr>
                 ))
@@ -230,9 +255,9 @@ const AllSentRFI = () => {
         </div>
         {selectedRFI && (
           <GetSentRFI
-          rfiId={selectedRFI}
-          isOpen={isModalOpen}
-          onClose={handleModalClose}
+            rfiId={selectedRFI}
+            isOpen={isModalOpen}
+            onClose={handleModalClose}
           />
         )}
       </div>

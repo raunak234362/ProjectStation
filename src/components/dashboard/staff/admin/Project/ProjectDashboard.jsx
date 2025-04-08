@@ -111,53 +111,102 @@ const ProjectDashboard = () => {
     onHold: "rgba(239, 68, 68, 0.8)", // red
   }
 
-  // Group tasks by fabricator for the bar chart
-  const fabricatorTaskData = () => {
-    // Get unique fabricators
-    const fabricators = Array.from(new Set(projectData.map((p) => p.fabricator?.fabName).filter(Boolean)))
+  // // Group tasks by fabricator for the bar chart
+  // const fabricatorTaskData = () => {
+  //   // Get unique fabricators
+  //   const fabricators = Array.from(new Set(projectData.map((p) => p.fabricator?.fabName).filter(Boolean)))
 
-    // For each fabricator, count tasks by status
+  //   // For each fabricator, count tasks by status
+  //   return {
+  //     labels: fabricators,
+  //     datasets: [
+  //       {
+  //         label: "Tasks Completed",
+  //         data: fabricators.map((fabName) => {
+  //           const fabProjects = projectData.filter((p) => p.fabricator?.fabName === fabName)
+  //           const fabProjectIds = fabProjects.map((p) => p.id)
+  //           return tasksToUse.filter((task) => fabProjectIds.includes(task?.project_id) && task.status === "COMPLETE").length
+  //         }),
+  //         backgroundColor: chartColors.completed,
+  //         borderRadius: 6,
+  //       },
+  //       {
+  //         label: "Tasks In Review",
+  //         data: fabricators.map((fabName) => {
+  //           const fabProjects = projectData.filter((p) => p.fabricator?.fabName === fabName)
+  //           const fabProjectIds = fabProjects.map((p) => p.id)
+  //           return tasksToUse.filter((task) => fabProjectIds.includes(task?.project_id) && task.status === "IN_REVIEW")
+  //             .length
+  //         }),
+  //         backgroundColor: chartColors.inReview,
+  //         borderRadius: 6,
+  //       },
+  //       {
+  //         label: "Tasks In Progress",
+  //         data: fabricators.map((fabName) => {
+  //           const fabProjects = projectData.filter((p) => p.fabricator?.fabName === fabName)
+  //           const fabProjectIds = fabProjects.map((p) => p.id)
+  //           return tasksToUse.filter((task) => fabProjectIds.includes(task?.project_id) && task.status === "IN_PROGRESS")
+  //             .length
+  //         }),
+  //         backgroundColor: chartColors.inProgress,
+  //         borderRadius: 6,
+  //       },
+  //       {
+  //         label: "Tasks Assigned",
+  //         data: fabricators.map((fabName) => {
+  //           const fabProjects = projectData.filter((p) => p.fabricator?.fabName === fabName)
+  //           const fabProjectIds = fabProjects.map((p) => p.id)
+  //           return tasksToUse.filter((task) => fabProjectIds.includes(task?.project_id) && task.status === "ASSIGNED").length}),
+  //         backgroundColor: chartColors.assigned,
+  //         borderRadius: 6,
+  //       },
+  //     ],
+  //   }
+  // }
+
+  // const barData = fabricatorTaskData()
+  const projectTaskData = () => {
+    // Get unique projects
+    const projects = projectData.map((p) => p.name)
+
+    // For each project, count tasks by status
     return {
-      labels: fabricators,
+      labels: projects,
       datasets: [
         {
           label: "Tasks Completed",
-          data: fabricators.map((fabName) => {
-            const fabProjects = projectData.filter((p) => p.fabricator?.fabName === fabName)
-            const fabProjectIds = fabProjects.map((p) => p.id)
-            return tasksToUse.filter((task) => fabProjectIds.includes(task?.project_id) && task.status === "COMPLETE").length
+          data: projects.map((projectName) => {
+            const project = projectData.find((p) => p.name === projectName)
+            return taskData?.filter((task) => task?.project?.id === project?.id && task?.status === "COMPLETE").length
           }),
           backgroundColor: chartColors.completed,
           borderRadius: 6,
         },
         {
           label: "Tasks In Review",
-          data: fabricators.map((fabName) => {
-            const fabProjects = projectData.filter((p) => p.fabricator?.fabName === fabName)
-            const fabProjectIds = fabProjects.map((p) => p.id)
-            return tasksToUse.filter((task) => fabProjectIds.includes(task?.project_id) && task.status === "IN_REVIEW")
-              .length
+          data: projects.map((projectName) => {
+            const project = projectData.find((p) => p.name === projectName)
+            return taskData?.filter((task) => task?.project?.id === project?.id && task?.status === "IN_REVIEW").length
           }),
           backgroundColor: chartColors.inReview,
           borderRadius: 6,
         },
         {
           label: "Tasks In Progress",
-          data: fabricators.map((fabName) => {
-            const fabProjects = projectData.filter((p) => p.fabricator?.fabName === fabName)
-            const fabProjectIds = fabProjects.map((p) => p.id)
-            return tasksToUse.filter((task) => fabProjectIds.includes(task?.project_id) && task.status === "IN_PROGRESS")
-              .length
+          data: projects.map((projectName) => {
+            const project = projectData.find((p) => p.name === projectName)
+            return taskData?.filter((task) => task?.project?.id === project?.id && task?.status === "IN_PROGRESS").length
           }),
           backgroundColor: chartColors.inProgress,
           borderRadius: 6,
         },
         {
           label: "Tasks Assigned",
-          data: fabricators.map((fabName) => {
-            const fabProjects = projectData.filter((p) => p.fabricator?.fabName === fabName)
-            const fabProjectIds = fabProjects.map((p) => p.id)
-            return tasksToUse.filter((task) => fabProjectIds.includes(task?.project_id) && task.status === "ASSIGNED").length}),
+          data: projects.map((projectName) => {
+            const project = projectData.find((p) => p.name === projectName)
+            return taskData?.filter((task) => task?.project?.id === project?.id && task?.status === "ASSIGNED").length
+          }),
           backgroundColor: chartColors.assigned,
           borderRadius: 6,
         },
@@ -165,7 +214,7 @@ const ProjectDashboard = () => {
     }
   }
 
-  const barData = fabricatorTaskData()
+  const barData = projectTaskData()
 
   const pieData = {
     labels: ["Completed", "In Progress", "Assigned", "In Review"],

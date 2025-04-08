@@ -885,7 +885,6 @@ static async sentCo() {
           "Content-Type": "application/form-data",
         },
       });
-
       return response.data.data;
     } catch (error) {
       console.log("Error fetching RFI:", error);

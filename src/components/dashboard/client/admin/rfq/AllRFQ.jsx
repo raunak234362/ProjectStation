@@ -8,45 +8,8 @@ import Service from "../../../../../config/Service";
 
 
 function AllRFQ() {
-  const data = [
-    {
-      id: 1,
-      fabricatorName: "Fabricator 1",
-      clientName: "Client 1",
-      projectName: "Project 1",
-      mailID: "fabricator1@gmail.com",
-      subject: "Subject 1",
-      date: "2023-10-01",
-      status: "Open",
-      rfqStatus: "Pending",
-      action: "View",
-    },
-    {
-      id: 2,
-      fabricatorName: "xyz 2",
-      clientName: "xyz 2",
-      projectName: "xyz 2",
-      mailID: "xyz@gmail.com",
-      subject: "xyz 2",
-      date: "2023-10-01",
-      status: "Open",
-      rfqStatus: "Pending",
-      action: "View",
-    },
-    {
-      id: 3,
-      fabricatorName: "fab",
-      clientName: "fab 2",
-      projectName: "fab 2",
-      mailID: "fab@gmail.com",
-      subject: "fab 2",
-      date: "2023-10-11",
-      status: "closed",
-      rfqStatus: "Pending",
-      action: "View",
-    },
-  ];
 
+  const [rfq, setRfq] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [filters, setFilters] = useState({
     fabricator: "",
@@ -54,9 +17,10 @@ function AllRFQ() {
     status: "",
   });
 
-  const [rfq, setRfq] = useState(data);
-  const [viewData, setViewData] = useState(null);
-const [click, setClick] = useState(false);
+  
+    const [selectedRFQ, setSelectedRFQ] = useState(null);
+    const [isModalOpen, setIsModalOpen]=useState(false)
+  
   const handleSearch = (e) => {
     setSearchTerm(e.target.value);
   };
@@ -69,6 +33,7 @@ const [click, setClick] = useState(false);
   const fetchReceivedRFQ = async () => {
     try {
       const rfq = await Service.sentRFQ();
+      console.log(rfq);
       setRfq(rfq);
     } catch (error) {
       console.log(error);
@@ -79,12 +44,14 @@ const [click, setClick] = useState(false);
   }, []);
 
   
+
+  
   useEffect(() => {
-    const filteredData = data.filter((item) => {
+    const filteredData = rfq.filter((item) => {
       //search filter
       const matchedSearchTerm =
         item.fabricatorName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        item.clientName.toLowerCasnsole().includes(searchTerm.toLowerCase()) ||
+        item.clientName.toLowerCase().includes(searchTerm.toLowerCase()) ||
         item.projectName.toLowerCase().includes(searchTerm.toLowerCase());
       //filter dropdown fabricator
       const matchedFabricator =
@@ -111,10 +78,15 @@ const [click, setClick] = useState(false);
   }, [searchTerm, filters]);
 
   
-  const handleViewClick = (data) => {
-    setViewData(data);
-    setClick(true);
+  const handleViewClick = async(rfq) => {
+    console.log(rfq);
+    setSelectedRFQ(rfq);
+    setIsModalOpen(true);
   };
+     const handleModalClose = async () => {
+       setSelectedRFQ(null);
+       setIsModalOpen(false);
+     };
   
   return (
     <>
@@ -163,7 +135,6 @@ const [click, setClick] = useState(false);
           <table className="min-w-full text-sm text-center border-collapse md:texport default AllRFQ;ext-lg rounded-xl">
             <thead>
               <tr className="bg-teal-200/70">
-                
                 <th className="px-2 py-1">Project Name</th>
                 <th className="px-2 py-1">Mail ID</th>
                 <th className="px-2 py-1">Subject/Remarks</th>
@@ -173,21 +144,21 @@ const [click, setClick] = useState(false);
               </tr>
             </thead>
             <tbody>
-              {rfq.length === 0 ? (
+              {rfq?.length === 0 ? (
                 <tr>
                   <td colSpan="8" className="px-2 py-1 text-center">
                     No RFQ Found
                   </td>
                 </tr>
               ) : (
-                // <>Hello</>
+
                 rfq?.map((data) => (
                   <tr key={data.id} className="bg-white">
-                    <td className="px-2 py-1">{data.projectName}</td>
-                    <td className="px-2 py-1">{data.mailID}</td>
-                    <td className="px-2 py-1">{data.subject}</td>
-                    <td className="px-2 py-1">{data.date}</td>
-                    <td className="px-2 py-1">{data.rfqStatus}</td>
+                    <td className="px-2 py-1">{data?.projectName}</td>
+                    <td className="px-2 py-1">{data?.mailID}</td>
+                    <td className="px-2 py-1">{data?.subject}</td>
+                    <td className="px-2 py-1">{data?.date}</td>
+                    <td className="px-2 py-1">{data?.rfqStatus}</td>
                     <td className="px-2 py-1">
                       <Button onClick={() => handleViewClick(data)}>
                         View
@@ -202,7 +173,13 @@ const [click, setClick] = useState(false);
         </div>
       </div>
 
-      {viewData && <ViewRFQ />}
+      {selectedRFQ && (
+        <ViewRFQ
+          data={selectedRFQ}
+          isOpen={selectedRFQ}
+          onClose={handleModalClose}
+        />
+      )}
     </>
   );
 }

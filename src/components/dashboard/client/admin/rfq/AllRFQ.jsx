@@ -114,6 +114,11 @@ const [click, setClick] = useState(false);
     setViewData(data);
     setClick(true);
   };
+
+  const handleClose = () => {
+   setViewData(null);
+    setClick(false);
+  };
   
   return (
     <>
@@ -162,7 +167,6 @@ const [click, setClick] = useState(false);
           <table className="min-w-full text-sm text-center border-collapse md:texport default AllRFQ;ext-lg rounded-xl">
             <thead>
               <tr className="bg-teal-200/70">
-                
                 <th className="px-2 py-1">Project Name</th>
                 <th className="px-2 py-1">Mail ID</th>
                 <th className="px-2 py-1">Subject/Remarks</th>
@@ -200,7 +204,7 @@ const [click, setClick] = useState(false);
         </div>
       </div>
 
-      {viewData && <ViewRFQ />}
+      {viewData && <ViewRFQ data={viewData} onClose={handleClose} />}
     </>
   );
 }

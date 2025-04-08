@@ -40,8 +40,9 @@ const AddProject = () => {
   } = useForm();
 
   const onSubmit = async (data) => {
+    const projectData = {...data, end_date: data.approvalDate || null};
     try {
-      const response = await Service.addProject(data);
+      const response = await Service.addProject(projectData);
       console.log(response?.project);
       dispatch(addProject(response?.project));
       toast.success("Project Added Successfully");
@@ -303,7 +304,7 @@ const AddProject = () => {
                 color="blue"
                 {...register("approvalDate", { required: true })}
               />
-              {errors.end_date && <div>This field is required</div>}
+              {errors.approvalDate && <div>This field is required</div>}
             </div>
           </div>
           <div className="w-full my-5">

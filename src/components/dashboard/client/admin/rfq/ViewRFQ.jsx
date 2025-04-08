@@ -1,13 +1,11 @@
+/* eslint-disable react/prop-types */
+/* eslint-disable no-unused-vars */
 import React, { useState } from "react";
 import Button from "../../../../fields/Button";
 
 const ViewRFQ = ({data,onClose, isOpen}) => {
   const rfqDetails = data;
   console.log("rfqDetails", data);
-  const [click, setClick] = useState(false);
-  const [rfq, setRfq] = useState(rfqDetails);
-  const [isModalOpen, setIsModalOpen] = useState(true);
-  
   const handleModalClose = () => {
       onClose(false);
    };

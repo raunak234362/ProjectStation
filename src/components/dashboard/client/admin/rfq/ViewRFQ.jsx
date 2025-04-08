@@ -62,6 +62,7 @@ const ViewRFQ = ({data,onClose, isOpen}) => {
                         href={`${import.meta.env.VITE_BASE_URL}/api/RFQ/rfq/${
                           rfqDetails.id
                         }/${file.id}`}
+                        rel="noopener noreferrer"
                         target="_blank"
                         className="text-blue-500 underline"
                       >

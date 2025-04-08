@@ -10,7 +10,7 @@ const AllProjects = () => {
   const fabricators = useSelector(
     (state) => state?.fabricatorData?.fabricatorData
   );
-
+console.log("projects", projects);
   const [searchQuery, setSearchQuery] = useState("");
   const [projectFilter, setProjectFilter] = useState([]);
   const [sortOrder, setSortOrder] = useState({ key: "name", order: "asc" });
@@ -152,6 +152,7 @@ const AllProjects = () => {
                 "s.no",
                 "name",
                 "fabricator",
+                "manager",
                 "status",
                 "startDate",
                 "approvalDate",
@@ -183,6 +184,9 @@ const AllProjects = () => {
                   <td className="border px-2 py-1">{project?.name}</td>
                   <td className="border px-2 py-1">
                     {project?.fabricator?.fabName || "N/A"}
+                  </td>
+                  <td className="border px-2 py-1">
+                    {project?.manager?.f_name || "N/A"}
                   </td>
                   <td className="border px-2 py-1">
                     {project?.status || "N/A"}

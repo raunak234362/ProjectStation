@@ -35,6 +35,7 @@ const EditProject = ({ project, onClose }) => {
       description: project?.description || "",
       duration: project?.duration || "",
       startDate: project?.startDate || "",
+      approvalDate: project?.approvalDate || "",
       endDate: project?.endDate || "",
       status: project?.status || "",
       stage: project?.stage || "",
@@ -101,7 +102,7 @@ const EditProject = ({ project, onClose }) => {
               <Input
                 label="Project Name"
                 type="text"
-                defaultValue={project?.projectName}
+                defaultValue={project?.name}
                 {...register("name")}
               />
             </div>
@@ -109,7 +110,7 @@ const EditProject = ({ project, onClose }) => {
               <Input
                 label="Project Description"
                 type="text"
-                defaultValue={project?.projectDescription}
+                defaultValue={project?.description}
                 {...register("description")}
               />
             </div>
@@ -118,19 +119,27 @@ const EditProject = ({ project, onClose }) => {
                 label="Manager:"
                 color="blue"
                 options={userData?.filter(user => user.is_manager).map((user) => ({ label: `${user?.f_name} ${user?.m_name} ${user?.l_name}`, value: user.id }))}
-                {...register("manager")}
+                {...register("managerID")}
                 onChange={setValue}
               />
               {errors.manager && (
                 <div className="text-red-500">This field is required</div>
               )}
             </div>
-            <div>
+            <div className="my-2">
+              <Input
+                label="Approval Date"
+                type="date"
+                defaultValue={project?.approvalDate}
+                {...register("approvalDate")}
+              />
+            </div>
+            <div className="my-2">
               <Input
                 label="End Date"
                 type="date"
-                defaultValue={project?.projectEndDate}
-                {...register("approvalDate")}
+                defaultValue={project?.endDate}
+                {...register("endDate")}
               />
             </div>
             <div className="my-2">

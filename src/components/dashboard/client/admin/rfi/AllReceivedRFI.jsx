@@ -1,30 +1,47 @@
 /* eslint-disable no-unused-vars */
 import React from "react";
 import { useSelector } from "react-redux";
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import Service from "../../../../../config/Service";
+import Button from "../../../../fields/Button";
+import GetSentRFI from "./GetSentRFI";
 
 
 const AllReceivedRFI = () => {
-  const[RFI, setRFI] = useState([]);
-
+  const [RFI, setRFI] = useState([]);
+  const [selectedRFI, setSelectedRFI] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false)
 
   const fetchREceivedRfi = async () => {
-    try{
+    try {
       const rfi = await Service.inboxRFI();
       console.log(rfi);
-      if(rfi){
+      if (rfi) {
         setRFI(rfi.data);
-      }else{
+      } else {
         console.log("RFI not found");
       }
-    }catch(error){
+    } catch (error) {
       console.log(error);
     }
   }
-  useEffect(()=>{
+  useEffect(() => {
     fetchREceivedRfi();
-  },[])
+  }, [])
+
+  const handleViewClick = async (fabricatorId) => {
+
+    setSelectedRFI(fabricatorId)
+    setIsModalOpen(true)
+  }
+
+  console.log(selectedRFI)
+
+  const handleModalClose = async () => {
+    setSelectedRFI(null)
+    setIsModalOpen(false)
+  }
+
 
   return (
     <div className="bg-white/70 rounded-lg md:w-full w-[90vw]">
@@ -33,8 +50,8 @@ const AllReceivedRFI = () => {
           <table className="min-w-full border-collapse text-center text-sm md:text-lg rounded-xl">
             <thead>
               <tr className="bg-teal-200/70">
-                <th className="px-2 py-1">Fabricator Name</th>
-                <th className="px-2 py-1">Client Name</th>
+
+                <th className="px-2 py-1">S.No</th>
                 <th className="px-2 py-1">Project Name</th>
                 <th className="px-2 py-1">Mail ID</th>
                 <th className="px-2 py-1">Subject/Remarks</th>
@@ -52,50 +69,52 @@ const AllReceivedRFI = () => {
                   </td>
                 </tr>
               ) : (
-                RFI?.map((rfi) => (
+                RFI?.map((rfi,index) => (
                   <tr
                     key={rfi?.id}
                     className="hover:bg-blue-gray-100 border"
                   >
                     <td className="border px-2 py-1 text-left">
-                      {rfi?.fabricator.fabName || "N/A"}
-                    </td>
-                    <td className="border px-2 py-1 text-left">
-                      {rfi?.recepients?.username || "N/A"}
-                    </td>
+                      {index+1}</td>  
+
                     <td className="border px-2 py-1">
                       {rfi?.project.name || "N/A"}
                     </td>
                     <td className="border px-2 py-1">
-                      {rfi?.recepients.email|| "N/A"}
+                      {rfi?.recepients.email || "N/A"}
                     </td>
                     <td className="border px-2 py-1">
                       {rfi?.subject || "No remarks"}
                     </td>
                     <td className="border px-2 py-1">
-                      {rfi?.date || "N/A"}
+                      {new Date(rfi?.date).toDateString() || "N/A"}
                     </td>
                     <td className="border px-2 py-1">
-                      {rfi?.status? "No Reply"  : "Replied"}
-                    </td> 
-                     <td className="border px-2 py-1">
-                      
+                      {rfi?.status ? "No Reply" : "Replied"}
+                    </td>
+                    <td className="border px-2 py-1">
+
                       <button className="bg-teal-300 px-2 py-1 rounded">
                         Forward
                       </button>
                     </td>
                     <td className="border px-2 py-1">
-                      
-                      <button className="bg-blue-300 px-2 py-1 rounded">
-                        View
-                      </button>
-                    </td> 
+
+                      <Button onClick={() => handleViewClick(rfi.id)}>View</Button>
+                    </td>
                   </tr>
                 ))
               )}
             </tbody>
           </table>
         </div>
+        {selectedRFI && (
+          <GetSentRFI
+            rfiId={selectedRFI}
+            isOpen={isModalOpen}
+            onClose={handleModalClose}
+          />
+        )}
       </div>
     </div>
   );

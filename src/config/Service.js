@@ -799,8 +799,8 @@ class Service {
           "Content-Type": "application/form-data",
         },
       });
-
-      return response.data;
+console.log("Response:---", response.data.data);
+      return response.data.data;
     } catch (error) {
       console.log("Error fetching RFI:", error);
       throw error;

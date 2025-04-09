@@ -8,6 +8,7 @@ import { Header, Sidebar } from "./components/index";
 import { Outlet, useNavigate } from "react-router-dom";
 import Service from "./config/Service";
 import socket from "./socket";
+import useSocketConnection from "./util/useSocket";
 // import FrappeService from "./frappeConfig/FrappeService";
 import {
   setUserData,
@@ -26,6 +27,7 @@ const App = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const token = sessionStorage.getItem("token");
+  const [userId, setUserId] = useState(null);
 
   const toggleSidebar = useCallback(() => {
     setSidebarOpen((prev) => !prev);
@@ -61,6 +63,7 @@ const App = () => {
     const fetchUser = async () => {
       const user = await Service.getCurrentUser(token);
       dispatch(setUserData(user.data));
+      setUserId(user.data?.id);
       console.log(user.data);
       try {
         if (userType === "admin" || userType === "manager") {
@@ -83,6 +86,7 @@ const App = () => {
     fetchAllProjects();
     fetchUser();
   }, [dispatch]);
+  useSocketConnection(userId);
 
   return (
     <Provider store={store}>
@@ -104,16 +108,15 @@ const App = () => {
         )} */}
 
         <div className="flex flex-col w-full">
-          <NotificationReceiver/>
+          <NotificationReceiver />
           <div className="mx-5 my-2 shadow-2xl drop-shadow-lg">
             <Header sidebarOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
           </div>
           {/* Header */}
           <div className="flex flex-row">
             <div
-              className={`fixed md:static flex flex-col md:bg-opacity-0 bg-white w-64 z-20 transition-transform duration-300 ${
-                sidebarOpen ? "translate-x-0" : "-translate-x-full"
-              } md:translate-x-0 md:w-64`}
+              className={`fixed md:static flex flex-col md:bg-opacity-0 bg-white w-64 z-20 transition-transform duration-300 ${sidebarOpen ? "translate-x-0" : "-translate-x-full"
+                } md:translate-x-0 md:w-64`}
             >
               <div className="flex items-center justify-between p-4">
                 <Sidebar />
@@ -121,9 +124,8 @@ const App = () => {
             </div>
             {/* Main Content */}
             <div
-              className={`flex h-[91vh] overflow-y-auto flex-grow transition-all duration-300 ${
-                sidebarOpen ? "md:ml-64 ml-0 bg-black/50" : "md:ml-0 ml-0"
-              }`}
+              className={`flex h-[91vh] overflow-y-auto flex-grow transition-all duration-300 ${sidebarOpen ? "md:ml-64 ml-0 bg-black/50" : "md:ml-0 ml-0"
+                }`}
             >
               <Outlet />
             </div>

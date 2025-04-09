@@ -4,11 +4,7 @@ import Button from "../../../../fields/Button";
 import ViewRFQ from "./ViewRFQ";
 import Service from "../../../../../config/Service";
 
-
-
-
 function AllRFQ() {
-
   const [rfq, setRfq] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [filters, setFilters] = useState({
@@ -17,10 +13,9 @@ function AllRFQ() {
     status: "",
   });
 
-  
-    const [selectedRFQ, setSelectedRFQ] = useState(null);
-    const [isModalOpen, setIsModalOpen]=useState(false)
-  
+  const [selectedRFQ, setSelectedRFQ] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   const handleSearch = (e) => {
     setSearchTerm(e.target.value);
   };
@@ -43,28 +38,25 @@ function AllRFQ() {
     fetchReceivedRFQ();
   }, []);
 
-  
-
-  
   useEffect(() => {
     const filteredData = rfq.filter((item) => {
       //search filter
       const matchedSearchTerm =
-        item.fabricatorName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        item.clientName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        item.projectName.toLowerCase().includes(searchTerm.toLowerCase());
+        item?.fabricatorName?.toLowerCase().includes(searchTerm?.toLowerCase()) ||
+        item?.clientName?.toLowerCase().includes(searchTerm?.toLowerCase()) ||
+        item?.projectName?.toLowerCase().includes(searchTerm?.toLowerCase());
       //filter dropdown fabricator
       const matchedFabricator =
         !filters.fabricator ||
-        item.fabricatorName.toLowerCase() === filters.fabricator.toLowerCase();
+        item?.fabricatorName?.toLowerCase() === filters?.fabricator?.toLowerCase();
       //filter dropdown project
       const matchedProject =
         !filters.project ||
-        item.projectName.toLowerCase() === filters.project.toLowerCase();
+        item?.projectName?.toLowerCase() === filters?.project?.toLowerCase();
       //filter dropdown status
       const matchedStatus =
         !filters.status ||
-        item.status.toLowerCase() === filters.status.toLowerCase();
+        item?.status?.toLowerCase() === filters?.status?.toLowerCase();
 
       return (
         matchedSearchTerm &&
@@ -77,16 +69,24 @@ function AllRFQ() {
     setRfq(filteredData);
   }, [searchTerm, filters]);
 
+
   
-  const handleViewClick = async(rfq) => {
+  const handleModalClose = async () => {
+    setSelectedRFQ(null);
+    setIsModalOpen(false);
+  };
+  const handleViewClick = (rfq) => {
     console.log(rfq);
-    setSelectedRFQ(rfq);
+    const updatedRfq = { ...rfq, status: "Opened" };
+    setRfq((prevRfq) =>
+      prevRfq.map((item) => (item.id === rfq.id ? updatedRfq : item))
+    );
+
+    setSelectedRFQ(updatedRfq); // Set the selected RFQ for viewing
     setIsModalOpen(true);
   };
-     const handleModalClose = async () => {
-       setSelectedRFQ(null);
-       setIsModalOpen(false);
-     };
+  
+console.log(rfq);
   
   return (
     <>
@@ -126,7 +126,7 @@ function AllRFQ() {
                 className="px-2 py-1 border border-gray-300 rounded"
               >
                 <option value="">Filter by Status</option>
-                <option value="Open">Open</option>
+                <option value="Open">Viewed</option>
                 <option value="Closed">Closed</option>
               </select>
             </div>
@@ -139,7 +139,7 @@ function AllRFQ() {
                 <th className="px-2 py-1">Mail ID</th>
                 <th className="px-2 py-1">Subject/Remarks</th>
                 <th className="px-2 py-1">Date</th>
-                <th className="px-2 py-1">RFQ Status</th>
+                <th className="px-2 py-1">Response</th>
                 <th className="px-2 py-1">Action</th>
               </tr>
             </thead>
@@ -151,15 +151,21 @@ function AllRFQ() {
                   </td>
                 </tr>
               ) : (
-
                 rfq?.map((data) => (
                   <tr key={data.id} className="bg-white">
-                    <td className="px-2 py-1">{data?.projectName}</td>
-                    <td className="px-2 py-1">{data?.mailID}</td>
-                    <td className="px-2 py-1">{data?.subject}</td>
-                    <td className="px-2 py-1">{data?.date}</td>
-                    <td className="px-2 py-1">{data?.rfqStatus}</td>
-                    <td className="px-2 py-1">
+                    <td className="px-2 py-1 border-2">{data?.projectName}</td>
+                    <td className="px-2 py-1 border-2">
+                      {data?.recepients?.email}
+                    </td>
+                    <td className="px-2 py-1 border-2">{data?.subject}</td>
+                    <td className="px-2 py-1 border-2">{data?.date}</td>
+                    <td
+                      className="px-2 py-1 border-2"
+                      onClick={handleViewClick}
+                    >
+                      {data.status === "Opened" ? "Viewed" : "Closed"}
+                    </td>
+                    <td className="px-2 py-1 border-2">
                       <Button onClick={() => handleViewClick(data)}>
                         View
                       </Button>

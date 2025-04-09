@@ -18,6 +18,7 @@ import { loadFabricator, showClient } from "./store/fabricatorSlice";
 import { showProjects } from "./store/projectSlice";
 import { ToastContainer } from "react-toastify";
 import { showTask } from "./store/taskSlice";
+import NotificationReceiver from "./util/NotificationReceiver";
 
 const App = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -102,6 +103,7 @@ const App = () => {
         )} */}
 
         <div className="flex flex-col w-full">
+          <NotificationReceiver/>
           <div className="mx-5 my-2 shadow-2xl drop-shadow-lg">
             <Header sidebarOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
           </div>

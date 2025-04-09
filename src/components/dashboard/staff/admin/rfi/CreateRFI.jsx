@@ -12,6 +12,7 @@ import {
 import { addRFI } from "../../../../../store/projectSlice";
 import Service from "../../../../../config/Service";
 import { toast } from "react-toastify";
+import socket from "../../../../../socket";
 
 const CreateRFI = () => {
   const projectData = useSelector((state) => state.projectData.projectData);
@@ -88,6 +89,13 @@ const CreateRFI = () => {
       const response = await Service.addRFI(rfiData);
       toast.success("RFI created successfully");
       console.log("RFI created successfully:", response);
+      if (response.user) {
+        socket.emit("sendNotification", {
+          userId: response.user, // should be the assigned user's ID
+          message: `📌 New Task Assigned: ${projectData.name}`,
+          title: "New Task",
+        });
+      }
     } catch (error) {
       toast.error("Error creating RFI");
       console.error("Error creating RFI:", error);

@@ -46,6 +46,7 @@ const AddProject = () => {
       console.log(response?.project);
       dispatch(addProject(response?.project));
       toast.success("Project Added Successfully");
+      
     } catch (error) {
       toast.error("Error Adding Project");
       console.log(error);

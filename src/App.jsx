@@ -7,6 +7,7 @@ import { useCallback, useEffect, useState } from "react";
 import { Header, Sidebar } from "./components/index";
 import { Outlet, useNavigate } from "react-router-dom";
 import Service from "./config/Service";
+import socket from "./socket";
 // import FrappeService from "./frappeConfig/FrappeService";
 import {
   setUserData,

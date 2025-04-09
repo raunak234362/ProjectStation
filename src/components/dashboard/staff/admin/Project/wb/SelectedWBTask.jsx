@@ -94,7 +94,16 @@ const SelectedWBTask = ({
     const unitTime = parseFloat(formData.unitT) || 0;
     const CheckUnitTime = parseFloat(formData.checkUT) || 0;
 
-    const execHr = (QtyNo * unitTime).toFixed(2)
+    updated[editIndex] = {
+      ...updated[editIndex],
+      unitTime: formData.unitT,
+      CheckUnitTime: formData.checkUT,
+       execHr : (qty * unitTime).toFixed(2),
+       checkHr : (qty * CheckUnitTime).toFixed(2),
+    };
+  
+    setSubTaskBD(updated)
+    setEditIndex(null)
   }
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">

@@ -46,7 +46,7 @@ const ProjectDashboard = () => {
       setDepartmentTask(departmentTaskData);
     }
   }, [userType, taskData])
-  console.log("Project With Task----------------", departmentTask)
+  // console.log("Project With Task----------------", departmentTask)
   // Prepare project data with associated tasks
   const projectsWithTasks = projectData.map((project) => ({
     ...project,
@@ -96,7 +96,7 @@ const ProjectDashboard = () => {
 
   // Calculate task statistics
   const tasksToUse = userType === "department-manager" ? departmentTask : taskData;
-  console.log("Task Data----------------", tasksToUse)
+  // console.log("Task Data----------------", tasksToUse)
   const completedTasks = tasksToUse?.filter((task) => task?.status === "COMPLETE")?.length || 0
   const inProgressTasks = tasksToUse?.filter((task) => task?.status === "IN_PROGRESS")?.length || 0
   const assignedTask = tasksToUse?.filter((task) => task?.status === "ASSIGNED")?.length || 0

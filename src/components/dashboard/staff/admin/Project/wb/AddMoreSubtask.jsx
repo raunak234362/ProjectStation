@@ -1,12 +1,10 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable react/prop-types */
 import React from "react";
 import { useEffect, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import Button from "../../../../../fields/Button";
 import { toast } from "react-toastify";
 import Service from "../../../../../../config/Service";
-import { parse } from "postcss";
+
 
 const AddMoreSubtask = ({
   handleClose,
@@ -17,18 +15,6 @@ const AddMoreSubtask = ({
   const { register, handleSubmit, control, setValue, watch, reset } = useForm();
   const [subtasks, setSubtask] = useState([]);
 
-  // const onSubmit = (data) => {
-  //     console.log(data);
-  //     const newSubtask = {
-  //         id: subtasks.length + 1,
-  //         description: data.description,
-  //         executionHours: data.executionHours,
-  //         checkingHours: data.checkingHours,
-  //     };
-  //     setSubtask((prevSubtasks) => [...prevSubtasks, newSubtask]);
-  //     console.log(subtasks);
-  //     reset();
-  // }
 
   const [isSubmitted, setIsSubmitted] = useState(false);
 
@@ -52,7 +38,6 @@ const AddMoreSubtask = ({
       };
       fetchSubTask();
       setSubtask((prevSubtasks) => [...prevSubtasks, newSubtask]);
-      // fetchSubTasks(); // Refresh the list to show the saved data
       setIsSubmitted(true); // Prevent further edits
       reset(); // Reset form fields
     } catch (error) {
@@ -77,7 +62,8 @@ const AddMoreSubtask = ({
   useEffect(() => {
     setIndex(subtasks.length + 1);
   }, [subtasks]);
-
+  
+  const[click, setClick] = useState(false)
   return (
     <>
       <div className="p-5 m-5 rounded-lg shadow-lg w-[40%] bg-white">
@@ -190,6 +176,12 @@ const AddMoreSubtask = ({
                 </tr>
               ))}
             </tbody>
+          </table>
+        </div>
+        <div>
+          <Button>Edit</Button>
+          <table className="w-full text-sm text-center border border-collapse border-gray-600">
+            
           </table>
         </div>
       </div>

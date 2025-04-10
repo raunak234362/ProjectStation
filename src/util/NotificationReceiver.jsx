@@ -9,7 +9,7 @@ const NotificationReceiver = () => {
     socket.on("customNotification", (payload) => {
       console.log("Notification received:", payload);
 
-      toast.info(`${payload.title}: ${payload.message}`, {
+      toast.info(`${payload.message}`, {
         position: "top-right",
       });
     });

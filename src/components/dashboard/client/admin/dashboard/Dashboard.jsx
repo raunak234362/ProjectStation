@@ -53,7 +53,7 @@ const Dashboard = () => {
     .slice(0, 3)
 
   return (
-    <div className="w-full min-h-screen bg-gray-50 my-4 rounded-lg">
+    <div className="w-full h-fit bg-gray-50 my-4 rounded-lg">
       {/* Dashboard Header */}
       <div className="bg-gradient-to-r from-teal-500 to-teal-700 p-6 shadow-lg rounded-lg">
         <div className="max-w-7xl mx-auto">

@@ -13,6 +13,7 @@ import AuthService from "../../config/AuthService";
 import Service from "../../config/Service";
 import { useEffect } from "react";
 import { logout as logoutAction } from "../../store/userSlice";
+import socket from "../../socket";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -33,6 +34,14 @@ const Login = () => {
         // sessionStorage.setItem('token', )
         const userData = await Service.getCurrentUser(token);
         console.log("UserData :", userData.data.role);
+        socket.emit("joinRoom", userData.data.id);
+        if(socket) {
+          socket.on("connect", () => {
+            console.log("✅ Connected with socket:", socket.id);
+            console.log("✅ Connected with userID:", userData.data.id);
+          });
+        }
+        console.log(`🔐 Joined room: ${userData.data.id}`);
         let userType = "user";
         if (userData.data.role === "STAFF") {
           if (userData.data.is_superuser) {

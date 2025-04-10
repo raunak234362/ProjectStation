@@ -46,7 +46,7 @@ const ProjectDashboard = () => {
       setDepartmentTask(departmentTaskData);
     }
   }, [userType, taskData])
-  console.log("Project With Task----------------", departmentTask)
+  // console.log("Project With Task----------------", departmentTask)
   // Prepare project data with associated tasks
   const projectsWithTasks = projectData.map((project) => ({
     ...project,
@@ -96,7 +96,7 @@ const ProjectDashboard = () => {
 
   // Calculate task statistics
   const tasksToUse = userType === "department-manager" ? departmentTask : taskData;
-  console.log("Task Data----------------", tasksToUse)
+  // console.log("Task Data----------------", tasksToUse)
   const completedTasks = tasksToUse?.filter((task) => task?.status === "COMPLETE")?.length || 0
   const inProgressTasks = tasksToUse?.filter((task) => task?.status === "IN_PROGRESS")?.length || 0
   const assignedTask = tasksToUse?.filter((task) => task?.status === "ASSIGNED")?.length || 0
@@ -302,15 +302,17 @@ const ProjectDashboard = () => {
   const completionRate = totalTasks ? Math.round((completedTasks / totalTasks) * 100) : 0
 
   return (
-    <div className="p-4 sm:p-6 w-full bg-gradient-to-br from-gray-50 to-gray-100 min-h-screen">
+    <div className="bg-gradient-to-br w-full mx-5  overflow-y-auto min-h-screen from-gray-50 to-gray-100 my-5 rounded-lg ">
+      <div className="px-2">
+
       <div className="w-full mx-auto">
-        <div className="mb-6 sm:mb-8">
+        <div className="">
           <h1 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-2">Project Dashboard</h1>
-          <p className="text-sm sm:text-base text-gray-500">Track and manage all your projects in one place</p>
+          
         </div>
 
         {/* Summary Cards */}
-        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6 mb-6 sm:mb-8">
+        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6 my-2 sm:mb-8">
           <div className="bg-white rounded-xl shadow-sm p-4 sm:p-6 border border-gray-100 transition-all hover:shadow-md">
             <div className="flex items-center justify-between">
               <div>
@@ -361,7 +363,7 @@ const ProjectDashboard = () => {
         </div>
 
         {/* Chart Section with Tabs */}
-        <div className="bg-white rounded-xl shadow-sm border border-gray-100 mb-6 sm:mb-8 overflow-hidden">
+        <div className="bg-white rounded-xl shadow-sm border border-gray-100 mb-2 sm:mb-8 overflow-hidden">
           <div className="border-b border-gray-100 overflow-x-auto">
             <div className="flex min-w-max">
               <button
@@ -551,7 +553,7 @@ const ProjectDashboard = () => {
         </div>
 
         {/* Enhanced Filters */}
-        <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-4 sm:p-6 mb-6 sm:mb-8">
+        <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-4 sm:p-6 mb-2 sm:mb-8">
           <h3 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4 text-gray-800">Filter Projects</h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
             <div className="relative">
@@ -617,12 +619,12 @@ const ProjectDashboard = () => {
         </div>
 
         {/* Projects Table */}
-        <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+        <div className="bg-white rounded-xl shadow-sm border border-gray-100 h-full my-10 overflow-hidden">
           <div className="p-4 sm:p-6 border-b border-gray-100 flex flex-col sm:flex-row justify-between sm:items-center gap-2">
             <h3 className="text-base sm:text-lg font-semibold text-gray-800">Project List</h3>
             <div className="text-xs sm:text-sm text-gray-500">{filteredProjects.length} projects found</div>
           </div>
-          <div className="overflow-x-auto">
+          <div className="overflow-x-auto h-[50vh] overflow-auto mb-20">
             <table className="w-full border-collapse text-left">
               <thead>
                 <tr className="bg-gray-50">
@@ -681,25 +683,25 @@ const ProjectDashboard = () => {
 
                   return (
                     <tr key={project.id} className="hover:bg-gray-50 transition-colors">
-                      <td className="px-4 sm:px-6 py-3 sm:py-4 whitespace-nowrap">
+                      <td className="px-4 sm:px-6 py-1 sm:py-4 whitespace-nowrap">
                         <div className="text-xs sm:text-sm font-medium text-gray-900">{index + 1}</div>
                       </td>
-                      <td className="px-4 sm:px-6 py-3 sm:py-4 whitespace-nowrap">
+                      <td className="px-4 sm:px-6 py-1 sm:py-4 whitespace-nowrap">
                         <div className="text-xs sm:text-sm font-medium text-gray-900">{project.name}</div>
                       </td>
-                      <td className="px-4 sm:px-6 py-3 sm:py-4 whitespace-nowrap">
+                      <td className="px-4 sm:px-6 py-1 sm:py-4 whitespace-nowrap">
                         <div className="flex items-center">
                           <Building2 className="w-3 h-3 sm:w-4 sm:h-4 text-gray-400 mr-1 sm:mr-2" />
                           <span className="text-xs sm:text-sm text-gray-700">{project.fabricator?.fabName}</span>
                         </div>
                       </td>
-                      <td className="px-4 sm:px-6 py-3 sm:py-4 whitespace-nowrap">
+                      <td className="px-4 sm:px-6 py-1 sm:py-4 whitespace-nowrap">
                         <div className="flex items-center">
                           <Calendar className="w-3 h-3 sm:w-4 sm:h-4 text-gray-400 mr-1 sm:mr-2" />
                           <span className="text-xs sm:text-sm text-gray-700">{project?.endDate}</span>
                         </div>
                       </td>
-                      <td className="px-4 sm:px-6 py-3 sm:py-4 whitespace-nowrap">
+                      <td className="px-4 sm:px-6 py-1 sm:py-4 whitespace-nowrap">
                         <span
                           className={`px-2 sm:px-3 py-0.5 sm:py-1 inline-flex items-center gap-1 text-xs font-medium rounded-full ${statusBgColor} ${statusColor}`}
                         >
@@ -707,11 +709,11 @@ const ProjectDashboard = () => {
                           {project.status}
                         </span>
                       </td>
-                      <td className="px-4 sm:px-6 py-3 sm:py-4 whitespace-nowrap">
+                      <td className="px-4 sm:px-6 py-1 sm:py-4 whitespace-nowrap">
                         <div className="text-xs sm:text-sm text-gray-700 font-medium">{projectTasks.length}</div>
                         <div className="text-xs text-gray-500">{completedTasksCount} completed</div>
                       </td>
-                      <td className="px-4 sm:px-6 py-3 sm:py-4 whitespace-nowrap">
+                      <td className="px-4 sm:px-6 py-1 sm:py-4 whitespace-nowrap">
                         <div className="w-full bg-gray-100 rounded-full h-1.5 sm:h-2">
                           <div
                             className={`h-1.5 sm:h-2 rounded-full ${
@@ -728,10 +730,10 @@ const ProjectDashboard = () => {
                         </div>
                         <span className="text-xs text-gray-500 mt-1 inline-block">{progress}% complete</span>
                       </td>
-                      <td className="px-4 sm:px-6 py-3 sm:py-4 whitespace-nowrap">
+                      <td className="px-4 sm:px-6 py-1 sm:py-4 whitespace-nowrap">
                         <button
                           onClick={() => handleViewClick(project.id)}
-                          className="px-3 py-1.5 sm:px-4 sm:py-2 bg-blue-50 hover:bg-blue-100 text-blue-600 text-xs sm:text-sm font-medium rounded-lg transition-colors"
+                          className="px-3 py-1 sm:px-4 sm:py-1 bg-blue-50 hover:bg-blue-100 text-blue-600 text-xs sm:text-sm font-medium rounded-lg transition-colors"
                         >
                           View Details
                         </button>
@@ -752,6 +754,7 @@ const ProjectDashboard = () => {
             </div>
           )}
         </div>
+      </div>
       </div>
       {selectedProject && (
         <ProjectStatus

@@ -124,7 +124,7 @@ const App = () => {
             </div>
             {/* Main Content */}
             <div
-              className={`flex h-[91vh] overflow-y-auto flex-grow transition-all duration-300 ${sidebarOpen ? "md:ml-64 ml-0 bg-black/50" : "md:ml-0 ml-0"
+              className={`flex h-[91vh] overflow-y-hidden flex-grow transition-all duration-300 ${sidebarOpen ? "md:ml-64 ml-0 bg-black/50" : "md:ml-0 ml-0"
                 }`}
             >
               <Outlet />

@@ -628,6 +628,26 @@ class Service {
     }
   }
 
+  //Add More Subtasks
+  static async editOneSubTask(subtaskId, subtask) {
+    const formData = { ...subtask };
+    console.log(formData);
+    const token = sessionStorage.getItem("token");
+    try {
+      const response = await api.patch(`/api/st/${subtaskId}`, formData, {
+        headers: {
+          "Content-Type": "Application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      return response.data;
+    } catch (error) {
+      console.log("Error adding work breakdown:", error);
+      throw error;
+    }
+  }
+
   // Add Teams -- updated
   static async addTeam(teamData) {
     try {
@@ -703,77 +723,74 @@ class Service {
     }
   }
 
-
   //Add CO#
-static async addCO(coData) {
-  console.log(coData);
-  const data = new FormData();
+  static async addCO(coData) {
+    console.log(coData);
+    const data = new FormData();
 
-  // Append files
-  for (let i = 0; i < coData?.files.length; i++) {
-    console.log("File:", coData?.files[i]);
-    data.append("files", coData?.files[i]);
+    // Append files
+    for (let i = 0; i < coData?.files.length; i++) {
+      console.log("File:", coData?.files[i]);
+      data.append("files", coData?.files[i]);
+    }
+
+    // Append other fields
+    // Append other fields
+    // data.append("fabricator_id", coData?.fabricator_id);
+    data.append("changeOrder", parseInt(coData?.changeOrder));
+    data.append("project", coData?.project_id);
+    data.append("recipients", coData?.recipient_id);
+    data.append("remarks", coData?.remark);
+    data.append("description", coData?.description);
+    data.append("rows", coData?.rows);
+
+    console.log("Data-------------", data);
+    try {
+      const token = sessionStorage.getItem("token");
+      const response = await api.post(`/api/CO/addco`, data, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      return response.data;
+    } catch (error) {
+      console.log("Error adding RFI:", error);
+      throw error;
+    }
   }
 
-  // Append other fields
-  // Append other fields
-  // data.append("fabricator_id", coData?.fabricator_id);
-  data.append("changeOrder", parseInt(coData?.changeOrder));
-  data.append("project", coData?.project_id);
-  data.append("recipients", coData?.recipient_id);
-  data.append("remarks", coData?.remark);
-  data.append("description", coData?.description);
-  data.append("rows", coData?.rows);
-
-  console.log("Data-------------", data);
-  try {
-    const token = sessionStorage.getItem("token");
-    const response = await api.post(`/api/CO/addco`, data, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "multipart/form-data",
-      },
-    });
-    return response.data;
-  } catch (error) {
-    console.log("Error adding RFI:", error);
-    throw error;
+  static async inboxCO() {
+    try {
+      const token = sessionStorage.getItem("token");
+      const response = await api.get(`/api/CO/receives`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/form-data",
+        },
+      });
+      return response.data;
+    } catch (error) {
+      console.log("Error fetching RFI:", error);
+      throw error;
+    }
   }
-}
 
-static async inboxCO() {
-  try {
-    const token = sessionStorage.getItem("token");
-    const response = await api.get(`/api/CO/receives`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/form-data",
-      },
-    });
-    return response.data;
-  } catch (error) {
-    console.log("Error fetching RFI:", error);
-    throw error;
+  static async sentCo() {
+    try {
+      const token = sessionStorage.getItem("token");
+      const response = await api.get(`/api/CO/sents`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/form-data",
+        },
+      });
+      return response.data;
+    } catch (error) {
+      console.log("Error fetching RFI:", error);
+      throw error;
+    }
   }
-}
-
-static async sentCo() {
-  try {
-    const token = sessionStorage.getItem("token");
-    const response = await api.get(`/api/CO/sents`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/form-data",
-      },
-    });
-    return response.data;
-  } catch (error) {
-    console.log("Error fetching RFI:", error);
-    throw error;
-  }
-}
-
-
 
   //RFI
   static async addRFI(rfiData) {

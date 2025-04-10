@@ -15,7 +15,6 @@ const AddMoreSubtask = ({
   const { register, handleSubmit, control, setValue, watch, reset } = useForm();
   const [subtasks, setSubtask] = useState([]);
 
-
   const [isSubmitted, setIsSubmitted] = useState(false);
 
   const onSubmit = async (data) => {
@@ -62,11 +61,12 @@ const AddMoreSubtask = ({
   useEffect(() => {
     setIndex(subtasks.length + 1);
   }, [subtasks]);
+
+  const [click, setClick] = useState(false);
   
-  const[click, setClick] = useState(false)
   return (
     <>
-      <div className="p-5 m-5 rounded-lg shadow-lg w-[40%] bg-white">
+      <div className="p-5 m-5 rounded-lg shadow-lg w-[40%] bg-white lg:w-[40%]">
         <div className="flex flex-row justify-between">
           <Button className="bg-red-500" onClick={handleClose}>
             Close
@@ -180,9 +180,7 @@ const AddMoreSubtask = ({
         </div>
         <div>
           <Button>Edit</Button>
-          <table className="w-full text-sm text-center border border-collapse border-gray-600">
-            
-          </table>
+          <table className="w-full text-sm text-center border border-collapse border-gray-600"></table>
         </div>
       </div>
     </>
@@ -190,3 +188,8 @@ const AddMoreSubtask = ({
 };
 
 export default AddMoreSubtask;
+
+
+
+
+

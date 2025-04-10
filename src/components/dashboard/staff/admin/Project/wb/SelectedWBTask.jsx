@@ -46,9 +46,9 @@ const SelectedWBTask = ({
   const isQtyZero = subTaskBD.some((subTask) => subTask.QtyNo === 0);
   //new
   const handleTimeUpdateClick = (index) => {
-    console.log(index)
+    console.log(index);
     const subTask = subTaskBD[index];
-    console.log(subTask.id)
+    console.log(subTask.id);
     setShowTimeFormIndex(index);
     setTimeFormData({
       unittime: subTask.unitTime || "",
@@ -85,7 +85,7 @@ const SelectedWBTask = ({
     } catch {
       toast.error("Failed to update time");
     }
-    console.log(updated[index])
+    console.log(updated[index]);
 
     setShowTimeFormIndex(null);
     setTimeFormData({ unittime: "", checkunittime: "" });
@@ -108,10 +108,13 @@ const SelectedWBTask = ({
   };
   //edit quantity
   const [editField, setEditField] = useState(0);
-  
+
   const handleEditField = (index) => {
-    console.log("clicked")                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
-  }
+    console.log("clicked");
+  };
+
+  const [isEditing, setIsEditing] = useState(false);
+  
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
       <div className="w-full p-2 bg-white rounded-lg shadow-lg h-fit md:p-5 md:w-[60%] lg:w-[50%]">
@@ -136,7 +139,9 @@ const SelectedWBTask = ({
             <table className="w-full text-sm text-center border border-collapse border-gray-600">
               <thead className="bg-gray-200">
                 <tr>
-                  <th className="px-2 py-1 border border-gray-600 ">Sub-Task</th>
+                  <th className="px-2 py-1 border border-gray-600 ">
+                    Sub-Task
+                  </th>
                   <th className="px-2 py-1 border border-gray-600 ">Qty</th>
                   <th className="px-2 py-1 border border-gray-600">
                     Execution Hours
@@ -156,39 +161,44 @@ const SelectedWBTask = ({
                     </td>
 
                     <td className="px-2 py-1 border border-gray-600">
+                      {subTask.QtyNo === 0 || isEditing ? (
                       <Controller
-                        name={`subTasks[${index}].QtyNo`}
-                        control={control}
-                        defaultValue={subTask.QtyNo || 0}
-                        render={({ field }) => (
-                          <Input
-                            {...field}
-                            type="number"
-                            disabled={subTask.QtyNo !== 0}
-                            onChange={(e) => {
-                              const QtyNo = parseFloat(e.target.value) || 0;
-                              const unitTime =
-                                parseFloat(subTask.unitTime) || 0;
-                              const CheckUnitTime =
-                                parseFloat(subTask.CheckUnitTime) || 0;
-                              setValue(`subTasks[${index}].id`, subTask.id);
-                              setValue(
-                                `subTasks[${index}].description`,
-                                subTask.description
-                              );
-                              setValue(
-                                `subTasks[${index}].execHr`,
-                                (QtyNo * unitTime).toFixed(2)
-                              );
-                              setValue(
-                                `subTasks[${index}].checkHr`,
-                                (QtyNo * CheckUnitTime).toFixed(2)
-                              );
-                              field.onChange(e);
-                            }}
-                          />
-                        )}
-                      />
+                           name={`subTasks[${index}].QtyNo`}
+                           control={control}
+                           defaultValue={subTask.QtyNo || 0}
+                           render={({ field }) => (
+                             <Input
+                               {...field}
+                               type="number"
+                               placeholder="QtyNo"
+                               disabled={!isEditing && subTask.QtyNo !== 0} // Disable unless editing
+                               onChange={(e) => {
+                                 const QtyNo = parseFloat(e.target.value) || 0;
+                                 const unitTime =
+                                   parseFloat(subTask.unitTime) || 0;
+                                 const CheckUnitTime =
+                                   parseFloat(subTask.CheckUnitTime) || 0;
+                                 setValue(`subTasks[${index}].id`, subTask.id);
+                                 setValue(
+                                   `subTasks[${index}].description`,
+                                   subTask.description
+                                 );
+                                 setValue(
+                                   `subTasks[${index}].execHr`,
+                                   (QtyNo * unitTime).toFixed(2)
+                                 );
+                                 setValue(
+                                   `subTasks[${index}].checkHr`,
+                                   (QtyNo * CheckUnitTime).toFixed(2)
+                                 );
+                                 field.onChange(e);
+                               }}
+                             />
+                           )}
+                         />
+                        ) : (
+                        subTask.QtyNo
+                       )}
                     </td>
 
                     <td className="px-2 py-1 border border-gray-600">
@@ -217,6 +227,22 @@ const SelectedWBTask = ({
                 ))}
               </tbody>
             </table>
+{/* //            {!isQtyZero ? (
+//               <Button
+//                 className="bg-blue-gray-500"
+//                 type="submit"
+//                 disabled={!isQtyZero}
+//               >
+//                 Added
+//               </Button>
+//             ) : (
+//               <Button type="submit" disabled={!isQtyZero}>
+//                 Add
+//               </Button>
+//             )} */}
+            
+
+            
             <div className="flex flex-row">
               <Button
                 type="submit"
@@ -225,13 +251,14 @@ const SelectedWBTask = ({
               >
                 {isQtyZero ? "Add" : "Added"}
               </Button>
-              <Button
-                className="text-white bg-blue-500 w-[30%] m-2"
-                onClick={handleEditField}
-              >
-                
-                Edit Quantity
-              </Button>
+              
+              {!isEditing ? (
+             <Button onClick={() => setIsEditing(true)}>Edit Quantity</Button>
+           ) : (
+             <Button type="submit" onClick={() => setIsEditing(false)}>
+               Save
+             </Button>
+           )}
             </div>
           </form>
         </div>
@@ -400,7 +427,7 @@ export default SelectedWBTask;
 //                       {subTask.description}
 //                     </td>
 //                     <td className="px-2 py-1 border border-gray-600">
-//                       {subTask.QtyNo === 0 || isEditing ? (
+//                       ///////////////////////////////////{subTask.QtyNo === 0 || isEditing ? (
 //                         <Controller
 //                           name={`subTasks[${index}].QtyNo`}
 //                           control={control}
@@ -435,9 +462,9 @@ export default SelectedWBTask;
 //                             />
 //                           )}
 //                         />
-//                       ) : (
-//                         subTask.QtyNo
-//                       )}
+                      // ) : (
+                      //   subTask.QtyNo
+                      // )}
 //                     </td>
 
 //                     <td className="px-2 py-1 border border-gray-600">

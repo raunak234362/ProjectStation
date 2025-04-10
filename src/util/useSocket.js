@@ -7,8 +7,8 @@ const useSocketConnection = (userId) => {
     if (!userId) return;
 
     socket.connect();
-    socket.emit("joinRoom", userId);
-    console.log("😁😁😁👍👍👍👍 Socket connected and joined room:", userId);
+    // socket.emit("joinRoom", userId);
+    // console.log("😁😁😁👍👍👍👍 Socket connected and joined room:", userId);
 
     return () => {
       socket.disconnect();

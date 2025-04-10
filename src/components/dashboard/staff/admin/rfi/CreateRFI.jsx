@@ -103,7 +103,7 @@ const CreateRFI = () => {
   };
 
   return (
-    <div className="flex w-full justify-center text-black my-5">
+    <div className="flex w-full justify-center  text-black my-5">
       <div className="h-full w-full overflow-y-auto md:px-10 px-2 py-3">
         <form onSubmit={handleSubmit(CreateRFI)}>
           <div className="bg-teal-500/50 rounded-lg px-2 py-2 font-bold text-white">

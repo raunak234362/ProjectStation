@@ -72,6 +72,7 @@ const Sidebar = () => {
             userType !== "client" &&
             userType !== "vendor" &&
             userType !== "human-resource" &&
+            userType === "sales" ||
             userType === "admin" ? (
               <li>
                 <NavLink

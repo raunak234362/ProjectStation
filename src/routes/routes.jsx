@@ -257,7 +257,24 @@ const routes = [
         element: <MainContent />,
       },
       {
-        path: "projects",
+        path: "project",
+        element: <Projects />,
+        children: [
+          { path: "projects", element: <ProjectDashboard /> },
+          { path: "add-project", element: <AddProject /> },
+          { path: "all-projects", element: <AllProject /> },
+          { path: "edit-project", element: <EditProject /> },
+        ],
+      },
+      {
+        path: "fabricator",
+        element: <Fabricators />,
+        children: [
+          { path: "add-fabricator", element: <AddFabricator /> },
+          { path: "all-fabricator", element: <AllFabricator /> },
+          { path: "all-clients", element: <AllClients /> },
+          { path: "add-client", element: <AddFabricatorUser /> },
+        ],
       },
     ],
   },

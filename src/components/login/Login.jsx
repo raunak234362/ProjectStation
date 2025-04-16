@@ -69,7 +69,7 @@ const Login = () => {
         else if (userType === "admin") navigate("/admin/dashboard");
         else if (userType === "human-resource") navigate("/admin/dashboard");
         else if (userType === "client") navigate("/client/dashboard");
-        else if (userType === "sales") navigate("/sales");
+        else if (userType === "sales") navigate("/sales/dashboard");
         else if (userType === "user") navigate("/admin/dashboard");
         else if (userType === "department-manager")
           navigate("/admin/dashboard");

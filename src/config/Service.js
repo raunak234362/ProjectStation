@@ -301,7 +301,7 @@ class Service {
     }
   }
 
-  // Fetch all Project File --updated
+  // Add all Project File --updated
   static async addFabricatorFile(formData, id) {
     const token = sessionStorage.getItem("token");
     try {
@@ -747,12 +747,13 @@ class Service {
     console.log("Data-------------", data);
     try {
       const token = sessionStorage.getItem("token");
-      const response = await api.post(`/api/CO/addco`, data, {
+      const response = await api.post(`/api/CO/addco`, coData, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "multipart/form-data",
         },
       });
+      console.log("Response CO:", response.data);
       return response.data;
     } catch (error) {
       console.log("Error adding RFI:", error);

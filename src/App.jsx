@@ -59,7 +59,6 @@ const App = () => {
   };
 
   useEffect(() => {
-    console.log(token);
     const fetchUser = async () => {
       const user = await Service.getCurrentUser(token);
       dispatch(setUserData(user.data));

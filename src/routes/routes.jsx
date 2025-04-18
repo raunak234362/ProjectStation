@@ -43,6 +43,7 @@ import {
   ProjectDashboard,
   RFQ,
   AllRFQ,
+  Chats,
 } from "../components/index.js";
 
 //For Client-Admin
@@ -117,6 +118,10 @@ const routes = [
           { path: "all-clients", element: <AllClients /> },
           { path: "add-client", element: <AddFabricatorUser /> },
         ],
+      },
+      {
+        path: "chats",
+        element: <Chats />,
       },
       {
         path: "vendor",

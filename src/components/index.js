@@ -78,6 +78,9 @@ import AllSentCO from "./dashboard/staff/admin/co/AllSentCO";
 import AllReceivedCO from "./dashboard/staff/admin/co/AllReceivedCO";
 import SendCO from "./dashboard/staff/admin/co/SendCO";
 
+//Chats
+import Chats from "./dashboard/staff/admin/chats/Chats";
+
 //Error Handling
 import ErrorBoundary from "./error/ErrorBoundary";
 
@@ -112,6 +115,7 @@ export {
   AddWB,
   RFQ,
   AllRFQ,
+  Chats,
   SendRFQ,
   ShowRFQResponse,
   JobStudy,

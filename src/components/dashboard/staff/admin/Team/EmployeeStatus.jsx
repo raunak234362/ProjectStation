@@ -46,37 +46,41 @@ const EmployeeStatus = ({ employee, onClose }) => {
 
     // Filter tasks based on date
     filteredStatus.tasks = employeeStatus.tasks.filter((task) => {
-      if (!task.start_date) return false
+      if (!task.start_date) return false;
 
-      const taskDate = new Date(task.start_date)
+      const taskDate = new Date(task.start_date);
 
       if (dateFilter.type === "month") {
-        return taskDate.getMonth() === dateFilter.month && taskDate.getFullYear() === dateFilter.year
+        return taskDate.getMonth() === dateFilter.month && taskDate.getFullYear() === dateFilter.year;
       }
 
       if (dateFilter.type === "year") {
-        return taskDate.getFullYear() === dateFilter.year
+        return taskDate.getFullYear() === dateFilter.year;
       }
 
-      return true
-    })
+      return true;
+    });
 
-    // Filter working hours based on date
-    filteredStatus.workingHourUser = employeeStatus.workingHourUser.filter((entry) => {
-      if (!entry.date) return false
+    console.log(filteredStatus.tasks, "filteredStatus.tasks");
 
-      const entryDate = new Date(entry.date)
+    // Filter working hours based on date from tasks
+    filteredStatus.workingHourTask = employeeStatus.tasks
+      .flatMap((task) => task.workingHourTask || [])
+      .filter((entry) => {
+        if (!entry.date) return false;
 
-      if (dateFilter.type === "month") {
-        return entryDate.getMonth() === dateFilter.month && entryDate.getFullYear() === dateFilter.year
-      }
+        const entryDate = new Date(entry.date);
 
-      if (dateFilter.type === "year") {
-        return entryDate.getFullYear() === dateFilter.year
-      }
+        if (dateFilter.type === "month") {
+          return entryDate.getMonth() === dateFilter.month && entryDate.getFullYear() === dateFilter.year;
+        }
 
-      return true
-    })
+        if (dateFilter.type === "year") {
+          return entryDate.getFullYear() === dateFilter.year;
+        }
+
+        return true;
+      });
 
     setFilteredData(filteredStatus)
   }
@@ -110,6 +114,7 @@ const EmployeeStatus = ({ employee, onClose }) => {
   const calculateStats = () => {
     if (!filteredData) return null
 
+    console.log(filteredData, "filteredData")
     // Calculate total assigned hours from tasks
     const totalAssignedHours = (
       filteredData.tasks.reduce((total, task) => total + parseDurationToMinutes(task.duration), 0) / 60
@@ -117,15 +122,18 @@ const EmployeeStatus = ({ employee, onClose }) => {
 
     // Calculate total worked hours from workingHourUser
     const totalWorkedHours = (
-      filteredData.workingHourUser.reduce((total, entry) => total + (entry.duration || 0), 0) / 60
+      filteredData.tasks
+        .flatMap((task) => task.workingHourTask || [])
+        .reduce((total, entry) => total + (entry.duration || 0), 0) / 60
     ).toFixed(2)
 
+    console.log(totalWorkedHours, "totalWorkedHours")
     // Count projects
     const projectCount = employeeProjects ? employeeProjects.length : 0
 
     // Count tasks by status
     const tasksByStatus = filteredData.tasks.reduce((acc, task) => {
-      const status = task.status || "Unknown"
+      const status = task.status || "Unknown" 
       acc[status] = (acc[status] || 0) + 1
       return acc
     }, {})
